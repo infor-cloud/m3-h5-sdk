@@ -1,0 +1,27 @@
+<h2>IDM sample</h2>
+<p>
+   This sample consists of a list of searched files using an xquery. For the sample to work in a non-multitenant (non-ionapi)
+   environment, it requires that the IDM proxy is available and installed in the same grid as the Odin proxy is configured
+   with.
+</p>
+<mat-divider></mat-divider>
+
+<div *ngIf="items">
+   <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+         <mat-card-title class="title">Showing {{items.item.length}} files (of {{items.searchCount}} total) from query '{{items.searchXQuery}}'</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+         <mat-list>
+            <mat-list-item *ngFor="let item of items.item">
+               <mat-icon mat-list-icon>folder</mat-icon>
+               <h4 mat-line>Item #{{item.id}}</h4>
+               <p mat-line>Name: {{item.displayName}}</p>
+               <p mat-line>Last changed: {{item.lastChangedByName}}, {{item.lastChangedTS | date}}</p>
+            </mat-list-item>
+         </mat-list>
+      </mat-card-content>
+   </mat-card>
+</div>
+
+<odin-sample-viewer sample="idm" service="idm-data"></odin-sample-viewer>

@@ -1,0 +1,21 @@
+<h2>User context sample</h2>
+<p>Click the 'Load' button to show all M3 user context values including aliases for the current user.</p>
+<mat-divider></mat-divider>
+
+<button mat-raised-button color="primary" (click)="onClickLoad()">Load</button>
+
+<div *ngIf="sortedValues.length">
+   <mat-divider></mat-divider>
+   <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+         <mat-card-title class="title">Output values</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+         <div *ngFor="let item of sortedValues">
+            {{item.key}} = {{item.value}}
+         </div>
+      </mat-card-content>
+   </mat-card>
+</div>
+
+<odin-sample-viewer sample="user-context"></odin-sample-viewer>

@@ -1,0 +1,22 @@
+<h2>Bookmark sample</h2>
+<p>Stateless detail bookmark (CRS610/E) ...</p>
+<mat-divider></mat-divider>
+
+<mat-form-field>
+   <input matInput placeholder="Customer number (CUNO)" maxlength="10" [(ngModel)]="CUNO" name="bm-cuno" />
+</mat-form-field>
+<button mat-raised-button color="primary" (click)="onClickOpen()" [disabled]="!isEnabled()" class="inline-btn">Open</button>
+
+<div *ngIf="controlInfos">
+   <mat-divider></mat-divider>
+   <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+         <mat-card-title class="title">Customer details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+         <odin-panel-detail columns="3" [formData]="controlInfos"></odin-panel-detail>
+      </mat-card-content>
+   </mat-card>
+</div>
+
+<odin-sample-viewer sample="bookmark"></odin-sample-viewer>

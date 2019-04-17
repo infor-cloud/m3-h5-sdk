@@ -1,0 +1,32 @@
+{
+   "projectName": "ODIN_PROJECT_NAME",
+   "proxy": {
+      "/m3api-rest": {
+         "target": "ODIN_PROXY_TARGET",
+         "secure": false,
+         "changeOrigin": true,
+         "logLevel": "debug"
+      },
+      "/mne": {
+         "target": "ODIN_PROXY_TARGET",
+         "secure": false,
+         "changeOrigin": true,
+         "logLevel": "debug"
+      },
+      "/ca": {
+         "target": "ODIN_PROXY_TARGET",
+         "secure": false,
+         "changeOrigin": true,
+         "logLevel": "debug"
+      },
+      "/ODIN_DEV_TENANT": {
+         "target": "ODIN_ION_PROXY_TARGET",
+         "secure": false,
+         "changeOrigin": true,
+         "pathRewrite": {
+            "^/ODIN_DEV_TENANT": "/ODIN_ION_PROXY_TENANT"
+         },
+         "logLevel": "debug"
+      }
+   }
+}

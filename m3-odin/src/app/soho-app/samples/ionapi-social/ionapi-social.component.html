@@ -1,0 +1,36 @@
+<div class="full-width full-height scrollable-flex">
+   <div>
+      <h1>ION API social sample</h1>
+      <p>...</p>
+      <hr class="fieldset-hr" />
+
+      <button soho-button="primary" (click)="onClickLoad()">Load</button>
+   </div>
+
+   <div *ngIf="fullName || email">
+      <hr class="fieldset-hr" />
+      <div class="row card">
+         <div class="twelve columns">
+            <div class="field">
+               <h1>User details</h1>
+            </div>
+         </div>
+         <div class="form-responsive row">
+            <div class="six columns">
+               <div class="field">
+                  <label for="ion-name">Name</label>
+                  <input id="ion-name" name="ion-name" type="text" [(ngModel)]="fullName" readonly>
+               </div>
+            </div>
+            <div class="six columns">
+               <div class="field">
+                  <label for="ion-email">Email address</label>
+                  <input id="ion-email" name="ion-email" type="email" [(ngModel)]="email" readonly>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<odin-sample-viewer sample="ionapi-social"></odin-sample-viewer>

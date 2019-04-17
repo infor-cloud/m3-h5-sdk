@@ -1,0 +1,9 @@
+{
+   "dependencies": {
+      "@infor-up/m3-odin": "2.0.0",
+      "@infor-up/m3-odin-angular": "2.0.0",
+      "ids-enterprise-ng": "5.0.0",
+      "rxjs-compat": "^6.1.0"
+   },
+   "devDependencies": {}
+}

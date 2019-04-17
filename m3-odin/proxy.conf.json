@@ -1,0 +1,29 @@
+{
+   "/ca": {
+      "target": "https://nlbavwm3e198.infor.com:13407",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+   },
+   "/m3api-rest": {
+      "target": "https://nlbavwm3e198.infor.com:13407",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+   },
+   "/mne": {
+      "target": "https://nlbavwm3e198.infor.com:13407",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+   },
+   "/ODIN_DEV_TENANT": {
+      "target": "https://mingle-ionapi.inforcloudsuite.com",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+         "^/ODIN_DEV_TENANT": "/SLSGDENA011_AX1"
+      },
+      "logLevel": "debug"
+   }
+}

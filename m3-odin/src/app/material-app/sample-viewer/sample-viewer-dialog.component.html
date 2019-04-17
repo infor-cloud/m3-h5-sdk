@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Source files for {{data.sample | titlecase}} sample</h2>
+<mat-dialog-content>
+   <mat-tab-group>
+      <mat-tab *ngFor="let extension of ['HTML', 'TS', 'CSS']" [label]="extension">
+         <odin-document-viewer [documentUrl]="getSampleUrl(extension)"></odin-document-viewer>
+      </mat-tab>
+      <mat-tab *ngIf="data.service" label="Service">
+         <odin-document-viewer [documentUrl]="getServiceUrl()"></odin-document-viewer>
+      </mat-tab>
+   </mat-tab-group>
+</mat-dialog-content>

@@ -1,0 +1,12 @@
+<div class="full-width full-height scrollable-flex">
+   <div>
+      <h1>Infinite paging sample</h1>
+      <p>...</p>
+      <hr class="fieldset-hr" />
+   </div>
+
+   <div #infinitePagingDatagrid id="gridInfinitePaging" class="scrollable-area" soho-datagrid [gridOptions]="datagridOptions"
+      soho-busyindicator [activated]="pagingService.isLoading | async" [blockUI]="true" [displayDelay]="0"></div>
+</div>
+
+<odin-sample-viewer sample="infinite-paging" service="customer-paging"></odin-sample-viewer>

@@ -1,0 +1,39 @@
+<div class="full-width full-height scrollable-flex">
+   <div>
+      <h1>Search sample</h1>
+      <p>Stateless item search (MMS001/B) ...</p>
+      <hr class="fieldset-hr" />
+
+      <label for="ods-query" class="required">Query</label>
+      <input id="ods-query" name="ods-query" type="text" [(ngModel)]="query" maxlength="256" aria-required="true" data-validate="required"
+         required>
+      <button class="btn-primary form-btn" soho-button="primary" (click)="onClickSearch()" [disabled]="!isEnabled()">Search</button>
+   </div>
+
+   <div *ngIf="results.length">
+      <hr class="fieldset-hr" />
+      <div class="row card">
+         <div class="twelve columns">
+            <div class="field">
+               <h1>Search result</h1>
+            </div>
+            <div class="two columns" *ngFor="let result of results">
+               <div>
+                  Name:
+                  <span>{{getValue(result, 1)}}</span>
+               </div>
+               <div>
+                  Number:
+                  <span>{{getValue(result, 0)}}</span>
+               </div>
+               <div>
+                  Status:
+                  <span>{{getValue(result, 2)}}</span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<odin-sample-viewer sample="search"></odin-sample-viewer>

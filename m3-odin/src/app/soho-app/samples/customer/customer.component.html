@@ -1,0 +1,90 @@
+<div class="full-width full-height scrollable-flex">
+   <div>
+      <h1>Customer sample</h1>
+      <p>
+         Master detail using CRS610MI, where the datagrid uses the transaction 'LstByNumber' (100 records). The detail view uses 'GetBasicData'
+         to retreive the item details, and updates the item using 'ChgBasicData' ...
+      </p>
+      <hr class="fieldset-hr" />
+   </div>
+
+   <div #customersDatagrid id="gridCustomers" soho-datagrid [gridOptions]="datagridOptions" (selected)="onSelected($event.rows)"
+      soho-busyindicator [activated]="isBusy" [blockUI]="true" [displayDelay]="0"></div>
+
+   <div soho-busyindicator [activated]="isDetailBusy" [blockUI]="true" [displayDelay]="0">
+      <div *ngIf="hasSelected && detailItem" class="row card">
+         <div class="twelve columns">
+            <div class="field">
+               <h1>Customer details</h1>
+            </div>
+         </div>
+         <div class="form-responsive row">
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-cuno">Number</label>
+                  <input id="di-cuno" [(ngModel)]="detailItem.CUNO" readonly />
+               </div>
+            </div>
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-cua1">Address 1</label>
+                  <input id="di-cua1" [(ngModel)]="detailItem.CUA1" />
+               </div>
+            </div>
+         </div>
+
+         <div class="form-responsive row">
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-cumn">Name</label>
+                  <input id="di-cunm" [(ngModel)]="detailItem.CUNM" />
+               </div>
+            </div>
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-cua2">Address 2</label>
+                  <input id="di-cua2" [(ngModel)]="detailItem.CUA2" />
+               </div>
+            </div>
+         </div>
+
+         <div class="form-responsive row">
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-town">City</label>
+                  <input id="di-town" [(ngModel)]="detailItem.TOWN" />
+               </div>
+            </div>
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-cua3">Address 3</label>
+                  <input id="di-cua3" [(ngModel)]="detailItem.CUA3" />
+               </div>
+            </div>
+         </div>
+
+         <div class="form-responsive row">
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-cscd">Country</label>
+                  <input id="di-cscd" [(ngModel)]="detailItem.CSCD" />
+               </div>
+            </div>
+            <div class="six columns">
+               <div class="field">
+                  <label for="di-cua4">Address 4</label>
+                  <input id="di-cua4" [(ngModel)]="detailItem.CUA4" />
+               </div>
+            </div>
+         </div>
+
+         <div class="form-responsive row">
+            <div class="twelve columns">
+               <button soho-button="primary" (click)="onUpdate()">Update</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<odin-sample-viewer sample="customer"></odin-sample-viewer>

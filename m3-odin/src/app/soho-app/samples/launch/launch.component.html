@@ -1,0 +1,14 @@
+<div class="full-width full-height scrollable-flex">
+   <div>
+      <h1>Launch sample</h1>
+      <p>...</p>
+      <hr class="fieldset-hr" />
+
+      <label id="ods-lnk-lbl" for="ods-lnk-inp" class="required">Link</label>
+      <input id="ods-lnk-inp" name="ods-lnk-inp" type="text" [(ngModel)]="link" [maxlength]="maxLengthLink" aria-required="true"
+         data-validate="required" required>
+      <button id="ods-launch-btn" class="btn-primary form-btn" type="button" soho-button="primary" (click)="onClickLaunch()" [disabled]="!canLaunch()">Launch</button>
+   </div>
+</div>
+
+<odin-sample-viewer sample="launch"></odin-sample-viewer>

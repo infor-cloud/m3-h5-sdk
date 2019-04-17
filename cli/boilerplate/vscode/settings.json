@@ -1,0 +1,15 @@
+{
+   "tslint.enable": true,
+   "tslint.autoFixOnSave": true,
+   "tslint.exclude": "**/node_modules/**",
+   "editor.formatOnSave": true,
+   "editor.insertSpaces": true,
+   "editor.detectIndentation": false,
+   "editor.rulers": [
+      140
+   ],
+   "editor.tabSize": 3,
+   "files.insertFinalNewline": true,
+   "files.trimTrailingWhitespace": true,
+   "files.trimFinalNewlines": true
+}

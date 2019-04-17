@@ -1,0 +1,25 @@
+<div class="full-width full-height scrollable-flex">
+   <div>
+      <h1>User context sample</h1>
+      <p>Click the 'Load' button to show all M3 user context values including aliases for the current user.</p>
+      <hr class="fieldset-hr" />
+
+      <button soho-button="primary" (click)="onClickLoad()">Load</button>
+   </div>
+
+   <div *ngIf="sortedValues.length">
+      <hr class="fieldset-hr" />
+      <div class="row card">
+         <div class="twelve columns">
+            <div class="field">
+               <h1>Output values</h1>
+            </div>
+            <div *ngFor="let item of sortedValues">
+               {{item.key}} = {{item.value}}
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<odin-sample-viewer sample="user-context"></odin-sample-viewer>

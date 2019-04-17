@@ -1,0 +1,30 @@
+{
+   "name": "@infor-up/m3-odin-angular",
+   "private": false,
+   "version": "2.0.0",
+   "description": "Odin Angular for M3 web application development.",
+   "publishConfig": {
+      "registry": "http://npm.infor.com"
+   },
+   "main": "dist/index.js",
+   "types": "dist/index.d.ts",
+   "scripts": {
+      "build": "tsc",
+      "clean": "git clean -f -d -X dist"
+   },
+   "files": [
+      "dist"
+   ],
+   "author": {
+      "name": "Fredrik Eriksson",
+      "email": "fredrik.eriksson@infor.com"
+   },
+   "license": "SEE LICENSE IN LICENSE",
+   "devDependencies": {
+      "typescript": "~3.1.6"
+   },
+   "dependencies": {
+      "@infor-up/m3-odin": "2.0.0",
+      "rxjs": "^6.0.0"
+   }
+}

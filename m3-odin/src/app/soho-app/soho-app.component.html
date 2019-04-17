@@ -1,0 +1,105 @@
+<soho-icons></soho-icons>
+<soho-icons-ext></soho-icons-ext>
+<soho-icons-empty></soho-icons-empty>
+<nav id="application-menu" soho-application-menu [triggers]="triggers" [openOnLarge]="true" [filterable]="true">
+   <div soho-searchfield-wrapper>
+      <label class="audible" for="application-menu-searchfield">Search</label>
+      <input soho-searchfield id="application-menu-searchfield" [clearable]="true" />
+   </div>
+   <div class="accordion panel inverse" data-options='{"allowOnePane": true, "rerouteOnLinkClick": false}'>
+      <div class="accordion-header" (click)="homeLink.click()">
+         <svg soho-icon icon="home"></svg>
+         <a #homeLink routerLink="home">
+            <span>Home</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="bookmarkLink.click()">
+         <svg soho-icon icon="bookmark-filled"></svg>
+         <a #bookmarkLink routerLink="bookmark">
+            <span>Bookmark</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="chartLink.click()">
+         <svg soho-icon icon="stacked"></svg>
+         <a #chartLink routerLink="chart">
+            <span>Chart</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="customerLink.click()">
+         <svg soho-icon icon="contacts"></svg>
+         <a #customerLink routerLink="customer">
+            <span>Customer</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="formattingLink.click()">
+         <svg soho-icon icon="calendar"></svg>
+         <a #formattingLink routerLink="formatting">
+            <span>Date & number formatting</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="idmLink.click()">
+         <svg soho-icon icon="document"></svg>
+         <a #idmLink routerLink="idm">
+            <span>IDM</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="infiniteLink.click()">
+         <svg soho-icon icon="load"></svg>
+         <a #infiniteLink routerLink="infinite-paging">
+            <span>Infinite paging</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="ionApiSocialLink.click()">
+         <svg soho-icon icon="user"></svg>
+         <a #ionApiSocialLink routerLink="ionapi-social">
+            <span>ION API social</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="launchLink.click()">
+         <svg soho-icon icon="launch"></svg>
+         <a #launchLink routerLink="launch">
+            <span>Launch</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="logLink.click()">
+         <svg soho-icon icon="error"></svg>
+         <a #logLink routerLink="log">
+            <span>Log</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="searchLink.click()">
+         <svg soho-icon icon="search"></svg>
+         <a #searchLink routerLink="search">
+            <span>Search</span>
+         </a>
+      </div>
+      <div class="accordion-header list-item" (click)="userLink.click()">
+         <svg soho-icon icon="user"></svg>
+         <a #userLink routerLink="user-context">
+            <span>User context</span>
+         </a>
+      </div>
+   </div>
+
+   <div class="branding">
+      <svg soho-icon icon="logo"></svg>
+   </div>
+</nav>
+
+<div class="page-container no-scroll">
+   <header class="header">
+      <div class="toolbar" role="toolbar">
+         <div class="title">
+            <button type="button" id="appmenu-trigger" class="btn-icon application-menu-trigger">
+               <span class="audible">Open Menu</span>
+               <svg soho-icon icon="menu"></svg>
+            </button>
+            <h1>{{title}}</h1>
+         </div>
+      </div>
+   </header>
+
+   <div id="maincontent" class="page-container scrollable" role="main">
+      <router-outlet></router-outlet>
+   </div>
+</div>

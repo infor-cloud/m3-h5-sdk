@@ -1,0 +1,37 @@
+.sample-viewer-button {
+   position: absolute !important;
+   top: 0 !important;
+   right: 0 !important;
+}
+
+.form-btn {
+   top: -1px;
+   margin-left: 10px;
+}
+
+/* SoHo XI overrides */
+#maincontent {
+   padding: 20px;
+}
+
+.fieldset-hr {
+   margin-top: 20px;
+   margin-bottom: 20px;
+}
+
+.card {
+   padding: 20px 10px;
+   min-height: 0;
+}
+
+.row:last-child {
+   margin-bottom: 20px;
+}
+
+.row.form-responsive:last-child {
+   margin-bottom: 0;
+}
+
+.full-width .column:first-child, .full-width .columns:first-child {
+   padding-left: 0 !important;
+}

@@ -1,0 +1,8 @@
+<mat-grid-list [cols]="columns" rowHeight="75px">
+   <mat-grid-tile *ngFor="let info of formData" colspan="1" rowspan="1">
+      <mat-form-field>
+         <input matInput [placeholder]="info.label.value" readonly="true" [value]="info.control.value" [name]="info.control.name"
+         />
+      </mat-form-field>
+   </mat-grid-tile>
+</mat-grid-list>

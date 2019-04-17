@@ -1,0 +1,48 @@
+{
+   "folders": [
+      {
+         "path": "./m3-odin",
+         "name": "Dev"
+      },
+      {
+         "path": "./cli",
+         "name": "CLI"
+      },
+      {
+         "path": "./m3-odin/src/core",
+         "name": "Core"
+      },
+      {
+         "path": "./m3-odin/src/angular",
+         "name": "Odin Angular"
+      }
+   ],
+   "settings": {
+      "tslint.enable": true,
+      "tslint.autoFixOnSave": true,
+      "tslint.exclude": "**/node_modules/**",
+      "editor.formatOnSave": true,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+      "editor.rulers": [
+         140
+      ],
+      "[typescript]": {
+         "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+         }
+      },
+      "editor.tabSize": 3,
+      "files.insertFinalNewline": true,
+      "files.trimTrailingWhitespace": true,
+      "files.trimFinalNewlines": true
+   },
+   "extensions": {
+      "recommendations": [
+         "eg2.tslint",
+         "Angular.ng-template",
+         "msjsdiag.debugger-for-chrome",
+         "PKief.material-icon-theme"
+      ]
+   }
+}

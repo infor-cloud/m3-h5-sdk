@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"module": "umd",
+		"strict": true,
+		"target": "es5",
+		"outDir": "dist",
+		"sourceMap": true,
+		"declaration": true,
+		"lib": [
+			"es2017"
+		]
+	},
+	"include": [
+		"src/*"
+	]
+}

@@ -1,0 +1,5 @@
+::ng-deep #sample-viewer-modal {
+   max-width: 80vw;
+   min-width: 60vw;
+   font-size: 12px;
+}

@@ -1,0 +1,11 @@
+{
+   "dependencies": {
+      "@infor-up/m3-odin": "2.0.0",
+      "@infor-up/m3-odin-angular": "2.0.0",
+      "@angular/animations": "~7.1.0",
+      "@angular/cdk": "~7.1.0",
+      "@angular/material": "~7.1.0",
+      "hammerjs": "^2.0.8"
+   },
+   "devDependencies": {}
+}

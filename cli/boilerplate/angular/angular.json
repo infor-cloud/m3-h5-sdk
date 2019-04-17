@@ -1,0 +1,16 @@
+{
+   "projects": {
+      "projectName": {
+         "architect": {
+            "build": {
+               "options": {
+                  "styles": [],
+                  "scripts": [],
+                  "outputPath": "dist",
+                  "baseHref": ""
+               }
+            }
+         }
+      }
+   }
+}

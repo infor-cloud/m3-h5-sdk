@@ -1,0 +1,51 @@
+<div class="header-container">
+   <h2>Infinite paging sample</h2>
+   <p>...</p>
+   <mat-divider></mat-divider>
+</div>
+
+<!-- Loading indication -->
+<div class="loading-container" *ngIf="dataSource.isLoading | async">
+   <mat-spinner></mat-spinner>
+</div>
+<!-- Table -->
+<div class="content-container mat-elevation-z8" [class.is-loading]="dataSource.isLoading | async">
+   <mat-table [dataSource]="dataSource">
+      <!-- Number column -->
+      <ng-container matColumnDef="CUNO">
+         <mat-header-cell *matHeaderCellDef>Number</mat-header-cell>
+         <mat-cell *matCellDef="let item">{{item.CUNO}}</mat-cell>
+      </ng-container>
+
+      <!-- Name column -->
+      <ng-container matColumnDef="CUNM">
+         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+         <mat-cell *matCellDef="let item">{{item.CUNM}}</mat-cell>
+      </ng-container>
+
+      <!-- Address 1 column -->
+      <ng-container matColumnDef="STAT">
+         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+         <mat-cell *matCellDef="let item">{{item.STAT}}</mat-cell>
+      </ng-container>
+
+      <!-- Address 2 column -->
+      <ng-container matColumnDef="PHNO">
+         <mat-header-cell *matHeaderCellDef>Phone number</mat-header-cell>
+         <mat-cell *matCellDef="let item">{{item.PHNO}}</mat-cell>
+      </ng-container>
+
+      <!-- Reference column -->
+      <ng-container matColumnDef="YREF">
+         <mat-header-cell *matHeaderCellDef>Your reference</mat-header-cell>
+         <mat-cell *matCellDef="let item">{{item.YREF}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+   </mat-table>
+
+   <mat-paginator #paginator [pageSize]="maxRecords" [showFirstLastButtons]="false"></mat-paginator>
+</div>
+
+<odin-sample-viewer sample="infinite-paging"></odin-sample-viewer>

@@ -1,0 +1,19 @@
+{
+   "name": "odin-basic",
+   "private": true,
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "dev": "odin serve",
+      "build": "odin build"
+   },
+   "author": "",
+   "license": "UNLICENSED",
+   "devDependencies": {
+      "@infor-up/m3-odin-cli": "2.0.0",
+      "@infor-up/m3-odin": "2.0.0",
+      "rxjs": "^6.0.0",
+      "typescript": "~3.1.6"
+   }
+}

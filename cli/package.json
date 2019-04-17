@@ -1,0 +1,54 @@
+{
+   "name": "@infor-up/m3-odin-cli",
+   "version": "2.0.0",
+   "description": "Odin CLI",
+   "publishConfig": {
+      "registry": "http://npm.infor.com"
+   },
+   "scripts": {
+      "build": "tsc",
+      "build:watch": "tsc -w",
+      "build:clean": "npm run clean && npm run build",
+      "clean": "git clean -f -d -X dist"
+   },
+   "author": {
+      "name": "Fredrik Eriksson",
+      "email": "fredrik.eriksson@infor.com"
+   },
+   "license": "SEE LICENSE IN LICENSE",
+   "private": false,
+   "bin": {
+      "odin": "./dist/cli.js"
+   },
+   "files": [
+      "dist",
+      "boilerplate",
+      "README.md"
+   ],
+   "main": "./dist/index.js",
+   "types": "./dist/index.d.ts",
+   "devDependencies": {
+      "@types/archiver": "^2.1.1",
+      "@types/fs-extra": "^5.0.2",
+      "@types/html-webpack-plugin": "^2.30.3",
+      "@types/inquirer": "0.0.41",
+      "@types/node": "^9.6.6",
+      "@types/webpack-dev-server": "^2.9.4"
+   },
+   "dependencies": {
+      "@angular/cli": "~7.1.0",
+      "archiver": "^2.1.1",
+      "commander": "^2.15.1",
+      "css-loader": "^0.28.11",
+      "fs-extra": "^5.0.0",
+      "html-webpack-plugin": "^3.2.0",
+      "inquirer": "^5.2.0",
+      "node-sass": "^4.9.0",
+      "sass-loader": "^7.0.1",
+      "style-loader": "^0.21.0",
+      "ts-loader": "^4.2.0",
+      "typescript": "~3.1.6",
+      "webpack": "^4.6.0",
+      "webpack-dev-server": "^3.1.3"
+   }
+}

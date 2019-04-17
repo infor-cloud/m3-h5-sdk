@@ -1,0 +1,27 @@
+<div class="full-width full-height scrollable-flex">
+   <div>
+      <h1>Date & number formatting sample</h1>
+      <p>...</p>
+      <hr class="fieldset-hr" />
+   </div>
+
+   <div *ngIf="isInitialized">
+      <div class="row card">
+         <div class="twelve columns">
+            <div class="field">
+               <h1>Date formats</h1>
+            </div>
+            <div>M3 date format (DTFM): {{m3DateFormat}}</div>
+            <div>M3 date format (standardized): {{dateFormat}}</div>
+            <div>Today (M3 format): {{today | date:dateFormat}}</div>
+            <div>Today (ISO format): {{today | date:'yyyy-MM-dd'}}</div>
+            <div>Today (locale format): {{today | date:'shortDate'}}</div>
+            <div>M3 short date string pipe conversion: {{shortDateString1 | m3date:'fromString' | date:'yyyy-MM-dd' }}</div>
+            <div>M3 short date string pipe conversion: {{shortDateString2 | m3date:'fromString' | date:'yyyy-MM-dd' }}</div>
+            <div>M3 short date string pipe conversion: {{shortDateString3 | m3date:'fromString' | date:'yyyy-MM-dd' }}</div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<odin-sample-viewer sample="formatting"></odin-sample-viewer>

@@ -1,0 +1,22 @@
+mat-card {
+   margin: 20px;
+}
+
+mat-spinner {
+   margin: auto auto;
+}
+
+.form-container {
+   display: flex;
+   flex-direction: column;
+}
+
+.form-row {
+   display: flex;
+   flex-direction: row;
+}
+
+.form-row mat-form-field {
+   width: 100%;
+   padding: 0 10px;
+}
