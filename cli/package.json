@@ -2,9 +2,6 @@
    "name": "@infor-up/m3-odin-cli",
    "version": "2.0.0",
    "description": "Odin CLI",
-   "publishConfig": {
-      "registry": "http://npm.infor.com"
-   },
    "scripts": {
       "build": "tsc",
       "build:watch": "tsc -w",
@@ -15,7 +12,11 @@
       "name": "Fredrik Eriksson",
       "email": "fredrik.eriksson@infor.com"
    },
-   "license": "SEE LICENSE IN LICENSE",
+   "license": "Apache-2.0",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
+   },
    "private": false,
    "bin": {
       "odin": "./dist/cli.js"
