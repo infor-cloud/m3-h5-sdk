@@ -63,7 +63,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     case 0:
                         operation = c.begin('Packing documentation zip');
                         distPath = path.join(__dirname, '../../dist');
-                        docsPath = path.join(distPath, 'docs');
+                        docsPath = path.join(__dirname, '../../m3-odin/docs');
                         zipFilename = filenamePrefix + '-' + versionNumber + '.zip';
                         console.log('Creating zip file: ' + zipFilename + ' from directory ' + docsPath);
                         return [4 /*yield*/, c.zip(docsPath, distPath, zipFilename)];

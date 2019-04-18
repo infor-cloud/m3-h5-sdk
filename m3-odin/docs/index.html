@@ -75,6 +75,7 @@
 					<li><a href="#quick-start">Quickstart</a></li>
 					<li><a href="#projects">Projects</a></li>
 					<li><a href="#samples">Samples</a></li>
+					<li><a href="#api-documentation">API Documentation</a></li>
 					<li><a href="#code-editor">Code Editor</a></li>
 					<li><a href="#build">Build</a></li>
 					<li><a href="#install">Install in H5 (Infor M3)</a></li>
@@ -141,7 +142,10 @@
 				</ul>
 				<h2 id="simple-project">Simple project</h2>
 				<p>Create a non Angular, plain vanilla web project.</p>
-				<pre><code>odin new <span class="hljs-keyword">my</span>-project-<span class="hljs-built_in">name</span></code></pre><h1 id="-a-id-code-editor-a-code-editor"><a id="code-editor"></a> Code Editor</h1>
+				<pre><code>odin new <span class="hljs-keyword">my</span>-project-<span class="hljs-built_in">name</span></code></pre><h1 id="-a-id-api-documentation-a-api-documentation"><a id="api-documentation"></a> API Documentation</h1>
+				<p>The generated API documentation can be viewed here:</p>
+				<p><a href="https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/">https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/</a></p>
+				<h1 id="-a-id-code-editor-a-code-editor"><a id="code-editor"></a> Code Editor</h1>
 				<p>We recommend Visual Studio Code (<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>) but any editor can be used.</p>
 				<h1 id="-a-id-samples-a-samples"><a id="samples"></a> Samples</h1>
 				<p>The Odin framework has two sets of samples using Angular. The focus of the samples are not to showcase UI Components but to show how the Odin API is used.</p>
@@ -151,7 +155,7 @@
 					<li>Angular Material (<a href="https://material.angular.io/">https://material.angular.io/</a>)</li>
 				</ul>
 				<p>SoHo Xi has two sets of components, one for jQuery and then those are wrapped into Angular SoHo Components. Please note that with Angular you should use the Angular components for SoHo.</p>
-				<p>The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip.</p>
+				<p>The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip. The sample zip files can be downloaded from this directory: <a href="https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples">https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples</a></p>
 				<h2 id="how-to-run-a-sample">How to run a sample</h2>
 				<p>The sample are packaged as an application. To run it unzip the sample zip and run it as an application.</p>
 				<ol>
@@ -185,8 +189,8 @@
 				automatically updated if company and division are changed during the session.</p>
 				<p>It is recommended to load the UserContext as part of the application initialization.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
-<span class="hljs-keyword">import</span> { ArrayUtil, CoreBase, IUserContext } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor/m3-odin"</span>;
-<span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor/m3-odin-angular"</span>;
+<span class="hljs-keyword">import</span> { ArrayUtil, CoreBase, IUserContext } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin"</span>;
+<span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin-angular"</span>;
 
 <span class="hljs-meta">@Component</span>({
   templateUrl: <span class="hljs-string">"./user-context.component.html"</span>
@@ -219,8 +223,8 @@ inputRecord.setDate(<span class="hljs-string">"TEEC"</span>, <span class="hljs-k
 inputRecord.setNumberString(<span class="hljs-string">"AGBG"</span>, <span class="hljs-number">123123.123</span>);</code></pre>
 				<p>The MI transactions may return a lot of data. Always specify the output fields to increase performance and reduce bandwidth. In the example below customer details are retreived for a customer but only part of the available output fields will be used.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Component, OnInit, ViewChild } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
-<span class="hljs-keyword">import</span> { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor/m3-odin"</span>;
-<span class="hljs-keyword">import</span> { MIService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor/m3-odin-angular"</span>;
+<span class="hljs-keyword">import</span> { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin"</span>;
+<span class="hljs-keyword">import</span> { MIService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin-angular"</span>;
 
 <span class="hljs-meta">@Component</span>({
   templateUrl: <span class="hljs-string">"./customer.component.html"</span>
@@ -290,8 +294,8 @@ inputRecord.setNumberString(<span class="hljs-string">"AGBG"</span>, <span class
 					<li>The HTTP call fails (the error handler will be called)</li>
 				</ul>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Component, OnInit, ViewChild } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
-<span class="hljs-keyword">import</span> { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor/m3-odin"</span>;
-<span class="hljs-keyword">import</span> { MIService, UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor/m3-odin-angular"</span>;
+<span class="hljs-keyword">import</span> { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin"</span>;
+<span class="hljs-keyword">import</span> { MIService, UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin-angular"</span>;
 <span class="hljs-keyword">import</span> { SohoDataGridComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">"ids-enterprise-ng"</span>;
 
 <span class="hljs-meta">@Component</span>({

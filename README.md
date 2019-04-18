@@ -175,8 +175,8 @@ It is recommended to load the UserContext as part of the application initializat
 
 ```typescript
 import { Component } from "@angular/core";
-import { ArrayUtil, CoreBase, IUserContext } from "@infor/m3-odin";
-import { UserService } from "@infor/m3-odin-angular";
+import { ArrayUtil, CoreBase, IUserContext } from "@infor-up/m3-odin";
+import { UserService } from "@infor-up/m3-odin-angular";
 
 @Component({
   templateUrl: "./user-context.component.html"
@@ -219,8 +219,8 @@ The MI transactions may return a lot of data. Always specify the output fields t
 
 ```typescript
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } from "@infor/m3-odin";
-import { MIService } from "@infor/m3-odin-angular";
+import { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } from "@infor-up/m3-odin";
+import { MIService } from "@infor-up/m3-odin-angular";
 
 @Component({
   templateUrl: "./customer.component.html"
@@ -295,8 +295,8 @@ There are two error scenarios that needs to be considered:
 
 ```typescript
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } from "@infor/m3-odin";
-import { MIService, UserService } from "@infor/m3-odin-angular";
+import { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } from "@infor-up/m3-odin";
+import { MIService, UserService } from "@infor-up/m3-odin-angular";
 import { SohoDataGridComponent } from "ids-enterprise-ng";
 
 @Component({

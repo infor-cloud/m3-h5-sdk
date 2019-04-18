@@ -22,7 +22,7 @@ function generate(): void {
    const operation = c.begin('Generating');
 
    const sourceDirectory = path.join(__dirname, '../../m3-odin/src');
-   const targetDirectory = path.join(__dirname, '../../dist/docs');
+   const targetDirectory = path.join(__dirname, '../../m3-odin/docs');
    const version = resolveVersion();
 
    console.log('Version: ' + version);

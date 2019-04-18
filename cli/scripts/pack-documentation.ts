@@ -18,7 +18,7 @@ async function pack() {
    const operation = c.begin('Packing documentation zip');
 
    const distPath = path.join(__dirname, '../../dist');
-   const docsPath = path.join(distPath, 'docs');
+   const docsPath = path.join(__dirname, '../../m3-odin/docs');
    const zipFilename = filenamePrefix + '-' + versionNumber + '.zip';
 
    console.log('Creating zip file: ' + zipFilename + ' from directory ' + docsPath);
