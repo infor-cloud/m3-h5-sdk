@@ -13,28 +13,31 @@ Odin is not a framework of UI components nor does it require the application dev
 * [Quickstart](#quick-start)
 * [Projects](#projects)
 * [Samples](#samples)
+* [API Documentation](#api-documentation)
 * [Code Editor](#code-editor)
 * [Build](#build)
 * [Install in H5 (Infor M3)](#install)
 * [Code Examples](#code-examples)
 
 # <a id="packages"></a> Packages
-The Odin SDK consists of three different NPM packages. The packages are currently not available from any NPM registry so they must be installed manually. The CLI package can be installed globally and the other two packages can be installed in project folders. See more details about package installation in following sections.
+The M3 Odin SDK consists of three different NPM packages. The packages are published to the NPM registry and can be installed through npm. See more details about package installation in the following sections.
 
-The name of the packages are as follows (exact version number may differ):
+These are the names of the packages and their npm links:
 
-- infor-up-m3-odin-cli-2.0.0.tgz
-- infor-up-m3-odin-2.0.0.tgz
-- infor-up-m3-odin-angular-2.0.0.tgz
+- @infor-up/m3-odin-cli
+   - https://www.npmjs.com/package/@infor-up/m3-odin-cli
+- @infor-up/m3-odin
+   - https://www.npmjs.com/package/@infor-up/m3-odi
+- @infor-up/m3-odin-angular
+   - https://www.npmjs.com/package/@infor-up/m3-odin-angular
 
 # <a id="cli-install"></a> CLI installation
 The M3 Odin CLI is a command line interface for creating and working with projects. The CLI needs to be installed before it can be used.
 
-## Install from local package
-Run the following command to install the CLI from the local package file included in the SDK.
+Run the following command to install the CLI globally on your local computer.
 
 ```
-npm install -g infor-up-m3-odin-cli-2.0.0.tgz
+npm install -g @infor-up/m3-odin-cli
 ```
 
 ## Verify installation
@@ -53,26 +56,16 @@ The M3 Odin CLI can be used to create different types of projects. The quickstar
    ```
    odin new
    ```
-4. Copy the following two package files into the created project folder
-- infor-up-m3-odin-2.0.0.tgz
-- infor-up-m3-odin-angular-2.0.0.tgz
-5. Navigate into the project folder and open a command window
-6. Install the two package files
-   ```
-   npm install infor-up-m3-odin-2.0.0.tgz
-   ```
-   ```
-   npm install infor-up-m3-odin-angular-2.0.0.tgz
-   ```
-7. Install dependencies for the application
+4. Navigate into the project folder and open a command window
+5. Install dependencies for the application
    ```
    npm install
    ```
-8. Start the project and access it in a browser using http://localhost:8080
+6. Start the project and access it in a browser using http://localhost:8080
    ```
    odin serve
    ```
-9. Use an editor, for example Visual Studio Code, and start editing the code. Locate /src/app.component.html or /src/app.component.ts and start to do changes. The application will be automatically re-loaded in the browser.
+7. Use an editor, for example Visual Studio Code, and start editing the code. Locate /src/app.component.html or /src/app.component.ts and start to do changes. The application will be automatically re-loaded in the browser.
 
 # <a id="projects"></a> Projects
 The M3 Odin CLI can be used to create different types of projects that includes different frameworks and functionality.
@@ -107,6 +100,11 @@ Create a non Angular, plain vanilla web project.
 odin new my-project-name
 ```
 
+# <a id="api-documentation"></a> API Documentation
+The generated API documentation can be viewed here:
+
+https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/
+
 # <a id="code-editor"></a> Code Editor
 We recommend Visual Studio Code (https://code.visualstudio.com/) but any editor can be used.
 
@@ -119,7 +117,7 @@ As Odin has no UI preference the samples are available using two different UI Co
 
 SoHo Xi has two sets of components, one for jQuery and then those are wrapped into Angular SoHo Components. Please note that with Angular you should use the Angular components for SoHo.
 
-The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip.
+The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip. The sample zip files can be downloaded from this directory: https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples
 
 ## How to run a sample
 The sample are packaged as an application. To run it unzip the sample zip and run it as an application.

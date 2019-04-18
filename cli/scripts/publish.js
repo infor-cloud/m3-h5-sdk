@@ -38,7 +38,7 @@
         console.log('Output directory: ' + distPath);
         var currentDirectory = process.cwd();
         process.chdir(distPath);
-        c.execSync('npm publish ' + directory);
+        c.execSync('npm publish ' + directory + " --access public");
         if (directory !== currentDirectory) {
             process.chdir(currentDirectory);
         }
