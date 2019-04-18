@@ -49,7 +49,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="index.html">Globals</a>
 				</li>
 			</ul>
 			<h1> M3 Odin - 2.0.0</h1>
@@ -59,304 +59,107 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<h1 id="introduction">Introduction</h1>
-				<p>Odin is a framework for building web applications for M3, that consists of three parts:</p>
-				<ul>
-					<li>A command line interface (CLI), &#39;odin&#39; that is used to create new projects and perform other development related tasks such as running a development server and building the project for production.</li>
-					<li>Core API without any Angular dependencies that only requires RxJS</li>
-					<li>Angular services for M3 related functions such as: executing MI programs and bookmarks, retrieving user context and launching programs in H5 (the M3 client) if the application is running in a tab in H5.</li>
-				</ul>
-				<p>Odin is not a framework of UI components nor does it require the application developer to use a specific UI framework. There is however optional support for the Infor SoHo Xi controls using jQuery or Angular as well as Google Material.</p>
-				<h1 id="content">Content</h1>
-				<ul>
-					<li><a href="#packages">Packages</a></li>
-					<li><a href="#cli-install">CLI installation</a></li>
-					<li><a href="#quick-start">Quickstart</a></li>
-					<li><a href="#projects">Projects</a></li>
-					<li><a href="#samples">Samples</a></li>
-					<li><a href="#api-documentation">API Documentation</a></li>
-					<li><a href="#code-editor">Code Editor</a></li>
-					<li><a href="#build">Build</a></li>
-					<li><a href="#install">Install in H5 (Infor M3)</a></li>
-					<li><a href="#code-examples">Code Examples</a></li>
-				</ul>
-				<h1 id="-a-id-packages-a-packages"><a id="packages"></a> Packages</h1>
-				<p>The M3 Odin SDK consists of three different NPM packages. The packages are published to the NPM registry and can be installed through npm. See more details about package installation in the following sections.</p>
-				<p>These are the names of the packages and their npm links:</p>
-				<ul>
-					<li>@infor-up/m3-odin-cli<ul>
-							<li><a href="https://www.npmjs.com/package/@infor-up/m3-odin-cli">https://www.npmjs.com/package/@infor-up/m3-odin-cli</a></li>
-						</ul>
-					</li>
-					<li>@infor-up/m3-odin<ul>
-							<li><a href="https://www.npmjs.com/package/@infor-up/m3-odi">https://www.npmjs.com/package/@infor-up/m3-odi</a></li>
-						</ul>
-					</li>
-					<li>@infor-up/m3-odin-angular<ul>
-							<li><a href="https://www.npmjs.com/package/@infor-up/m3-odin-angular">https://www.npmjs.com/package/@infor-up/m3-odin-angular</a></li>
-						</ul>
-					</li>
-				</ul>
-				<h1 id="-a-id-cli-install-a-cli-installation"><a id="cli-install"></a> CLI installation</h1>
-				<p>The M3 Odin CLI is a command line interface for creating and working with projects. The CLI needs to be installed before it can be used.</p>
-				<p>Run the following command to install the CLI globally on your local computer.</p>
-				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> <span class="hljs-selector-tag">-g</span> @<span class="hljs-keyword">infor</span>-<span class="hljs-keyword">up</span>/<span class="hljs-keyword">m3</span>-<span class="hljs-keyword">odin</span>-<span class="hljs-keyword">cli</span></code></pre><h2 id="verify-installation">Verify installation</h2>
-				<p>Run the following command to verify that the CLI was installed successfully. The command should output the help for the CLI.</p>
-				<pre><code><span class="hljs-attribute">odin -h</span></code></pre><h1 id="-a-id-quick-start-a-quickstart"><a id="quick-start"></a> Quickstart</h1>
-				<p>The M3 Odin CLI can be used to create different types of projects. The quickstart shows how to create an Angular application project using the Infor IDS (SoHo) components.</p>
-				<ol>
-					<li>Navigate to a folder that should contain the project</li>
-					<li>Select a project name that adhere to the naming rules, we recommend characters and dashes (only, no space)</li>
-					<li>Run the &#39;odin new&#39; command and answer all the questions in the wizard. Choose no (which is the default) when asked if dependencies should be installed. Other questions include values for M3 H5 URL and ION API URL.<pre><code>odin <span class="hljs-keyword">new</span></code></pre></li>
-					<li>Navigate into the project folder and open a command window</li>
-					<li>Install dependencies for the application<pre><code>npm <span class="hljs-keyword">install</span></code></pre></li>
-					<li>Start the project and access it in a browser using <a href="http://localhost:8080">http://localhost:8080</a><pre><code><span class="hljs-attribute">odin serve</span></code></pre></li>
-					<li>Use an editor, for example Visual Studio Code, and start editing the code. Locate /src/app.component.html or /src/app.component.ts and start to do changes. The application will be automatically re-loaded in the browser.</li>
-				</ol>
-				<h1 id="-a-id-projects-a-projects"><a id="projects"></a> Projects</h1>
-				<p>The M3 Odin CLI can be used to create different types of projects that includes different frameworks and functionality.</p>
-				<h2 id="project-names">Project names</h2>
-				<p>Note that the project names must adhere to the rules for the name property of a package.json file. A summary of the rules are that the name must start with a character, only contain lower case characters that are URL safe. We would recommend sticking to characters and dashes. More details about names can be found here <a href="https://docs.npmjs.com/files/package.json#name">https://docs.npmjs.com/files/package.json#name</a></p>
-				<h2 id="new-task-wizard">New task  wizard</h2>
-				<p>Navigate to the folder that should contain the project and open a command interface.
-				Run the following command to start the task wizard that can be used for the following;</p>
-				<ul>
-					<li>Create a new project</li>
-					<li>Start development server</li>
-					<li>Build project for production</li>
-				</ul>
-				<h2 id="angular-project-with-soho-xi">Angular project with SoHo XI</h2>
-				<p>Create a new project, where the project name will be the context root for the application if deployed in H5. Follow the wizard to create a new project.</p>
-				<pre><code>odin <span class="hljs-keyword">new</span></code></pre><p>The following information will be requested:</p>
-				<ul>
-					<li>The name of the project (note that it must follow the project name rules above)</li>
-					<li>Which framework to use: Angular / None<ul>
-							<li>Select: Angular</li>
-						</ul>
-					</li>
-					<li>Which style library to use: SoHo / Material Design / None.<ul>
-							<li>Select: SoHo</li>
-						</ul>
-					</li>
-				</ul>
-				<h2 id="simple-project">Simple project</h2>
-				<p>Create a non Angular, plain vanilla web project.</p>
-				<pre><code>odin new <span class="hljs-keyword">my</span>-project-<span class="hljs-built_in">name</span></code></pre><h1 id="-a-id-api-documentation-a-api-documentation"><a id="api-documentation"></a> API Documentation</h1>
-				<p>The generated API documentation can be viewed here:</p>
-				<p><a href="https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/">https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/</a></p>
-				<h1 id="-a-id-code-editor-a-code-editor"><a id="code-editor"></a> Code Editor</h1>
-				<p>We recommend Visual Studio Code (<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>) but any editor can be used.</p>
-				<h1 id="-a-id-samples-a-samples"><a id="samples"></a> Samples</h1>
-				<p>The Odin framework has two sets of samples using Angular. The focus of the samples are not to showcase UI Components but to show how the Odin API is used.</p>
-				<p>As Odin has no UI preference the samples are available using two different UI Component systems:</p>
-				<ul>
-					<li>SoHo Xi (<a href="https://design.infor.com//">https://design.infor.com//</a>)</li>
-					<li>Angular Material (<a href="https://material.angular.io/">https://material.angular.io/</a>)</li>
-				</ul>
-				<p>SoHo Xi has two sets of components, one for jQuery and then those are wrapped into Angular SoHo Components. Please note that with Angular you should use the Angular components for SoHo.</p>
-				<p>The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip. The sample zip files can be downloaded from this directory: <a href="https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples">https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples</a></p>
-				<h2 id="how-to-run-a-sample">How to run a sample</h2>
-				<p>The sample are packaged as an application. To run it unzip the sample zip and run it as an application.</p>
-				<ol>
-					<li>Unzip the sample</li>
-					<li>In the project folder run the following command<pre><code>npm <span class="hljs-keyword">install</span></code></pre></li>
-					<li><p>Update the proxy configuration</p>
-					<pre><code>odin <span class="hljs-keyword">set</span> ion-proxy https:<span class="hljs-comment">//ionserver/TENANT</span></code></pre><pre><code>odin <span class="hljs-keyword">set</span> m3-proxy <span class="hljs-comment">https:</span>//<span class="hljs-comment">m3server</span></code></pre></li>
-					<li><p>For the ION API example to work the source has to be manually edited to provide the ION Token</p>
-					</li>
-					<li>Run the server<pre><code><span class="hljs-attribute">odin serve</span></code></pre></li>
-					<li>Browse to <a href="http://localhost:8080">http://localhost:8080</a></li>
-				</ol>
-				<h1 id="-a-id-build-a-build"><a id="build"></a> Build</h1>
-				<p>Run the following command to build the project for production. A zip will be created in the dist folder. Note that the name of the zip as the name will be used as the application name when uploaded in H5. You can change the name of the zip file if necessary.</p>
-				<pre><code><span class="hljs-attribute">odin build</span></code></pre><h1 id="-a-id-install-a-install-in-h5-infor-m3-"><a id="install"></a> Install in H5 (Infor M3)</h1>
-				<p>This section describes how to install the application in the H5 client. It is required to be an M3UI-Administrator to have access to the H5 Administration.
-				Take the zip file in the dist folder created by the build command and upload it using the H5 Administration tool. The name of the zip file will be used as the path to the application.</p>
-				<ul>
-					<li>Open the Infor M3 H5 client</li>
-					<li>Select Administrations Tools -&gt; H5 Administration</li>
-					<li>Go to the Applications tab</li>
-					<li>Click Install and select the zip file to upload</li>
-					<li>The application will be visible under Installed applications</li>
-				</ul>
-				<h2 id="test-in-h5-tab-system">Test in H5 tab system</h2>
-				<p>To open an installed application within the H5 tab system press Crtl+R and paste in the URL to the application.</p>
-				<pre><code>/mne/apps/<span class="hljs-keyword">my</span>-project-<span class="hljs-built_in">name</span></code></pre><p>Antoher option is to go to Start to access the Start pages and add a page with a Custom menu widget in which it is possible to add a New link with the link set to /mne/apps/my-project-name.</p>
-				<h1 id="-a-id-code-examples-a-code-examples"><a id="code-examples"></a> Code Examples</h1>
-				<h2 id="user-context">User Context</h2>
-				<p>The user context contains the information for the user in MNS150. The MIService will use and pass the current company as matrix parameters to the M3 MI programs unless specific CONO and DIVI are passed in the MIRequest. Keep the reference to the UserContext objkect and it will be
-				automatically updated if company and division are changed during the session.</p>
-				<p>It is recommended to load the UserContext as part of the application initialization.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
-<span class="hljs-keyword">import</span> { ArrayUtil, CoreBase, IUserContext } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin"</span>;
-<span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin-angular"</span>;
-
-<span class="hljs-meta">@Component</span>({
-  templateUrl: <span class="hljs-string">"./user-context.component.html"</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> UserContextSampleComponent <span class="hljs-keyword">extends</span> CoreBase {
-  userContext = {} <span class="hljs-keyword">as</span> IUserContext;
-
-  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> userService: UserService</span>) {
-    <span class="hljs-keyword">super</span>(<span class="hljs-string">"UserSampleComponent"</span>);
-    <span class="hljs-keyword">this</span>.userService.getUserContext().subscribe(<span class="hljs-function">(<span class="hljs-params">userContext: IUserContext</span>) =&gt;</span> {
-      <span class="hljs-keyword">this</span>.userContext = userContext;
-      <span class="hljs-keyword">const</span> lang = userContext.currentLanguage;
-      <span class="hljs-keyword">const</span> divi = userContext.currentDivision;
-      <span class="hljs-keyword">const</span> cono = userContext.currentCompany;
-      <span class="hljs-keyword">const</span> usid = userContext.USID;
-      <span class="hljs-keyword">this</span>.logInfo(<span class="hljs-string">"User context: "</span> + usid + <span class="hljs-string">", cono: "</span> + cono + <span class="hljs-string">", divi: "</span> + divi + <span class="hljs-string">", lang: "</span> + lang);
-    }, <span class="hljs-function">(<span class="hljs-params">errorContext: IUserContext</span>) =&gt;</span> {
-      <span class="hljs-comment">// Handle error</span>
-      <span class="hljs-keyword">this</span>.logError(errorContext.errorMessage);
-    });
-  }
-}</code></pre>
-				<h2 id="calling-mi-transactions">Calling MI transactions</h2>
-				<p>Call M3 MI transactions to list, change and get M3 data. By default the framework will pass matrix parameters (visible as part of the URL path) for the current company and division if the user context has been retrieved. The example below assumes that the user context has already been retreived in another component, thus it will be automatically available within the MIService without having to explicity call it.</p>
-				<p>To override those default values pass in CONO and DIVI in the MIRecord that is set as input on the MIRequest.</p>
-				<p>When creating the input (MIRecord) for the transaction there are a number of set methods that can be used to set string, date and numbers. The format of input data is import for date fields and numeric fields that may contain decimals. The date format for date fields must be &quot;yyyyMMdd&quot; and the decimal separator for decimal fields must be &quot;.&quot;. There are several set functions on the MIRecord class that can be used to set input data on the correct format.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">let</span> inputRecord = <span class="hljs-keyword">new</span> MIRecord();
-inputRecord.setString(<span class="hljs-string">"CUNO"</span>, <span class="hljs-string">"ACME"</span>);
-inputRecord.setDate(<span class="hljs-string">"TEEC"</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>());
-inputRecord.setNumberString(<span class="hljs-string">"AGBG"</span>, <span class="hljs-number">123123.123</span>);</code></pre>
-				<p>The MI transactions may return a lot of data. Always specify the output fields to increase performance and reduce bandwidth. In the example below customer details are retreived for a customer but only part of the available output fields will be used.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Component, OnInit, ViewChild } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
-<span class="hljs-keyword">import</span> { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin"</span>;
-<span class="hljs-keyword">import</span> { MIService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin-angular"</span>;
-
-<span class="hljs-meta">@Component</span>({
-  templateUrl: <span class="hljs-string">"./customer.component.html"</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> CustomerSampleComponent <span class="hljs-keyword">extends</span> CoreBase <span class="hljs-keyword">implements</span> OnInit {
-
-  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> miService: MIService</span>) {
-    <span class="hljs-keyword">super</span>(<span class="hljs-string">"CustomerComponent"</span>);
-  }
-
-  ngOnInit() {
-    <span class="hljs-keyword">this</span>.getDetails();
-  }
-
-
-  <span class="hljs-keyword">private</span> getDetails() {
-    <span class="hljs-keyword">const</span> inputRecord = <span class="hljs-keyword">new</span> MIRecord();
-    <span class="hljs-keyword">const</span> customer = <span class="hljs-string">"ACME"</span>;
-    inputRecord.setString(<span class="hljs-string">"CUNO"</span>, customer);
-
-    <span class="hljs-keyword">const</span> request: IMIRequest = {
-      program: <span class="hljs-string">"CRS610MI"</span>,
-      transaction: <span class="hljs-string">"GetBasicData"</span>,
-      record: inputRecord,
-      outputFields: [<span class="hljs-string">"CUNM"</span>, <span class="hljs-string">"CUNO"</span>, <span class="hljs-string">"CUA1"</span>, <span class="hljs-string">"CUA2"</span>, <span class="hljs-string">"CUA3"</span>, <span class="hljs-string">"CUA4"</span>, <span class="hljs-string">"YREF"</span>, <span class="hljs-string">"CSCD"</span>]
-    };
-    <span class="hljs-keyword">this</span>.setBusy(<span class="hljs-literal">true</span>);
-    <span class="hljs-keyword">this</span>.miService.execute(request).subscribe(<span class="hljs-function">(<span class="hljs-params">response: IMIResponse</span>) =&gt;</span> {
-      <span class="hljs-keyword">this</span>.setBusy(<span class="hljs-literal">false</span>);
-      <span class="hljs-keyword">if</span> (!response.hasError()) {
-        <span class="hljs-keyword">this</span>.logInfo(<span class="hljs-string">"Customer Basic data for "</span> + customer);
-        <span class="hljs-keyword">const</span> record: MIRecord = response.item <span class="hljs-keyword">as</span> MIRecord;
-        <span class="hljs-keyword">const</span> address1 = record[<span class="hljs-string">"CUA1"</span>];
-        <span class="hljs-keyword">const</span> address2 = record[<span class="hljs-string">"CUA2"</span>];
-        <span class="hljs-keyword">this</span>.logInfo(<span class="hljs-string">"Address 1 "</span> + address1);
-        <span class="hljs-keyword">this</span>.logInfo(<span class="hljs-string">"Address 2 "</span> + address2);
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">this</span>.handleError(response, customer);
-      }
-      <span class="hljs-comment">// Handle error</span>
-    }, <span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
-      <span class="hljs-keyword">this</span>.setBusy(<span class="hljs-literal">false</span>);
-      <span class="hljs-keyword">this</span>.handleError(response, customer);
-    });
-  }
-
-  <span class="hljs-keyword">private</span> handleError(response: IMIResponse, customer: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span> {
-
-    <span class="hljs-keyword">this</span>.logWarning(<span class="hljs-string">"MI transaction "</span> + response.transaction + <span class="hljs-string">" failed"</span>);
-    <span class="hljs-keyword">const</span> errorCode = response.errorCode;
-    <span class="hljs-keyword">const</span> errorField = response.errorField;
-    <span class="hljs-keyword">const</span> errorMessage = response.errorMessage;
-
-    <span class="hljs-keyword">let</span> message = <span class="hljs-string">"Unable to get basic data for customer "</span> + customer;
-    <span class="hljs-keyword">if</span> (errorCode === <span class="hljs-string">"WCU0203"</span>) {
-      message = <span class="hljs-string">"The customer "</span> + customer + <span class="hljs-string">" does not exist"</span>;
-    }
-
-    <span class="hljs-keyword">this</span>.logError(message + <span class="hljs-string">" "</span> + errorMessage);
-  }</code></pre>
-				<h3 id="calling-mi-list-transactions">Calling MI List transactions</h3>
-				<p>List transactions are MI transactions that returns multiple rows. The result is returned as a MIResponse with an items property. These types of transactions requires that maxReturnedRecords is set. The default value is 100.</p>
-				<p>Always specify the output fields that are required so improve performance. On the response check for erros as the MI program might have replied with an errorCode for the transaction. The errorMessage will always be set if there is an error such as a more generic http error that will result in a call to the errorHandler.</p>
-				<p>There are two error scenarios that needs to be considered:</p>
-				<ul>
-					<li>The MI transaction returns an error (check for hasError() in the response)</li>
-					<li>The HTTP call fails (the error handler will be called)</li>
-				</ul>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Component, OnInit, ViewChild } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
-<span class="hljs-keyword">import</span> { CoreBase, IMIRequest, IMIResponse, IUserContext, MIRecord } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin"</span>;
-<span class="hljs-keyword">import</span> { MIService, UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"@infor-up/m3-odin-angular"</span>;
-<span class="hljs-keyword">import</span> { SohoDataGridComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">"ids-enterprise-ng"</span>;
-
-<span class="hljs-meta">@Component</span>({
-  templateUrl: <span class="hljs-string">"./customer.component.html"</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> CustomerSampleComponent <span class="hljs-keyword">extends</span> CoreBase <span class="hljs-keyword">implements</span> OnInit {
-  <span class="hljs-meta">@ViewChild</span>(<span class="hljs-string">"customersDatagrid"</span>) datagrid: SohoDataGridComponent;
-
-  datagridOptions: SohoDataGridOptions;
-  items: <span class="hljs-built_in">any</span>[] = [];
-  isBusy = <span class="hljs-literal">false</span>;
-
-  <span class="hljs-keyword">private</span> userContext: IUserContext;
-
-  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> miService: MIService, <span class="hljs-keyword">private</span> userService: UserService</span>) {
-    <span class="hljs-keyword">super</span>(<span class="hljs-string">"CustomerComponent"</span>);
-    <span class="hljs-keyword">this</span>.initGrid();
-  }
-
-  ngOnInit() {
-    <span class="hljs-keyword">this</span>.listItems();
-  }
-
-  <span class="hljs-keyword">private</span> initGrid() {
-    <span class="hljs-comment">// ...</span>
-  }
-
-  listItems() {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.isBusy) { <span class="hljs-keyword">return</span>; }
-    <span class="hljs-keyword">this</span>.setBusy(<span class="hljs-literal">true</span>);
-    <span class="hljs-keyword">const</span> request: IMIRequest = {
-      program: <span class="hljs-string">"CRS610MI"</span>,
-      transaction: <span class="hljs-string">"LstByNumber"</span>,
-      outputFields: [<span class="hljs-string">"CUNO"</span>, <span class="hljs-string">"CUNM"</span>, <span class="hljs-string">"CUA1"</span>, <span class="hljs-string">"CUA2"</span>],
-      maxReturnedRecords: <span class="hljs-number">10</span>,
-    };
-
-    <span class="hljs-comment">// Start the list with record 1000, example of input</span>
-    <span class="hljs-keyword">const</span> inputRecord: MIRecord = <span class="hljs-keyword">new</span> MIRecord();
-    inputRecord.setString(<span class="hljs-string">"CUNM"</span>, <span class="hljs-string">"1000"</span>);
-    request.record = inputRecord;
-
-    <span class="hljs-keyword">this</span>.miService.execute(request).subscribe(<span class="hljs-function">(<span class="hljs-params">response: IMIResponse</span>) =&gt;</span> {
-      <span class="hljs-keyword">this</span>.setBusy(<span class="hljs-literal">false</span>);
-      <span class="hljs-keyword">if</span> (!response.hasError()) {
-        <span class="hljs-keyword">this</span>.items = response.items;
-        <span class="hljs-comment">//</span>
-        <span class="hljs-keyword">this</span>.updateGridData();
-      }
-    }, <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
-      <span class="hljs-keyword">this</span>.setBusy(<span class="hljs-literal">false</span>);
-      <span class="hljs-comment">// Handle error</span>
-    });
-  }</code></pre>
-			</div>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum"><a href="enums/midatatype.html" class="tsd-kind-icon">MIData<wbr>Type</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class"><a href="classes/ajaxhttpservice.html" class="tsd-kind-icon">Ajax<wbr>Http<wbr>Service</a></li>
+								<li class="tsd-kind-class"><a href="classes/applicationservice.html" class="tsd-kind-icon">Application<wbr>Service</a></li>
+								<li class="tsd-kind-class"><a href="classes/arrayutil.html" class="tsd-kind-icon">Array<wbr>Util</a></li>
+								<li class="tsd-kind-class"><a href="classes/bookmark.html" class="tsd-kind-icon">Bookmark</a></li>
+								<li class="tsd-kind-class"><a href="classes/button.html" class="tsd-kind-icon">Button</a></li>
+								<li class="tsd-kind-class"><a href="classes/checkbox.html" class="tsd-kind-icon">Check<wbr>Box</a></li>
+								<li class="tsd-kind-class"><a href="classes/combobox.html" class="tsd-kind-icon">Combo<wbr>Box</a></li>
+								<li class="tsd-kind-class"><a href="classes/comboboxitem.html" class="tsd-kind-icon">Combo<wbr>Box<wbr>Item</a></li>
+								<li class="tsd-kind-class"><a href="classes/constraint.html" class="tsd-kind-icon">Constraint</a></li>
+								<li class="tsd-kind-class"><a href="classes/controltype.html" class="tsd-kind-icon">Control<wbr>Type</a></li>
+								<li class="tsd-kind-class"><a href="classes/corebase.html" class="tsd-kind-icon">Core<wbr>Base</a></li>
+								<li class="tsd-kind-class"><a href="classes/coreutil.html" class="tsd-kind-icon">Core<wbr>Util</a></li>
+								<li class="tsd-kind-class"><a href="classes/datepicker.html" class="tsd-kind-icon">Date<wbr>Picker</a></li>
+								<li class="tsd-kind-class"><a href="classes/datepipe.html" class="tsd-kind-icon">Date<wbr>Pipe</a></li>
+								<li class="tsd-kind-class"><a href="classes/errorstate.html" class="tsd-kind-icon">Error<wbr>State</a></li>
+								<li class="tsd-kind-class"><a href="classes/formcontrol.html" class="tsd-kind-icon">Form<wbr>Control</a></li>
+								<li class="tsd-kind-class"><a href="classes/formservice.html" class="tsd-kind-icon">Form<wbr>Service</a></li>
+								<li class="tsd-kind-class"><a href="classes/formatutil.html" class="tsd-kind-icon">Format<wbr>Util</a></li>
+								<li class="tsd-kind-class"><a href="classes/functionkey.html" class="tsd-kind-icon">Function<wbr>Key</a></li>
+								<li class="tsd-kind-class"><a href="classes/groupbox.html" class="tsd-kind-icon">Group<wbr>Box</a></li>
+								<li class="tsd-kind-class"><a href="classes/httputil.html" class="tsd-kind-icon">Http<wbr>Util</a></li>
+								<li class="tsd-kind-class"><a href="classes/ionapiconstants.html" class="tsd-kind-icon">Ion<wbr>Api<wbr>Constants</a></li>
+								<li class="tsd-kind-class"><a href="classes/ionapiservice.html" class="tsd-kind-icon">Ion<wbr>Api<wbr>Service</a></li>
+								<li class="tsd-kind-class"><a href="classes/ionapiservicecore.html" class="tsd-kind-icon">Ion<wbr>Api<wbr>Service<wbr>Core</a></li>
+								<li class="tsd-kind-class"><a href="classes/label.html" class="tsd-kind-icon">Label</a></li>
+								<li class="tsd-kind-class"><a href="classes/list.html" class="tsd-kind-icon">List</a></li>
+								<li class="tsd-kind-class"><a href="classes/listcell.html" class="tsd-kind-icon">List<wbr>Cell</a></li>
+								<li class="tsd-kind-class"><a href="classes/listcolumn.html" class="tsd-kind-icon">List<wbr>Column</a></li>
+								<li class="tsd-kind-class"><a href="classes/listrow.html" class="tsd-kind-icon">List<wbr>Row</a></li>
+								<li class="tsd-kind-class"><a href="classes/log.html" class="tsd-kind-icon">Log</a></li>
+								<li class="tsd-kind-class"><a href="classes/m3odinmodule.html" class="tsd-kind-icon">M3<wbr>Odin<wbr>Module</a></li>
+								<li class="tsd-kind-class"><a href="classes/miconstants.html" class="tsd-kind-icon">MIConstants</a></li>
+								<li class="tsd-kind-class"><a href="classes/mirecord.html" class="tsd-kind-icon">MIRecord</a></li>
+								<li class="tsd-kind-class"><a href="classes/miservice.html" class="tsd-kind-icon">MIService</a></li>
+								<li class="tsd-kind-class"><a href="classes/miservicecore.html" class="tsd-kind-icon">MIService<wbr>Core</a></li>
+								<li class="tsd-kind-class"><a href="classes/miutil.html" class="tsd-kind-icon">MIUtil</a></li>
+								<li class="tsd-kind-class"><a href="classes/numutil.html" class="tsd-kind-icon">Num<wbr>Util</a></li>
+								<li class="tsd-kind-class"><a href="classes/option.html" class="tsd-kind-icon">Option</a></li>
+								<li class="tsd-kind-class"><a href="classes/panel.html" class="tsd-kind-icon">Panel</a></li>
+								<li class="tsd-kind-class"><a href="classes/position.html" class="tsd-kind-icon">Position</a></li>
+								<li class="tsd-kind-class"><a href="classes/stringutil.html" class="tsd-kind-icon">String<wbr>Util</a></li>
+								<li class="tsd-kind-class"><a href="classes/textbox.html" class="tsd-kind-icon">Text<wbr>Box</a></li>
+								<li class="tsd-kind-class"><a href="classes/userservice.html" class="tsd-kind-icon">User<wbr>Service</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface"><a href="interfaces/iapplicationservice.html" class="tsd-kind-icon">IApplication<wbr>Service</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/ibookmark.html" class="tsd-kind-icon">IBookmark</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/idateoptions.html" class="tsd-kind-icon">IDate<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/ienvironmentcontext.html" class="tsd-kind-icon">IEnvironment<wbr>Context</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/ierrorstate.html" class="tsd-kind-icon">IError<wbr>State</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iformcontrolinfo.html" class="tsd-kind-icon">IForm<wbr>Control<wbr>Info</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iformrequest.html" class="tsd-kind-icon">IForm<wbr>Request</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iformresponse.html" class="tsd-kind-icon">IForm<wbr>Response</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iformservice.html" class="tsd-kind-icon">IForm<wbr>Service</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/ihttprequest.html" class="tsd-kind-icon">IHttp<wbr>Request</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/ihttpresponse.html" class="tsd-kind-icon">IHttp<wbr>Response</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/ihttpservice.html" class="tsd-kind-icon">IHttp<wbr>Service</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iionapicontext.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Context</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iionapioptions.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iionapirequest.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Request</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iionapiresponse.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Response</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iionapiservice.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Service</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/ilogappender.html" class="tsd-kind-icon">ILog<wbr>Appender</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/imimetadatainfo.html" class="tsd-kind-icon">IMIMetadata<wbr>Info</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/imimetadatamap.html" class="tsd-kind-icon">IMIMetadata<wbr>Map</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/imioptions.html" class="tsd-kind-icon">IMIOptions</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/imirequest.html" class="tsd-kind-icon">IMIRequest</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/imiresponse.html" class="tsd-kind-icon">IMIResponse</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/imiservice.html" class="tsd-kind-icon">IMIService</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/inumberformatoptions.html" class="tsd-kind-icon">INumber<wbr>Format<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/isearchrequest.html" class="tsd-kind-icon">ISearch<wbr>Request</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/isortoptions.html" class="tsd-kind-icon">ISort<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iusercontext.html" class="tsd-kind-icon">IUser<wbr>Context</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iuserservice.html" class="tsd-kind-icon">IUser<wbr>Service</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class="globals current ">
+						<a href="index.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>

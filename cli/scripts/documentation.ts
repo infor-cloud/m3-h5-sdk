@@ -4,7 +4,6 @@ import * as c from './common';
 const name = 'M3 Odin';
 const moduleFormat = 'commonjs';
 const mode = 'file'; // modules | file
-const readMe = '../../README.md';
 const includes = [
    'core',
    'angular'
@@ -35,7 +34,7 @@ function generate(): void {
 
    const sourceFiles = includes.join(' ');
    const fullName = name + ' - ' + version;
-   let command = `typedoc --name "${fullName}" --readme "${readMe}" --mode ${mode} --module ${moduleFormat} --excludeExternals --externalPattern "*@angular*|*rxjs*" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out "${targetDirectory}" ${sourceFiles}`;
+   let command = `typedoc --name "${fullName}" --readme none --mode ${mode} --module ${moduleFormat} --excludeExternals --externalPattern "*@angular*|*rxjs*" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out "${targetDirectory}" ${sourceFiles}`;
    c.execSync(command);
 
    c.end(operation);

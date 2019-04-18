@@ -14,7 +14,6 @@
     var name = 'M3 Odin';
     var moduleFormat = 'commonjs';
     var mode = 'file'; // modules | file
-    var readMe = '../../README.md';
     var includes = [
         'core',
         'angular'
@@ -37,7 +36,7 @@
         process.chdir(sourceDirectory);
         var sourceFiles = includes.join(' ');
         var fullName = name + ' - ' + version;
-        var command = "typedoc --name \"" + fullName + "\" --readme \"" + readMe + "\" --mode " + mode + " --module " + moduleFormat + " --excludeExternals --externalPattern \"*@angular*|*rxjs*\" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out \"" + targetDirectory + "\" " + sourceFiles;
+        var command = "typedoc --name \"" + fullName + "\" --readme none --mode " + mode + " --module " + moduleFormat + " --excludeExternals --externalPattern \"*@angular*|*rxjs*\" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out \"" + targetDirectory + "\" " + sourceFiles;
         c.execSync(command);
         c.end(operation);
     }

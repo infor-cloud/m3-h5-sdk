@@ -4,7 +4,7 @@ Odin is a framework for building web applications for M3, that consists of three
 - Core API without any Angular dependencies that only requires RxJS
 - Angular services for M3 related functions such as: executing MI programs and bookmarks, retrieving user context and launching programs in H5 (the M3 client) if the application is running in a tab in H5.
 
-Odin is not a framework of UI components nor does it require the application developer to use a specific UI framework. There is however optional support for the Infor SoHo Xi controls using jQuery or Angular as well as Google Material.
+Odin is not a framework of UI components nor does it require the application developer to use a specific UI framework. There is however optional support for the Infor IDS controls (previously know as SoHo), using jQuery or Angular as well as Google Material.
 
 # Content
 
@@ -18,6 +18,7 @@ Odin is not a framework of UI components nor does it require the application dev
 * [Build](#build)
 * [Install in H5 (Infor M3)](#install)
 * [Code Examples](#code-examples)
+* [References](#references)
 
 # <a id="packages"></a> Packages
 The M3 Odin SDK consists of three different NPM packages. The packages are published to the NPM registry and can be installed through npm. See more details about package installation in the following sections.
@@ -25,11 +26,11 @@ The M3 Odin SDK consists of three different NPM packages. The packages are publi
 These are the names of the packages and their npm links:
 
 - @infor-up/m3-odin-cli
-   - https://www.npmjs.com/package/@infor-up/m3-odin-cli
+   - [https://www.npmjs.com/package/@infor-up/m3-odin-cli](https://www.npmjs.com/package/@infor-up/m3-odin-cli)
 - @infor-up/m3-odin
-   - https://www.npmjs.com/package/@infor-up/m3-odi
+   - [https://www.npmjs.com/package/@infor-up/m3-odi](https://www.npmjs.com/package/@infor-up/m3-odi)
 - @infor-up/m3-odin-angular
-   - https://www.npmjs.com/package/@infor-up/m3-odin-angular
+   - [https://www.npmjs.com/package/@infor-up/m3-odin-angular](https://www.npmjs.com/package/@infor-up/m3-odin-angular)
 
 # <a id="cli-install"></a> CLI installation
 The M3 Odin CLI is a command line interface for creating and working with projects. The CLI needs to be installed before it can be used.
@@ -48,9 +49,9 @@ odin -h
 ```
 
 # <a id="quick-start"></a> Quickstart
-The M3 Odin CLI can be used to create different types of projects. The quickstart shows how to create an Angular application project using the Infor IDS (SoHo) components.
+The M3 Odin CLI can be used to create different types of projects. The quickstart shows how to create an Angular application project using the Infor Design System (IDS) components.
 
-1. Navigate to a folder that should contain the project
+1. Navigate to a folder where you would like to create the project.
 2. Select a project name that adhere to the naming rules, we recommend characters and dashes (only, no space)
 3. Run the 'odin new' command and answer all the questions in the wizard. Choose no (which is the default) when asked if dependencies should be installed. Other questions include values for M3 H5 URL and ION API URL.
    ```
@@ -71,7 +72,7 @@ The M3 Odin CLI can be used to create different types of projects. The quickstar
 The M3 Odin CLI can be used to create different types of projects that includes different frameworks and functionality.
 
 ## Project names
-Note that the project names must adhere to the rules for the name property of a package.json file. A summary of the rules are that the name must start with a character, only contain lower case characters that are URL safe. We would recommend sticking to characters and dashes. More details about names can be found here https://docs.npmjs.com/files/package.json#name
+Note that the project names must adhere to the rules for the name property of a package.json file. A summary of the rules are that the name must start with a character, only contain lower case characters that are URL safe. We would recommend sticking to characters and dashes. More details about names can be found here [https://docs.npmjs.com/files/package.json#name](https://docs.npmjs.com/files/package.json#name)
 
 ## New task  wizard
 Navigate to the folder that should contain the project and open a command interface.
@@ -80,7 +81,7 @@ Run the following command to start the task wizard that can be used for the foll
 - Start development server
 - Build project for production
 
-## Angular project with SoHo XI
+## Angular project with IDS components
 Create a new project, where the project name will be the context root for the application if deployed in H5. Follow the wizard to create a new project.
 
 ```
@@ -103,21 +104,23 @@ odin new my-project-name
 # <a id="api-documentation"></a> API Documentation
 The generated API documentation can be viewed here:
 
-https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/
+[https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/](https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/)
 
 # <a id="code-editor"></a> Code Editor
-We recommend Visual Studio Code (https://code.visualstudio.com/) but any editor can be used.
+We recommend Visual Studio Code ([https://code.visualstudio.com/](https://code.visualstudio.com/)) but any editor can be used.
 
 # <a id="samples"></a> Samples
 The Odin framework has two sets of samples using Angular. The focus of the samples are not to showcase UI Components but to show how the Odin API is used.
 
 As Odin has no UI preference the samples are available using two different UI Component systems:
-- SoHo Xi (https://design.infor.com//)
-- Angular Material (https://material.angular.io/)
+- Infor Design System (IDS)
+   - [https://design.infor.com/](https://design.infor.com/)
+- Angular Material
+   - [https://material.angular.io/](https://material.angular.io/)
 
-SoHo Xi has two sets of components, one for jQuery and then those are wrapped into Angular SoHo Components. Please note that with Angular you should use the Angular components for SoHo.
+IDS has two sets of components, one for jQuery and then those are wrapped into Angular Components. Please note that with Angular you should use the Angular components for SoHo.
 
-The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip. The sample zip files can be downloaded from this directory: https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples
+The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip. The sample zip files can be downloaded from this directory: [https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples](https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples)
 
 ## How to run a sample
 The sample are packaged as an application. To run it unzip the sample zip and run it as an application.
@@ -352,3 +355,12 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
     });
   }
 ```
+
+# <a id="references"></a> References
+
+- Infor Design System
+   - [https://design.infor.com/](https://design.infor.com/)
+- Infor Design System's Enterprise Components
+   - [https://github.com/infor-design/enterprise](https://github.com/infor-design/enterprise)
+- Infor Design System's Enterprise Components for Angular
+   - [https://github.com/infor-design/enterprise-ng](https://github.com/infor-design/enterprise-ng)
