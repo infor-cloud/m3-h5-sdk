@@ -143,8 +143,8 @@ const inquireNewProject = async () => {
       type: 'input',
       message: 'What is the name of the project?',
       validate: (name) => {
-         if (name.match(/^[a-zA-Z0-9]+$/) === null) {
-            return 'The project name can only have letters and numbers';
+         if (name.match(/^[a-zA-Z0-9-]+$/) === null) {
+            return 'The project name can only have letters, numbers and dashes';
          } else if (fs.existsSync(name)) {
             return 'The directory already exists.';
          } else {
