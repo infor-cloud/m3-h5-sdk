@@ -8,6 +8,7 @@ type ISupportedAngularCommand = 'new' | 'serve' | 'build';
 
 export interface IOdinConfiguration extends Configuration {
    projectName?: string;
+   proxyFilename?: string;
 }
 
 export const removeSurroundingSlash = (text: string): string => {
@@ -73,6 +74,20 @@ export const readPackageJson = (cwd?: string): object => {
    const projectRoot = cwd || process.cwd();
    const packagePath = path.resolve(projectRoot, 'package.json');
    return fs.readJsonSync(packagePath);
+};
+
+/**
+* Find, read and parse the named configuration file.
+* It should look for the file in the current working directory.
+*/
+export const readProxyFile = function (filename: string): any {
+   const projectRoot = process.cwd();
+   const filePath = path.resolve(projectRoot, filename);
+   try {
+      return fs.readFileSync(filePath);
+   } catch (error) {
+      return null;
+   }
 };
 
 /**

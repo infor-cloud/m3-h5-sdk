@@ -1,9 +1,8 @@
 import { writeFileSync } from 'fs-extra';
-import * as os from 'os';
 import * as path from 'path';
 import * as webpack from 'webpack';
 import * as WebpackDevServer from 'webpack-dev-server';
-import { executeAngularCli, isAngularProject, readConfig } from '../utils';
+import { executeAngularCli, isAngularProject, readConfig, readProxyFile } from '../utils';
 import { baseConfig } from './webpack.config';
 
 
@@ -28,15 +27,43 @@ const addWebpackClientEntry = (config: webpack.Configuration, port: number): web
 };
 
 const serveBasicProject = async (options: IServeOptions) => {
+   console.log('Serve Basic project..');
+   const odinConfig = readConfig();
+   var proxyConfig = odinConfig.proxy;
+
+   var proxyConfigFilename = odinConfig.proxyFilename;
+   var isHot = false;
+   var proxy = odinConfig.proxy;
+
+   if (proxyConfigFilename) {
+      console.log('ProxyFileName = ' + proxyConfigFilename);
+      proxy = readProxyFile(proxyConfigFilename);
+      if (proxy) {
+         console.log('MT Proxy loaded');
+      }
+      else {
+         console.log('Empty proxy file ' + proxyConfigFilename);
+      }
+
+      baseConfig.devServer.proxy = proxy;
+      isHot = true;
+   }
+
    const configWithDevServerEntry = addWebpackClientEntry(baseConfig, options.port);
    const webpackCompiler = webpack(configWithDevServerEntry);
-   const odinConfig = readConfig();
-   delete odinConfig.projectName; // TODO: webpack-dev-server does not allow additional properties. Find another place to store projectName.
+
+   delete odinConfig.projectName;
+   delete odinConfig.proxyFilename;
+   odinConfig.proxy = proxy;
+
    const devServerConfig: WebpackDevServer.Configuration = odinConfig;
+   devServerConfig.proxy = proxy;
+   devServerConfig.hot = isHot;
    const server = new WebpackDevServer(webpackCompiler, {
       ...devServerConfig,
       overlay: true,
    });
+
    console.log(`Server is starting. Go to http://localhost:${options.port} in your browser.`);
    await new Promise((resolvePromise, rejectPromise) => {
       server.listen(options.port, (error?: Error) => {
@@ -50,11 +77,20 @@ const serveBasicProject = async (options: IServeOptions) => {
    });
 };
 
+
 const serveAngularProject = async (options: IServeOptions) => {
-   const proxyConfig = readConfig().proxy;
-   const proxyTmpPath = path.resolve(os.tmpdir(), 'odin_proxy.json');
-   writeFileSync(proxyTmpPath, JSON.stringify(proxyConfig));
-   await executeAngularCli('serve', '--port', `${options.port}`, '--proxy-config', proxyTmpPath);
+   var odinConfig = readConfig();
+   var proxyConfig = odinConfig.proxy;
+   var proxyConfigFilename = odinConfig.proxyFilename;
+   if (proxyConfigFilename) {
+      var filepath = path.resolve(process.cwd(), proxyConfigFilename);
+      await executeAngularCli('serve', '--port', `${options.port}`, '--proxy-config', filepath);
+   }
+   else {
+      var proxyTmpPath = path.resolve(process.cwd(), 'odin_proxy.json');
+      writeFileSync(proxyTmpPath, JSON.stringify(proxyConfig));
+      await executeAngularCli('serve', '--port', `${options.port}`, '--proxy-config', proxyTmpPath);
+   }
 };
 
 /**
