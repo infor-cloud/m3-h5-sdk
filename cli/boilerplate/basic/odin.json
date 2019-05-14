@@ -5,19 +5,27 @@
          "target": "ODIN_PROXY_TARGET",
          "secure": false,
          "changeOrigin": true,
-         "logLevel": "debug"
+         "logLevel": "debug",
+         "onProxyReq": "ODIN_MT_SET_ION_API_TOKEN",
+         "onProxyRes": "ODIN_MT_CHECK_ION_API_AUTHENTICATION",
+         "onError": "ODIN_MT_ON_ERROR"
       },
       "/mne": {
          "target": "ODIN_PROXY_TARGET",
          "secure": false,
          "changeOrigin": true,
-         "logLevel": "debug"
+         "logLevel": "debug",
+         "onProxyReq": "ODIN_MT_SET_MNE_COOKIES",
+         "onError": "ODIN_MT_ON_ERROR"
       },
       "/ca": {
          "target": "ODIN_PROXY_TARGET",
          "secure": false,
          "changeOrigin": true,
-         "logLevel": "debug"
+         "logLevel": "debug",
+         "onProxyReq": "ODIN_MT_SET_ION_API_TOKEN",
+         "onProxyRes": "ODIN_MT_CHECK_ION_API_AUTHENTICATION",
+         "onError": "ODIN_MT_ON_ERROR"
       },
       "/ODIN_DEV_TENANT": {
          "target": "ODIN_ION_PROXY_TARGET",
@@ -26,7 +34,10 @@
          "pathRewrite": {
             "^/ODIN_DEV_TENANT": "/ODIN_ION_PROXY_TENANT"
          },
-         "logLevel": "debug"
+         "logLevel": "debug",
+         "onProxyReq": "ODIN_MT_SET_ION_API_TOKEN",
+         "onProxyRes": "ODIN_MT_CHECK_ION_API_AUTHENTICATION",
+         "onError": "ODIN_MT_ON_ERROR"
       }
    }
 }

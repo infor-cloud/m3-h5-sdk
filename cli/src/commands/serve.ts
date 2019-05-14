@@ -1,4 +1,4 @@
-import { writeFileSync } from 'fs-extra';
+import { readFileSync, writeFileSync } from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as webpack from 'webpack';
@@ -15,7 +15,7 @@ export interface IServeOptions {
  * Add an entry for the Webpack Dev Server client in the given webpack config.
  * This is needed for live-reloading
  */
-const addWebpackClientEntry = (config: webpack.Configuration, port: number): webpack.Configuration => {
+function addWebpackClientEntry(config: webpack.Configuration, port: number): webpack.Configuration {
    const clientAddress = `http://localhost:${port}`;
    const webpackClientEntry = `${require.resolve('webpack-dev-server/client')}?${clientAddress}`;
    const newConfig = { ...config };
@@ -25,9 +25,9 @@ const addWebpackClientEntry = (config: webpack.Configuration, port: number): web
       newConfig.entry = [...newConfig.entry, webpackClientEntry];
    }
    return newConfig;
-};
+}
 
-const serveBasicProject = async (options: IServeOptions) => {
+async function serveBasicProject(options: IServeOptions) {
    const configWithDevServerEntry = addWebpackClientEntry(baseConfig, options.port);
    const webpackCompiler = webpack(configWithDevServerEntry);
    const odinConfig = readConfig();
@@ -48,21 +48,37 @@ const serveBasicProject = async (options: IServeOptions) => {
          }
       });
    });
-};
+}
 
-const serveAngularProject = async (options: IServeOptions) => {
+async function serveAngularProject(options: IServeOptions) {
    const proxyConfig = readConfig().proxy;
-   const proxyTmpPath = path.resolve(os.tmpdir(), 'odin_proxy.json');
-   writeFileSync(proxyTmpPath, JSON.stringify(proxyConfig));
+   const proxyTmpPath = path.resolve(os.tmpdir(), 'odin_proxy.js');
+   const mtToolContent = readFileSync(require.resolve('../mtauth')).toString();
+   const configContent = JSON.stringify(proxyConfig)
+      .replace(/\"ODIN_MT_SET_MNE_COOKIES\"/g, 'function (...args) { authenticator.setMNECookies(...args) }')
+      .replace(/\"ODIN_MT_SET_ION_API_TOKEN\"/g, 'function (...args) { authenticator.setIONAPIToken(...args) }')
+      .replace(/\"ODIN_MT_CHECK_ION_API_AUTHENTICATION\"/g, 'function (...args) { authenticator.checkIONAPIAuthentication(...args) }')
+      .replace(/\"ODIN_MT_ON_ERROR\"/g, 'function (...args) { authenticator.onError(...args) }');
+   const fileContent = mtToolContent.replace(/CONFIG_PLACEHOLDER/, configContent);
+   // const fileContent = `
+   //    function onProxyReq (proxyReq) {
+   //       console.log("onProxyReq", proxyReq);
+   //    }
+   //    function onProxyRes (proxyRes) {
+   //       console.log("onProxyRes", proxyRes);
+   //    }
+   //    module.exports = ${JSON.stringify(proxyConfig).replace(/\"ODIN_ON_PROXY_REQ\"/g, 'onProxyReq').replace(/\"ODIN_ON_PROXY_RES\"/g, 'onProxyRes')}
+   // `;
+   writeFileSync(proxyTmpPath, fileContent);
    await executeAngularCli('serve', '--port', `${options.port}`, '--proxy-config', proxyTmpPath);
-};
+}
 
 /**
  * Start the development server.
  *
  * NOTE: This function will never return.
  */
-export const serveProject = async (options: IServeOptions) => {
+export async function serveProject(options: IServeOptions) {
    if (isAngularProject()) {
       await serveAngularProject(options);
    } else {
