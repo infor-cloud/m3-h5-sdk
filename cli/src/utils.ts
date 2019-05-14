@@ -14,7 +14,7 @@ export const removeSurroundingSlash = (text: string): string => {
    return text.replace(/^\//, '').replace(/\/$/, '');
 };
 
-export const isValidProxyUrl = (url: string) => url.match(/^https?:\/\/[^:\/]+(:\d+)?$/) !== null;
+export const isValidProxyUrl = (url: string) => url.match(/^https?:\/\/[^:\/]+(:\d+)?(\/.*)?$/) !== null;
 
 export const executeAngularCli = async (command: ISupportedAngularCommand, ...options: string[]) => {
    await new Promise((resolveFun, rejectFun) => {
