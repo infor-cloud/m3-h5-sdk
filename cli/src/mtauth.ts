@@ -1,103 +1,19 @@
+/**
+ * This module is only to be used when serving projects together with the Multi-Tenant
+ * proxy tool. It must be a stand-alone module, with no 3rd party dependencies (there will be no node_modules).
+ * It contains some code that will be replaced at runtime.
+ */
+
 import * as fs from 'fs';
 import { ClientRequest, IncomingMessage, ServerResponse } from 'http';
 import * as os from 'os';
 import * as path from 'path';
 
-// const store = {
-//    tokenExpirationTimestamp: new Date(),
-//    tokenIONAPI: '',
-//    mneCookies: '',
-//    validCookies: false,
-// };
-
-// function checkIONAPIAuthentication(proxyResponse: IncomingMessage, incomingMessage: IncomingMessage, serverResponse: ServerResponse) {
-//    const authResponse = proxyResponse.headers['www-authenticate'];
-//    if (authResponse && authResponse.includes('error')) {
-//       console.log('ION API authentication failed ' + authResponse);
-//       // Force update of reading tokenfile
-//       store.tokenExpirationTimestamp = new Date();
-//       return false;
-//    }
-//    return true;
-// }
-
-// function readAuthHeaderFile() {
-//    const projectRoot = process.cwd();
-//    const filePath = path.resolve(projectRoot, 'authorizationheader.json');
-//    try {
-//       return fs.readJsonSync(filePath);
-//    } catch (error) {
-//       console.log('The ION API Token file not found. ' + error);
-//       return undefined;
-//    }
-// }
-
-// function setIONAPIToken(clientRequest: ClientRequest, incomingMessage: IncomingMessage, serverResponse: ServerResponse) {
-//    if (new Date() >= store.tokenExpirationTimestamp) {
-//       console.log('Authorization header file must be read.');
-//       const json = readAuthHeaderFile();
-//       if (json) {
-//          try {
-//             store.tokenIONAPI = json.authorizationHeader;
-//             store.tokenExpirationTimestamp = new Date(json.expirationTimestamp);
-//             console.log('Header = ' + store.tokenIONAPI);
-//             console.log('Expires = ' + store.tokenExpirationTimestamp);
-//          } catch (error) {
-//             console.log('Failed to access the ION API Token . ' + error);
-//          }
-//       } else {
-//          console.log('The ION API Token is missing.');
-//       }
-//    }
-//    try {
-//       clientRequest.setHeader('Authorization', store.tokenIONAPI);
-//    } catch (error) {
-//       console.log('Failed to set the ION API Token to the Authorization header. ' + error);
-//    }
-// }
-
-// function readCookieHeaderFile() {
-//    const projectRoot = process.cwd();
-//    const filePath = path.resolve(projectRoot, 'cookieheader.json');
-//    console.log('readCookieHeader: filepath: ' + filePath);
-//    try {
-//       return fs.readFileSync(filePath).toString();
-//    } catch (error) {
-//       console.log('The ION API Token file not found. ' + error);
-//       return undefined;
-//    }
-// }
-
-// function setMNECookies(clientRequest: ClientRequest, incomingMessage: IncomingMessage, serverResponse: ServerResponse) {
-//    if (!store.validCookies) {
-//       console.log('Cookie header file must be read.');
-//       const cookieString = readCookieHeaderFile();
-//       console.log('Cookie = ' + cookieString);
-//       if (cookieString) {
-//          store.mneCookies = cookieString;
-//          store.validCookies = true;
-//       }
-//    }
-
-//    try {
-//       clientRequest.setHeader('cookie', store.mneCookies);
-//    } catch (error) {
-//       console.log('Failed to set the cookies to the Cookie header. ' + error);
-//       store.mneCookies = '';
-//       store.validCookies = false;
-//    }
-// }
-
-// function onError(src: string, err: Error, response: ServerResponse) {
-//    console.log('onError ' + src + ' ' + new Date().toTimeString());
-//    console.log(err);
-// }
-
 /**
  * Methods of this interface will be called by untyped JS. Be very careful when changing this interface, as TypeScript may not be aware of
  * the usage.
  */
-interface Authenticator {
+export interface Authenticator {
    /**
     * placeholder: ODIN_MT_SET_MNE_COOKIES
     */
@@ -221,6 +137,7 @@ class MultiTenantAuthenticator implements Authenticator {
    }
 }
 
+// NOTE: This object is used by untyped generated code. Careful when modifying.
 const authenticator = new MultiTenantAuthenticator();
 
 // @ts-ignore

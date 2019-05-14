@@ -18,14 +18,13 @@ const exit = (message?: string, outputHelp = true) => {
    process.exit(1);
 };
 
-const wrapServe = async (port = 8080) => {
+const wrapServe = async (options: IServeOptions) => {
    if (!fs.existsSync('odin.json')) {
       exit('Could not find an Odin configuration file.', false);
    }
    console.log('Starting Dev Server...');
-   const serveOptions: IServeOptions = { port };
    try {
-      await serveProject(serveOptions);
+      await serveProject(options);
    } catch (error) {
       console.error(error);
       exit('Serving was aborted because of an error', false);
@@ -106,8 +105,12 @@ program
    .command('serve')
    .description('Start web server and builder')
    .option('-p, --port <port>', 'Port to listen on')
+   .option('-m, --multi-tenant', 'Enable Multi-Tenant proxy')
    .action(async (options) => {
-      await wrapServe(options.port);
+      await wrapServe({
+         port: options.port || 8080,
+         multiTenant: Boolean(options.multiTenant),
+      });
    });
 
 program
@@ -248,9 +251,16 @@ const inquireServeProject = async () => {
          }
       }
    };
-   const answers = await inquirer.prompt([portQuestion]);
-   const parsedPort = parseInt(answers.port, 10);
-   await wrapServe(parsedPort);
+   const mtQuestion: inquirer.Question = {
+      name: 'multiTenant',
+      type: 'confirm',
+      default: false,
+      message: 'Enable Multi-Tenant proxy?'
+   };
+   const answers = await inquirer.prompt([portQuestion, mtQuestion]);
+   const port = parseInt(answers.port, 10);
+   const multiTenant = Boolean(answers.multiTenant);
+   await wrapServe({ port, multiTenant });
 };
 
 const inquireCommand = async () => {

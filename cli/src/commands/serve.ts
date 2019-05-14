@@ -9,22 +9,7 @@ import { baseConfig } from './webpack.config';
 
 export interface IServeOptions {
    port: number;
-}
-
-/**
- * Add an entry for the Webpack Dev Server client in the given webpack config.
- * This is needed for live-reloading
- */
-function addWebpackClientEntry(config: webpack.Configuration, port: number): webpack.Configuration {
-   const clientAddress = `http://localhost:${port}`;
-   const webpackClientEntry = `${require.resolve('webpack-dev-server/client')}?${clientAddress}`;
-   const newConfig = { ...config };
-   if (typeof newConfig.entry === 'string') {
-      newConfig.entry = [newConfig.entry, webpackClientEntry];
-   } else if (Array.isArray(newConfig.entry)) {
-      newConfig.entry = [...newConfig.entry, webpackClientEntry];
-   }
-   return newConfig;
+   multiTenant: boolean;
 }
 
 async function serveBasicProject(options: IServeOptions) {
@@ -52,23 +37,12 @@ async function serveBasicProject(options: IServeOptions) {
 
 async function serveAngularProject(options: IServeOptions) {
    const proxyConfig = readConfig().proxy;
-   const proxyTmpPath = path.resolve(os.tmpdir(), 'odin_proxy.js');
-   const mtToolContent = readFileSync(require.resolve('../mtauth')).toString();
-   const configContent = JSON.stringify(proxyConfig)
-      .replace(/\"ODIN_MT_SET_MNE_COOKIES\"/g, 'function (...args) { authenticator.setMNECookies(...args) }')
-      .replace(/\"ODIN_MT_SET_ION_API_TOKEN\"/g, 'function (...args) { authenticator.setIONAPIToken(...args) }')
-      .replace(/\"ODIN_MT_CHECK_ION_API_AUTHENTICATION\"/g, 'function (...args) { authenticator.checkIONAPIAuthentication(...args) }')
-      .replace(/\"ODIN_MT_ON_ERROR\"/g, 'function (...args) { authenticator.onError(...args) }');
-   const fileContent = mtToolContent.replace(/CONFIG_PLACEHOLDER/, configContent);
-   // const fileContent = `
-   //    function onProxyReq (proxyReq) {
-   //       console.log("onProxyReq", proxyReq);
-   //    }
-   //    function onProxyRes (proxyRes) {
-   //       console.log("onProxyRes", proxyRes);
-   //    }
-   //    module.exports = ${JSON.stringify(proxyConfig).replace(/\"ODIN_ON_PROXY_REQ\"/g, 'onProxyReq').replace(/\"ODIN_ON_PROXY_RES\"/g, 'onProxyRes')}
-   // `;
+   if (!isProxyConfig(proxyConfig)) {
+      throw new Error('Proxy config is invalid.');
+   }
+   const proxyFile = options.multiTenant ? multiTenantProxyFile(proxyConfig) : standardProxyFile(proxyConfig);
+   const proxyTmpPath = path.resolve(os.tmpdir(), proxyFile.name);
+   const fileContent = proxyFile.content;
    writeFileSync(proxyTmpPath, fileContent);
    await executeAngularCli('serve', '--port', `${options.port}`, '--proxy-config', proxyTmpPath);
 }
@@ -84,4 +58,53 @@ export async function serveProject(options: IServeOptions) {
    } else {
       await serveBasicProject(options);
    }
-};
+}
+
+function multiTenantProxyFile(proxyConfig: ProxyConfig) {
+   const ionPaths = ['/m3api-rest', '/ca', '/ODIN_DEV_TENANT'];
+   const mnePath = '/mne';
+   ionPaths.forEach(ionPath => Object.assign(proxyConfig[ionPath], {
+      onProxyReq: 'ODIN_MT_SET_ION_API_TOKEN',
+      onProxyRes: 'ODIN_MT_CHECK_ION_API_AUTHENTICATION',
+      onError: 'ODIN_MT_ON_ERROR',
+   }));
+   Object.assign(proxyConfig[mnePath], {
+      onProxyReq: 'ODIN_MT_SET_MNE_COOKIES',
+      onError: 'ODIN_MT_ON_ERROR',
+   });
+
+   const mtToolContent = readFileSync(require.resolve('../mtauth')).toString();
+   const configContent = JSON.stringify(proxyConfig)
+      .replace(/\"ODIN_MT_SET_MNE_COOKIES\"/g, 'function (...args) { authenticator.setMNECookies(...args) }')
+      .replace(/\"ODIN_MT_SET_ION_API_TOKEN\"/g, 'function (...args) { authenticator.setIONAPIToken(...args) }')
+      .replace(/\"ODIN_MT_CHECK_ION_API_AUTHENTICATION\"/g, 'function (...args) { authenticator.checkIONAPIAuthentication(...args) }')
+      .replace(/\"ODIN_MT_ON_ERROR\"/g, 'function (...args) { authenticator.onError(...args) }');
+   const fileContent = mtToolContent.replace(/CONFIG_PLACEHOLDER/, configContent);
+   return { content: fileContent, name: 'odin_proxy.js' };
+}
+
+function standardProxyFile(proxyConfig: ProxyConfig) {
+   return { content: JSON.stringify(proxyConfig), name: 'odin_proxy.json' };
+}
+
+type PossibleProxyConfig = WebpackDevServer.proxyConfigMap | WebpackDevServer.proxyConfigArrayItem[] | undefined;
+type ProxyConfig = WebpackDevServer.proxyConfigMap;
+function isProxyConfig(proxy: PossibleProxyConfig): proxy is ProxyConfig {
+   return proxy !== undefined && !Array.isArray(proxy);
+}
+
+/**
+ * Add an entry for the Webpack Dev Server client in the given webpack config.
+ * This is needed for live-reloading
+ */
+function addWebpackClientEntry(config: webpack.Configuration, port: number): webpack.Configuration {
+   const clientAddress = `http://localhost:${port}`;
+   const webpackClientEntry = `${require.resolve('webpack-dev-server/client')}?${clientAddress}`;
+   const newConfig = { ...config };
+   if (typeof newConfig.entry === 'string') {
+      newConfig.entry = [newConfig.entry, webpackClientEntry];
+   } else if (Array.isArray(newConfig.entry)) {
+      newConfig.entry = [...newConfig.entry, webpackClientEntry];
+   }
+   return newConfig;
+}
