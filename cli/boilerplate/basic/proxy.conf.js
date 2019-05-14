@@ -13,8 +13,7 @@ checkIONAPIAuthentication = function (proxyResponse, incomingMessage, serverResp
 };
 
 readAuthHeaderFile = function () {
-   const projectRoot = process.cwd();
-   const filePath = path.resolve(projectRoot, 'authorizationheader.json');
+   const filePath = path.resolve(os.tmpdir(), 'authorizationheader.json');
    try {
       return fs.readJsonSync(filePath);
    }
@@ -55,8 +54,7 @@ setIONAPIToken = function (clientRequest, incomingMessage, serverResponse) {
 };
 
 readCookieHeaderFile = function () {
-   const projectRoot = process.cwd();
-   const filePath = path.resolve(projectRoot, 'cookieheader.json');
+   const filePath = path.resolve(os.tmpdir(), 'cookieheader.json');
    console.log('readCookieHeader: filepath: ' + filePath);
    try {
       return fs.readFileSync(filePath).toString();
