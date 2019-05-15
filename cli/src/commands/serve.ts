@@ -61,17 +61,12 @@ export async function serveProject(options: IServeOptions) {
 }
 
 function multiTenantProxyFile(proxyConfig: ProxyConfig) {
-   const ionPaths = ['/m3api-rest', '/ca', '/ODIN_DEV_TENANT'];
-   const mnePath = '/mne';
-   ionPaths.forEach(ionPath => Object.assign(proxyConfig[ionPath], {
-      onProxyReq: 'ODIN_MT_SET_ION_API_TOKEN',
-      onProxyRes: 'ODIN_MT_CHECK_ION_API_AUTHENTICATION',
-      onError: 'ODIN_MT_ON_ERROR',
-   }));
-   Object.assign(proxyConfig[mnePath], {
-      onProxyReq: 'ODIN_MT_SET_MNE_COOKIES',
-      onError: 'ODIN_MT_ON_ERROR',
-   });
+   addMneProxyPlaceholders('/mne');
+   addIonProxyPlaceholders('/m3api-rest');
+   addIonProxyPlaceholders('/ca');
+   addIonProxyPlaceholders('/ODIN_DEV_TENANT');
+   rewritePath('/m3api-rest', '/M3/m3api-rest');
+   rewritePath('/ca', '/IDM');
 
    const mtToolContent = readFileSync(require.resolve('../mtauth')).toString();
    const configContent = JSON.stringify(proxyConfig)
@@ -81,6 +76,28 @@ function multiTenantProxyFile(proxyConfig: ProxyConfig) {
       .replace(/\"ODIN_MT_ON_ERROR\"/g, 'function (...args) { authenticator.onError(...args) }');
    const fileContent = mtToolContent.replace(/CONFIG_PLACEHOLDER/, configContent);
    return { content: fileContent, name: 'odin_proxy.js' };
+
+   function rewritePath(originalPath: string, newPath: string) {
+      const pathConfig = proxyConfig[originalPath];
+      if (typeof pathConfig !== 'string' && !pathConfig.pathRewrite) {
+         pathConfig.pathRewrite = { [originalPath]: newPath };
+      }
+   }
+
+   function addIonProxyPlaceholders(apiPath: string) {
+      Object.assign(proxyConfig[apiPath], {
+         onProxyReq: 'ODIN_MT_SET_ION_API_TOKEN',
+         onProxyRes: 'ODIN_MT_CHECK_ION_API_AUTHENTICATION',
+         onError: 'ODIN_MT_ON_ERROR',
+      });
+   }
+
+   function addMneProxyPlaceholders(apiPath: string) {
+      Object.assign(proxyConfig[apiPath], {
+         onProxyReq: 'ODIN_MT_SET_MNE_COOKIES',
+         onError: 'ODIN_MT_ON_ERROR',
+      });
+   }
 }
 
 function standardProxyFile(proxyConfig: ProxyConfig) {
