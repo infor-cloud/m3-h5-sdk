@@ -77,6 +77,9 @@ function multiTenantProxyFile(proxyConfig: ProxyConfig, useIonApi?: boolean) {
       addIonProxyPlaceholders('/ODIN_DEV_TENANT');
       rewritePath('/m3api-rest', '/M3/m3api-rest');
       rewritePath('/ca', '/IDM');
+   } else {
+      addMneProxyPlaceholders('/m3api-rest');
+      addMneProxyPlaceholders('/ca');
    }
 
    const mtToolContent = readFileSync(require.resolve('../mtauth')).toString();
@@ -90,8 +93,9 @@ function multiTenantProxyFile(proxyConfig: ProxyConfig, useIonApi?: boolean) {
 
    function rewritePath(originalPath: string, newPath: string) {
       const pathConfig = proxyConfig[originalPath];
+      const pattern = `^${originalPath}`;
       if (typeof pathConfig !== 'string' && !pathConfig.pathRewrite) {
-         pathConfig.pathRewrite = { [originalPath]: newPath };
+         pathConfig.pathRewrite = { [pattern]: newPath };
       }
    }
 
