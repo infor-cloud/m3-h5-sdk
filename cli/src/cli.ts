@@ -106,10 +106,12 @@ program
    .description('Start web server and builder')
    .option('-p, --port <port>', 'Port to listen on')
    .option('-m, --multi-tenant', 'Enable Multi-Tenant proxy')
+   .option('-i, --ion-api', 'Use ION API for Multi-Tenant proxy requests')
    .action(async (options) => {
       await wrapServe({
          port: options.port || 8080,
          multiTenant: Boolean(options.multiTenant),
+         ionApi: Boolean(options.ionApi),
       });
    });
 
@@ -257,10 +259,18 @@ const inquireServeProject = async () => {
       default: false,
       message: 'Enable Multi-Tenant proxy?'
    };
-   const answers = await inquirer.prompt([portQuestion, mtQuestion]);
+   const ionQuestion: inquirer.Question = {
+      name: 'ionApi',
+      type: 'confirm',
+      default: false,
+      when: (previousAnswers => Boolean(previousAnswers.multiTenant)),
+      message: 'Use ION API for Multi-Tenant proxy requests?'
+   };
+   const answers = await inquirer.prompt([portQuestion, mtQuestion, ionQuestion]);
    const port = parseInt(answers.port, 10);
    const multiTenant = Boolean(answers.multiTenant);
-   await wrapServe({ port, multiTenant });
+   const ionApi = Boolean(answers.ionApi);
+   await wrapServe({ port, multiTenant, ionApi });
 };
 
 const inquireCommand = async () => {

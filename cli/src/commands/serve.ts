@@ -10,6 +10,7 @@ import { baseConfig } from './webpack.config';
 export interface IServeOptions {
    port: number;
    multiTenant: boolean;
+   ionApi: boolean;
 }
 
 async function serveBasicProject(options: IServeOptions) {
@@ -40,7 +41,7 @@ async function serveAngularProject(options: IServeOptions) {
    if (!isProxyConfig(proxyConfig)) {
       throw new Error('Proxy config is invalid.');
    }
-   const proxyFile = options.multiTenant ? multiTenantProxyFile(proxyConfig) : standardProxyFile(proxyConfig);
+   const proxyFile = prepareProxyFile(proxyConfig, options);
    const proxyTmpPath = path.resolve(os.tmpdir(), proxyFile.name);
    const fileContent = proxyFile.content;
    writeFileSync(proxyTmpPath, fileContent);
@@ -60,13 +61,23 @@ export async function serveProject(options: IServeOptions) {
    }
 }
 
-function multiTenantProxyFile(proxyConfig: ProxyConfig) {
+function prepareProxyFile(proxyConfig: ProxyConfig, options: IServeOptions) {
+   if (options.multiTenant) {
+      return multiTenantProxyFile(proxyConfig, options.ionApi);
+   } else {
+      return standardProxyFile(proxyConfig);
+   }
+}
+
+function multiTenantProxyFile(proxyConfig: ProxyConfig, useIonApi?: boolean) {
    addMneProxyPlaceholders('/mne');
-   addIonProxyPlaceholders('/m3api-rest');
-   addIonProxyPlaceholders('/ca');
-   addIonProxyPlaceholders('/ODIN_DEV_TENANT');
-   rewritePath('/m3api-rest', '/M3/m3api-rest');
-   rewritePath('/ca', '/IDM');
+   if (useIonApi) {
+      addIonProxyPlaceholders('/m3api-rest');
+      addIonProxyPlaceholders('/ca');
+      addIonProxyPlaceholders('/ODIN_DEV_TENANT');
+      rewritePath('/m3api-rest', '/M3/m3api-rest');
+      rewritePath('/ca', '/IDM');
+   }
 
    const mtToolContent = readFileSync(require.resolve('../mtauth')).toString();
    const configContent = JSON.stringify(proxyConfig)
