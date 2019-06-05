@@ -62,10 +62,29 @@ export async function serveProject(options: IServeOptions) {
 }
 
 function prepareProxyFile(proxyConfig: ProxyConfig, options: IServeOptions) {
+   setHeaders('/mne');
    if (options.multiTenant) {
       return multiTenantProxyFile(proxyConfig, options.ionApi);
    } else {
       return standardProxyFile(proxyConfig);
+   }
+
+   function setHeaders(apiPath: string) {
+      const pathConfig = proxyConfig[apiPath];
+      if (typeof pathConfig === 'object') {
+         const target = pathConfig.target;
+         if (target) {
+            pathConfig.headers = {
+               ...pathConfig.headers,
+               Origin: target,
+               Referer: `${target}/odin-dev-proxy`
+            };
+         } else {
+            console.warn(`Cannot set headers in config for '${apiPath}' since it has no target.`);
+         }
+      } else {
+         console.warn(`Cannot set headers in config for '${apiPath}' since it is not an object.`);
+      }
    }
 }
 
