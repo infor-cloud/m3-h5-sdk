@@ -8,6 +8,8 @@ type ISupportedAngularCommand = 'new' | 'serve' | 'build';
 
 export interface IOdinConfiguration extends Configuration {
    projectName?: string;
+   m3Url?: string;
+   tenantUrl?: string;
 }
 
 export const removeSurroundingSlash = (text: string): string => {

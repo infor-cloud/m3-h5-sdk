@@ -33,6 +33,7 @@ export const configureProxy = (url: string, config: IOdinConfiguration) => {
       configureProxyEntry(url, '/m3api-rest', config);
       configureProxyEntry(url, '/mne', config);
       configureProxyEntry(url, '/ca', config);
+      config.m3Url = url;
    } else {
       throw new Error(`Could not parse URL '${url}'. It should match: http(s)://example.com(:port)`);
    }
@@ -43,6 +44,7 @@ export const configureIonProxy = (fullUrl: string, config: IOdinConfiguration) =
    if (match !== null) {
       const [_, url, tenant] = match;
       configureProxyEntry(url, '/ODIN_DEV_TENANT', config, `/${tenant}`);
+      config.tenantUrl = `${url}/${tenant}`;
    } else {
       throw new Error(`Could not parse URL '${fullUrl}'. It should match: http(s)://domain(:port)/tenant`);
    }
