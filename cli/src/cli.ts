@@ -3,7 +3,7 @@
 import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
-import { buildProject, INewProjectOptions, IServeOptions, newProject, serveProject, setConfiguration } from './commands';
+import { buildProject, INewProjectOptions, IServeOptions, login, newProject, serveProject, setConfiguration } from './commands';
 import { isValidProxyUrl } from './utils';
 
 const versionNumber = require('../package.json').version;
@@ -140,6 +140,15 @@ program
          console.error(error);
          exit('Configuration failed', false);
       }
+   });
+
+program
+   .command('login')
+   .description('Log in to the configured environment')
+   .action(async () => {
+      console.log('Logging in to the configured environment. A separate browser window will open with the login screen.');
+      await login();
+      console.log('Done! You can now start the development server with \'odin serve --multi-tenant\'');
    });
 
 const inquireNewProject = async () => {
