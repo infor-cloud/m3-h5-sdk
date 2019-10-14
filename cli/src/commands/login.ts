@@ -29,7 +29,7 @@ async function loginCloud(page: Page) {
 }
 
 async function waitForSessionId(page: Page) {
-   return new Promise<string>((resolve, reject) => {
+   return new Promise<string>((resolvePromise, rejectPromise) => {
       const intervalId = setInterval(async () => {
          try {
             const cookies = await getAllCookies(page);
@@ -40,11 +40,11 @@ async function waitForSessionId(page: Page) {
                   .map(({ name, value }) => `${name}=${value};`)
                   .join(' ');
                clearInterval(intervalId);
-               resolve(mneCookies);
+               resolvePromise(mneCookies);
             }
          } catch (error) {
             clearInterval(intervalId);
-            reject(error);
+            rejectPromise(error);
          }
       }, 1000);
    });
@@ -85,7 +85,7 @@ function getTenantUrl() {
    const config = readConfig();
    const tenantUrl = config.tenantUrl;
    if (!tenantUrl || !tenantUrl.length) {
-      throw new Error("No Tenant URL is configured.");
+      throw new Error('No Tenant URL is configured.');
    }
    return tenantUrl;
 }
