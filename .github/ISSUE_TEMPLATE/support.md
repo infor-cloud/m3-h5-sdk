@@ -1,6 +1,6 @@
 ---
 name: Support
-about: Template for asking questions
+about: Ask a question
 title: ''
 labels: question
 assignees: ''
