@@ -3,7 +3,7 @@ import { CoreBase } from '../base';
 import { AjaxHttpService } from '../http';
 import { IUserContext, IUserService } from '../m3/types';
 import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
-import { CoreUtil, StringUtil } from '../util';
+import { CoreUtil, HttpUtil, StringUtil } from '../util';
 import { Bookmark, FormResponse, IFormRequest, IFormResponse, ITranslationJob, ITranslationRequest, ITranslationResponse } from './base';
 import { FormParser, XmlUtil } from './parser';
 import { Translator } from './runtime';
@@ -226,7 +226,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
          } else {
             context.isMultiTenant = !(tenantId === 'infor');
             if (!StringUtil.isNullOrEmpty(ionApiUrl)) {
-               context.ionApiUrl = ionApiUrl;
+               context.ionApiUrl = HttpUtil.combine(ionApiUrl, tenantId);
             }
             if (!StringUtil.isNullOrEmpty(version)) {
                context.version = version;
