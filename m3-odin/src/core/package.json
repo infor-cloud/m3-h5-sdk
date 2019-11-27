@@ -1,7 +1,7 @@
 {
    "name": "@infor-up/m3-odin",
    "private": false,
-   "version": "2.1.1",
+   "version": "2.1.2",
    "description": "Odin for M3 web application development.",
    "main": "dist/index.js",
    "types": "dist/index.d.ts",

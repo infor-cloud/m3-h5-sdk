@@ -11,8 +11,8 @@
    "author": "",
    "license": "UNLICENSED",
    "devDependencies": {
-      "@infor-up/m3-odin-cli": "2.1.1",
-      "@infor-up/m3-odin": "2.1.1",
+      "@infor-up/m3-odin-cli": "2.1.2",
+      "@infor-up/m3-odin": "2.1.2",
       "rxjs": "^6.0.0",
       "typescript": "~3.1.6"
    }
