@@ -212,10 +212,10 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
          }
          // Check if URL has been set if not try and get it from h5
          if (StringUtil.isNullOrEmpty(context.getUrl())) {
-            const message = 'ION base url is not set. ' + this.isDev ?
+            const message = 'ION base url is not set. ' + (this.isDev ?
                // tslint:disable-next-line:max-line-length
                'Using relative path in Dev mode, in production the ION URL can be set with setUrl, if not set it will be automatically retreived from H5.' :
-               'getEnvironmentContext will be called to lookup ION URL';
+               'getEnvironmentContext will be called to lookup ION URL');
             this.logInfo(message);
             this.formService.getEnvironmentContext().subscribe((envContext) => {
                const baseUrl = envContext.ionApiUrl;
@@ -224,7 +224,9 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
                   this.logError('loadToken:  Failed to resolve ION Base URL. ION Base URL is null. Verify that it has been set as a grid property in the MUA Server, or set it by calling setUrl.');
                   this.reject(pending, response);
                } else {
-                  this.resolve(pending, context);
+                  this.setUrl(baseUrl);
+                  this.context = new IonApiContext(this.url, context.getToken());
+                  this.resolve(pending, this.context);
                }
             },
                (err) => {

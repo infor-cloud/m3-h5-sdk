@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApplicationServiceCore, CoreBase, FormServiceCore, IApplicationService, IBookmark, IEnvironmentContext, IFormRequest, IFormResponse, IFormService, IHttpRequest, IHttpResponse, IHttpService, IIonApiContext, IIonApiOptions, IIonApiRequest, IIonApiResponse, IIonApiService, IMIRequest, IMIResponse, IMIService, ISearchRequest, ITranslationRequest, ITranslationResponse, IUserContext, IUserService, IonApiServiceCore, MIServiceCore, UserServiceCore } from '@infor-up/m3-odin';
+import { ApplicationServiceCore, CoreBase, FormServiceCore, IApplicationService, IBookmark, IEnvironmentContext, IFormRequest, IFormResponse, IFormService, IHttpRequest, IHttpResponse, IHttpService, IIonApiContext, IIonApiOptions, IIonApiRequest, IIonApiResponse, IIonApiService, IMIRequest, IMIResponse, IMIService, IonApiServiceCore, ISearchRequest, ITranslationRequest, ITranslationResponse, IUserContext, IUserService, MIServiceCore, UserServiceCore } from '@infor-up/m3-odin';
 import { Observable } from 'rxjs';
 
 
@@ -285,6 +285,7 @@ class HttpServiceWrapper implements IHttpService {
    execute(request: IHttpRequest): Observable<IHttpResponse> {
       return this.http.request(request.method, request.url, {
          body: request.body,
+         responseType: request.responseType,
          headers: request.headers,
          reportProgress: false,
          withCredentials: true,
