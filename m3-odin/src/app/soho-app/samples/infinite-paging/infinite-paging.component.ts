@@ -7,7 +7,7 @@ import { CustomerPagingService, IPagingResult } from './customer-paging.service'
    templateUrl: './infinite-paging.component.html'
 })
 export class InfinitePagingSampleComponent extends CoreBase {
-   @ViewChild('infinitePagingDatagrid') datagrid: SohoDataGridComponent;
+   @ViewChild('infinitePagingDatagrid', { static: true }) datagrid: SohoDataGridComponent;
 
    datagridOptions: SohoDataGridOptions;
 

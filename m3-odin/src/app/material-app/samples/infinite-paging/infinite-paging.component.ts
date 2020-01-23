@@ -11,7 +11,7 @@ import { catchError, finalize, tap } from 'rxjs/operators';
    styleUrls: ['./infinite-paging.component.css']
 })
 export class InfinitePagingSampleComponent extends CoreBase implements OnInit, AfterViewInit {
-   @ViewChild(MatPaginator) paginator: MatPaginator;
+   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
    displayedColumns = ['CUNO', 'CUNM', 'STAT', 'PHNO', 'YREF'];
    dataSource: CustomerDataSource;

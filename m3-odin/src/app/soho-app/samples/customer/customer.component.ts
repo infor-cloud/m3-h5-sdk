@@ -7,7 +7,7 @@ import { SohoDataGridComponent, SohoMessageService } from 'ids-enterprise-ng';
    templateUrl: './customer.component.html'
 })
 export class CustomerSampleComponent extends CoreBase implements OnInit {
-   @ViewChild('customersDatagrid') datagrid: SohoDataGridComponent;
+   @ViewChild('customersDatagrid', { static: true }) datagrid: SohoDataGridComponent;
 
    datagridOptions: SohoDataGridOptions;
    items: any[] = [];

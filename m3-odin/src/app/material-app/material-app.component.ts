@@ -9,7 +9,7 @@ import { CoreBase, Log } from '@infor-up/m3-odin';
    encapsulation: ViewEncapsulation.None
 })
 export class MaterialAppComponent extends CoreBase implements OnInit, OnDestroy {
-   @ViewChild('sideNav') sideBar: MatSidenav;
+   @ViewChild('sideNav', { static: true }) sideBar: MatSidenav;
 
    title = 'Odin Material';
    mobileQuery: MediaQueryList;

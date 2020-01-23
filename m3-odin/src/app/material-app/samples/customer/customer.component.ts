@@ -12,8 +12,8 @@ import { MIService, UserService } from '@infor-up/m3-odin-angular';
    styleUrls: ['./customer.component.css']
 })
 export class CustomerSampleComponent extends CoreBase implements OnInit, AfterViewInit {
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
+   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
    displayedColumns = ['select', 'CUNO', 'CUNM', 'TOWN', 'CUA1'];
    dataSource = new MatTableDataSource<any>([]);

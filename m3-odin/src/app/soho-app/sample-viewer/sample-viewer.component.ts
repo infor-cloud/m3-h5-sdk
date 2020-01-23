@@ -11,7 +11,7 @@ export class SampleViewerComponent extends CoreBase {
    @Input() sample: string;
    @Input() service: string;
 
-   @ViewChild('dialogPlaceholder', { read: ViewContainerRef }) placeholder: ViewContainerRef;
+   @ViewChild('dialogPlaceholder', { read: ViewContainerRef, static: true }) placeholder: ViewContainerRef;
 
    constructor(private modalService: SohoModalDialogService) {
       super('SampleViewerComponent');
