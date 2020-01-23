@@ -38,7 +38,6 @@
       "highlight.js": "^9.14.2",
       "ids-enterprise-ng": "^5.0.0",
       "rxjs": "~6.5.4",
-      "rxjs-compat": "^6.0.0",
       "typedoc": "^0.14.2",
       "zone.js": "^0.9.1"
    },
