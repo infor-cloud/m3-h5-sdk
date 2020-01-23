@@ -1,6 +1,6 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CoreBase, IEnvironmentContext, IIonApiRequest, IIonApiResponse } from '@infor-up/m3-odin';
+import { CoreBase, IIonApiRequest } from '@infor-up/m3-odin';
 import { FormService, IonApiService } from '@infor-up/m3-odin-angular';
 import { Observable, throwError } from 'rxjs';
 import { catchError, flatMap, map } from 'rxjs/operators';
@@ -85,7 +85,7 @@ export class IdmDataService extends CoreBase {
 
    private executeRequest<T>(request: IIonApiRequest): Observable<T> {
       return this.formService.getEnvironmentContext().pipe(
-         flatMap<IEnvironmentContext, IIonApiResponse | HttpResponse<T>>(context => {
+         flatMap(context => {
             const isMultiTenant = context.isMultiTenant;
             request.url = (isMultiTenant ? this.ionBaseUrl : this.proxyBaseUrl) + request.url;
             if (isMultiTenant) {
