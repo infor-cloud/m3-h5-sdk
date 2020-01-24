@@ -1,5 +1,4 @@
 <soho-icons></soho-icons>
-<soho-icons-ext></soho-icons-ext>
 <soho-icons-empty></soho-icons-empty>
 
 <div soho-busyindicator [activated]="isBusy" [blockUI]="true" [displayDelay]="0">
@@ -9,7 +8,8 @@
          <div class="six columns">
             <div class="field">
                <h1>User context</h1>
-               <p>Click the Load button to show all M3 user context values current values that will differ if running within
+               <p>Click the Load button to show all M3 user context values current values that will differ if running
+                  within
                   H5 and for example the company has been changed.</p>
             </div>
             <button soho-button="primary" (click)="onClickLoad()">Load</button>
@@ -56,7 +56,7 @@
          <div class="six columns">
             <div class="field">
                <label for="di-clang">Current language</label>
-               <input id="di-clang" [(ngModel)]="currentLanguage" readonly/>
+               <input id="di-clang" [(ngModel)]="currentLanguage" readonly />
             </div>
          </div>
       </div>

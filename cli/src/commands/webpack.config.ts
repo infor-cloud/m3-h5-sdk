@@ -1,6 +1,6 @@
-import { Configuration } from 'webpack';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as path from 'path';
+import { Configuration } from 'webpack';
 
 const projectDirectory = process.cwd();
 
@@ -27,9 +27,6 @@ export const baseConfig: Configuration = {
                },
                {
                   loader: require.resolve('sass-loader'),
-                  options: {
-                     includePaths: ['./node_modules']
-                  }
                },
             ],
          },

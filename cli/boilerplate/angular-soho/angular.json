@@ -4,63 +4,25 @@
          "architect": {
             "build": {
                "options": {
+                  "assets": [
+                     {
+                        "glob": "**/*",
+                        "input": "./node_modules/ids-enterprise/dist/css",
+                        "output": "/assets/ids-enterprise/css"
+                     },
+                     {
+                        "glob": "**/*",
+                        "input": "./node_modules/ids-enterprise/dist/js/cultures",
+                        "output": "/assets/ids-enterprise/js/cultures"
+                     }
+                  ],
                   "styles": [
                      "node_modules/ids-enterprise/dist/css/light-theme.css"
                   ],
                   "scripts": [
                      "node_modules/jquery/dist/jquery.js",
                      "node_modules/d3/build/d3.js",
-                     "node_modules/ids-enterprise/dist/js/sohoxi.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/af-ZA.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ar-EG.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ar-SA.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/bg-BG.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/cs-CZ.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/da-DK.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/de-DE.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/el-GR.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-AU.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-GB.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-IN.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-NZ.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-US.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-ZA.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/es-AR.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/es-ES.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/es-MX.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/es-US.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/et-EE.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/fi-FI.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/fr-CA.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/fr-FR.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/he-IL.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/hi-IN.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/hr-HR.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/hu-HU.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/id-ID.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/it-IT.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ja-JP.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ko-KR.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/lt-LT.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/lv-LV.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ms-bn.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ms-my.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/nb-NO.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/nl-NL.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/no-NO.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/pl-PL.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/pt-BR.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/pt-PT.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ro-RO.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/ru-RU.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/sl-SI.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/sv-SE.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/th-TH.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/tr-TR.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/uk-UA.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/vi-VN.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/zh-CN.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/zh-TW.js"
+                     "node_modules/ids-enterprise/dist/js/sohoxi.js"
                   ],
                   "outputPath": "dist",
                   "baseHref": ""
