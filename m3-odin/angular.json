@@ -11,6 +11,7 @@
             "build": {
                "builder": "@angular-devkit/build-angular:browser",
                "options": {
+                  "aot": true,
                   "outputPath": "dist/m3-odin",
                   "index": "src/index.html",
                   "main": "src/main.ts",
@@ -41,6 +42,12 @@
                },
                "configurations": {
                   "production": {
+                     "budgets": [
+                        {
+                           "type": "anyComponentStyle",
+                           "maximumWarning": "6kb"
+                        }
+                     ],
                      "fileReplacements": [
                         {
                            "replace": "src/environments/environment.ts",
@@ -154,7 +161,8 @@
                },
                "configurations": {
                   "production": {
-                     "project": "projects/m3-odin-angular/ng-package.prod.json"
+                     "project": "projects/m3-odin-angular/ng-package.prod.json",
+                     "tsConfig": "projects/m3-odin-angular/tsconfig.lib.prod.json"
                   }
                }
             },

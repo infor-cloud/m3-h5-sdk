@@ -1,31 +1,41 @@
 {
-   "name": "@infor-up/m3-odin",
-   "private": false,
-   "version": "2.1.2",
-   "description": "Odin for M3 web application development.",
-   "main": "dist/index.js",
-   "types": "dist/index.d.ts",
-   "scripts": {
-      "build": "tsc",
-      "clean": "git clean -f -d -X dist"
-   },
-   "files": [
-      "dist",
-      "README.md"
-   ],
-   "author": {
-      "name": "Fredrik Eriksson",
-      "email": "fredrik.eriksson@infor.com"
-   },
-   "license": "Apache-2.0",
-   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
-   },
-   "devDependencies": {
-      "typescript": "~3.1.6"
-   },
-   "peerDependencies": {
-      "rxjs": "^6.0.0"
-   }
+  "name": "@infor-up/m3-odin",
+  "private": false,
+  "version": "2.1.2",
+  "description": "Odin for M3 web application development.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -f -d -X dist",
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "author": {
+    "name": "Fredrik Eriksson",
+    "email": "fredrik.eriksson@infor.com"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
+  },
+  "devDependencies": {
+    "typescript": "~3.1.6"
+  },
+  "peerDependencies": {
+    "rxjs": "^6.0.0"
+  },
+  "__processed_by_ivy_ngcc__": {
+    "es2015": "9.0.0-rc.12",
+    "esm2015": "9.0.0-rc.12",
+    "esm5": "9.0.0-rc.12",
+    "fesm2015": "9.0.0-rc.12",
+    "fesm5": "9.0.0-rc.12",
+    "main": "9.0.0-rc.12",
+    "module": "9.0.0-rc.12"
+  }
 }
