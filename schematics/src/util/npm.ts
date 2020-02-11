@@ -1,4 +1,4 @@
-import { get } from 'http';
+import { get } from 'https';
 
 export interface NpmRegistryPackage {
    name: string;
@@ -9,7 +9,7 @@ export function getLatestPackageVersion(packageName: string): Promise<NpmRegistr
    const DEFAULT_VERSION = 'latest';
 
    return new Promise(resolve => {
-      return get(`http://registry.npmjs.org/${packageName}`, res => {
+      return get(`https://registry.npmjs.org/${packageName}`, res => {
          let rawData = '';
          res.on('data', chunk => (rawData += chunk));
          res.on('end', () => {

@@ -13,7 +13,7 @@ export function addIDS(_options: any): Rule {
       addScripts(tree, context);
       addAssets(tree, context);
       addStyles(tree, context);
-      await installDependencies(tree, context);
+      installDependencies(tree, context);
    };
 }
 
@@ -28,7 +28,7 @@ async function addIDSPackage(tree: Tree, context: SchematicContext) {
    });
 }
 
-async function installDependencies(_tree: Tree, context: SchematicContext) {
+function installDependencies(_tree: Tree, context: SchematicContext) {
    context.logger.info('Install dependencies');
    context.addTask(new NodePackageInstallTask());
 }
@@ -42,33 +42,16 @@ function addSohoComponentsModule(tree: Tree, context: SchematicContext) {
 }
 
 function addScripts(tree: Tree, context: SchematicContext) {
-   const workspace = getWorkspace(tree);
-   const project = getProjectFromWorkspace(workspace);
    const scripts = [
       './node_modules/jquery/dist/jquery.js',
       './node_modules/d3/build/d3.js',
       './node_modules/ids-enterprise/dist/js/sohoxi.js',
    ];
-   ['build', 'test'].forEach(buildTarget => {
-      const targetOptions = getProjectTargetOptions(project, buildTarget);
-      if (!targetOptions.scripts) {
-         targetOptions.scripts = scripts;
-      } else {
-         const targetOptionsScripts = targetOptions.scripts as unknown[];
-         for (const script of scripts) {
-            if (!targetOptionsScripts.includes(script)) {
-               targetOptionsScripts.push(script);
-            }
-         }
-      }
-   });
-   tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
+   addResources(tree, 'scripts', scripts);
    context.logger.info('Add IDS scripts');
 }
 
 function addAssets(tree: Tree, context: SchematicContext) {
-   const workspace = getWorkspace(tree);
-   const project = getProjectFromWorkspace(workspace);
    const assets = [
       {
          'glob': '**/*',
@@ -81,40 +64,31 @@ function addAssets(tree: Tree, context: SchematicContext) {
          'output': '/assets/ids-enterprise/js/cultures'
       }
    ];
-   ['build', 'test'].forEach(buildTarget => {
-      const targetOptions = getProjectTargetOptions(project, buildTarget);
-      if (!targetOptions.assets) {
-         targetOptions.assets = assets;
-      } else {
-         const targetOptionsAssets = targetOptions.assets as unknown[];
-         for (const asset of assets) {
-            if (!targetOptionsAssets.find((a, b) => JSON.stringify(a) === JSON.stringify(b))) {
-               targetOptionsAssets.push(asset);
-            }
-         }
-      }
-   });
-   tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
+   addResources(tree, 'assets', assets);
    context.logger.info('Add IDS assets');
 }
 
 function addStyles(tree: Tree, context: SchematicContext) {
+   const styles = ['node_modules/ids-enterprise/dist/css/light-theme.css'];
+   addResources(tree, 'styles', styles);
+   context.logger.info('Add IDS styles');
+}
+
+function addResources(tree: Tree, resourceType: 'scripts' | 'styles' | 'assets', resources: unknown[]) {
    const workspace = getWorkspace(tree);
    const project = getProjectFromWorkspace(workspace);
-   const styles = ['node_modules/ids-enterprise/dist/css/light-theme.css'];
    ['build', 'test'].forEach(buildTarget => {
       const targetOptions = getProjectTargetOptions(project, buildTarget);
-      if (!targetOptions.styles) {
-         targetOptions.styles = styles;
+      if (!targetOptions[resourceType]) {
+         targetOptions[resourceType] = resources;
       } else {
-         const targetOptionsStyles = targetOptions.styles as unknown[];
-         for (const style of styles) {
-            if (!targetOptionsStyles.includes(style)) {
-               targetOptionsStyles.push(style);
+         const pizza = targetOptions[resourceType] as unknown[];
+         for (const resource of resources) {
+            if (!pizza.find((a, b) => JSON.stringify(a) === JSON.stringify(b))) {
+               pizza.push(resource);
             }
          }
       }
    });
    tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
-   context.logger.info('Add IDS styles');
 }
