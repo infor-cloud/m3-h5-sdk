@@ -1,26 +1,30 @@
 {
-  "name": "schematics",
-  "version": "0.0.0",
-  "description": "A blank schematics",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js"
-  },
-  "keywords": [
-    "schematics"
-  ],
-  "author": "",
-  "license": "MIT",
-  "schematics": "./src/collection.json",
-  "dependencies": {
-    "@angular-devkit/core": "^9.0.1",
-    "@angular-devkit/schematics": "^9.0.1",
-    "typescript": "~3.7.4"
-  },
-  "devDependencies": {
-    "@types/jasmine": "~3.5.0",
-    "@types/node": "^12.11.1",
-    "jasmine": "^3.5.0",
-    "tslint": "^6.0.0"
-  }
+   "name": "schematics",
+   "version": "0.0.0",
+   "description": "A blank schematics",
+   "scripts": {
+      "build": "tsc -p tsconfig.json",
+      "test:unit": "npm run build && jasmine src/**/*_spec.js",
+      "test:sandbox": "npm run build && npm run clean:sandbox && npm run sandbox:add-ids",
+      "link:schematic": "npm link && cd sandbox && npm link \"schematics\"",
+      "clean:sandbox": "git checkout HEAD -- sandbox && git clean -fd sandbox",
+      "sandbox:add-ids": "cd sandbox && ng g schematics:add-ids"
+   },
+   "keywords": [
+      "schematics"
+   ],
+   "author": "",
+   "license": "MIT",
+   "schematics": "./src/collection.json",
+   "dependencies": {
+      "@angular-devkit/core": "^9.0.1",
+      "@angular-devkit/schematics": "^9.0.1",
+      "typescript": "~3.7.4"
+   },
+   "devDependencies": {
+      "@types/jasmine": "~3.5.0",
+      "@types/node": "^12.11.1",
+      "jasmine": "^3.5.0",
+      "tslint": "^6.0.0"
+   }
 }
