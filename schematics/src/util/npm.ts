@@ -1,3 +1,6 @@
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { addPackageJsonDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { get } from 'https';
 
 export interface NpmRegistryPackage {
@@ -31,4 +34,25 @@ export function getLatestPackageVersion(packageName: string): Promise<NpmRegistr
    ): NpmRegistryPackage {
       return { name, version };
    }
+}
+
+export function addNpmPackage(packageName: string): Rule {
+   return async (tree: Tree, context: SchematicContext) => {
+      const npmPackage = await getLatestPackageVersion(packageName);
+      context.logger.debug(`Add ${npmPackage.name}@${npmPackage.version}`);
+      addPackageJsonDependency(tree, {
+         name: npmPackage.name,
+         version: npmPackage.version,
+         type: NodeDependencyType.Default,
+         overwrite: false,
+      });
+   };
+}
+
+export function installDependencies(): Rule {
+   return (tree: Tree, context: SchematicContext) => {
+      context.logger.debug('Install dependencies');
+      context.addTask(new NodePackageInstallTask());
+      return tree;
+   };
 }

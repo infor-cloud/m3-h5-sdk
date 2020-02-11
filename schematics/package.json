@@ -6,10 +6,10 @@
    "scripts": {
       "build": "tsc -p tsconfig.json",
       "test:unit": "npm run build && jasmine src/**/*_spec.js",
-      "test:sandbox": "npm run build && npm run clean:sandbox && npm run link:schematic && npm run sandbox:add-ids",
+      "test:sandbox": "npm run build && npm run clean:sandbox && npm run link:schematic && npm run sandbox:add-all",
       "link:schematic": "npm link && cd sandbox && npm link \"schematics\"",
       "clean:sandbox": "git checkout HEAD -- sandbox && git clean -fd sandbox",
-      "sandbox:add-ids": "cd sandbox && ng g schematics:add-ids"
+      "sandbox:add-all": "cd sandbox && ng g schematics:add-odin && ng g schematics:add-ids"
    },
    "keywords": [
       "schematics"

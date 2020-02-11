@@ -1,9 +1,13 @@
 {
-  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
-  "schematics": {
-    "add-ids": {
-      "description": "Adds IDS Enterprise to an Angular project.",
-      "factory": "./add-ids/index#addIDS"
-    }
-  }
+   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+   "schematics": {
+      "add-odin": {
+         "description": "Adds M3 H5 SDK to an Angular project.",
+         "factory": "./add-odin/index#addOdin"
+      },
+      "add-ids": {
+         "description": "Adds IDS Enterprise to an Angular project.",
+         "factory": "./add-ids/index#addIDS"
+      }
+   }
 }
