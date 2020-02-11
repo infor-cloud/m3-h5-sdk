@@ -5,7 +5,7 @@
    "scripts": {
       "build": "tsc -p tsconfig.json",
       "test:unit": "npm run build && jasmine src/**/*_spec.js",
-      "test:sandbox": "npm run build && npm run clean:sandbox && npm run sandbox:add-ids",
+      "test:sandbox": "npm run build && npm run clean:sandbox && npm run link:schematic && npm run sandbox:add-ids",
       "link:schematic": "npm link && cd sandbox && npm link \"schematics\"",
       "clean:sandbox": "git checkout HEAD -- sandbox && git clean -fd sandbox",
       "sandbox:add-ids": "cd sandbox && ng g schematics:add-ids"
@@ -19,6 +19,7 @@
    "dependencies": {
       "@angular-devkit/core": "^9.0.1",
       "@angular-devkit/schematics": "^9.0.1",
+      "@angular/cdk": "^9.0.0",
       "@schematics/angular": "^9.0.1",
       "typescript": "~3.7.4"
    },
