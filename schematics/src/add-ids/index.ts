@@ -12,6 +12,7 @@ export function addIDS(_options: any): Rule {
       addSohoComponentsModule(tree, context);
       addScripts(tree, context);
       addAssets(tree, context);
+      addStyles(tree, context);
       await installDependencies(tree, context);
    };
 }
@@ -95,4 +96,25 @@ function addAssets(tree: Tree, context: SchematicContext) {
    });
    tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
    context.logger.info('Add IDS assets');
+}
+
+function addStyles(tree: Tree, context: SchematicContext) {
+   const workspace = getWorkspace(tree);
+   const project = getProjectFromWorkspace(workspace);
+   const styles = ['node_modules/ids-enterprise/dist/css/light-theme.css'];
+   ['build', 'test'].forEach(buildTarget => {
+      const targetOptions = getProjectTargetOptions(project, buildTarget);
+      if (!targetOptions.styles) {
+         targetOptions.styles = styles;
+      } else {
+         const targetOptionsStyles = targetOptions.styles as unknown[];
+         for (const style of styles) {
+            if (!targetOptionsStyles.includes(style)) {
+               targetOptionsStyles.push(style);
+            }
+         }
+      }
+   });
+   tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
+   context.logger.info('Add IDS styles');
 }
