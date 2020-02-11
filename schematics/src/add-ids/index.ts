@@ -11,6 +11,7 @@ export function addIDS(_options: any): Rule {
       await addIDSPackage(tree, context);
       addSohoComponentsModule(tree, context);
       addScripts(tree, context);
+      addAssets(tree, context);
       await installDependencies(tree, context);
    };
 }
@@ -52,7 +53,7 @@ function addScripts(tree: Tree, context: SchematicContext) {
       if (!targetOptions.scripts) {
          targetOptions.scripts = scripts;
       } else {
-         const targetOptionsScripts = targetOptions.scripts as any[];
+         const targetOptionsScripts = targetOptions.scripts as unknown[];
          for (const script of scripts) {
             if (!targetOptionsScripts.includes(script)) {
                targetOptionsScripts.push(script);
@@ -62,4 +63,36 @@ function addScripts(tree: Tree, context: SchematicContext) {
    });
    tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
    context.logger.info('Add IDS scripts');
+}
+
+function addAssets(tree: Tree, context: SchematicContext) {
+   const workspace = getWorkspace(tree);
+   const project = getProjectFromWorkspace(workspace);
+   const assets = [
+      {
+         'glob': '**/*',
+         'input': './node_modules/ids-enterprise/dist/css',
+         'output': '/assets/ids-enterprise/css'
+      },
+      {
+         'glob': '**/*',
+         'input': './node_modules/ids-enterprise/dist/js/cultures',
+         'output': '/assets/ids-enterprise/js/cultures'
+      }
+   ];
+   ['build', 'test'].forEach(buildTarget => {
+      const targetOptions = getProjectTargetOptions(project, buildTarget);
+      if (!targetOptions.assets) {
+         targetOptions.assets = assets;
+      } else {
+         const targetOptionsAssets = targetOptions.assets as unknown[];
+         for (const asset of assets) {
+            if (!targetOptionsAssets.find((a, b) => JSON.stringify(a) === JSON.stringify(b))) {
+               targetOptionsAssets.push(asset);
+            }
+         }
+      }
+   });
+   tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
+   context.logger.info('Add IDS assets');
 }
