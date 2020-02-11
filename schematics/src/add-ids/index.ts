@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { addModuleImportToRootModule, getProjectFromWorkspace } from '@angular/cdk/schematics';
+import { addModuleImportToRootModule, getProjectFromWorkspace, getProjectTargetOptions } from '@angular/cdk/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { addPackageJsonDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { getLatestPackageVersion } from '../util/npm';
@@ -9,8 +9,9 @@ import { getLatestPackageVersion } from '../util/npm';
 export function addIDS(_options: any): Rule {
    return async (tree: Tree, context: SchematicContext) => {
       await addIDSPackage(tree, context);
-      await installDependencies(tree, context);
       addSohoComponentsModule(tree, context);
+      addScripts(tree, context);
+      await installDependencies(tree, context);
    };
 }
 
@@ -36,4 +37,29 @@ function addSohoComponentsModule(tree: Tree, context: SchematicContext) {
    addModuleImportToRootModule(tree, 'SohoComponentsModule', 'ids-enterprise-ng', project);
    context.logger.info('Add SohoComponentsModule');
    return tree;
+}
+
+function addScripts(tree: Tree, context: SchematicContext) {
+   const workspace = getWorkspace(tree);
+   const project = getProjectFromWorkspace(workspace);
+   const scripts = [
+      './node_modules/jquery/dist/jquery.js',
+      './node_modules/d3/build/d3.js',
+      './node_modules/ids-enterprise/dist/js/sohoxi.js',
+   ];
+   ['build', 'test'].forEach(buildTarget => {
+      const targetOptions = getProjectTargetOptions(project, buildTarget);
+      if (!targetOptions.scripts) {
+         targetOptions.scripts = scripts;
+      } else {
+         const targetOptionsScripts = targetOptions.scripts as any[];
+         for (const script of scripts) {
+            if (!targetOptionsScripts.includes(script)) {
+               targetOptionsScripts.push(script);
+            }
+         }
+      }
+   });
+   tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
+   context.logger.info('Add IDS scripts');
 }
