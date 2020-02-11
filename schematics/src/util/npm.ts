@@ -17,7 +17,7 @@ export function getLatestPackageVersion(packageName: string): Promise<NpmRegistr
                const response = JSON.parse(rawData);
                const version = (response && response['dist-tags']) || {};
 
-               resolve(buildPackage(response.name || packageName, version.latest));
+               resolve(buildPackage(response.name || packageName, `^${version.latest}`));
             } catch (e) {
                resolve(buildPackage(packageName));
             }
