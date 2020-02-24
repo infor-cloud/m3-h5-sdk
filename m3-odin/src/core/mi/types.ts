@@ -80,6 +80,12 @@ export interface IMIOptions {
    * The default value is false.
    */
    typedOutput?: boolean;
+
+   /**
+	 * Gets or sets a value that indicates if CSRF tokens should be used for MI-requests.
+	 * The default value is true.
+	 */
+   enableCsrf?: boolean;
 }
 
 /**
