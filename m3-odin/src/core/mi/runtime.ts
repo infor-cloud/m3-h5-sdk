@@ -543,6 +543,10 @@ export class MIServiceCore extends CoreBase implements IMIService {
       const url = this.createUrl(baseUrl, request);
 
       const httpRequest: IHttpRequest = this.createRequest(url);
+      if (this.useToken(request)) {
+         httpRequest.headers['fnd-csrf-token'] = this.csrfToken;
+      }
+
       this.logDebug('execute: ' + url);
       this.executeHttp(httpRequest).subscribe((httpResponse: IHttpResponse) => {
          try {
