@@ -448,7 +448,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
     * @hidden
     */
    public getDefaultBaseUrl() {
-      return 'm3api-rest/execute';
+      return '/m3api-rest/execute';
    }
 
    /**
