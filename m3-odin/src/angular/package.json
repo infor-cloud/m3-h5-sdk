@@ -1,7 +1,7 @@
 {
    "name": "@infor-up/m3-odin-angular",
    "private": false,
-   "version": "2.1.2",
+   "version": "2.2.0",
    "description": "Odin Angular for M3 web application development.",
    "main": "dist/index.js",
    "types": "dist/index.d.ts",
@@ -25,7 +25,7 @@
       "typescript": "~3.1.6"
    },
    "peerDependencies": {
-      "@infor-up/m3-odin": "2.1.2",
+      "@infor-up/m3-odin": "2.2.0",
       "rxjs": "^6.0.0"
    }
 }

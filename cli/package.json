@@ -1,6 +1,6 @@
 {
    "name": "@infor-up/m3-odin-cli",
-   "version": "2.1.2",
+   "version": "2.2.0",
    "description": "Odin CLI",
    "scripts": {
       "build": "tsc",
