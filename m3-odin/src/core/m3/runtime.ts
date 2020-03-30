@@ -424,16 +424,16 @@ export class UserServiceCore extends CoreBase implements IUserService {
       context['M3User'] = context.USID;
       context.company = context.CONO;
       context['Company'] = context.CONO;
-      context.currentCompany = context.CONO;
-      context['CurrentCompany'] = context.CONO;
+      context.currentCompany = context['CurrentCompany'] || context.CONO;
+      context['CurrentCompany'] = context['CurrentCompany'] || context.CONO;
       context.division = context.DIVI;
       context['Division'] = context.DIVI;
-      context.currentDivision = context.DIVI;
-      context['CurrentDivision'] = context.DIVI;
+      context.currentDivision = context['CurrentDivision'] || context.DIVI;
+      context['CurrentDivision'] = context['CurrentDivision'] || context.DIVI;
       context.language = context.LANC;
       context['Language'] = context.LANC;
-      context.currentLanguage = context.LANC;
-      context['CurrentLanguage'] = context.LANC;
+      context.currentLanguage = context['CurrentLanguage'] || context.LANC;
+      context['CurrentLanguage'] = context['CurrentLanguage'] || context.LANC;
 
       context.dateFormat = CommonUtil.getDateFormat(context.DTFM);
       context.languageTag = CommonUtil.getLanguageTag(context.LANC);
