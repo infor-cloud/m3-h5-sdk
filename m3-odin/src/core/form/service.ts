@@ -287,6 +287,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
                this.logDebug('logon: Logging on to H5...');
                this.command('LOGON', null).subscribe((r) => {
                   this.logDebug('logon: H5 logon complete.');
+                  this.hasSession = true;
                   subject.next(r);
                   subject.complete();
                   this.processPending();
@@ -305,6 +306,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
             this.logDebug('logon: Logging on to H5 user context exists...');
             this.command('LOGON', null).subscribe((r) => {
                this.logDebug('logon: H5 logon complete.');
+               this.hasSession = true;
                subject.next(r);
                subject.complete();
                this.processPending();
