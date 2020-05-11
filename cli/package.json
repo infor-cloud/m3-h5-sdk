@@ -33,7 +33,7 @@
       "@types/fs-extra": "^8.1.0",
       "@types/html-webpack-plugin": "^3.2.2",
       "@types/inquirer": "^6.5.0",
-      "@types/node": "^9.6.6",
+      "@types/node": "^12.12.38",
       "@types/webpack-dev-server": "^2.9.4"
    },
    "dependencies": {
