@@ -2,6 +2,6 @@
    "recommendations": [
       "angular.ng-template",
       "msjsdiag.debugger-for-chrome",
-      "eg2.tslint"
+      "ms-vscode.vscode-typescript-tslint-plugin"
    ]
 }
