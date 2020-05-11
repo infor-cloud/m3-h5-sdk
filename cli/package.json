@@ -31,7 +31,7 @@
    "devDependencies": {
       "@types/archiver": "^3.1.0",
       "@types/fs-extra": "^8.1.0",
-      "@types/html-webpack-plugin": "^2.30.3",
+      "@types/html-webpack-plugin": "^3.2.2",
       "@types/inquirer": "0.0.41",
       "@types/node": "^9.6.6",
       "@types/webpack-dev-server": "^2.9.4"
@@ -42,7 +42,7 @@
       "commander": "^5.1.0",
       "css-loader": "^3.5.3",
       "fs-extra": "^9.0.0",
-      "html-webpack-plugin": "^3.2.0",
+      "html-webpack-plugin": "^4.3.0",
       "inquirer": "^5.2.0",
       "node-sass": "^4.9.0",
       "sass-loader": "^7.0.1",
