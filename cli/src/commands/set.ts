@@ -1,12 +1,12 @@
 import { Config } from 'http-proxy-middleware';
-import { proxyConfigMap } from 'webpack-dev-server';
+import { ProxyConfigMap } from 'webpack-dev-server';
 import { IOdinConfiguration, isValidProxyUrl, readConfig, removeSurroundingSlash, writeConfig } from '../utils';
 
 const isConfigurationObject = (obj?: string | Config): obj is Config => {
    return obj !== undefined && typeof obj !== 'string';
 };
 
-const isProxyConfigMap = (config?: object): config is proxyConfigMap => {
+const isProxyConfigMap = (config?: object): config is ProxyConfigMap => {
    return config !== undefined && !Array.isArray(config);
 };
 
