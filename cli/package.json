@@ -29,7 +29,7 @@
    "main": "./dist/index.js",
    "types": "./dist/index.d.ts",
    "devDependencies": {
-      "@types/archiver": "^2.1.1",
+      "@types/archiver": "^3.1.0",
       "@types/fs-extra": "^5.0.2",
       "@types/html-webpack-plugin": "^2.30.3",
       "@types/inquirer": "0.0.41",
@@ -38,7 +38,7 @@
    },
    "dependencies": {
       "@angular/cli": "^9.1.5",
-      "archiver": "^2.1.1",
+      "archiver": "^4.0.1",
       "commander": "^2.15.1",
       "css-loader": "^0.28.11",
       "fs-extra": "^5.0.0",
