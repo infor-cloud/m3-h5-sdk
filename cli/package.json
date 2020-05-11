@@ -37,7 +37,7 @@
       "@types/webpack-dev-server": "^2.9.4"
    },
    "dependencies": {
-      "@angular/cli": "~7.1.0",
+      "@angular/cli": "^9.1.5",
       "archiver": "^2.1.1",
       "commander": "^2.15.1",
       "css-loader": "^0.28.11",
