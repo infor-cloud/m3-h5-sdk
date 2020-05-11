@@ -26,6 +26,9 @@
       "boilerplate",
       "README.md"
    ],
+   "engines": {
+      "node": ">=12.16.3"
+   },
    "main": "./dist/index.js",
    "types": "./dist/index.d.ts",
    "devDependencies": {
@@ -34,7 +37,7 @@
       "@types/html-webpack-plugin": "^3.2.2",
       "@types/inquirer": "^6.5.0",
       "@types/node": "^12.12.38",
-      "@types/webpack-dev-server": "^2.9.4"
+      "@types/webpack-dev-server": "^3.10.1"
    },
    "dependencies": {
       "@angular/cli": "^9.1.5",
@@ -44,12 +47,12 @@
       "fs-extra": "^9.0.0",
       "html-webpack-plugin": "^4.3.0",
       "inquirer": "^7.1.0",
-      "node-sass": "^4.9.0",
-      "sass-loader": "^7.0.1",
-      "style-loader": "^0.21.0",
-      "ts-loader": "^4.2.0",
-      "typescript": "~3.1.6",
-      "webpack": "^4.6.0",
-      "webpack-dev-server": "^3.1.3"
+      "sass": "^1.26.5",
+      "sass-loader": "^8.0.2",
+      "style-loader": "^1.2.1",
+      "ts-loader": "^7.0.3",
+      "typescript": "^3.8.3",
+      "webpack": "^4.43.0",
+      "webpack-dev-server": "^3.11.0"
    }
 }
