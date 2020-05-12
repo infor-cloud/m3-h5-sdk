@@ -16,6 +16,8 @@ export class SohoAppComponent extends CoreBase implements OnInit {
    constructor() {
       super('SohoAppComponent');
       Log.setDebug();
+      Soho.Locale.culturesPath = '/assets/ids-enterprise/js/cultures/';
+      Soho.Locale.set('en-US');
    }
 
    ngOnInit(): void {

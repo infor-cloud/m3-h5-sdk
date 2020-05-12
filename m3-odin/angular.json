@@ -27,6 +27,11 @@
                         "glob": "**/*",
                         "input": "src/assets",
                         "output": "/assets"
+                     },
+                     {
+                        "glob": "**/*",
+                        "input": "./node_modules/ids-enterprise/dist/js/cultures",
+                        "output": "/assets/ids-enterprise/js/cultures"
                      }
                   ],
                   "styles": [
@@ -36,8 +41,7 @@
                   "scripts": [
                      "node_modules/jquery/dist/jquery.js",
                      "node_modules/d3/build/d3.js",
-                     "node_modules/ids-enterprise/dist/js/sohoxi.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-US.js"
+                     "node_modules/ids-enterprise/dist/js/sohoxi.js"
                   ]
                },
                "configurations": {
