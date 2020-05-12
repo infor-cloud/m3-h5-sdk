@@ -4,7 +4,9 @@
          "architect": {
             "build": {
                "options": {
-                  "styles": [],
+                  "styles": [
+                     "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+                  ],
                   "scripts": [],
                   "outputPath": "dist",
                   "baseHref": ""
