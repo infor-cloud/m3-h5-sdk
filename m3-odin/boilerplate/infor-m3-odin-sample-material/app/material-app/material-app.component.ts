@@ -1,6 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { CoreBase, Log } from '@infor-up/m3-odin';
 
 @Component({
@@ -9,7 +9,8 @@ import { CoreBase, Log } from '@infor-up/m3-odin';
    encapsulation: ViewEncapsulation.None
 })
 export class MaterialAppComponent extends CoreBase implements OnInit, OnDestroy {
-   @ViewChild('sideNav') sideBar: MatSidenav;
+   @ViewChild('sideNav', { static: true }) sideBar: MatSidenav;
+
 
    title = 'Odin Material';
    mobileQuery: MediaQueryList;
