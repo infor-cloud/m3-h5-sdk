@@ -318,6 +318,6 @@ program.on('command:*', ([command]) => {
 const isWizard = !process.argv.slice(2).length;
 if (isWizard) {
    inquireCommand();
+} else {
+   program.parse(process.argv);
 }
-
-program.parse(process.argv);
