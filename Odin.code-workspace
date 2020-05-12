@@ -39,7 +39,7 @@
    },
    "extensions": {
       "recommendations": [
-         "eg2.tslint",
+         "ms-vscode.vscode-typescript-tslint-plugin",
          "Angular.ng-template",
          "msjsdiag.debugger-for-chrome",
          "PKief.material-icon-theme"
