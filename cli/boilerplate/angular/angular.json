@@ -4,6 +4,7 @@
          "architect": {
             "build": {
                "options": {
+                  "assets": [],
                   "styles": [],
                   "scripts": [],
                   "outputPath": "dist",
