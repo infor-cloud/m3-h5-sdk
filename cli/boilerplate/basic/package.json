@@ -13,7 +13,7 @@
    "devDependencies": {
       "@infor-up/m3-odin-cli": "2.2.1",
       "@infor-up/m3-odin": "2.2.1",
-      "rxjs": "^6.0.0",
-      "typescript": "~3.1.6"
+      "rxjs": "^6.5.0",
+      "typescript": "^3.8.0"
    }
 }

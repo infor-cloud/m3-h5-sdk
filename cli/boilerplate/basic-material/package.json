@@ -14,8 +14,8 @@
       "@infor-up/m3-odin-cli": "2.2.1",
       "@infor-up/m3-odin": "2.2.1",
       "@types/material-components-web": "^0.26.0",
-      "rxjs": "^6.0.0",
-      "typescript": "^2.8.3"
+      "rxjs": "^6.5.0",
+      "typescript": "^3.8.0"
    },
    "dependencies": {
       "material-components-web": "^0.35.0"
