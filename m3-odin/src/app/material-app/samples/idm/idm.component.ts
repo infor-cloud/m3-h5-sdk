@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoreBase } from '@infor-up/m3-odin';
 import { IdmDataService, IIdmError, ISearchItems } from './idm-data.service';
 
