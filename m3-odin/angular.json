@@ -150,6 +150,46 @@
                }
             }
          }
+      },
+      "@infor-up/m3-odin-angular": {
+         "projectType": "library",
+         "root": "projects/infor-up/m3-odin-angular",
+         "sourceRoot": "projects/infor-up/m3-odin-angular/src",
+         "prefix": "odin",
+         "architect": {
+            "build": {
+               "builder": "@angular-devkit/build-ng-packagr:build",
+               "options": {
+                  "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.json",
+                  "project": "projects/infor-up/m3-odin-angular/ng-package.json"
+               },
+               "configurations": {
+                  "production": {
+                     "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.prod.json"
+                  }
+               }
+            },
+            "test": {
+               "builder": "@angular-devkit/build-angular:karma",
+               "options": {
+                  "main": "projects/infor-up/m3-odin-angular/src/test.ts",
+                  "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.spec.json",
+                  "karmaConfig": "projects/infor-up/m3-odin-angular/karma.conf.js"
+               }
+            },
+            "lint": {
+               "builder": "@angular-devkit/build-angular:tslint",
+               "options": {
+                  "tsConfig": [
+                     "projects/infor-up/m3-odin-angular/tsconfig.lib.json",
+                     "projects/infor-up/m3-odin-angular/tsconfig.spec.json"
+                  ],
+                  "exclude": [
+                     "**/node_modules/**"
+                  ]
+               }
+            }
+         }
       }
    },
    "schematics": {

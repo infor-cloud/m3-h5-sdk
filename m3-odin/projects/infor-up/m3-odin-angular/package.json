@@ -3,15 +3,6 @@
    "private": false,
    "version": "2.2.1",
    "description": "Odin Angular for M3 web application development.",
-   "main": "dist/index.js",
-   "types": "dist/index.d.ts",
-   "scripts": {
-      "build": "tsc",
-      "clean": "git clean -f -d -X dist"
-   },
-   "files": [
-      "dist"
-   ],
    "author": {
       "name": "Fredrik Eriksson",
       "email": "fredrik.eriksson@infor.com"
@@ -21,11 +12,11 @@
       "type": "git",
       "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
    },
-   "devDependencies": {
-      "typescript": "~3.8.3"
-   },
    "peerDependencies": {
+      "@angular/common": "^9.1.6",
+      "@angular/core": "^9.1.6",
       "@infor-up/m3-odin": "2.2.1",
-      "rxjs": "^6.0.0"
+      "rxjs": "^6.0.0",
+      "tslib": "^1.10.0"
    }
 }
