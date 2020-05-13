@@ -33,11 +33,12 @@ function publishNpm(directory: string): void {
    const operation = c.begin('Publish NPM');
    console.log('Publish directory: ' + directory);
    console.log('Output directory: ' + distPath);
+   const tag = process.env.TAG ? ' --tag ' + process.env.TAG : '';
 
-   var currentDirectory = process.cwd();
+   const currentDirectory = process.cwd();
    process.chdir(distPath);
 
-   c.execSync('npm publish ' + directory + " --access public");
+   c.execSync('npm publish ' + directory + ' --access public' + tag);
 
    if (directory !== currentDirectory) {
       process.chdir(currentDirectory);
