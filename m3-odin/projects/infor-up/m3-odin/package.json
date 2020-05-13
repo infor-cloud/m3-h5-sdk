@@ -22,9 +22,6 @@
       "type": "git",
       "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
    },
-   "devDependencies": {
-      "typescript": "~3.8.3"
-   },
    "peerDependencies": {
       "rxjs": "^6.0.0"
    }

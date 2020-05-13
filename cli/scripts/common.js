@@ -49,6 +49,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     var p = require("child_process");
     var fs = require("fs-extra");
     var path = require("path");
+    exports.projectDirectory = function (relativePath) {
+        var projectRoot = path.join(__dirname, '../../m3-odin');
+        if (relativePath) {
+            return path.join(projectRoot, relativePath);
+        }
+        else {
+            return projectRoot;
+        }
+    };
     exports.title = function (title) {
         console.log('');
         console.log(title);
@@ -174,11 +183,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         return null;
     };
-    exports.runClean = function (directory) {
+    exports.npmRun = function (script, directory) {
         var currentDirectory = process.cwd();
-        process.chdir(directory);
-        exports.execSync("npm run clean");
+        if (directory) {
+            process.chdir(directory);
+        }
+        exports.execSync("npm run " + script);
         process.chdir(currentDirectory);
+    };
+    exports.runClean = function (directory) {
+        exports.npmRun('clean', directory);
     };
     exports.buildTypeScript = function (directory, compilerPath) {
         if (compilerPath === void 0) { compilerPath = ''; }

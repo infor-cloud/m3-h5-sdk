@@ -8,6 +8,15 @@ export interface IOperation {
    start: number;
 }
 
+export const projectDirectory = (relativePath?: string): string => {
+   const projectRoot = path.join(__dirname, '../../m3-odin');
+   if (relativePath) {
+      return path.join(projectRoot, relativePath);
+   } else {
+      return projectRoot;
+   }
+};
+
 export const title = (title: string): void => {
    console.log('');
    console.log(title);
@@ -152,11 +161,17 @@ export const resolveRelativeDirectoryLocation = (basePath: string, testPath: str
    return null;
 }
 
-export const runClean = (directory: string): void => {
-   var currentDirectory = process.cwd();
-   process.chdir(directory);
-   execSync("npm run clean");
+export const npmRun = (script: string, directory?: string): void => {
+   const currentDirectory = process.cwd();
+   if (directory) {
+      process.chdir(directory);
+   }
+   execSync(`npm run ${script}`);
    process.chdir(currentDirectory);
+};
+
+export const runClean = (directory: string): void => {
+   npmRun('clean', directory);
 }
 
 export const buildTypeScript = (directory: string, compilerPath: string = ''): void => {

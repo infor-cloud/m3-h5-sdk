@@ -36,9 +36,10 @@
         var operation = c.begin('Publish NPM');
         console.log('Publish directory: ' + directory);
         console.log('Output directory: ' + distPath);
-        var tag = process.env.TAG ? ' --tag ' + process.env.TAG : '';
         var currentDirectory = process.cwd();
         process.chdir(distPath);
+        var version = fs.readJsonSync(path.join(directory, 'package.json')).version;
+        var tag = version.includes('-next') ? ' --tag next' : '';
         c.execSync('npm publish ' + directory + ' --access public' + tag);
         if (directory !== currentDirectory) {
             process.chdir(currentDirectory);
@@ -47,27 +48,16 @@
     }
     function publishCore() {
         var operation = c.begin('Publish M3 Odin Core');
-        var directory = path.join(__dirname, '../../m3-odin/src/core');
-        c.runClean(directory);
-        c.buildTypeScript(directory, compilerPath);
+        c.npmRun('build:lib-core', c.projectDirectory());
+        var directory = c.projectDirectory('projects/infor-up/m3-odin');
         publishNpm(directory);
         c.end(operation);
     }
     function publishAngular() {
         var operation = c.begin('Publish M3 Odin Angular');
-        var directory = path.join(__dirname, '../../m3-odin/src/angular');
-        c.runClean(directory);
-        c.buildNgc(directory, ngcCompilerPath);
-        // Move files in dist directory from /dist/src/angular to /dist and remove src directory
-        var ngcOutputDirectory = path.join(directory, 'dist/src/angular');
-        var distDirectory = path.join(directory, 'dist');
-        var files = fs.readdirSync(ngcOutputDirectory);
-        c.copyFiles(ngcOutputDirectory, distDirectory, files);
-        for (var _i = 0, files_1 = files; _i < files_1.length; _i++) {
-            var file = files_1[_i];
-            fs.removeSync(path.join(ngcOutputDirectory, file));
-        }
-        publishNpm(directory);
+        c.npmRun('build:lib-angular', c.projectDirectory());
+        var projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+        publishNpm(projectDistDirectory);
         c.end(operation);
     }
     function publishCli() {

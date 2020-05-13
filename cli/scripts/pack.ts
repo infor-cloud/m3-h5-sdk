@@ -47,10 +47,8 @@ function packNpm(directory: string): void {
 function packCore(): void {
    const operation = c.begin('Pack M3 Odin Core');
 
-   const directory = path.join(__dirname, '../../m3-odin/src/core');
-   c.runClean(directory);
-   c.buildTypeScript(directory, compilerPath);
-
+   c.npmRun('build:lib-core', c.projectDirectory());
+   const directory = c.projectDirectory('projects/infor-up/m3-odin');
    packNpm(directory);
 
    c.end(operation);
@@ -58,21 +56,9 @@ function packCore(): void {
 
 function packAngular(): void {
    const operation = c.begin('Pack M3 Odin Angular');
-
-   const directory = path.join(__dirname, '../../m3-odin/src/angular');
-   c.runClean(directory);
-   c.buildNgc(directory, ngcCompilerPath);
-
-   // Move files in dist directory from /dist/src/angular to /dist and remove src directory
-   const ngcOutputDirectory = path.join(directory, 'dist/src/angular');
-   const distDirectory = path.join(directory, 'dist');
-   const files = fs.readdirSync(ngcOutputDirectory);
-   c.copyFiles(ngcOutputDirectory, distDirectory, files);
-   for (const file of files) {
-      fs.removeSync(path.join(ngcOutputDirectory, file));
-   }
-
-   packNpm(directory);
+   c.npmRun('build:lib-angular', c.projectDirectory());
+   const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+   packNpm(projectDistDirectory);
 
    c.end(operation);
 }

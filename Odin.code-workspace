@@ -9,11 +9,11 @@
          "name": "CLI"
       },
       {
-         "path": "./m3-odin/src/core",
+         "path": "./m3-odin/projects/infor-up/m3-odin",
          "name": "Core"
       },
       {
-         "path": "./m3-odin/src/angular",
+         "path": "./m3-odin/projects/infor-up/m3-odin-angular",
          "name": "Odin Angular"
       }
    ],
