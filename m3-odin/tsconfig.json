@@ -19,7 +19,7 @@
       ],
       "paths": {
          "@infor-up/m3-odin": [
-            "src/core"
+            "projects/infor-up/m3-odin/dist"
          ],
          "@infor-up/m3-odin-angular": [
             "dist/infor-up/m3-odin-angular/infor-up-m3-odin-angular",

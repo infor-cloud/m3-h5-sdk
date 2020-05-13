@@ -4,10 +4,11 @@
    "license": "Apache-2.0",
    "scripts": {
       "ng": "ng",
-      "start": "npm run clean && ng serve --proxy-config proxy.conf.json",
-      "clean": "cd src/core && npm run clean && cd ../angular && npm run clean",
+      "start": "npm run clean && npm run build:libs && ng serve --proxy-config proxy.conf.json",
+      "clean": "cd projects/infor-up/m3-odin && npm run clean && cd ../../../",
       "build": "ng build m3-odin-samples",
       "build-aot": "ng build m3-odin-samples --aot --prod",
+      "build:libs": "tsc -p projects/infor-up/m3-odin/tsconfig.json && ng build @infor-up/m3-odin-angular --prod",
       "test": "ng test m3-odin-samples --watch",
       "test:once": "ng test m3-odin-samples",
       "lint": "ng lint",
