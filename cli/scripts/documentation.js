@@ -15,8 +15,8 @@
     var moduleFormat = 'commonjs';
     var mode = 'file'; // modules | file
     var includes = [
-        'core',
-        'angular'
+        'm3-odin',
+        'm3-odin-angular'
     ];
     c.title('Generate M3 Odin API documentation');
     generate();
@@ -26,8 +26,8 @@
     }
     function generate() {
         var operation = c.begin('Generating');
-        var sourceDirectory = path.join(__dirname, '../../m3-odin/src');
-        var targetDirectory = path.join(__dirname, '../../m3-odin/docs');
+        var sourceDirectory = c.projectDirectory('projects/infor-up');
+        var targetDirectory = c.projectDirectory('docs');
         var version = resolveVersion();
         console.log('Version: ' + version);
         console.log('Source directory: ' + sourceDirectory);

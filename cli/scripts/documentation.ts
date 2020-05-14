@@ -5,8 +5,8 @@ const name = 'M3 Odin';
 const moduleFormat = 'commonjs';
 const mode = 'file'; // modules | file
 const includes = [
-   'core',
-   'angular'
+   'm3-odin',
+   'm3-odin-angular'
 ];
 
 c.title('Generate M3 Odin API documentation');
@@ -20,8 +20,8 @@ function resolveVersion(): string {
 function generate(): void {
    const operation = c.begin('Generating');
 
-   const sourceDirectory = path.join(__dirname, '../../m3-odin/src');
-   const targetDirectory = path.join(__dirname, '../../m3-odin/docs');
+   const sourceDirectory = c.projectDirectory('projects/infor-up');
+   const targetDirectory = c.projectDirectory('docs');
    const version = resolveVersion();
 
    console.log('Version: ' + version);
@@ -34,7 +34,7 @@ function generate(): void {
 
    const sourceFiles = includes.join(' ');
    const fullName = name + ' - ' + version;
-   let command = `typedoc --name "${fullName}" --readme none --mode ${mode} --module ${moduleFormat} --excludeExternals --externalPattern "*@angular*|*rxjs*" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out "${targetDirectory}" ${sourceFiles}`;
+   const command = `typedoc --name "${fullName}" --readme none --mode ${mode} --module ${moduleFormat} --excludeExternals --externalPattern "*@angular*|*rxjs*" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out "${targetDirectory}" ${sourceFiles}`;
    c.execSync(command);
 
    c.end(operation);
