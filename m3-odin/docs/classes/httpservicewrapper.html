@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Position | M3 Odin - 3.0.0-next.1</title>
+	<title>HttpServiceWrapper | M3 Odin - 3.0.0-next.1</title>
 	<meta name="description" content="Documentation for M3 Odin - 3.0.0-next.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,36 +52,28 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="position.html">Position</a>
+					<a href="httpservicewrapper.html">HttpServiceWrapper</a>
 				</li>
 			</ul>
-			<h1>Class Position</h1>
+			<h1>Class HttpServiceWrapper</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Defines the postion of a form control in the panel grid.</p>
-					</div>
-					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Position } <span class="hljs-keyword">from</span> <span class="hljs-string">'@infor-up/m3-odin'</span>;</code></pre>
-					<p>The top and left properties are 1-indexed.</p>
-					<dl class="tsd-comment-tags">
-						<dt>since</dt>
-						<dd><p>2.0.0</p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Position</span>
+						<span class="target">HttpServiceWrapper</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><span class="tsd-signature-type">IHttpService</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -89,58 +81,70 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="position.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="position.html#left" class="tsd-kind-icon">left</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="position.html#top" class="tsd-kind-icon">top</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="position.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="httpservicewrapper.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpservicewrapper.html#execute" class="tsd-kind-icon">execute</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="height" class="tsd-anchor"></a>
-					<h3>height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/1296f8e/m3-odin/projects/infor-up/m3-odin/form/elements.ts#L49">projects/infor-up/m3-odin/form/elements.ts:49</a></li>
-						</ul>
-					</aside>
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Http<wbr>Service<wbr>Wrapper<span class="tsd-signature-symbol">(</span>http<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpClient</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpservicewrapper.html" class="tsd-signature-type">HttpServiceWrapper</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/1296f8e/m3-odin/projects/infor-up/m3-odin-angular/src/lib/service.ts#L281">projects/infor-up/m3-odin-angular/src/lib/service.ts:281</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>http: <span class="tsd-signature-type">HttpClient</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httpservicewrapper.html" class="tsd-signature-type">HttpServiceWrapper</a></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="left" class="tsd-anchor"></a>
-					<h3>left</h3>
-					<div class="tsd-signature tsd-kind-icon">left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/1296f8e/m3-odin/projects/infor-up/m3-odin/form/elements.ts#L47">projects/infor-up/m3-odin/form/elements.ts:47</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="top" class="tsd-anchor"></a>
-					<h3>top</h3>
-					<div class="tsd-signature tsd-kind-icon">top<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/1296f8e/m3-odin/projects/infor-up/m3-odin/form/elements.ts#L46">projects/infor-up/m3-odin/form/elements.ts:46</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="width" class="tsd-anchor"></a>
-					<h3>width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/1296f8e/m3-odin/projects/infor-up/m3-odin/form/elements.ts#L48">projects/infor-up/m3-odin/form/elements.ts:48</a></li>
-						</ul>
-					</aside>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="execute" class="tsd-anchor"></a>
+					<h3>execute</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">execute<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IHttpRequest</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IHttpResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/1296f8e/m3-odin/projects/infor-up/m3-odin-angular/src/lib/service.ts#L285">projects/infor-up/m3-odin-angular/src/lib/service.ts:285</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>request: <span class="tsd-signature-type">IHttpRequest</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IHttpResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -157,19 +161,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="position.html" class="tsd-kind-icon">Position</a>
+						<a href="httpservicewrapper.html" class="tsd-kind-icon">Http<wbr>Service<wbr>Wrapper</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="position.html#height" class="tsd-kind-icon">height</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="httpservicewrapper.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="position.html#left" class="tsd-kind-icon">left</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="position.html#top" class="tsd-kind-icon">top</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="position.html#width" class="tsd-kind-icon">width</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpservicewrapper.html#execute" class="tsd-kind-icon">execute</a>
 							</li>
 						</ul>
 					</li>
