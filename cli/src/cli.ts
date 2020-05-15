@@ -3,7 +3,7 @@
 import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
-import { buildProject, INewProjectOptions, IServeOptions, newProject, serveProject, setConfiguration } from './commands';
+import { buildProject, INewProjectOptions, IServeOptions, login, newProject, serveProject, setConfiguration } from './commands';
 import { isValidProxyUrl } from './utils';
 
 const versionNumber = require('../package.json').version;
@@ -113,6 +113,20 @@ program
          multiTenant: Boolean(options.multiTenant),
          ionApi: Boolean(options.ionApi),
       });
+   });
+
+program
+   .command('login <config>')
+   .description('Login before serve')
+   .action(async (config) => {
+      try {
+         await login({
+            config,
+         });
+      } catch (error) {
+         console.error(error);
+         exit('Login failed');
+      }
    });
 
 program
