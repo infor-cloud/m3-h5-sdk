@@ -94,8 +94,13 @@ export async function login(options: LoginOptions) {
    });
    const [page] = await browser.pages();
    const token = await waitForAccessToken(page, config);
+   await page.goto('TODO-CONFIGURE-URL-TO-M3/mne');
+   await page.waitFor(10000);
+   const cookies = await waitForMneCookies(page);
+   console.log('Cookies:', cookies);
    await browser.close();
    writeTokenToFile(token);
+   writeCookiesToFile(cookies);
 }
 
 async function waitForAccessToken(page: puppeteer.Page, config: IonApiConfig): Promise<Token> {
@@ -120,6 +125,13 @@ function writeTokenToFile(token: Token) {
    fs.writeJsonSync(filePath, content);
 }
 
+function writeCookiesToFile(cookies: puppeteer.Cookie[]) {
+   // File paths & content should match mtauth.ts
+   const filePath = path.resolve(os.tmpdir(), 'cookieheader.json');
+   const content = cookies.map(({ name, value }) => `${name}=${value};`).join(' ');
+   fs.writeFileSync(filePath, content);
+}
+
 function readIonApiConfig(configPath: string): IonApiConfig {
    const data: RawIonApiConfig = fs.readJSONSync(configPath);
    return new IonApiConfig(data);
@@ -129,4 +141,31 @@ interface Token {
    access_token: string;
    token_type: string;
    expires_in: string;
+}
+
+async function waitForMneCookies(page: puppeteer.Page): Promise<puppeteer.Cookie[]> {
+   return new Promise<puppeteer.Cookie[]>((resolvePromise, rejectPromise) => {
+      const intervalId = setInterval(async () => {
+         try {
+            const cookies = await getAllCookies(page);
+            const sessionCookie = cookies.find(mneSessionCookie);
+            if (sessionCookie) {
+               clearInterval(intervalId);
+               resolvePromise(cookies);
+            }
+         } catch (error) {
+            clearInterval(intervalId);
+            rejectPromise(error);
+         }
+      }, 1000);
+   });
+
+   async function getAllCookies(_page: puppeteer.Page): Promise<puppeteer.Cookie[]> {
+      const getAllCookiesResponse = await (_page as any)._client.send('Network.getAllCookies');
+      return getAllCookiesResponse.cookies;
+   }
+
+   function mneSessionCookie(cookie: puppeteer.Cookie) {
+      return cookie.path === '/mne' && cookie.name === 'JSESSIONID';
+   }
 }
