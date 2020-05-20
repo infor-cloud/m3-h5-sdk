@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ArrayUtil, CoreBase, IUserContext, Log } from '@infor-up/m3-odin';
-import { UserService, MIService } from '@infor-up/m3-odin-angular';
+import { CoreBase, IUserContext } from '@infor-up/m3-odin';
+import { MIService, UserService } from '@infor-up/m3-odin-angular';
 
 @Component({
    selector: 'app-root',

@@ -1,8 +1,9 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -43,12 +44,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 })(function (require, exports) {
     "use strict";
-    var _this = this;
     Object.defineProperty(exports, "__esModule", { value: true });
     var archiver = require("archiver");
     var p = require("child_process");
     var fs = require("fs-extra");
     var path = require("path");
+    exports.projectDirectory = function (relativePath) {
+        var projectRoot = path.join(__dirname, '../../m3-odin');
+        if (relativePath) {
+            return path.join(projectRoot, relativePath);
+        }
+        else {
+            return projectRoot;
+        }
+    };
     exports.title = function (title) {
         console.log('');
         console.log(title);
@@ -174,11 +183,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         return null;
     };
-    exports.runClean = function (directory) {
+    exports.npmRun = function (script, directory) {
         var currentDirectory = process.cwd();
-        process.chdir(directory);
-        exports.execSync("npm run clean");
+        if (directory) {
+            process.chdir(directory);
+        }
+        exports.execSync("npm run " + script);
         process.chdir(currentDirectory);
+    };
+    exports.runClean = function (directory) {
+        exports.npmRun('clean', directory);
     };
     exports.buildTypeScript = function (directory, compilerPath) {
         if (compilerPath === void 0) { compilerPath = ''; }
@@ -232,7 +246,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         return value.indexOf(suffix, value.length - suffix.length) !== -1;
     };
-    exports.zip = function (sourceDir, destDir, name) { return __awaiter(_this, void 0, void 0, function () {
+    exports.zip = function (sourceDir, destDir, name) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolvePromise, rejectPromise) {
                     var archive = archiver('zip');

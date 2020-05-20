@@ -34,10 +34,13 @@ function publishNpm(directory: string): void {
    console.log('Publish directory: ' + directory);
    console.log('Output directory: ' + distPath);
 
-   var currentDirectory = process.cwd();
+   const currentDirectory = process.cwd();
    process.chdir(distPath);
 
-   c.execSync('npm publish ' + directory + " --access public");
+   const version: string = fs.readJsonSync(path.join(directory, 'package.json')).version;
+   const tag = version.includes('-next') ? ' --tag next' : '';
+
+   c.execSync('npm publish ' + directory + ' --access public' + tag);
 
    if (directory !== currentDirectory) {
       process.chdir(currentDirectory);
@@ -49,10 +52,8 @@ function publishNpm(directory: string): void {
 function publishCore(): void {
    const operation = c.begin('Publish M3 Odin Core');
 
-   const directory = path.join(__dirname, '../../m3-odin/src/core');
-   c.runClean(directory);
-   c.buildTypeScript(directory, compilerPath);
-
+   c.npmRun('build:lib-core', c.projectDirectory());
+   const directory = c.projectDirectory('projects/infor-up/m3-odin');
    publishNpm(directory);
 
    c.end(operation);
@@ -61,20 +62,9 @@ function publishCore(): void {
 function publishAngular(): void {
    const operation = c.begin('Publish M3 Odin Angular');
 
-   const directory = path.join(__dirname, '../../m3-odin/src/angular');
-   c.runClean(directory);
-   c.buildNgc(directory, ngcCompilerPath);
-
-   // Move files in dist directory from /dist/src/angular to /dist and remove src directory
-   const ngcOutputDirectory = path.join(directory, 'dist/src/angular');
-   const distDirectory = path.join(directory, 'dist');
-   const files = fs.readdirSync(ngcOutputDirectory);
-   c.copyFiles(ngcOutputDirectory, distDirectory, files);
-   for (const file of files) {
-      fs.removeSync(path.join(ngcOutputDirectory, file));
-   }
-
-   publishNpm(directory);
+   c.npmRun('build:lib-angular', c.projectDirectory());
+   const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+   publishNpm(projectDistDirectory);
 
    c.end(operation);
 }

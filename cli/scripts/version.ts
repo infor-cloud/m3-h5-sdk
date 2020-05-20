@@ -5,15 +5,15 @@ import * as c from './common';
 c.title('Update M3 Odin versions');
 
 const directories = [
-   'm3-odin/src/core',
-   'm3-odin/src/angular',
+   'm3-odin/projects/infor-up/m3-odin',
+   'm3-odin/projects/infor-up/m3-odin-angular',
    'm3-odin',
    'cli'
 ];
 
 const files = [
    'm3-odin/package-lock.json',
-   'm3-odin/src/angular/package.json',
+   'm3-odin/projects/infor-up/m3-odin-angular/package.json',
    'cli/boilerplate/basic/package.json',
    'cli/boilerplate/basic-material/package.json',
    'cli/boilerplate/angular/package.json',

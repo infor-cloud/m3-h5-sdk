@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { M3OdinModule } from '@infor-up/m3-odin-angular';
@@ -15,7 +15,21 @@ import { AppComponent } from './app.component';
       SohoComponentsModule,
       M3OdinModule
    ],
-   providers: [],
+   providers: [
+      {
+         provide: LOCALE_ID,
+         useValue: 'en-US',
+      },
+      {
+         provide: APP_INITIALIZER,
+         multi: true,
+         useFactory: (locale: string) => () => {
+            Soho.Locale.culturesPath = '/assets/ids-enterprise/js/cultures/';
+            Soho.Locale.set(locale);
+         },
+         deps: [LOCALE_ID],
+      }
+   ],
    bootstrap: [AppComponent]
 })
 export class AppModule { }

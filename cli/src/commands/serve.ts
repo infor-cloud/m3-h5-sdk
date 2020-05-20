@@ -138,8 +138,8 @@ function standardProxyFile(proxyConfig: ProxyConfig) {
    return { content: JSON.stringify(proxyConfig), name: 'odin_proxy.json' };
 }
 
-type PossibleProxyConfig = WebpackDevServer.proxyConfigMap | WebpackDevServer.proxyConfigArrayItem[] | undefined;
-type ProxyConfig = WebpackDevServer.proxyConfigMap;
+type PossibleProxyConfig = WebpackDevServer.ProxyConfigMap | WebpackDevServer.ProxyConfigArrayItem[] | undefined;
+type ProxyConfig = WebpackDevServer.ProxyConfigMap;
 function isProxyConfig(proxy: PossibleProxyConfig): proxy is ProxyConfig {
    return proxy !== undefined && !Array.isArray(proxy);
 }

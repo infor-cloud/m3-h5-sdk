@@ -2,6 +2,7 @@
    "compileOnSave": false,
    "compilerOptions": {
       "baseUrl": "./",
+      "module": "esnext",
       "outDir": "./dist/out-tsc",
       "sourceMap": true,
       "declaration": false,
@@ -18,10 +19,11 @@
       ],
       "paths": {
          "@infor-up/m3-odin": [
-            "src/core"
+            "projects/infor-up/m3-odin/dist"
          ],
          "@infor-up/m3-odin-angular": [
-            "src/angular"
+            "dist/infor-up/m3-odin-angular/infor-up-m3-odin-angular",
+            "dist/infor-up/m3-odin-angular"
          ]
       }
    }

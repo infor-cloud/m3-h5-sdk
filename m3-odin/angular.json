@@ -11,6 +11,7 @@
             "build": {
                "builder": "@angular-devkit/build-angular:browser",
                "options": {
+                  "aot": true,
                   "outputPath": "dist/m3-odin",
                   "index": "src/index.html",
                   "main": "src/main.ts",
@@ -26,6 +27,11 @@
                         "glob": "**/*",
                         "input": "src/assets",
                         "output": "/assets"
+                     },
+                     {
+                        "glob": "**/*",
+                        "input": "./node_modules/ids-enterprise/dist/js/cultures",
+                        "output": "/assets/ids-enterprise/js/cultures"
                      }
                   ],
                   "styles": [
@@ -35,12 +41,17 @@
                   "scripts": [
                      "node_modules/jquery/dist/jquery.js",
                      "node_modules/d3/build/d3.js",
-                     "node_modules/ids-enterprise/dist/js/sohoxi.js",
-                     "node_modules/ids-enterprise/dist/js/cultures/en-US.js"
+                     "node_modules/ids-enterprise/dist/js/sohoxi.js"
                   ]
                },
                "configurations": {
                   "production": {
+                     "budgets": [
+                        {
+                           "type": "anyComponentStyle",
+                           "maximumWarning": "6kb"
+                        }
+                     ],
                      "fileReplacements": [
                         {
                            "replace": "src/environments/environment.ts",
@@ -140,38 +151,38 @@
             }
          }
       },
-      "m3-odin-angular": {
-         "root": "projects/m3-odin-angular",
-         "sourceRoot": "projects/m3-odin-angular/src",
+      "@infor-up/m3-odin-angular": {
          "projectType": "library",
-         "prefix": "lib",
+         "root": "projects/infor-up/m3-odin-angular",
+         "sourceRoot": "projects/infor-up/m3-odin-angular/src",
+         "prefix": "odin",
          "architect": {
             "build": {
                "builder": "@angular-devkit/build-ng-packagr:build",
                "options": {
-                  "tsConfig": "projects/m3-odin-angular/tsconfig.lib.json",
-                  "project": "projects/m3-odin-angular/ng-package.json"
+                  "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.json",
+                  "project": "projects/infor-up/m3-odin-angular/ng-package.json"
                },
                "configurations": {
                   "production": {
-                     "project": "projects/m3-odin-angular/ng-package.prod.json"
+                     "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.prod.json"
                   }
                }
             },
             "test": {
                "builder": "@angular-devkit/build-angular:karma",
                "options": {
-                  "main": "projects/m3-odin-angular/src/test.ts",
-                  "tsConfig": "projects/m3-odin-angular/tsconfig.spec.json",
-                  "karmaConfig": "projects/m3-odin-angular/karma.conf.js"
+                  "main": "projects/infor-up/m3-odin-angular/src/test.ts",
+                  "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.spec.json",
+                  "karmaConfig": "projects/infor-up/m3-odin-angular/karma.conf.js"
                }
             },
             "lint": {
                "builder": "@angular-devkit/build-angular:tslint",
                "options": {
                   "tsConfig": [
-                     "projects/m3-odin-angular/tsconfig.lib.json",
-                     "projects/m3-odin-angular/tsconfig.spec.json"
+                     "projects/infor-up/m3-odin-angular/tsconfig.lib.json",
+                     "projects/infor-up/m3-odin-angular/tsconfig.spec.json"
                   ],
                   "exclude": [
                      "**/node_modules/**"
@@ -183,7 +194,7 @@
    },
    "schematics": {
       "@schematics/angular:component": {
-         "styleext": "css"
+         "style": "css"
       }
    }
 }
