@@ -130,7 +130,7 @@ function updateOdinConfig(ionApiConfig: IonApiConfig, m3Url?: string) {
       setTarget('/mne', m3Url);
       setTarget('/ca', m3Url);
    } else {
-      setTarget('/m3api-rest', `${ionApiConfig.getIonApiUrl()}/M3`);
+      setTarget('/m3api-rest', ionApiConfig.getIonApiUrl());
    }
    writeConfig(odinConfig);
 
