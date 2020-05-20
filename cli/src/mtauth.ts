@@ -64,6 +64,19 @@ class MultiTenantAuthenticator implements Authenticator {
    }
 
    setIONAPIToken(clientRequest: ClientRequest, incomingMessage: IncomingMessage, serverResponse: ServerResponse) {
+      // BEGIN CSRF WORKAROUND
+      // M3 does not seem to accept/use CSRF token when routed through ION API.
+      if (clientRequest.path.includes('m3api-rest/csrf')) {
+         console.log('Faking response to CSRF request');
+         serverResponse.write('fake-csrf-token');
+         serverResponse.end();
+         return;
+      }
+      if (clientRequest.hasHeader('fnd-csrf-token')) {
+         console.log('Removing fnd-csrf-token header from ION API request');
+         clientRequest.removeHeader('fnd-csrf-token');
+      }
+      // END CSRF WORKAROUND
       if (new Date() >= this.tokenExpirationTimestamp) {
          console.log('Authorization header file must be read.');
          const json = this.readAuthHeaderFile();
