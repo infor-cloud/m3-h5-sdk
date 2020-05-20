@@ -116,16 +116,20 @@ program
    });
 
 program
-   .command('login <config>')
-   .description('Login before serve')
-   .action(async (config) => {
+   .command('experimental-login <ionApiConfigPath>')
+   .option('--m3 <m3Url>', 'URL to M3')
+   .option('-c, --update-config', 'Update odin.json configuration')
+   .description('Experimental Multi-Tenant login')
+   .action(async (ionApiConfig: string, options) => {
       try {
          await login({
-            config,
+            ionApiConfig,
+            m3Url: options.m3,
+            updateConfig: options.updateConfig,
          });
       } catch (error) {
          console.error(error);
-         exit('Login failed');
+         exit('Login command failed');
       }
    });
 

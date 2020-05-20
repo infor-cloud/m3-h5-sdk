@@ -2,9 +2,12 @@ import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as puppeteer from 'puppeteer';
+import { readConfig, writeConfig } from '../utils';
 
 export interface LoginOptions {
-   config: string;
+   ionApiConfig: string;
+   m3Url?: string;
+   updateConfig?: boolean;
 }
 
 interface RawIonApiConfig {
@@ -63,11 +66,11 @@ class IonApiConfig {
    }
 
    getIonApiUrl() {
-      return path.join(this.data.iu, this.getTenant());
+      return urlJoin(this.data.iu, this.getTenant());
    }
 
    getAuthUrl() {
-      const url = new URL(path.join(this.data.pu, this.data.oa));
+      const url = new URL(urlJoin(this.data.pu, this.data.oa));
       url.searchParams.set('client_id', this.getClientId());
       url.searchParams.set('redirect_uri', this.getRedirectUri());
       url.searchParams.set('response_type', 'token');
@@ -79,7 +82,7 @@ const WINDOW_WIDTH = 500;
 const WINDOW_HEIGHT = 600;
 
 export async function login(options: LoginOptions) {
-   const config = readIonApiConfig(options.config);
+   const config = readIonApiConfig(options.ionApiConfig);
    console.log('A browser will pop up where you will be asked to sign in and approve the authorization request.');
    const browser = await puppeteer.launch({
       headless: false,
@@ -93,14 +96,60 @@ export async function login(options: LoginOptions) {
       },
    });
    const [page] = await browser.pages();
+   console.log('Waiting for ION API Token');
    const token = await waitForAccessToken(page, config);
-   await page.goto('TODO-CONFIGURE-URL-TO-M3/mne');
-   await page.waitFor(10000);
-   const cookies = await waitForMneCookies(page);
-   console.log('Cookies:', cookies);
-   await browser.close();
    writeTokenToFile(token);
-   writeCookiesToFile(cookies);
+   console.log('Got ION API token');
+   if (options.m3Url) {
+      console.log(`Visiting '${options.m3Url}/mne' to get session cookie`);
+      await page.goto(`${options.m3Url}/mne`);
+      const cookies = await waitForMneCookies(page);
+      writeCookiesToFile(cookies);
+      console.log('Got M3 session cookie');
+   }
+   if (options.updateConfig) {
+      console.log('Updating odin.json');
+      updateOdinConfig(config, options.m3Url);
+      console.log('odin.json has been updated');
+   }
+   await browser.close();
+
+   if (options.m3Url) {
+      console.log('Login successful! You can now run "odin serve --multi-tenant"');
+   } else {
+      console.log('Login successful! You can now run "odin serve --multi-tenant --ion-api"');
+   }
+}
+
+function updateOdinConfig(ionApiConfig: IonApiConfig, m3Url?: string) {
+   const odinConfig = readConfig();
+   const ionTarget = setTarget('/ODIN_DEV_TENANT', ionApiConfig.getIonApiUrl());
+   ionTarget.pathRewrite = { '^/ODIN_DEV_TENANT': '' };
+   if (m3Url) {
+      setTarget('/m3api-rest', m3Url);
+      setTarget('/mne', m3Url);
+      setTarget('/ca', m3Url);
+   } else {
+      setTarget('/m3api-rest', `${ionApiConfig.getIonApiUrl()}/M3`);
+   }
+   writeConfig(odinConfig);
+
+   function setTarget(proxyPath: string, target: string) {
+      console.log(`Update target ${proxyPath} -> ${target}`);
+      const config = getPathConfig(proxyPath);
+      config.target = target;
+      return config;
+   }
+
+   function getPathConfig(proxyPath: string) {
+      if (odinConfig.proxy && !Array.isArray(odinConfig.proxy)) {
+         const pathConfig = odinConfig.proxy[proxyPath];
+         if (typeof pathConfig !== 'string') {
+            return pathConfig;
+         }
+      }
+      throw new Error(`Could not get proxy config for path ${proxyPath}`);
+   }
 }
 
 async function waitForAccessToken(page: puppeteer.Page, config: IonApiConfig): Promise<Token> {
@@ -168,4 +217,8 @@ async function waitForMneCookies(page: puppeteer.Page): Promise<puppeteer.Cookie
    function mneSessionCookie(cookie: puppeteer.Cookie) {
       return cookie.path === '/mne' && cookie.name === 'JSESSIONID';
    }
+}
+
+function urlJoin(...segments: string[]): string {
+   return segments.map(segment => segment.replace(/(^\/|\/$)/g, '')).join('/');
 }

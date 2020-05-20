@@ -48,7 +48,7 @@
       "fs-extra": "^9.0.0",
       "html-webpack-plugin": "^4.3.0",
       "inquirer": "^7.1.0",
-      "puppeteer": "^3.0.4",
+      "puppeteer": "~3.0.4",
       "sass": "^1.26.5",
       "sass-loader": "^8.0.2",
       "style-loader": "^1.2.1",
