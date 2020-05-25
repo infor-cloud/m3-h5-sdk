@@ -3,7 +3,7 @@
 import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
-import { buildProject, INewProjectOptions, IServeOptions, newProject, serveProject, setConfiguration } from './commands';
+import { buildProject, INewProjectOptions, IServeOptions, login, newProject, serveProject, setConfiguration } from './commands';
 import { isValidProxyUrl } from './utils';
 
 const versionNumber = require('../package.json').version;
@@ -113,6 +113,24 @@ program
          multiTenant: Boolean(options.multiTenant),
          ionApi: Boolean(options.ionApi),
       });
+   });
+
+program
+   .command('experimental-login <ionApiConfigPath>')
+   .option('--m3 <m3Url>', 'URL to M3')
+   .option('-c, --update-config', 'Update odin.json configuration')
+   .description('Experimental Multi-Tenant login')
+   .action(async (ionApiConfig: string, options) => {
+      try {
+         await login({
+            ionApiConfig,
+            m3Url: options.m3,
+            updateConfig: options.updateConfig,
+         });
+      } catch (error) {
+         console.error(error);
+         exit('Login command failed');
+      }
    });
 
 program
