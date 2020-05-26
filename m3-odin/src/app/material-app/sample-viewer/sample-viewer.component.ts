@@ -36,10 +36,10 @@ export class SampleViewerDialogComponent {
    constructor(public dialogRef: MatDialogRef<SampleViewerDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: IModalData) { }
 
    getSampleUrl(extension: string) {
-      return `/assets/source/${this.appName}-app/samples/${this.data.sample}/${this.data.sample}.component.${extension.toLowerCase()}`;
+      return `assets/source/${this.appName}-app/samples/${this.data.sample}/${this.data.sample}.component.${extension.toLowerCase()}`;
    }
 
    getServiceUrl() {
-      return `/assets/source/${this.appName}-app/samples/${this.data.sample}/${this.data.service}.service.ts`;
+      return `assets/source/${this.appName}-app/samples/${this.data.sample}/${this.data.service}.service.ts`;
    }
 }

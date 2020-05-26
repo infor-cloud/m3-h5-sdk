@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
          provide: APP_INITIALIZER,
          multi: true,
          useFactory: (locale: string) => () => {
-            Soho.Locale.culturesPath = '/assets/ids-enterprise/js/cultures/';
+            Soho.Locale.culturesPath = 'assets/ids-enterprise/js/cultures/';
             Soho.Locale.set(locale);
          },
          deps: [LOCALE_ID],

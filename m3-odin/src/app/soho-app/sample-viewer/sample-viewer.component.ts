@@ -43,10 +43,10 @@ export class SampleViewerDialogComponent {
    constructor() { }
 
    getSampleUrl(extension: string) {
-      return `/assets/source/${this.appName}-app/samples/${this.sample}/${this.sample}.component.${extension.toLowerCase()}`;
+      return `assets/source/${this.appName}-app/samples/${this.sample}/${this.sample}.component.${extension.toLowerCase()}`;
    }
 
    getServiceUrl() {
-      return `/assets/source/${this.appName}-app/samples/${this.sample}/${this.service}.service.ts`;
+      return `assets/source/${this.appName}-app/samples/${this.sample}/${this.service}.service.ts`;
    }
 }

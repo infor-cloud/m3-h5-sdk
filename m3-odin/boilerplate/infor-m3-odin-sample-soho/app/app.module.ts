@@ -25,7 +25,7 @@ import { SohoAppModule } from './soho-app/soho-app.module';
          multi: true,
          deps: [LOCALE_ID],
          useFactory: (locale: string) => () => {
-            Soho.Locale.culturesPath = '/assets/ids-enterprise/js/cultures/';
+            Soho.Locale.culturesPath = 'assets/ids-enterprise/js/cultures/';
             Soho.Locale.set(locale);
          },
       },
