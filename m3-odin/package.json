@@ -21,8 +21,7 @@
       "odin-pack-samples": "node ../cli/scripts/pack-samples",
       "odin-update-version": "node ../cli/scripts/version",
       "odin-publish": "node ../cli/scripts/publish",
-      "odin-publish-version": "node ../cli/scripts/publish-version",
-      "odin-publish-next-version": "TAG=next node ../cli/scripts/publish-version"
+      "odin-publish-version": "node ../cli/scripts/publish-version"
    },
    "private": true,
    "dependencies": {
