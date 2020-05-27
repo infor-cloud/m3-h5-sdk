@@ -63,6 +63,9 @@ export async function serveProject(options: IServeOptions) {
 
 function prepareProxyFile(proxyConfig: ProxyConfig, options: IServeOptions) {
    setHeaders('/mne');
+   setHeaders('/m3api-rest');
+   setHeaders('/ca');
+   setHeaders('/ODIN_DEV_TENANT');
    if (options.multiTenant) {
       return multiTenantProxyFile(proxyConfig, options.ionApi);
    } else {
@@ -75,9 +78,9 @@ function prepareProxyFile(proxyConfig: ProxyConfig, options: IServeOptions) {
          const target = pathConfig.target;
          if (target) {
             pathConfig.headers = {
-               ...pathConfig.headers,
                Origin: target,
-               Referer: `${target}/odin-dev-proxy`
+               Referer: `${target}/odin-dev-proxy`,
+               ...pathConfig.headers,
             };
          } else {
             console.warn(`Cannot set headers in config for '${apiPath}' since it has no target.`);
