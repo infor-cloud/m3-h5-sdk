@@ -41,6 +41,11 @@ Run the following command to install the CLI globally on your local computer.
 npm install -g @infor-up/m3-odin-cli
 ```
 
+Alternatively, to get the most up-to-date (but potentially unstable) version, add the `@next` tag:
+```
+npm install -g @infor-up/m3-odin-cli@next
+```
+
 ## Verify installation
 Run the following command to verify that the CLI was installed successfully. The command should output the help for the CLI.
 
