@@ -18,6 +18,7 @@ Odin is not a framework of UI components nor does it require the application dev
 * [Build](#build)
 * [Install in H5 (Infor M3)](#install)
 * [Code Examples](#code-examples)
+* [ION API Configuration](#ionapi-configuration)
 * [References](#references)
 
 # <a id="packages"></a> Packages
@@ -359,6 +360,27 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
       // Handle error
     });
   }
+```
+
+# <a id="ionapi-configuration"></a> ION API Configuration
+The `IonApiService` can be configured with various optional properties and overrides using the `IonApiConfig` DI token:
+
+```typescript
+import { IonApiConfig, M3OdinModule } from '@infor-up/m3-odin-angular';
+
+@NgModule({
+   imports: [
+      M3OdinModule,
+   ],
+   providers: [
+      {
+         provide: IonApiConfig,
+         useValue: {
+            withCredentials: true, // Override XMLHttpRequest.withCredentials. Default is false
+         },
+      },
+   ],
+})
 ```
 
 # <a id="references"></a> References

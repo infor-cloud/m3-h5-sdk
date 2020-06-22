@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { ApplicationServiceCore, CoreBase, FormServiceCore, IApplicationService, IBookmark, IEnvironmentContext, IFormRequest, IFormResponse, IFormService, IHttpRequest, IHttpResponse, IHttpService, IIonApiContext, IIonApiOptions, IIonApiRequest, IIonApiResponse, IIonApiService, IMIRequest, IMIResponse, IMIService, IonApiServiceCore, ISearchRequest, ITranslationRequest, ITranslationResponse, IUserContext, IUserService, MIServiceCore, UserServiceCore } from '@infor-up/m3-odin';
 import { Observable } from 'rxjs';
 
@@ -234,6 +234,38 @@ export class FormService extends CoreBase implements IFormService {
 }
 
 /**
+ * Interface for the `IonApiConfig` injection token.
+ */
+export interface IIonApiConfig {
+
+   /**
+    * Set the `XMLHttpRequest.withCredentials` property when making requests.
+    * See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
+    *
+    * @since 3.0.0
+    */
+   withCredentials?: boolean;
+}
+/**
+ * Injectable ION API Service configuration
+ *
+ * **Example**
+ * ```
+ * @NgModule({
+ *    providers: [
+ *       { provide: IonApiConfig, useValue: { ... } }
+ *    ]
+ * })
+ * ```
+ * @since 3.0.0
+ */
+export const IonApiConfig = new InjectionToken<IIonApiConfig>('IonApiConfig', {
+   factory() {
+      return { withCredentials: false };
+   }
+});
+
+/**
  * Angular implementation of [[IIonApiService]]
  *
  * ```typescript
@@ -260,9 +292,9 @@ export class FormService extends CoreBase implements IFormService {
 export class IonApiService extends CoreBase implements IIonApiService {
    private instance: IIonApiService;
 
-   constructor(http: HttpClient, formService: FormService) {
+   constructor(http: HttpClient, formService: FormService, @Inject(IonApiConfig) @Optional() config?: IIonApiConfig) {
       super('IonApiService');
-      this.instance = new IonApiServiceCore(new HttpServiceWrapper(http), formService);
+      this.instance = new IonApiServiceCore(new HttpServiceWrapper(http, config), formService);
    }
 
    getContext(options?: IIonApiOptions): Observable<IIonApiContext> {
@@ -279,7 +311,7 @@ export class IonApiService extends CoreBase implements IIonApiService {
 }
 
 class HttpServiceWrapper implements IHttpService {
-   constructor(private http: HttpClient) {
+   constructor(private http: HttpClient, private config?: IIonApiConfig) {
    }
 
    execute(request: IHttpRequest): Observable<IHttpResponse> {
@@ -288,7 +320,7 @@ class HttpServiceWrapper implements IHttpService {
          responseType: request.responseType,
          headers: request.headers,
          reportProgress: false,
-         withCredentials: true,
+         withCredentials: this.config?.withCredentials,
          observe: 'response'
       });
    }

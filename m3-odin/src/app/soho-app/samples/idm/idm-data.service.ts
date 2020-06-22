@@ -95,7 +95,6 @@ export class IdmDataService extends CoreBase {
                   body: request.body,
                   headers: request.headers,
                   reportProgress: false,
-                  withCredentials: true,
                   observe: 'response'
                });
             }
