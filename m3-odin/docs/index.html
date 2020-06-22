@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>M3 Odin - 3.0.0-next.4</title>
-	<meta name="description" content="Documentation for M3 Odin - 3.0.0-next.4">
+	<title>M3 Odin - 3.0.0-next.5</title>
+	<meta name="description" content="Documentation for M3 Odin - 3.0.0-next.5">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">M3 Odin - 3.0.0-next.4</a>
+					<a href="index.html" class="title">M3 Odin - 3.0.0-next.5</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,7 +52,7 @@
 					<a href="index.html">Globals</a>
 				</li>
 			</ul>
-			<h1>M3 Odin - 3.0.0-next.4</h1>
+			<h1>M3 Odin - 3.0.0-next.5</h1>
 		</div>
 	</div>
 </header>
@@ -134,6 +134,7 @@
 								<li class="tsd-kind-interface"><a href="interfaces/ihttprequest.html" class="tsd-kind-icon">IHttp<wbr>Request</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/ihttpresponse.html" class="tsd-kind-icon">IHttp<wbr>Response</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/ihttpservice.html" class="tsd-kind-icon">IHttp<wbr>Service</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iionapiconfig.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Config</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/iionapicontext.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Context</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/iionapioptions.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/iionapirequest.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Request</a></li>
@@ -157,6 +158,7 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable"><a href="index.html#ionapiconfig" class="tsd-kind-icon">Ion<wbr>Api<wbr>Config</a></li>
 								<li class="tsd-kind-variable"><a href="index.html#context" class="tsd-kind-icon">context</a></li>
 								<li class="tsd-kind-variable"><a href="index.html#require" class="tsd-kind-icon">require</a></li>
 							</ul>
@@ -167,12 +169,38 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="ionapiconfig" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Ion<wbr>Api<wbr>Config</h3>
+					<div class="tsd-signature tsd-kind-icon">Ion<wbr>Api<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/iionapiconfig.html" class="tsd-signature-type">IIonApiConfig</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new InjectionToken&lt;IIonApiConfig&gt;(&#x27;IonApiConfig&#x27;, {factory() {return { withCredentials: false };}})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/e212677/m3-odin/projects/infor-up/m3-odin-angular/src/lib/service.ts#L262">projects/infor-up/m3-odin-angular/src/lib/service.ts:262</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Injectable ION API Service configuration</p>
+						</div>
+						<p><strong>Example</strong></p>
+						<pre><code><span class="hljs-variable">@NgModule</span>({
+   <span class="hljs-attribute">providers</span>: [
+      { <span class="hljs-attribute">provide</span>: IonApiConfig, <span class="hljs-attribute">useValue</span>: { ... } }
+   ]
+})</code></pre>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>3.0.0</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="context" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> context</h3>
 					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = require.context(&#x27;./&#x27;, true, /\.spec\.ts$/)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/3f60665/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L21">projects/infor-up/m3-odin-angular/src/test.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/e212677/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L21">projects/infor-up/m3-odin-angular/src/test.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -209,7 +237,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/3f60665/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L10">projects/infor-up/m3-odin-angular/src/test.ts:10</a></li>
+												<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/e212677/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L10">projects/infor-up/m3-odin-angular/src/test.ts:10</a></li>
 											</ul>
 										</aside>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -225,7 +253,7 @@
 					<div class="tsd-signature tsd-kind-icon">require<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/3f60665/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L8">projects/infor-up/m3-odin-angular/src/test.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/e212677/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L8">projects/infor-up/m3-odin-angular/src/test.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -240,7 +268,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/3f60665/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L9">projects/infor-up/m3-odin-angular/src/test.ts:9</a></li>
+												<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/e212677/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L9">projects/infor-up/m3-odin-angular/src/test.ts:9</a></li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -288,7 +316,7 @@
 													<li class="tsd-description">
 														<aside class="tsd-sources">
 															<ul>
-																<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/3f60665/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L10">projects/infor-up/m3-odin-angular/src/test.ts:10</a></li>
+																<li>Defined in <a href="https://github.com/infor-cloud/m3-h5-sdk/blob/e212677/m3-odin/projects/infor-up/m3-odin-angular/src/test.ts#L10">projects/infor-up/m3-odin-angular/src/test.ts:10</a></li>
 															</ul>
 														</aside>
 														<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -489,6 +517,9 @@
 						<a href="interfaces/ihttpservice.html" class="tsd-kind-icon">IHttp<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/iionapiconfig.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/iionapicontext.html" class="tsd-kind-icon">IIon<wbr>Api<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -541,6 +572,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iuserservice.html" class="tsd-kind-icon">IUser<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="index.html#ionapiconfig" class="tsd-kind-icon">Ion<wbr>Api<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="index.html#context" class="tsd-kind-icon">context</a>
