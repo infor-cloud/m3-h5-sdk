@@ -1,6 +1,8 @@
 # Odin Multi-Tenant Login utility
 This tool is used to handle authentication for the Odin CLI development proxy when targeting multi-tenant environments (`odin serve --multi-tenant`). The tool will let you log in to your environment, and configure the Odin CLI to use the appropriate Authorization headers and cookies for API requests.
 
+**NOTE**: Version 3.0.0 of the Odin CLI introduced the `experimental-login` command, which is intended to perform the same tasks as the Multi-Tenant Login utility. Once the CLI command is considered stable enough, this tool will likely be deprecated.
+
 ## Installation
 The executable and scripts to launch the program are contained in `OdinSDKMTLoginUtility.zip`. Unzip to any destination on your machine, no further installation is needed.
 
