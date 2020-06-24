@@ -33,15 +33,15 @@
    "types": "./dist/index.d.ts",
    "devDependencies": {
       "@types/archiver": "^3.1.0",
-      "@types/fs-extra": "^8.1.0",
+      "@types/fs-extra": "^9.0.1",
       "@types/inquirer": "^6.5.0",
       "@types/node": "^12.12.38",
-      "@types/puppeteer": "^2.1.0",
+      "@types/puppeteer": "^3.0.0",
       "@types/webpack": "^4.41.12",
       "@types/webpack-dev-server": "^3.10.1"
    },
    "dependencies": {
-      "@angular/cli": "^9.1.5",
+      "@angular/cli": "^9.1.9",
       "archiver": "^4.0.1",
       "commander": "^5.1.0",
       "css-loader": "^3.5.3",
