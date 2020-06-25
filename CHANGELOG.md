@@ -1,4 +1,4 @@
-# 3.0.0
+# 3.0.1
 This release contains major updates to dependencies (TypeScript, Angular, IDS Enterprise Components and more). It also contains a new (experimental) way of signing in to multi-tenant environments during development.
 
 ### Upgrading
