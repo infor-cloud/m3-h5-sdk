@@ -21,7 +21,7 @@ You may also need to install NodeJS 12.x (LTS).
 * **angular:** Possibility to configure `IonApiService` using the injectable `IonApiConfig`
 
 ### Bug fixes
-* **angular:**  `IonApiService` no longer uses `XMLHttpRequest.withCredentials` by default. This was causing CORS issues in some environments #41
+* **angular:**  `IonApiService` no longer uses `XMLHttpRequest.withCredentials` by default. This was causing CORS issues in some environments [#41](https://github.com/infor-cloud/m3-h5-sdk/issues/41)
 * **cli:** The development proxy will not forward CSRF requests and headers when proxying M3 requests to ION API.
 * **cli:** The development proxy will modify the Origin header so that POST requests are accepted by ION API.
 
@@ -38,7 +38,7 @@ The IDS Angular Components require changes to `angular.json` to properly fetch a
 # 2.2.1
 
 ### Bug fixes
-* **core:** Properly set CurrentCompany, CurrentDivision & CurrentLanguage on UserContext. Fixes #27 & #7
+* **core:** Properly set CurrentCompany, CurrentDivision & CurrentLanguage on UserContext. Fixes [#27](https://github.com/infor-cloud/m3-h5-sdk/issues/27) and [#7](https://github.com/infor-cloud/m3-h5-sdk/issues/7)
 
 # 2.2.0
 
