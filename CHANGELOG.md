@@ -10,7 +10,7 @@ ng update @infor-up/m3-odin @infor-up/m3-odin-angular @angular/core@9 @angular/c
 
 Don't forget to install the latest `@infor-up/m3-odin-cli`.
 
-The IDS Angular Components may require changes to `angular.json`. See https://github.com/infor-design/enterprise-ng/blob/master/docs/QUICKSTART.md
+The IDS Angular Components may require changes to `angular.json`. See [IDS Quickstart guide](https://github.com/infor-design/enterprise-ng/blob/master/docs/QUICKSTART.md) or the [this diff](https://github.com/infor-cloud/m3-h5-sdk/compare/v2.2.1...v3.0.1#diff-c7890ab62092b26852224e2b1eaed9b3)
 
 Further update instructions are given by the `ng update` command and https://update.angular.io/
 
