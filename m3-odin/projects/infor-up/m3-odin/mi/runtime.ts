@@ -582,10 +582,11 @@ export class MIServiceCore extends CoreBase implements IMIService {
    }
 
    private parseMessage(response: IMIResponse, content: any) {
-      const code = content['@code'];
-      const field = content['@field'];
-      const errorType = content['@type'];
-      let message = content['Message'];
+      const errorContent = content.ErrorMessage || content; // Error can be in the response, or in an ErrorMessage object, see KB 2159861
+      const code = errorContent['@code'];
+      const field = errorContent['@field'];
+      const errorType = errorContent['@type'];
+      let message = errorContent['Message'];
       if (message) {
          // Clean up the message that might contain the code, field and a lot of whitespace.
          if (code) {
@@ -598,7 +599,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
       }
       response.errorCode = code ? code : errorType;
       response.errorField = field;
-      response.errorType = content['@type'];
+      response.errorType = errorContent['@type'];
    }
 
    /**
