@@ -37,7 +37,7 @@
       "@angular/router": "~10.2.3",
       "classlist.js": "^1.1.20150312",
       "highlight.js": "^9.14.2",
-      "ids-enterprise-ng": "^7.2.4",
+      "ids-enterprise-ng": "^8.1.2",
       "rxjs": "~6.5.5",
       "tslib": "^2.0.0",
       "typedoc": "^0.17.6",
