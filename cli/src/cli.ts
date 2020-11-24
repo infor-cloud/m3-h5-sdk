@@ -116,10 +116,11 @@ program
    });
 
 program
-   .command('experimental-login <ionApiConfigPath>')
+   .command('login <ionApiConfigPath>')
+   .alias('experimental-login')
    .option('--m3 <m3Url>', 'URL to M3')
    .option('-c, --update-config', 'Update odin.json configuration')
-   .description('Experimental Multi-Tenant login')
+   .description('Multi-Tenant login')
    .action(async (ionApiConfig: string, options) => {
       try {
          await login({
