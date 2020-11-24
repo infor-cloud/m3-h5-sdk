@@ -12,11 +12,13 @@
       "type": "git",
       "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
    },
+   "dependencies": {
+      "tslib": "^2.0.0"
+   },
    "peerDependencies": {
-      "@angular/common": "^9.1.6",
-      "@angular/core": "^9.1.6",
+      "@angular/common": "^10.2.3",
+      "@angular/core": "^10.2.3",
       "@infor-up/m3-odin": "3.0.2",
-      "rxjs": "^6.0.0",
-      "tslib": "^1.10.0"
+      "rxjs": "^6.0.0"
    }
 }

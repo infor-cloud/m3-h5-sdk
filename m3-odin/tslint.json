@@ -5,6 +5,9 @@
 	],
 	"rules": {
 		"no-output-on-prefix": true,
+		"deprecation": {
+			"severity": "warning"
+		},
 		"use-input-property-decorator": true,
 		"use-output-property-decorator": true,
 		"use-host-property-decorator": true,
