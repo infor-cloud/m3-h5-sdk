@@ -2,6 +2,7 @@
 ## Bug fixes
 * **core:** `MIResponse` properly handles partial errors [#77](https://github.com/infor-cloud/m3-h5-sdk/issues/75)
 * **cli:** New projects uses ids-enterprise-ng version 7.8, which [contains a fix for Chrome users on Mac OS Big Sur](https://github.com/infor-design/enterprise/issues/4612)
+* **cli:** New IDS projects waits for asynchronous `Soho.Locale.set` on app initialization.
 
 # 3.0.1
 This release contains major updates to dependencies (TypeScript, Angular, IDS Enterprise Components and more). It also contains a new (experimental) way of signing in to multi-tenant environments during development.
