@@ -1,5 +1,5 @@
 {
-   "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
+   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
    "version": 1,
    "newProjectRoot": "projects",
    "projects": {
@@ -61,7 +61,6 @@
                      "optimization": true,
                      "outputHashing": "all",
                      "sourceMap": false,
-                     "extractCss": true,
                      "namedChunks": false,
                      "aot": true,
                      "extractLicenses": true,
@@ -97,7 +96,8 @@
                   "karmaConfig": "src/karma.conf.js",
                   "styles": [
                      {
-                        "input": "styles.css"
+                        "input": "styles.css",
+                        "inject": true
                      }
                   ],
                   "scripts": [],
@@ -158,7 +158,7 @@
          "prefix": "odin",
          "architect": {
             "build": {
-               "builder": "@angular-devkit/build-ng-packagr:build",
+               "builder": "@angular-devkit/build-angular:ng-packagr",
                "options": {
                   "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.json",
                   "project": "projects/infor-up/m3-odin-angular/ng-package.json"
