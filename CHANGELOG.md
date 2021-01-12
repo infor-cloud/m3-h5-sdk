@@ -1,3 +1,13 @@
+# 4.0.0
+
+### Changes
+- **all:** Updated dependencies
+- **cli:** The `experimental-login` command is now `login`. [See here](https://github.com/infor-cloud/m3-h5-sdk/issues/55#issuecomment-651713612) for more.
+### Updated Dependencies
+- IDS Enterprise Components 9.1
+- Angular 11
+- Typescript 4
+
 # 3.0.2
 ## Bug fixes
 * **core:** `MIResponse` properly handles partial errors [#77](https://github.com/infor-cloud/m3-h5-sdk/issues/75)

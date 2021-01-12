@@ -4,6 +4,7 @@
       "module": "commonjs",
       "target": "es5",
       "outDir": "dist",
+      "skipLibCheck": true,
       "sourceMap": true,
       "declaration": true,
       "lib": [
