@@ -1,16 +1,17 @@
 {
-	"compilerOptions": {
-		"moduleResolution": "node",
-		"module": "umd",
-		"strict": true,
-		"target": "es5",
-		"sourceMap": false,
-		"declaration": false,
-		"lib": [
-			"es2015"
-		]
-	},
-	"include": [
-		"./*.ts"
-	]
+   "compilerOptions": {
+      "moduleResolution": "node",
+      "module": "umd",
+      "strict": true,
+      "target": "es5",
+      "sourceMap": false,
+      "skipLibCheck": true,
+      "declaration": false,
+      "lib": [
+         "es2015"
+      ]
+   },
+   "include": [
+      "./*.ts"
+   ]
 }

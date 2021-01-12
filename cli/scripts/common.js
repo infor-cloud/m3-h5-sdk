@@ -45,6 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.zip = exports.endsWith = exports.getTimestamp = exports.replaceAll = exports.buildNgc = exports.buildTypeScript = exports.runClean = exports.npmRun = exports.resolveRelativeDirectoryLocation = exports.isJavaScript = exports.getFileExtension = exports.updatePackageVersion = exports.getPackageVersion = exports.replaceInFile = exports.deleteFiles = exports.copyFile = exports.copyFiles = exports.isDirectory = exports.removeDirectory = exports.createDirectory = exports.execSync = exports.execNodeSync = exports.setWorkingDirectory = exports.end = exports.begin = exports.round = exports.repeat = exports.title = exports.projectDirectory = void 0;
     var archiver = require("archiver");
     var p = require("child_process");
     var fs = require("fs-extra");
