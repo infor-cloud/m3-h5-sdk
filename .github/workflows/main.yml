@@ -32,11 +32,11 @@ jobs:
       - name: Build CLI
         run: |
           cd ./cli
-          npm install
+          npm ci
           npm run build
 
       - name: Build Libraries
         run: |
           cd ./m3-odin
-          npm install
-          ls
+          npm ci
+          npm run build:libs
