@@ -31,12 +31,12 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build CLI
         run: |
-          cd ./cli,
-          npm install,
+          cd ./cli
+          npm install
           npm run build
 
       - name: Build Libraries
         run: |
-          cd ./m3-odin,
-          npm install,
+          cd ./m3-odin
+          npm install
           ls
