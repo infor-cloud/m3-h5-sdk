@@ -116,7 +116,7 @@ function addHighlightToPackageJson(filePath: string) {
    console.log('Modifying package.json for highlightjs');
    const text = fs.readFileSync(filePath, 'utf-8');
    const json = JSON.parse(text);
-   json['dependencies']['highlight.js'] = '^9.14.2';
+   json['dependencies']['highlight.js'] = '^10.5.0';
    fs.writeFileSync(filePath, JSON.stringify(json, null, 3), 'utf8');
 }
 
@@ -143,6 +143,10 @@ function copyBoilperplateFiles(sampleSourceName: string, sourcePath: string, tar
    const htmlPath = path.join(sourcePath, indexName);
    console.log('Copying file: ' + htmlPath);
    fs.copyFileSync(htmlPath, path.join(srcTargetPath, indexName));
+
+   const mainPath = path.join(sourcePath, 'main.ts');
+   console.log('Copying file: ' + mainPath);
+   fs.copyFileSync(mainPath, path.join(srcTargetPath, 'main.ts'));
 
    const appSourcePath = path.join(sourcePath, 'app');
    const appTargetPath = path.join(srcTargetPath, 'app');

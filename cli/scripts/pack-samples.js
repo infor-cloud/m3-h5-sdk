@@ -162,7 +162,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         console.log('Modifying package.json for highlightjs');
         var text = fs.readFileSync(filePath, 'utf-8');
         var json = JSON.parse(text);
-        json['dependencies']['highlight.js'] = '^9.14.2';
+        json['dependencies']['highlight.js'] = '^10.5.0';
         fs.writeFileSync(filePath, JSON.stringify(json, null, 3), 'utf8');
     }
     function createProject(name, isSoho) {
@@ -182,6 +182,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var htmlPath = path.join(sourcePath, indexName);
         console.log('Copying file: ' + htmlPath);
         fs.copyFileSync(htmlPath, path.join(srcTargetPath, indexName));
+        var mainPath = path.join(sourcePath, 'main.ts');
+        console.log('Copying file: ' + mainPath);
+        fs.copyFileSync(mainPath, path.join(srcTargetPath, 'main.ts'));
         var appSourcePath = path.join(sourcePath, 'app');
         var appTargetPath = path.join(srcTargetPath, 'app');
         console.log('Copying directory: ' + appSourcePath + ' to ' + appTargetPath);

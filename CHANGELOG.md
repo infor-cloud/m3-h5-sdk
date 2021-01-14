@@ -3,10 +3,13 @@
 ### Changes
 - **all:** Updated dependencies
 - **cli:** The `experimental-login` command is now `login`. [See here](https://github.com/infor-cloud/m3-h5-sdk/issues/55#issuecomment-651713612) for more.
+- **samples:** Now using Highlight.js 10 in samples, fixed an issue where highlighting was not properly initialized.
+
 ### Updated Dependencies
 - IDS Enterprise Components 9.1
 - Angular 11
 - Typescript 4
+- Highlight.js 10
 
 # 3.0.2
 ## Bug fixes

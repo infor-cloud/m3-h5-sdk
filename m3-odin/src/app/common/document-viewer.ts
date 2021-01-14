@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Directive, ElementRef, Input } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
-import { highlightBlock } from 'highlight.js/lib/highlight';
+import { highlightBlock } from 'highlight.js';
 
 @Component({
    selector: 'odin-document-viewer',
