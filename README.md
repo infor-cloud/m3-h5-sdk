@@ -177,7 +177,7 @@ Antoher option is to go to Start to access the Start pages and add a page with a
 
 # <a id="code-examples"></a> Code Examples
 ## User Context
-The user context contains the information for the user in MNS150. The MIService will use and pass the current company as matrix parameters to the M3 MI programs unless specific CONO and DIVI are passed in the MIRequest. Keep the reference to the UserContext objkect and it will be
+The user context contains the information for the user in MNS150. The MIService will use and pass the current company as matrix parameters to the M3 MI programs unless specific CONO and DIVI are passed in the MIRequest. Keep the reference to the UserContext object and it will be
 automatically updated if company and division are changed during the session.
 
 It is recommended to load the UserContext as part of the application initialization.
