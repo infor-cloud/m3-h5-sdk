@@ -8,7 +8,7 @@
       "build": "ng build m3-odin-samples",
       "build-aot": "ng build m3-odin-samples --aot --prod",
       "build:lib-core": "npm run clean --prefix projects/infor-up/m3-odin && tsc -p projects/infor-up/m3-odin/tsconfig.json",
-      "build:lib-angular": "ng build @infor-up/m3-odin-angular --prod",
+      "build:lib-angular": "ng build @infor-up/m3-odin-angular --prod && tsc -p projects/infor-up/m3-odin-angular/tsconfig.builders.json",
       "build:libs": "npm run build:lib-core && npm run build:lib-angular",
       "test": "ng test m3-odin-samples --watch",
       "test:once": "ng test m3-odin-samples",
@@ -44,8 +44,9 @@
       "zone.js": "~0.10.2"
    },
    "devDependencies": {
-      "@angular-devkit/build-angular": "~0.1100.6",
-      "@angular/cli": "~11.0.6",
+      "@angular-devkit/architect": "~0.1100.7",
+      "@angular-devkit/build-angular": "~0.1100.7",
+      "@angular/cli": "~11.0.7",
       "@angular/compiler-cli": "~11.0.8",
       "@types/jasmine": "~3.6.0",
       "@types/jasmine-ajax": "^3.3.2",

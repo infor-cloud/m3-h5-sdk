@@ -1,6 +1,14 @@
 {
    "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
    "dest": "../../../dist/infor-up/m3-odin-angular",
+   "assets": [
+      "builders.json",
+      "builders/**/schema.json"
+   ],
+   "whitelistedNonPeerDependencies": [
+      "tslib",
+      "archiver"
+   ],
    "lib": {
       "entryFile": "src/index.ts"
    }

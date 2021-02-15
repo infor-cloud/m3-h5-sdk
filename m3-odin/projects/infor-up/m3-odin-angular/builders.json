@@ -1,0 +1,15 @@
+{
+   "$schema": "../../../node_modules/@angular-devkit/architect/src/builders-schema.json",
+   "builders": {
+      "dev-server": {
+         "implementation": "./builders/dev-server",
+         "schema": "./builders/dev-server/schema.json",
+         "description": "Odin dev server"
+      },
+      "bundle": {
+         "implementation": "./builders/bundle",
+         "schema": "./builders/bundle/schema.json",
+         "description": "Bundle an Odin application"
+      }
+   }
+}
