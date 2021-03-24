@@ -13,6 +13,7 @@ Odin is not a framework of UI components nor does it require the application dev
 * [Quickstart](#quick-start)
 * [Projects](#projects)
 * [Samples](#samples)
+* [Development Proxy Authentication](#development-proxy-authentication)
 * [API Documentation](#api-documentation)
 * [Code Editor](#code-editor)
 * [Build](#build)
@@ -106,6 +107,26 @@ Create a non Angular, plain vanilla web project.
 ```
 odin new my-project-name
 ```
+
+# <a id="development-proxy-authentication"></a> Development Proxy Authentication
+When an application is served locally using `odin serve`, it cannot make requests directly to the backend service (M3 or ION API). Cross-origin requests are usually blocked, and the sign-in flow requires redirects that are not needed when the application is deployed in H5. To bypass this, all requests to `/m3api-rest`, `/mne` etc. are sent through a proxy server started with `odin serve`. The target of the proxied requests are configured in the odin.json file, using the `odin set` command.
+
+Depending on the environment being used (see flow chart below for specifics), authentication needs to be set up either through basic authentication or the `odin login` command.
+
+![Pevelopment Proxy configuration flow chart](https://user-images.githubusercontent.com/4991954/110319955-dfa61380-800f-11eb-8068-4a974fb286a8.png)
+
+## On-Premise Proxy Authentication
+When targeting an on-premise M3 environment, basic authentication is usually enabled, which means that the client will send credentials directly to the server. There is no need for any further configuration or `odin login` in this case.
+
+## Multi-Tenant or Single-Tenant Cloud Proxy Authentication
+Authentication for a cloud environment is done through OAuth2 using the `odin login` command. This command does the following:
+1. Read the provided ION API configuration file (See [these instructions for how to generate one](https://github.com/infor-cloud/m3-h5-sdk/issues/55#issuecomment-651713612)).
+2. Open a browser window, where the user logs on to the configured environment.
+3. Gets an ION API bearer token, and saves it.
+4. Gets the M3 session cookie, and saves it (if `--m3` is provided).
+5. Updates the odin.json configuration (if `--update-config` is provided).
+
+Now, when running `odin serve --multi-tenant`, the proxy will modify the requests and add the ION API bearer token or M3 session cookie to the request headers.
 
 # <a id="api-documentation"></a> API Documentation
 The generated API documentation can be viewed here:
