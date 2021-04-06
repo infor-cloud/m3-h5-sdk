@@ -36,7 +36,7 @@ export const executeAngularCli = async (command: ISupportedAngularCommand, ...op
 export const isAngularProject = (absolutePath?: string): boolean => {
    absolutePath = absolutePath || process.cwd();
    const parentPath = path.join(absolutePath, '../');
-   if (fs.existsSync('angular.json')) {
+   if (fs.existsSync(path.join(absolutePath, 'angular.json'))) {
       return true;
    } else if (parentPath === absolutePath) {
       return false;
