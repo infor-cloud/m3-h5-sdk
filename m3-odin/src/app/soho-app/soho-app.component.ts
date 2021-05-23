@@ -4,7 +4,6 @@ import { CoreBase, Log } from '@infor-up/m3-odin';
 @Component({
    templateUrl: './soho-app.component.html',
    styleUrls: [
-      '../../../node_modules/ids-enterprise/dist/css/light-theme.css',
       './soho-app.component.css'
    ],
    encapsulation: ViewEncapsulation.None
@@ -17,7 +16,7 @@ export class SohoAppComponent extends CoreBase implements OnInit {
       super('SohoAppComponent');
       Log.setDebug();
       Soho.Locale.culturesPath = 'assets/ids-enterprise/js/cultures/';
-      Soho.Locale.set('en-US');
+      return Soho.Locale.set('en-US').catch(err => Log.error("Failed to set IDS Locale", err));
    }
 
    ngOnInit(): void {

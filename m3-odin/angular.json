@@ -30,6 +30,11 @@
                      },
                      {
                         "glob": "**/*",
+                        "input": "./node_modules/ids-enterprise/dist/css",
+                        "output": "/assets/ids-enterprise/css"
+                     },
+                     {
+                        "glob": "**/*",
                         "input": "./node_modules/ids-enterprise/dist/js/cultures",
                         "output": "/assets/ids-enterprise/js/cultures"
                      }

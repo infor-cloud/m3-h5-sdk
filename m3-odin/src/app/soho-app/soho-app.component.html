@@ -1,3 +1,4 @@
+<link rel="stylesheet" id="stylesheet" href="/assets/ids-enterprise/css/light-theme.css" type="text/css">
 <soho-icons></soho-icons>
 <soho-icons-empty></soho-icons-empty>
 <nav id="application-menu" soho-application-menu [triggers]="triggers" [openOnLarge]="true" [filterable]="true">
@@ -66,6 +67,12 @@
             <span>Log</span>
          </a>
       </div>
+      <div class="accordion-header list-item" (click)="themeLink.click()">
+         <svg soho-icon icon="magic-wand"></svg>
+         <a #themeLink routerLink="theme">
+            <span>Theme</span>
+         </a>
+      </div>
       <div class="accordion-header list-item" (click)="searchLink.click()">
          <svg soho-icon icon="search"></svg>
          <a #searchLink routerLink="search">
@@ -86,7 +93,7 @@
 </nav>
 
 <div class="page-container no-scroll">
-   <header class="header">
+   <header class="header is-personalizable">
       <div class="toolbar" role="toolbar">
          <div class="title">
             <button type="button" id="appmenu-trigger" class="btn-icon application-menu-trigger">

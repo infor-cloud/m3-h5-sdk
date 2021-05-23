@@ -19,6 +19,7 @@ import { IonApiSocialSampleComponent } from './samples/ionapi-social/ionapi-soci
 import { LaunchSampleComponent } from './samples/launch/launch.component';
 import { LogSampleComponent } from './samples/log/log.component';
 import { SearchSampleComponent } from './samples/search/search.component';
+import { ThemeSampleComponent } from './samples/theme/theme.component';
 import { UserContextSampleComponent } from './samples/user-context/user-context.component';
 import { SohoAppComponent } from './soho-app.component';
 import { SohoAppRoutingModule } from './soho-app.routes';
@@ -38,6 +39,7 @@ import { SohoAppRoutingModule } from './soho-app.routes';
       InfinitePagingSampleComponent,
       LaunchSampleComponent,
       LogSampleComponent,
+      ThemeSampleComponent,
       PanelDetailSampleComponent,
       SearchSampleComponent,
       UserContextSampleComponent

@@ -11,6 +11,7 @@ import { IonApiSocialSampleComponent } from './samples/ionapi-social/ionapi-soci
 import { LaunchSampleComponent } from './samples/launch/launch.component';
 import { LogSampleComponent } from './samples/log/log.component';
 import { SearchSampleComponent } from './samples/search/search.component';
+import { ThemeSampleComponent } from './samples/theme/theme.component';
 import { UserContextSampleComponent } from './samples/user-context/user-context.component';
 import { SohoAppComponent } from './soho-app.component';
 
@@ -28,6 +29,7 @@ const routes: Routes = [
          { path: 'ionapi-social', component: IonApiSocialSampleComponent },
          { path: 'launch', component: LaunchSampleComponent },
          { path: 'log', component: LogSampleComponent },
+         { path: 'theme', component: ThemeSampleComponent },
          { path: 'search', component: SearchSampleComponent },
          { path: 'user-context', component: UserContextSampleComponent }
       ]
