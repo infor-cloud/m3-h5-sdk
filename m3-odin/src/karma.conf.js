@@ -17,7 +17,7 @@ module.exports = function (config) {
          { pattern: '../node_modules/d3/dist/d3.js', watched: false },
          { pattern: '../node_modules/ids-enterprise/dist/js/sohoxi.js', watched: false },
          { pattern: '../node_modules/ids-enterprise/dist/js/cultures/en-US.js', watched: false },
-         { pattern: '../node_modules/ids-enterprise/dist/css/light-theme.css', watched: false },
+         { pattern: '../node_modules/ids-enterprise/dist/css/theme-new-light.css', watched: false },
       ],
       client: {
          clearContext: false // leave Jasmine Spec Runner output visible in browser

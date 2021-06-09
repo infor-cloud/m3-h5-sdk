@@ -378,9 +378,9 @@ export class FormParser {
       element.isRightAligned = XmlUtil.hasAttribute(node, XmlNames.attributeJustification);
 
       if (panelElement != null) {
-         if (name === FormConstants.fieldInformationCategory) {
+         if (element.name === FormConstants.fieldInformationCategory) {
             panelElement.informationCategory = element.value;
-         } else if (name === FormConstants.fieldHideCommandBar && element.value === '1') {
+         } else if (element.name === FormConstants.fieldHideCommandBar && element.value === '1') {
             panelElement.hideCommandBar = true;
          }
       }

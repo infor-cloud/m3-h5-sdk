@@ -104,10 +104,6 @@ The dev server (`odin serve`) must be restarted for changes to take effect.
 3. Add `"sourceMap": true`
 4. Build with `odin build`
 
-### Example: Change SOHO theme
-1. Open `angular.json`
-2. Find references to `ids-enterprise/dist/css/light-theme.css` and replace it with the theme of your choice.
-
 ### Example: Remove SOHO languages
 All SOHO languages are included in the bundle by default. To reduce the size and load-time of your application, you can remove any languages that you do not want to support.
 1. Open `angular.json`

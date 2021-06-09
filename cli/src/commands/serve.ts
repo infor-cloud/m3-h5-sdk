@@ -24,7 +24,7 @@ async function serveBasicProject(options: IServeOptions) {
       overlay: true,
    });
    console.log(`Server is starting. Go to http://localhost:${options.port} in your browser.`);
-   await new Promise((resolvePromise, rejectPromise) => {
+   await new Promise<void>((resolvePromise, rejectPromise) => {
       server.listen(options.port, (error?: Error) => {
          if (error) {
             console.error('Failed to start Webpack Dev Server', error);

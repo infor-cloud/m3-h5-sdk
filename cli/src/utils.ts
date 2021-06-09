@@ -17,7 +17,7 @@ export const removeSurroundingSlash = (text: string): string => {
 export const isValidProxyUrl = (url: string) => url.match(/^https?:\/\/[^:\/]+(:\d+)?(\/.*)?$/) !== null;
 
 export const executeAngularCli = async (command: ISupportedAngularCommand, ...options: string[]) => {
-   await new Promise((resolveFun, rejectFun) => {
+   await new Promise<void>((resolveFun, rejectFun) => {
       const ngCliScript = path.resolve(__dirname, '../node_modules/@angular/cli/bin/ng');
       const cliProcess = spawn('node', [ngCliScript, command, ...options]);
       cliProcess.stdout.pipe(process.stdout);

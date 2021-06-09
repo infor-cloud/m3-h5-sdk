@@ -18,7 +18,7 @@ const buildAngularProject = async () => {
 };
 
 const buildBasicProject = async () => {
-   await new Promise((resolvePromise, rejectPromise) => {
+   await new Promise<void>((resolvePromise, rejectPromise) => {
       const config: webpack.Configuration = {
          ...baseConfig,
          mode: 'production',
