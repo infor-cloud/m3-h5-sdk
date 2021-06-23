@@ -1,3 +1,22 @@
+# 5.0.0
+## Changes
+- **cli:** New IDS/Soho projects now uses the "new"/"uplift" theme by default, since this is the default theme in H5. Older applications are not affected by this.
+- **samples:** Added a Theme sample
+
+## Updated dependencies
+- Angular 12
+- IDS Enterprise Components 10.1
+
+## Upgrading from version 4
+1. Install the latest CLI
+```
+npm i -g @infor-up/m3-odin-cli@latest
+```
+2. Upgrade existing project dependencies:
+```
+ng update @infor-up/m3-odin @infor-up/m3-odin-angular @angular/cli @angular/core ids-enterprise-ng
+```
+
 # 4.0.0
 
 ## Changes
