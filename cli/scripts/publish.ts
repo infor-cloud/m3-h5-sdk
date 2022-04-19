@@ -13,6 +13,7 @@ const distPath = resolveDistPath();
 
 publishCore();
 publishAngular();
+publishAngularBuilder();
 publishCli();
 
 function resolveDistPath(): string {
@@ -64,6 +65,16 @@ function publishAngular(): void {
 
    c.npmRun('build:lib-angular', c.projectDirectory());
    const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+   publishNpm(projectDistDirectory);
+
+   c.end(operation);
+}
+
+function publishAngularBuilder(): void {
+   const operation = c.begin('Publish M3 Odin Angular Builder');
+
+   c.npmRun('build:lib-angular-builder', c.projectDirectory());
+   const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular-builder');
    publishNpm(projectDistDirectory);
 
    c.end(operation);

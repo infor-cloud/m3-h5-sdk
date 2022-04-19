@@ -16,12 +16,14 @@
     var directories = [
         'm3-odin/projects/infor-up/m3-odin',
         'm3-odin/projects/infor-up/m3-odin-angular',
+        'm3-odin/projects/infor-up/m3-odin-angular-builder',
         'm3-odin',
         'cli'
     ];
     var files = [
         'm3-odin/package-lock.json',
         'm3-odin/projects/infor-up/m3-odin-angular/package.json',
+        'm3-odin/projects/infor-up/m3-odin-angular-builder/package.json',
         'cli/boilerplate/basic/package.json',
         'cli/boilerplate/basic-material/package.json',
         'cli/boilerplate/angular/package.json',
@@ -44,7 +46,7 @@
             directory_1 = path.join(baseDirectory, directory_1);
             updateVersionWithNpm(directory_1, version);
         }
-        var keyNames = ['@infor-up/m3-odin', '@infor-up/m3-odin-angular', '@infor-up/m3-odin-cli'];
+        var keyNames = ['@infor-up/m3-odin', '@infor-up/m3-odin-angular', '@infor-up/m3-odin-angular-builder', '@infor-up/m3-odin-cli'];
         for (var _a = 0, files_1 = files; _a < files_1.length; _a++) {
             var file = files_1[_a];
             var filename = path.join(baseDirectory, file);

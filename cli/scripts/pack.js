@@ -17,6 +17,7 @@
     var distPath = resolveDistPath();
     packCore();
     packAngular();
+    packAngularBuilder();
     packCli();
     function resolveDistPath() {
         var directory = path.join(__dirname, '../../dist');
@@ -52,6 +53,13 @@
         var operation = c.begin('Pack M3 Odin Angular');
         c.npmRun('build:lib-angular', c.projectDirectory());
         var projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+        packNpm(projectDistDirectory);
+        c.end(operation);
+    }
+    function packAngularBuilder() {
+        var operation = c.begin('Pack M3 Odin Angular Builder');
+        c.npmRun('build:lib-angular-builder', c.projectDirectory());
+        var projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular-builder');
         packNpm(projectDistDirectory);
         c.end(operation);
     }

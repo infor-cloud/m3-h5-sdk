@@ -10,6 +10,7 @@ const distPath = resolveDistPath();
 
 packCore();
 packAngular();
+packAngularBuilder();
 packCli();
 
 function resolveDistPath(): string {
@@ -58,6 +59,15 @@ function packAngular(): void {
    const operation = c.begin('Pack M3 Odin Angular');
    c.npmRun('build:lib-angular', c.projectDirectory());
    const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+   packNpm(projectDistDirectory);
+
+   c.end(operation);
+}
+
+function packAngularBuilder(): void {
+   const operation = c.begin('Pack M3 Odin Angular Builder');
+   c.npmRun('build:lib-angular-builder', c.projectDirectory());
+   const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular-builder');
    packNpm(projectDistDirectory);
 
    c.end(operation);

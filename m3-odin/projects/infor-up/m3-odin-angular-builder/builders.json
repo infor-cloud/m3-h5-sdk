@@ -1,0 +1,9 @@
+{
+    "builders": {
+        "serve": {
+            "implementation": "./src/builders/serve",
+            "schema": "./src/builders/serve/schema.json",
+            "description": "Serve Infor M3 multi tenant application."
+        }
+    }
+}

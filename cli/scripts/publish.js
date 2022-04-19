@@ -20,6 +20,7 @@
     // Test with npm whoami
     publishCore();
     publishAngular();
+    publishAngularBuilder();
     publishCli();
     function resolveDistPath() {
         var directory = path.join(__dirname, '../../dist');
@@ -57,6 +58,13 @@
         var operation = c.begin('Publish M3 Odin Angular');
         c.npmRun('build:lib-angular', c.projectDirectory());
         var projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+        publishNpm(projectDistDirectory);
+        c.end(operation);
+    }
+    function publishAngularBuilder() {
+        var operation = c.begin('Publish M3 Odin Angular Builder');
+        c.npmRun('build:lib-angular-builder', c.projectDirectory());
+        var projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular-builder');
         publishNpm(projectDistDirectory);
         c.end(operation);
     }
