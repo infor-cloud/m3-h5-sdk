@@ -37,6 +37,8 @@ jobs:
 
       - name: Build Libraries
         run: |
-          cd ./m3-odin
+          cd ./m3-odin/projects/infor-up/m3-odin-angular-builder
+          npm ci
+          cd ../../..
           npm ci
           npm run build:libs
