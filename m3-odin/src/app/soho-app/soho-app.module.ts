@@ -44,7 +44,6 @@ import { SohoAppRoutingModule } from './soho-app.routes';
       SearchSampleComponent,
       UserContextSampleComponent
    ],
-   entryComponents: [SampleViewerDialogComponent],
    imports: [
       CommonModule,
       FormsModule,

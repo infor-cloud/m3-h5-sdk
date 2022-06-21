@@ -59,7 +59,6 @@ import { UserContextSampleComponent } from './samples/user-context/user-context.
       SearchSampleComponent,
       UserContextSampleComponent
    ],
-   entryComponents: [SampleViewerDialogComponent],
    imports: [
       CommonModule,
       BrowserAnimationsModule,
