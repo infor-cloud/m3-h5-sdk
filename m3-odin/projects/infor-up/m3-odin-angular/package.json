@@ -16,9 +16,9 @@
       "tslib": "^2.0.0"
    },
    "peerDependencies": {
-      "@angular/common": "^13.0.0",
-      "@angular/core": "^13.0.0",
+      "@angular/common": "^14.0.0",
+      "@angular/core": "^14.0.0",
       "@infor-up/m3-odin": "5.0.0",
-      "rxjs": "^6.0.0"
+      "rxjs": "^7.0.0"
    }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Directive, ElementRef, Input } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
-import { highlightBlock } from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
 
 @Component({
    selector: 'odin-document-viewer',
@@ -42,6 +42,6 @@ export class HighlightCodeDirective implements AfterViewInit {
    constructor(private eltRef: ElementRef) { }
 
    ngAfterViewInit() {
-      highlightBlock(this.eltRef.nativeElement);
+      hljs.highlightBlock(this.eltRef.nativeElement);
    }
 }
