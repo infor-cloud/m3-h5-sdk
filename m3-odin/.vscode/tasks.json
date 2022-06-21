@@ -11,13 +11,6 @@
 			"group": "build"
 		},
 		{
-			"label": "Dev: build aot",
-			"type": "npm",
-			"script": "build-aot",
-			"problemMatcher": [],
-			"group": "build"
-		},
-		{
 			"type": "npm",
 			"script": "test:once",
 			"problemMatcher": [],
