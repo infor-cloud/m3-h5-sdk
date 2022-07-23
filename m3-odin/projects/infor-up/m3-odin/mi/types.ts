@@ -18,7 +18,7 @@ export interface INameValue {
 }
 
 /**
- * Represents options for executing an MI request. See [[IMIRequest]].
+ * Represents options for executing an MI request. See {@link IMIRequest}.
  *
  * ```typescript
  * import { IMIOptions } from '@infor-up/m3-odin';
@@ -82,9 +82,9 @@ export interface IMIOptions {
    typedOutput?: boolean;
 
    /**
-	 * Gets or sets a value that indicates if CSRF tokens should be used for MI-requests.
-	 * The default value is true.
-	 */
+    * Gets or sets a value that indicates if CSRF tokens should be used for MI-requests.
+    * The default value is true.
+    */
    enableCsrf?: boolean;
 }
 
@@ -95,8 +95,8 @@ export interface IMIOptions {
  * import { IMIRequest } from '@infor-up/m3-odin';
  * ```
  *
- * It is recommended to always set the [[IMIRequest.outputFields]] property to limit the amount of data that is returned.
- * Also consider setting [[IMIOptions.maxReturnedRecords]] property to the lowest possible value for list transactions when applicable.
+ * It is recommended to always set the {@link IMIRequest.outputFields} property to limit the amount of data that is returned.
+ * Also consider setting {@link IMIOptions.maxReturnedRecords} property to the lowest possible value for list transactions when applicable.
  *
  * **Example**
  * ```typescript

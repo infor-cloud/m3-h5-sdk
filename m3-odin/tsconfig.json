@@ -25,5 +25,8 @@
             "dist/infor-up/m3-odin-angular"
          ]
       }
-   }
+   },
+   "exclude": [
+      "boilerplate"
+   ]
 }

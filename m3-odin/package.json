@@ -1,6 +1,6 @@
 {
    "name": "m3-odin-samples",
-   "version": "5.0.0",
+   "version": "6.0.0-next.1",
    "license": "Apache-2.0",
    "scripts": {
       "ng": "ng",
@@ -9,6 +9,7 @@
       "build:lib-core": "npm run clean --prefix projects/infor-up/m3-odin && tsc -p projects/infor-up/m3-odin/tsconfig.json",
       "build:lib-angular": "ng build @infor-up/m3-odin-angular --configuration production",
       "build:libs": "npm run build:lib-core && npm run build:lib-angular",
+      "build:docs": "typedoc",
       "test": "ng test m3-odin-samples --watch",
       "test:once": "ng test m3-odin-samples",
       "lint": "ng lint",

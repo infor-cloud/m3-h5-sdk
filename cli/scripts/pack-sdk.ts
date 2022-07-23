@@ -1,13 +1,12 @@
-import * as path from 'path';
-import * as c from './common';
+import { execNodeSync, relativePath, title } from './common.js';
 
-c.title('Pack M3 Odin SDK');
+title('Pack M3 Odin SDK');
 
 execute('pack');
 execute('pack-documentation');
 execute('pack-samples');
 
 function execute(scriptName: string): void {
-   const command = path.join(__dirname, scriptName);
-   c.execNodeSync(command);
+   const command = relativePath(scriptName);
+   execNodeSync(command);
 }

@@ -294,7 +294,7 @@ export class FormResponse extends ErrorState implements IFormResponse {
 }
 
 /**
- * See [[IBookmark]]
+ * See {@link IBookmark}
  *
  * @since 2.0.0
  */
@@ -513,7 +513,7 @@ export interface ITranslationItem {
 }
 
 /**
- * See [[ITranslationItem]]
+ * See {@link ITranslationItem}
  *
  * @hidden
  * @since 2.0.0

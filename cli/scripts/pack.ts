@@ -1,8 +1,6 @@
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import * as c from './common';
+import { begin, buildTypeScript, createDirectory, end, execSync, npmRun, projectDirectory, relativePath, title } from './common.js';
 
-c.title('Pack M3 Odin');
+title('Pack M3 Odin');
 
 const compilerPath = resolveTypeScriptCompilerPath();
 const ngcCompilerPath = resolveNgcCompilerPath();
@@ -13,63 +11,63 @@ packAngular();
 packCli();
 
 function resolveDistPath(): string {
-   const directory = path.join(__dirname, '../../dist');
-   c.createDirectory(directory);
+   const directory = relativePath('../../dist');
+   createDirectory(directory);
    return directory;
 }
 
 function resolveTypeScriptCompilerPath(): string {
-   return path.join(__dirname, '../node_modules/typescript/bin/tsc');
+   return relativePath('../node_modules/typescript/bin/tsc');
 }
 
 function resolveNgcCompilerPath(): string {
-   return path.join(__dirname, '../../m3-odin/node_modules/.bin/ngc');
+   return relativePath('../../m3-odin/node_modules/.bin/ngc');
 }
 
 function packNpm(directory: string): void {
-   const operation = c.begin('Pack NPM');
+   const operation = begin('Pack NPM');
    console.log('Pack directory: ' + directory);
    console.log('Output directory: ' + distPath);
 
    var currentDirectory = process.cwd();
    process.chdir(distPath);
 
-   c.execSync('npm pack ' + directory);
+   execSync('npm pack ' + directory);
 
    if (directory !== currentDirectory) {
       process.chdir(currentDirectory);
    }
 
-   c.end(operation);
+   end(operation);
 }
 
 
 function packCore(): void {
-   const operation = c.begin('Pack M3 Odin Core');
+   const operation = begin('Pack M3 Odin Core');
 
-   c.npmRun('build:lib-core', c.projectDirectory());
-   const directory = c.projectDirectory('projects/infor-up/m3-odin');
+   npmRun('build:lib-core', projectDirectory());
+   const directory = projectDirectory('projects/infor-up/m3-odin');
    packNpm(directory);
 
-   c.end(operation);
+   end(operation);
 }
 
 function packAngular(): void {
-   const operation = c.begin('Pack M3 Odin Angular');
-   c.npmRun('build:lib-angular', c.projectDirectory());
-   const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+   const operation = begin('Pack M3 Odin Angular');
+   npmRun('build:lib-angular', projectDirectory());
+   const projectDistDirectory = projectDirectory('dist/infor-up/m3-odin-angular');
    packNpm(projectDistDirectory);
 
-   c.end(operation);
+   end(operation);
 }
 
 function packCli(): void {
-   const operation = c.begin('Pack M3 Odin CLI');
+   const operation = begin('Pack M3 Odin CLI');
 
-   const directory = path.join(__dirname, '../');
-   c.buildTypeScript(directory, compilerPath);
+   const directory = relativePath('../');
+   buildTypeScript(directory, compilerPath);
 
    packNpm(directory);
 
-   c.end(operation);
+   end(operation);
 }

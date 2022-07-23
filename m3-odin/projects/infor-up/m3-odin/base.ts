@@ -14,7 +14,7 @@ import { IErrorState } from './types';
  */
 export class ErrorState implements IErrorState {
    /**
-    * See [[IErrorState]].hasError()
+    * See {@link IErrorState.hasError}
     */
    public hasError(): boolean {
       const state = <IErrorState>this;

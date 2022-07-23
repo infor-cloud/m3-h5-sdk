@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 
 
 /**
- * Angular implementation of [[IMIService]]
+ * Angular implementation of {@link IMIService}
  *
  * ```typescript
  * import { MIService } from '@infor-up/m3-odin-angular';
  * ```
  *
- * See [[IMIService]] for function documentation.
+ * See {@link IMIService} for function documentation.
  *
  * **Example**
  *
@@ -39,7 +39,7 @@ export class MIService extends CoreBase implements IMIService {
    }
 
    /**
-    * See [[IMIService.execute]]
+    * See {@link IMIService.execute}
     */
    execute(request: IMIRequest): Observable<IMIResponse> {
       return this.instance.execute(request);
@@ -47,13 +47,13 @@ export class MIService extends CoreBase implements IMIService {
 }
 
 /**
- * Angular implementation of [[IApplicationService]]
+ * Angular implementation of {@link IApplicationService}
  *
  * ```typescript
  * import { ApplicationService } from '@infor-up/m3-odin-angular';
  * ```
  *
- * See [[IApplicationService]] for function documentation.
+ * See {@link IApplicationService} for function documentation.
  *
  * **Example**
  *
@@ -79,14 +79,14 @@ export class ApplicationService extends CoreBase implements IApplicationService 
    }
 
    /**
-    * See [[IApplicationService.isH5]]
+    * See {@link IApplicationService.isH5}
     */
    isH5(): boolean {
       return this.instance.isH5();
    }
 
    /**
-    * See [[IApplicationService.launch]]
+    * See {@link IApplicationService.launch}
     */
    launch(link: string): void {
       this.instance.launch(link);
@@ -94,13 +94,13 @@ export class ApplicationService extends CoreBase implements IApplicationService 
 }
 
 /**
- * Angular implementation of [[IUserService]]
+ * Angular implementation of {@link IUserService}
  *
  * ```typescript
  * import { UserService } from '@infor-up/m3-odin-angular';
  * ```
  *
- * See [[IUserService]] for function documentation.
+ * See {@link IUserService} for function documentation.
  *
  * **Example**
  *
@@ -126,7 +126,7 @@ export class UserService extends CoreBase implements IUserService {
    }
 
    /**
-    * See [[IUserService.getUserContext]]
+    * See {@link IUserService.getUserContext}
     */
    getUserContext(): Observable<IUserContext> {
       return this.instance.getUserContext();
@@ -150,13 +150,13 @@ export class UserService extends CoreBase implements IUserService {
 }
 
 /**
- * Angular implementation of [[IFormService]]
+ * Angular implementation of {@link IFormService}
  *
  * ```typescript
  * import { FormService } from '@infor-up/m3-odin-angular';
  * ```
  *
- * See [[IFormService]] for function documentation.
+ * See {@link IFormService} for function documentation.
  *
  * **Example**
  *
@@ -183,28 +183,28 @@ export class FormService extends CoreBase implements IFormService {
    }
 
    /**
-    * See [[IFormService.executeBookmark]]
+    * See {@link IFormService.executeBookmark}
     */
    executeBookmark(bookmark: IBookmark): Observable<IFormResponse> {
       return this.instance.executeBookmark(bookmark);
    }
 
    /**
-    * See [[IFormService.executeSearch]]
+    * See {@link IFormService.executeSearch}
     */
    executeSearch(request: ISearchRequest): Observable<IFormResponse> {
       return this.instance.executeSearch(request);
    }
 
    /**
-    * See [[IFormService.translate]]
+    * See {@link IFormService.translate}
     */
    translate(request: ITranslationRequest): Observable<ITranslationResponse> {
       return this.instance.translate(request);
    }
 
    /**
-    * See [[IFormService.getEnvironmentContext]]
+    * See {@link IFormService.getEnvironmentContext}
     */
    getEnvironmentContext(): Observable<IEnvironmentContext> {
       return this.instance.getEnvironmentContext();
@@ -212,21 +212,21 @@ export class FormService extends CoreBase implements IFormService {
 
    /**
     * Only for development code. Never to be called in production code.
-    * See [[IFormService.developmentSetEnvironmentContext]]
+    * See {@link IFormService.developmentSetEnvironmentContext}
     */
    developmentSetEnvironmentContext(context: IEnvironmentContext) {
       this.instance.developmentSetEnvironmentContext(context);
    }
 
    /**
-    * See [[IFormService.executeRequest]]
+    * See {@link IFormService.executeRequest}
     */
    executeRequest(request: IFormRequest): Observable<IFormResponse> {
       return this.instance.executeRequest(request);
    }
 
    /**
-    * See [[IFormService.executeCommand]]
+    * See {@link IFormService.executeCommand}
     */
    executeCommand(commandType: string, commandValue?: string, params?: any): Observable<IFormResponse> {
       return this.instance.executeCommand(commandType, commandValue, params);
@@ -266,13 +266,13 @@ export const IonApiConfig = new InjectionToken<IIonApiConfig>('IonApiConfig', {
 });
 
 /**
- * Angular implementation of [[IIonApiService]]
+ * Angular implementation of {@link IIonApiService}
  *
  * ```typescript
  * import { IonApiService } from '@infor-up/m3-odin-angular';
  * ```
  *
- * See [[IIonApiService]] for function documentation.
+ * See {@link IIonApiService} for function documentation.
  *
  * **Example**
  *
