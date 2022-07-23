@@ -1,10 +1,13 @@
-import { readFileSync, writeFileSync } from 'fs-extra';
-import * as os from 'os';
-import * as path from 'path';
-import * as webpack from 'webpack';
-import * as WebpackDevServer from 'webpack-dev-server';
-import { executeAngularCli, isAngularProject, readConfig } from '../utils';
-import { baseConfig } from './webpack.config';
+import fs from 'fs-extra';
+import { createRequire } from 'module';
+import os from 'os';
+import path from 'path';
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import { executeAngularCli, isAngularProject, readConfig } from '../utils.js';
+import { baseConfig } from './webpack.config.js';
+
+const require = createRequire(import.meta.url);
 
 
 export interface IServeOptions {
@@ -21,11 +24,10 @@ async function serveBasicProject(options: IServeOptions) {
    const devServerConfig: WebpackDevServer.Configuration = odinConfig;
    const server = new WebpackDevServer(webpackCompiler, {
       ...devServerConfig,
-      overlay: true,
    });
    console.log(`Server is starting. Go to http://localhost:${options.port} in your browser.`);
    await new Promise<void>((resolvePromise, rejectPromise) => {
-      server.listen(options.port, (error?: Error) => {
+      server.listen(options.port, "localhost", (error?: Error) => {
          if (error) {
             console.error('Failed to start Webpack Dev Server', error);
             rejectPromise(error);
@@ -44,7 +46,7 @@ async function serveAngularProject(options: IServeOptions) {
    const proxyFile = prepareProxyFile(proxyConfig, options);
    const proxyTmpPath = path.resolve(os.tmpdir(), proxyFile.name);
    const fileContent = proxyFile.content;
-   writeFileSync(proxyTmpPath, fileContent);
+   fs.writeFileSync(proxyTmpPath, fileContent);
    await executeAngularCli('serve', '--port', `${options.port}`, '--proxy-config', proxyTmpPath);
 }
 
@@ -78,7 +80,7 @@ function prepareProxyFile(proxyConfig: ProxyConfig, options: IServeOptions) {
          const target = pathConfig.target;
          if (target) {
             pathConfig.headers = {
-               Origin: target,
+               Origin: target.toString(),
                Referer: `${target}/odin-dev-proxy`,
                ...pathConfig.headers,
             };
@@ -104,7 +106,7 @@ function multiTenantProxyFile(proxyConfig: ProxyConfig, useIonApi?: boolean) {
       addMneProxyPlaceholders('/ca');
    }
 
-   const mtToolContent = readFileSync(require.resolve('../mtauth')).toString();
+   const mtToolContent = fs.readFileSync(require.resolve('../mtauth')).toString();
    const configContent = JSON.stringify(proxyConfig)
       .replace(/\"ODIN_MT_SET_MNE_COOKIES\"/g, 'function (...args) { authenticator.setMNECookies(...args) }')
       .replace(/\"ODIN_MT_SET_ION_API_TOKEN\"/g, 'function (...args) { authenticator.setIONAPIToken(...args) }')
@@ -141,7 +143,7 @@ function standardProxyFile(proxyConfig: ProxyConfig) {
    return { content: JSON.stringify(proxyConfig), name: 'odin_proxy.json' };
 }
 
-type PossibleProxyConfig = WebpackDevServer.ProxyConfigMap | WebpackDevServer.ProxyConfigArrayItem[] | undefined;
+type PossibleProxyConfig = WebpackDevServer.ProxyConfigMap | WebpackDevServer.ProxyConfigArray | WebpackDevServer.ProxyConfigArrayItem | undefined;
 type ProxyConfig = WebpackDevServer.ProxyConfigMap;
 function isProxyConfig(proxy: PossibleProxyConfig): proxy is ProxyConfig {
    return proxy !== undefined && !Array.isArray(proxy);

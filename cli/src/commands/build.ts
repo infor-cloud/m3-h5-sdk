@@ -1,9 +1,9 @@
-import { removeSync } from 'fs-extra';
+import fs from 'fs-extra';
 import { tmpdir } from 'os';
 import { join, resolve } from 'path';
-import * as webpack from 'webpack';
-import { executeAngularCli, isAngularProject, readConfig, zip } from '../utils';
-import { baseConfig } from './webpack.config';
+import webpack from 'webpack';
+import { executeAngularCli, isAngularProject, readConfig, zip } from '../utils.js';
+import { baseConfig } from './webpack.config.js';
 
 const buildAngularProject = async () => {
    const odinConfig = readConfig();
@@ -11,9 +11,9 @@ const buildAngularProject = async () => {
       throw new Error('projectName missing from odin configuration');
    }
    const tempBuildDirectory = resolve(tmpdir(), `odin_build_${odinConfig.projectName}`);
-   await executeAngularCli('build', '--prod', '--output-path', tempBuildDirectory, '--delete-output-path');
+   await executeAngularCli('build', '--configuration', 'production', '--output-path', tempBuildDirectory, '--delete-output-path');
    const zipFile = await zip(tempBuildDirectory, join(process.cwd(), 'dist'), `${odinConfig.projectName}.zip`);
-   removeSync(tempBuildDirectory);
+   fs.removeSync(tempBuildDirectory);
    console.log('Created:', zipFile);
 };
 

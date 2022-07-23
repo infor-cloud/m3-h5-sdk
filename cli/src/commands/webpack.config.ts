@@ -1,6 +1,9 @@
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import * as path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { createRequire } from "module";
+import path from 'path';
 import { Configuration } from 'webpack';
+
+const require = createRequire(import.meta.url);
 
 const projectDirectory = process.cwd();
 

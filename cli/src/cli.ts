@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
-import * as program from 'commander';
-import * as fs from 'fs-extra';
-import * as inquirer from 'inquirer';
-import { buildProject, INewProjectOptions, IServeOptions, login, newProject, serveProject, setConfiguration } from './commands';
-import { isValidProxyUrl } from './utils';
+import { program } from 'commander';
+import fs from 'fs-extra';
+import inquirer from 'inquirer';
+import path from 'path';
+import url from "url";
+import { buildProject, INewProjectOptions, IServeOptions, login, newProject, serveProject, setConfiguration } from './commands/index.js';
+import { isValidProxyUrl } from './utils.js';
 
-const versionNumber = require('../package.json').version;
+// For __dirname in es module: https://blog.logrocket.com/alternatives-dirname-node-js-es-modules/
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const versionNumber = fs.readJSONSync(path.join(__dirname, "../package.json")).version;
 
 const exit = (message?: string, outputHelp = true) => {
    if (message) {

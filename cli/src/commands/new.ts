@@ -1,9 +1,12 @@
 import { execSync, ExecSyncOptions } from 'child_process';
-import * as fs from 'fs-extra';
-import * as os from 'os';
-import * as path from 'path';
-import { executeAngularCli, readConfig, writeConfig } from '../utils';
-import { configureName, configureProxy } from './set';
+import fs from 'fs-extra';
+import os from 'os';
+import path from 'path';
+import url from 'url';
+import { executeAngularCli, readConfig, writeConfig } from '../utils.js';
+import { configureName, configureProxy } from './set.js';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export type NewProjectStyleOption = 'material' | 'soho' | 'none';
 
