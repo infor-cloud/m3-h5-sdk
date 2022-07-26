@@ -87,19 +87,37 @@ jobs:
           npm install --location=global .
 
       - name: Generate Angular soho app
-        run: odin new --angular --soho --install --skip-git app-angular-soho
+        run: |
+          odin new --angular --soho --install --skip-git app-angular-soho
+          cd app-angular-soho
+          odin build
 
       - name: Generate Angular material app
-        run: odin new --angular --material --install --skip-git app-angular-material
+        run: |
+          odin new --angular --material --install --skip-git app-angular-material
+          cd app-angular-material
+          odin build
 
       - name: Generate Angular app
-        run: odin new --angular --install --skip-git app-angular-none
+        run: |
+          odin new --angular --install --skip-git app-angular-none
+          cd app-angular-none
+          odin build
 
       - name: Generate basic soho app
-        run: odin new --soho --install --skip-git app-basic-soho
+        run: |
+          odin new --soho --install --skip-git app-basic-soho
+          cd app-basic-soho
+          odin build
 
       - name: Generate basic material app
-        run: odin new --material --install --skip-git app-basic-material
+        run: |
+          odin new --material --install --skip-git app-basic-material
+          cd app-basic-material
+          odin build
 
       - name: Generate basic app
-        run: odin new --material --install --skip-git app-basic-none
+        run: |
+          odin new --material --install --skip-git app-basic-none
+          cd app-basic-none
+          odin build
