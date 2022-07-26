@@ -84,19 +84,19 @@ jobs:
           npm install -g .
 
       - name: Generate Angular soho app
-        run: odin new --angular --soho --install --skip-git app
+        run: odin new --angular --soho --install --skip-git app-angular-soho
 
       - name: Generate Angular material app
-        run: odin new --angular --material --install --skip-git app
+        run: odin new --angular --material --install --skip-git app-angular-material
 
       - name: Generate Angular app
-        run: odin new --angular --install --skip-git app
+        run: odin new --angular --install --skip-git app-angular-none
 
       - name: Generate basic soho app
-        run: odin new --soho --install --skip-git app
+        run: odin new --soho --install --skip-git app-basic-soho
 
       - name: Generate basic material app
-        run: odin new --material --install --skip-git app
+        run: odin new --material --install --skip-git app-basic-material
 
       - name: Generate basic app
-        run: odin new --material --install --skip-git app
+        run: odin new --material --install --skip-git app-basic-none
