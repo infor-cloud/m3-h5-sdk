@@ -62,7 +62,10 @@ jobs:
     needs: build
 
     runs-on: ubuntu-latest
-    
+
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
+
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -81,7 +84,7 @@ jobs:
           cd ./cli
           npm config set fetch-retry-mintimeout 20000
           npm config set fetch-retry-maxtimeout 120000
-          npm install -g .
+          npm install --location=global .
 
       - name: Generate Angular soho app
         run: odin new --angular --soho --install --skip-git app-angular-soho
