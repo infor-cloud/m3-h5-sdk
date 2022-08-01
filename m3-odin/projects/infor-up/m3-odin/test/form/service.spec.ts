@@ -1,4 +1,4 @@
-import exp = require("constants");
+import { describe, expect, it, beforeEach, afterEach, jest } from '@jest/globals';
 import { AsyncSubject, BehaviorSubject, Observable, of, Subject, throwError } from "rxjs";
 import { FormServiceCore, IBookmark, IEnvironmentContext, IFormRequest, ISearchRequest } from "../../form";
 import { Bookmark, FormResponse, IFormResponse, ITranslationItem, ITranslationJob, ITranslationRequest, ITranslationResponse } from "../../form/base";
@@ -29,13 +29,13 @@ describe('FormServiceCore', () => {
 
     it('should create AjaxHttpService in constructor', () => {
         const service = new FormServiceCore();
-        expect(service['httpService']['logPrefix']).toBe('[AjaxHttpService] ');
+        expect(service['httpService']!['logPrefix']).toBe('[AjaxHttpService] ');
     });
 
     it('should call executeWithSession from executeCommand', () => {
         const formRequest = { commandType: 'Hello', commandValue: 'bar', params: 'foo' }
 
-        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request: IFormRequest) => {
+        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request) => {
             expect(request).toStrictEqual(formRequest);
         });
 
@@ -47,7 +47,7 @@ describe('FormServiceCore', () => {
     it('should call executeWithSession from executeRequest', () => {
         const formRequest = { commandType: 'Hello', commandValue: 'bar', params: 'foo' }
 
-        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request: IFormRequest) => {
+        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request) => {
             expect(request).toStrictEqual(formRequest);
         });
 
@@ -65,10 +65,11 @@ describe('FormServiceCore', () => {
             commandValue: 'BOOKMARK',
         };
 
-        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request: IFormRequest) => {
+        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request_) => {
+            const request = request_ as IFormRequest;
             expect(request.commandType).toBe(formRequest.commandType);
             expect(request.commandValue).toBe(formRequest.commandValue);
-            request.resolver(request, {} as IUserContext);
+            request.resolver!(request, {} as IUserContext);
             expect(request.params).toStrictEqual(formRequest.params);
         });
 
@@ -99,7 +100,7 @@ describe('FormServiceCore', () => {
             }
         };
 
-        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request: IFormRequest) => {
+        const executeWithSession = jest.spyOn(formService as any, 'executeWithSession').mockImplementation((request) => {
             expect(request).toStrictEqual(formRequest);
         });
 
@@ -108,7 +109,7 @@ describe('FormServiceCore', () => {
     });
 
     it('should throw exception in validate', () => {
-        expect(() => formService.validate('foo', null)).toThrow('The foo property is mandatory');
+        expect(() => formService.validate('foo', null!)).toThrow('The foo property is mandatory');
     });
 
     it('should return string from getFilterFields', () => {
@@ -125,14 +126,14 @@ describe('FormServiceCore', () => {
         expect(formService['getStartPanelFields'](searchRequest)).toBe('');
         searchRequest.startPanelFields = {};
         expect(formService['getStartPanelFields'](searchRequest)).toBe('');
-        searchRequest.startPanelFields = { 'W1OBKV': 'TEST', 'W2OBKV': ' ', 'foo': '', 'bar': null };
+        searchRequest.startPanelFields = { 'W1OBKV': 'TEST', 'W2OBKV': ' ', 'foo': '', 'bar': null! };
         expect(formService['getStartPanelFields'](searchRequest)).toBe('W1OBKV,TEST,W2OBKV,%20,foo,%20,bar,%20');
     });
 
     it('should return empty response object from translate', (done) => {
         const translationRequest: ITranslationRequest = {};
         const translationResponse: ITranslationResponse = {};
-        formService['translator'] = { translate: (request: ITranslationRequest): ITranslationJob => null } as Translator;
+        formService['translator'] = { translate: (request: ITranslationRequest): ITranslationJob => null! } as Translator;
         formService.translate(translationRequest).subscribe((response) => {
             expect(response).toStrictEqual(translationResponse);
             done();
@@ -164,7 +165,7 @@ describe('FormServiceCore', () => {
         jest.spyOn(httpServiceMock, 'execute').mockImplementation(() => throwError(() => new Error('error')));
 
         formService.translate(translationRequest).subscribe({
-            next: null, error: (response) => {
+            next: null!, error: (response) => {
                 expect(response).toStrictEqual(errorResponse);
                 done();
             }
@@ -226,7 +227,7 @@ describe('FormServiceCore', () => {
         const spyLogInfo = jest.spyOn(formService as any, 'logInfo').mockImplementation((message) => {
             expect(message).toBe('getEnvironmentContext: {\"isMultiTenant\":true,\"ionApiUrl\":\"cloud\"}');
         });
-        const spyCommand = jest.spyOn(formService as any, 'command').mockImplementation((type: string, value: string): Observable<IFormResponse> => {
+        const spyCommand = jest.spyOn(formService as any, 'command').mockImplementation((type, value): Observable<IFormResponse> => {
             expect(type).toBe('USER');
             expect(value).toBe('M3USER_OPT');
             return of({ document: {} as Document } as IFormResponse);
@@ -246,7 +247,7 @@ describe('FormServiceCore', () => {
     });
 
     it('should return environment context by M3USER_OPT w/o document from getEnvironmentContext', (done) => {
-        const envContext: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null, version: null };
+        const envContext: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null!, version: null! };
         const spyHasEnvironmentInformation = jest.spyOn(formService as any, 'hasEnvironmentInformation').mockImplementation(() => false);
         const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             expect(message).toBe('getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT');
@@ -254,12 +255,12 @@ describe('FormServiceCore', () => {
         const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message) => {
             expect(message).toBe('getEnvironmentContext: Unable to get user information from H5. Verify that the H5 version is supported.');
         });
-        const spyCommand = jest.spyOn(formService as any, 'command').mockImplementation((type: string, value: string): Observable<IFormResponse> => {
+        const spyCommand = jest.spyOn(formService as any, 'command').mockImplementation((type, value): Observable<IFormResponse> => {
             return of({} as IFormResponse);
         });
 
         formService.getEnvironmentContext().subscribe({
-            next: null, error: context => {
+            next: null!, error: context => {
                 expect(context).toStrictEqual(envContext);
                 expect(formService['environmentContext']).toStrictEqual(envContext);
                 expect(spyHasEnvironmentInformation).toHaveBeenCalled();
@@ -272,7 +273,7 @@ describe('FormServiceCore', () => {
     });
 
     it('should return environment context by failed M3USER_OPT from getEnvironmentContext', (done) => {
-        const envContext: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null, version: null };
+        const envContext: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null!, version: null! };
         const spyHasEnvironmentInformation = jest.spyOn(formService as any, 'hasEnvironmentInformation').mockImplementation(() => false);
         const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             expect(message).toBe('getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT');
@@ -280,12 +281,12 @@ describe('FormServiceCore', () => {
         const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message) => {
             expect(message).toBe('getEnvironmentContext: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT failed.');
         });
-        const spyCommand = jest.spyOn(formService as any, 'command').mockImplementation((type: string, value: string): Observable<IFormResponse> => {
+        const spyCommand = jest.spyOn(formService as any, 'command').mockImplementation((type, value): Observable<IFormResponse> => {
             return throwError(() => new Error('error'));
         });
 
         formService.getEnvironmentContext().subscribe({
-            next: null, error: context => {
+            next: null!, error: context => {
                 expect(context).toStrictEqual(envContext);
                 expect(formService['environmentContext']).toStrictEqual(envContext);
                 expect(spyHasEnvironmentInformation).toHaveBeenCalled();
@@ -304,7 +305,7 @@ describe('FormServiceCore', () => {
     });
 
     it('should return environment context from createEnvironmentContextFromXml', () => {
-        const envContext: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null, version: null };
+        const envContext: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null!, version: null! };
         const emptyDocument = new DOMParser().parseFromString('<?xml version="1.0" encoding="UTF-8"?>', 'text/xml');
         const documentWithoutTenant = new DOMParser().parseFromString('<?xml version="1.0" encoding="UTF-8"?><Root mcv="1.0"></Root>', 'text/xml');
         const documentWithTenantInfor = new DOMParser().parseFromString('<?xml version="1.0" encoding="UTF-8"?><Root mcv="1.0"><Tenant>infor</Tenant></Root>', 'text/xml');
@@ -333,7 +334,7 @@ describe('FormServiceCore', () => {
         const userContextWithTenantInfor: IUserContext = { tenant: 'infor' } as IUserContext;
         const userContextWithTenantTest: IUserContext = { tenant: 'Test' } as IUserContext;
         const userContextWithIonApiUrl: IUserContext = { ionApiUrl: 'foo' } as IUserContext;
-        const context: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null, version: null };
+        const context: IEnvironmentContext = { isMultiTenant: false, ionApiUrl: null!, version: null! };
         const spyLogWarning = jest.spyOn(formService as any, 'logWarning').mockImplementation((message) => {
             expect(message).toBe('getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem');
         });
@@ -352,10 +353,10 @@ describe('FormServiceCore', () => {
     it('should handle pending requests in processPending', () => {
         formService['processPending']();
 
-        formService['pending'] = null;
+        formService['pending'] = null!;
         formService['processPending']();
 
-        formService['pending'] = [{ subject: null, request: null }];
+        formService['pending'] = [{ subject: null!, request: null! }];
         const spy = jest.spyOn(formService as any, 'executeWithSubject').mockImplementation(() => { });
         formService['processPending']();
         expect(spy).toHaveBeenCalled();
@@ -364,10 +365,10 @@ describe('FormServiceCore', () => {
     it('should complete with error in rejectPending', (done) => {
         const response = { message: 'hello' } as IFormResponse;
         const subject = new AsyncSubject<IFormResponse>();
-        formService['pending'] = [{ subject: subject, request: null }];
+        formService['pending'] = [{ subject: subject, request: null! }];
 
         subject.subscribe({
-            next: null, error: (resp) => {
+            next: null!, error: (resp) => {
                 expect(resp).toStrictEqual(response);
                 done();
             }
@@ -393,12 +394,12 @@ describe('FormServiceCore', () => {
             return subject.asObservable();
         });
         const spyProcessPending = jest.spyOn(formService as any, 'processPending');
-        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message: string) => {
+        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             const messages = [
                 'logon: Logging on to H5 user context exists...',
                 'logon: H5 logon complete.',
             ];
-            expect(messages.includes(message)).toBe(true);
+            expect(messages.includes(message as string)).toBe(true);
         });
 
         expect(formService['hasSession']).toBe(false);
@@ -423,16 +424,16 @@ describe('FormServiceCore', () => {
             return subject.asObservable();
         });
         const spyRejectPending = jest.spyOn(formService as any, 'rejectPending');
-        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message: string) => {
+        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             expect(message).toBe('logon: Logging on to H5 user context exists...');
         });
-        const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message: string) => {
+        const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message) => {
             expect(message).toBe('logon: H5 logon failed.');
         });
 
         expect(formService['hasSession']).toBe(false);
         formService['logon']().subscribe({
-            next: null, error: (response) => {
+            next: null!, error: (response) => {
                 expect(response).toBe('error');
                 expect(formService['hasSession']).toBe(false);
                 expect(spyCommand).toHaveBeenCalled();
@@ -456,12 +457,12 @@ describe('FormServiceCore', () => {
             return subject.asObservable();
         });
         const spyProcessPending = jest.spyOn(formService as any, 'processPending');
-        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message: string) => {
+        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             const messages = [
                 'logon: Logging on to H5...',
                 'logon: H5 logon complete.',
             ];
-            expect(messages.includes(message)).toBe(true);
+            expect(messages.includes(message as string)).toBe(true);
         });
 
         expect(formService['hasSession']).toBe(false);
@@ -489,16 +490,16 @@ describe('FormServiceCore', () => {
             return subject.asObservable();
         });
         const spyRejectPending = jest.spyOn(formService as any, 'rejectPending');
-        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message: string) => {
+        const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             expect(message).toBe('logon: Logging on to H5...');
         });
-        const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message: string) => {
+        const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message) => {
             expect(message).toBe('logon: H5 logon failed.');
         });
 
         expect(formService['hasSession']).toBe(false);
         formService['logon']().subscribe({
-            next: null, error: (response) => {
+            next: null!, error: (response) => {
                 expect(response).toBe('error');
                 expect(formService['hasSession']).toBe(false);
                 expect(formService['userContext']).toStrictEqual(userContext);
@@ -518,13 +519,13 @@ describe('FormServiceCore', () => {
         const spyRejectPending = jest.spyOn(formService as any, 'rejectPending').mockImplementation((param) => {
             expect(param).toStrictEqual(error);
         });
-        const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message: string) => {
+        const spyLogError = jest.spyOn(formService as any, 'logError').mockImplementation((message) => {
             expect(message).toBe('Failed to get user context');
         });
 
         expect(formService['hasSession']).toBe(false);
         formService['logon']().subscribe({
-            next: null, error: (response) => {
+            next: null!, error: (response) => {
                 expect(response).toStrictEqual(error);
                 expect(formService['hasSession']).toBe(false);
                 expect(formService['userContext']).toBeUndefined();
@@ -559,8 +560,8 @@ describe('FormServiceCore', () => {
             return of(response);
         });
 
-        formService['sessionId'] = request.sessionId;
-        formService['command'](request.commandType, request.commandValue).subscribe((resp: IFormResponse) => {
+        formService['sessionId'] = request.sessionId!;
+        formService['command'](request.commandType!, request.commandValue!).subscribe((resp: IFormResponse) => {
             expect(resp).toStrictEqual(response);
             expect(spyExecute).toHaveBeenCalled();
             done();
@@ -570,7 +571,8 @@ describe('FormServiceCore', () => {
     it('should send request in execute', (done) => {
         const request = { commandType: 'foo' } as IFormRequest;
         const response = { message: 'hello' } as IFormResponse;
-        const spyExecuteWithSubject = jest.spyOn(formService as any, 'executeWithSubject').mockImplementation((sub: AsyncSubject<IFormResponse>, req: IFormRequest) => {
+        const spyExecuteWithSubject = jest.spyOn(formService as any, 'executeWithSubject').mockImplementation((sub_, req) => {
+            const sub = sub_ as AsyncSubject<IFormResponse>;
             sub.next(response);
             sub.complete();
             return sub.asObservable();
@@ -638,7 +640,7 @@ describe('FormServiceCore', () => {
         const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             expect(message).toBe('executeWithSubject: Executing request foo ');
         });
-        const spyResolver = jest.spyOn(request, 'resolver').mockImplementation((req: IFormRequest, context: IUserContext) => {
+        const spyResolver = jest.spyOn(request as any, 'resolver').mockImplementation((req, context) => {
             expect(req).toStrictEqual(request);
             expect(context).toStrictEqual(userContext);
         });
@@ -646,11 +648,11 @@ describe('FormServiceCore', () => {
             expect(req).toStrictEqual(request);
             return httpRequest;
         });
-        const spyHttpServiceExecute = jest.spyOn(formService['httpService'], 'execute').mockImplementation((req) => {
+        const spyHttpServiceExecute = jest.spyOn(formService['httpService']!, 'execute').mockImplementation((req) => {
             expect(req).toStrictEqual(httpRequest);
             return of(httpResponse);
         });
-        const spyParseResponse = jest.spyOn(formService as any, 'parseResponse').mockImplementation((req: IFormRequest, content: any) => {
+        const spyParseResponse = jest.spyOn(formService as any, 'parseResponse').mockImplementation((req, content) => {
             expect(req).toStrictEqual(request);
             expect(content).toBe(httpResponse.body);
             return response;
@@ -681,7 +683,7 @@ describe('FormServiceCore', () => {
         const spyLogDebug = jest.spyOn(formService as any, 'logDebug').mockImplementation((message) => {
             expect(message).toBe('executeWithSubject: Executing request foo ');
         });
-        const spyResolver = jest.spyOn(request, 'resolver').mockImplementation((req: IFormRequest, context: IUserContext) => {
+        const spyResolver = jest.spyOn(request as any, 'resolver').mockImplementation((req, context) => {
             expect(req).toStrictEqual(request);
             expect(context).toStrictEqual(userContext);
         });
@@ -689,18 +691,18 @@ describe('FormServiceCore', () => {
             expect(req).toStrictEqual(request);
             return httpRequest;
         });
-        const spyHttpServiceExecute = jest.spyOn(formService['httpService'], 'execute').mockImplementation((req) => {
+        const spyHttpServiceExecute = jest.spyOn(formService['httpService']!, 'execute').mockImplementation((req) => {
             expect(req).toStrictEqual(httpRequest);
             return throwError(() => httpResponse);
         });
-        const spyCreateError = jest.spyOn(formService as any, 'createError').mockImplementation((resp: IHttpResponse) => {
+        const spyCreateError = jest.spyOn(formService as any, 'createError').mockImplementation((resp) => {
             expect(resp).toStrictEqual(httpResponse);
             return response;
         });
         const spyProcessPending = jest.spyOn(formService as any, 'processPending').mockImplementation(() => { });
 
         formService['executeWithSubject'](subject, request).subscribe({
-            next: null, error: (resp) => {
+            next: null!, error: (resp) => {
                 expect(resp).toStrictEqual(response);
                 expect(spyResolver).toHaveBeenCalled();
                 expect(spyLogDebug).toHaveBeenCalled();
@@ -772,7 +774,7 @@ describe('FormServiceCore', () => {
         const spyParse = jest.spyOn(FormParser, 'parse').mockImplementation(() => {
             return response;
         });
-        const spyUpdateUserContextAfterLogon = jest.spyOn(formService as any, 'updateUserContextAfterLogon').mockImplementation((userData: any, principalUser: string) => {
+        const spyUpdateUserContextAfterLogon = jest.spyOn(formService as any, 'updateUserContextAfterLogon').mockImplementation((userData, principalUser) => {
             expect(userData).toBe(response.userData);
             expect(principalUser).toBe(response.principalUser);
         });
