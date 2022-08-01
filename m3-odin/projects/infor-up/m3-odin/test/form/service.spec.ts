@@ -145,12 +145,15 @@ describe('FormServiceCore', () => {
         const translationResponse: ITranslationResponse = {};
 
         formService['translator'] = { translate: (request: ITranslationRequest): ITranslationJob => ({} as ITranslationJob) } as Translator;
-        jest.spyOn(formService as any, 'createHttpRequest').mockImplementation(() => ({}));
-        jest.spyOn(formService as any, 'onTranslate').mockImplementation(() => translationResponse);
-        jest.spyOn(httpServiceMock, 'execute').mockImplementation(() => of({} as IHttpResponse));
+        const spyCreateHttpRequest = jest.spyOn(formService as any, 'createHttpRequest').mockImplementation(() => ({}));
+        const spyOnTranslate = jest.spyOn(formService as any, 'onTranslate').mockImplementation(() => translationResponse);
+        const spyExecute = jest.spyOn(httpServiceMock, 'execute').mockImplementation(() => of({} as IHttpResponse));
 
         formService.translate(translationRequest).subscribe((response) => {
             expect(response).toStrictEqual(translationResponse);
+            expect(spyCreateHttpRequest).toHaveBeenCalled();
+            expect(spyOnTranslate).toHaveBeenCalled();
+            expect(spyExecute).toHaveBeenCalled();
             done();
         });
     });
@@ -160,13 +163,16 @@ describe('FormServiceCore', () => {
         const errorResponse = { result: -1 } as IFormResponse;
 
         formService['translator'] = { translate: (request: ITranslationRequest): ITranslationJob => ({} as ITranslationJob) } as Translator;
-        jest.spyOn(formService as any, 'createHttpRequest').mockImplementation(() => ({}));
-        jest.spyOn(formService as any, 'createError').mockImplementation(() => (errorResponse));
-        jest.spyOn(httpServiceMock, 'execute').mockImplementation(() => throwError(() => new Error('error')));
+        const spyCreateHttpRequest = jest.spyOn(formService as any, 'createHttpRequest').mockImplementation(() => ({}));
+        const spyCreateError = jest.spyOn(formService as any, 'createError').mockImplementation(() => (errorResponse));
+        const spyExecute = jest.spyOn(httpServiceMock, 'execute').mockImplementation(() => throwError(() => new Error('error')));
 
         formService.translate(translationRequest).subscribe({
             next: null!, error: (response) => {
                 expect(response).toStrictEqual(errorResponse);
+                expect(spyCreateHttpRequest).toHaveBeenCalled();
+                expect(spyCreateError).toHaveBeenCalled();
+                expect(spyExecute).toHaveBeenCalled();
                 done();
             }
         });
