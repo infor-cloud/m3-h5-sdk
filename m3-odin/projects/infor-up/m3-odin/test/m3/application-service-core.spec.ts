@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { ApplicationServiceCore, UserServiceCore } from '../../m3';
 import { IMessage } from '../../m3/types';
 
@@ -12,6 +12,12 @@ describe('ApplicationServiceCore', () => {
     beforeEach(() => {
         service = new ApplicationServiceCore();
     });
+
+    afterEach(() => {
+        // restore the spy created with spyOn
+        jest.restoreAllMocks();
+    });
+
 
     it('should return if H5 environment', () => {
         UserServiceCore.isH5Host = true;
