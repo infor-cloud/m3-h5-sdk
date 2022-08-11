@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, afterEach, jest } from '@jest/globals';
+import { describe, expect, it, beforeEach } from '@jest/globals';
 import { ITranslationJob, ITranslationRequest } from '../../form/base';
 import { Translator } from '../../form/runtime';
 
@@ -35,7 +35,7 @@ describe('Translator', () => {
 
     it('should be improved, because items is optional but throws error', () => {
         const request: ITranslationRequest = {};
-        expect(() => { translator.translate(request); }).toThrowError('Cannot read property \'length\' of undefined');
+        expect(() => { translator.translate(request); }).toThrowError('Cannot read properties of undefined (reading \'length\')');
     });
 
     it('should be improved, because item.file is never undefined', () => {
