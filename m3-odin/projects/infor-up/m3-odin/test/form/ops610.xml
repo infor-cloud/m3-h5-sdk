@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Root mcv="1.0">
+    <Panels>
+        <Panel name="OPA610E0" mode="2">
+            <Objs>
+                <FKeys val="001010000001100000000000">
+                    <FKey val="F3">End</FKey>
+                    <FKey val="F5">Refresh</FKey>
+                    <FKey val="F12">Cancel</FKey>
+                    <FKey val="F13">Settings</FKey>
+                </FKeys>
+                <EFld tab="271" name="W1LIVR" hlp="LIVR" acc="WD" rfl="CSYSTP" rfd="CPLIVR" browse="t">
+                    <Pos l="16" t="2" w="21" h="1"/>
+                    <Constr maxL="20" type="CHAR" uc="UC"/>
+                            FOO01
+                </EFld>
+                <EFld tab="527" name="WWFACI" hlp="FACI" acc="WE" rfl="MITBAL" rfd="MBFACI" browse="t">
+                    <Pos l="16" t="3" w="5" h="1"/>
+                    <Constr maxL="3" type="CHAR" uc="UC"/>
+                            210
+                </EFld>
+                <Cap addInfo="t">
+                    <Pos l="21" t="3" w="31" h="1"/>
+                            Facility Name
+                </Cap>
+                <EFld tab="783" name="WWWHLO" hlp="WHLO" acc="WE" rfl="MITBAL" rfd="MBWHLO" browse="t">
+                    <Pos l="16" t="4" w="5" h="1"/>
+                    <Constr maxL="3" type="CHAR" uc="UC"/>
+                            000
+                </EFld>
+                <Cap addInfo="t">
+                    <Pos l="21" t="4" w="37" h="1"/>
+                            Warehouse Name
+                </Cap>
+                <EFld tab="1551" name="WFITNO" hlp="ITNO" acc="WE" rfl="MITBAL" rfd="MBITNO" browse="t">
+                    <Pos l="16" t="7" w="16" h="1"/>
+                    <Constr maxL="15" type="CHAR" uc="UC"/>
+                            99100017
+                </EFld>
+                <EFld tab="1570" name="WTITNO" hlp="ITNO" acc="WE" rfl="MITBAL" rfd="MBITNO" browse="t">
+                    <Pos l="35" t="7" w="16" h="1"/>
+                    <Constr maxL="15" type="CHAR" uc="UC"/>
+                            99100018
+                </EFld>
+                <ChkBox name="WWSIMM" hlp="OPS61002" tab="2063" acc="WE" rfd="REFYNC">
+                    <Pos l="16" t="9" w="3" h="1"/>
+                            1
+                </ChkBox>
+                <ChkBox name="WWSIMB" hlp="OPS61003" tab="2319" acc="WE" rfd="REFYNC">
+                    <Pos l="16" t="10" w="3" h="1"/>
+                            1
+                </ChkBox>
+                <ChkBox name="WWSIMD" hlp="OPS61004" tab="2575" acc="WE" rfd="REFYNC">
+                    <Pos l="16" t="11" w="3" h="1"/>
+                            1
+                </ChkBox>
+                <ChkBox name="WWSIMP" hlp="OPS61005" tab="2831" acc="WE" rfd="REFYNC">
+                    <Pos l="16" t="12" w="3" h="1"/>
+                            1
+                </ChkBox>
+                <Cap id="WLI1115" cl="t" tip="Report version">
+                    <Pos l="1" t="2" w="15" h="1"/>
+                            Report version
+                </Cap>
+                <Cap id="WFAC315" cl="t" tip="Facility">
+                    <Pos l="1" t="3" w="15" h="1"/>
+                            Facility
+                </Cap>
+                <Cap id="WWH0115" cl="t" tip="Warehouse">
+                    <Pos l="1" t="4" w="15" h="1"/>
+                            Warehouse
+                </Cap>
+                <Cap id="XFR0115" emp="t">
+                    <Pos l="16" t="6" w="14" h="1"/>
+                            From
+                </Cap>
+                <Cap id="XTO0115" emp="t">
+                    <Pos l="35" t="6" w="14" h="1"/>
+                            To
+                </Cap>
+                <Cap id="WIT0115" cl="t" tip="Item number">
+                    <Pos l="1" t="7" w="15" h="1"/>
+                            Item number
+                </Cap>
+                <Cap>
+                    <Pos l="33" t="7" w="1" h="1"/>
+                            -
+                </Cap>
+                <Cap id="OP61002" cl="t">
+                    <Pos l="1" t="9" w="15" h="1"/>
+                            Send item
+                </Cap>
+                <Cap id="OP61003" cl="t">
+                    <Pos l="1" t="10" w="15" h="1"/>
+                            Send item/whs
+                </Cap>
+                <Cap id="OP61004" cl="t">
+                    <Pos l="1" t="11" w="15" h="1"/>
+                            Send item lang
+                </Cap>
+                <Cap id="OP61005" cl="t">
+                    <Pos l="1" t="12" w="15" h="1"/>
+                            Send item alias
+                </Cap>
+                <GroupBox r="t">
+                    <Pos l="1" t="1" w="73" h="1"/>
+                            Selection Criteria
+                </GroupBox>
+                <PSeq name="_PSEQ" acc="WD" list="true" sP="e" iP="1">
+                            FGHIJO
+                    <VPanels>
+                        <p name="E" desc="Basic Information (E)"/>
+                        <p name="F" desc="Basic Information (F)"/>
+                        <p name="G" desc="Basic Information (G)"/>
+                        <p name="H" desc="Basic Information (H)"/>
+                        <p name="I" desc="Basic Information (I)"/>
+                        <p name="J" desc="Basic Information (J)"/>
+                    </VPanels>
+                </PSeq>
+            </Objs>
+            <PHead>OPS610/E</PHead>
+            <PDesc>POS Item. Transfer</PDesc>
+        </Panel>
+    </Panels>
+    <SessionData>
+        <IID>571ad59c7dc496aec056544f603a25ba</IID>
+        <SID>0d0b8f1205cdf968c6fddb9e1e8f4376</SID>
+    </SessionData>
+    <ControlData>
+        <HidePrev/>
+        <Focus>WWFACI</Focus>
+        <HelpURL>/help/GB</HelpURL>
+        <ShowDialog>true</ShowDialog>
+        <Title>M3 UI Adapter</Title>
+        <User>Foo</User>
+        <Cmp>Best Company</Cmp>
+        <Divi>Bar</Divi>
+        <Lng>GB</Lng>
+        <ERPV></ERPV>
+        <Cono>350</Cono>
+        <Div>210</Div>
+        <DSep>,</DSep>
+        <DF>DDMMYY</DF>
+        <DefOpt>5</DefOpt>
+        <ChgBy>FOO01</ChgBy>
+        <ModDate>12-07-22</ModDate>
+        <RegDate>10-05-22</RegDate>
+        <ShowCmpVer/>
+        <JobId>98789836b0124299a07d6ec230c97527</JobId>
+        <PgmInfo/>
+    </ControlData>
+</Root>
