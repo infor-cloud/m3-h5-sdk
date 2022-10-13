@@ -15,23 +15,28 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # Build of CLI and M3-ODIN
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
 
       # Runs a set of commands using the runners shell
       - name: Build CLI
         run: |
           cd ./cli
+          npm config set fetch-retry-mintimeout 20000
+          npm config set fetch-retry-maxtimeout 120000
           npm ci
           npm run build
 
@@ -40,3 +45,79 @@ jobs:
           cd ./m3-odin
           npm ci
           npm run build:libs
+
+      - name: Zip CLI directory for upload
+        run: zip -q cli.zip ./cli -r
+    
+      - name: Upload CLI archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: cli-build-result
+          path: cli.zip
+          retention-days: 1
+
+  # Test of different Odin new commands
+  odin_new:
+    # Depends on successful run of Build
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
+
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: cli-build-result
+          path: .
+
+      - name: Unzip CLI archive
+        run: unzip -q cli.zip
+
+      - name: Install Odin CLI
+        run: |
+          cd ./cli
+          npm config set fetch-retry-mintimeout 20000
+          npm config set fetch-retry-maxtimeout 120000
+          npm install --location=global .
+
+      - name: Generate Angular soho app
+        run: |
+          odin new --angular --soho --install --skip-git app-angular-soho
+          cd app-angular-soho
+          odin build
+
+      - name: Generate Angular material app
+        run: |
+          odin new --angular --material --install --skip-git app-angular-material
+          cd app-angular-material
+          odin build
+
+      - name: Generate Angular app
+        run: |
+          odin new --angular --install --skip-git app-angular-none
+          cd app-angular-none
+          odin build
+
+      - name: Generate basic soho app
+        run: |
+          odin new --soho --install --skip-git app-basic-soho
+          cd app-basic-soho
+          odin build
+
+      - name: Generate basic material app
+        run: |
+          odin new --material --install --skip-git app-basic-material
+          cd app-basic-material
+          odin build
+
+      - name: Generate basic app
+        run: |
+          odin new --material --install --skip-git app-basic-none
+          cd app-basic-none
+          odin build

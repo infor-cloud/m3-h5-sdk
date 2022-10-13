@@ -106,7 +106,7 @@ function multiTenantProxyFile(proxyConfig: ProxyConfig, useIonApi?: boolean) {
       addMneProxyPlaceholders('/ca');
    }
 
-   const mtToolContent = fs.readFileSync(require.resolve('../mtauth')).toString();
+   const mtToolContent = fs.readFileSync(require.resolve('../mtauth.cjs')).toString();
    const configContent = JSON.stringify(proxyConfig)
       .replace(/\"ODIN_MT_SET_MNE_COOKIES\"/g, 'function (...args) { authenticator.setMNECookies(...args) }')
       .replace(/\"ODIN_MT_SET_ION_API_TOKEN\"/g, 'function (...args) { authenticator.setIONAPIToken(...args) }')
