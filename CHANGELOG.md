@@ -27,6 +27,8 @@ ng update @angular/core@13 @angular/cli@13 --force
 ng update @angular/core @angular/cli ids-enterprise-ng @infor-up/m3-odin @infor-up/m3-odin-angular rxjs typescript
 ```
 
+## Known Issues
+- https://github.com/infor-cloud/m3-h5-sdk/issues/146
 
 
 # 5.0.0
