@@ -1,7 +1,7 @@
 {
    "name": "@infor-up/m3-odin-angular",
    "private": false,
-   "version": "6.0.0-next.2",
+   "version": "6.0.0",
    "description": "Odin Angular for M3 web application development.",
    "author": {
       "name": "Fredrik Eriksson",
@@ -18,7 +18,7 @@
    "peerDependencies": {
       "@angular/common": "^14.0.0",
       "@angular/core": "^14.0.0",
-      "@infor-up/m3-odin": "6.0.0-next.2",
+      "@infor-up/m3-odin": "6.0.0",
       "rxjs": "^7.0.0"
    }
 }

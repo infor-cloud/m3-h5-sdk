@@ -2,6 +2,7 @@
 
 import { program } from 'commander';
 import fs from 'fs-extra';
+import type { ConfirmQuestion, InputQuestion, ListQuestion } from 'inquirer';
 import inquirer from 'inquirer';
 import path from 'path';
 import url from "url";
@@ -167,7 +168,7 @@ program
    });
 
 const inquireNewProject = async () => {
-   const nameQuestion: inquirer.InputQuestion = {
+   const nameQuestion: InputQuestion = {
       name: 'projectName',
       type: 'input',
       message: 'What is the name of the project?',
@@ -181,7 +182,7 @@ const inquireNewProject = async () => {
          }
       }
    };
-   const proxyQuestion: inquirer.InputQuestion = {
+   const proxyQuestion: InputQuestion = {
       name: 'proxy',
       type: 'input',
       message: 'What is the URL of your M3 environment?',
@@ -194,7 +195,7 @@ const inquireNewProject = async () => {
          }
       }
    };
-   const frameworkQuestion: inquirer.ListQuestion = {
+   const frameworkQuestion: ListQuestion = {
       name: 'framework',
       type: 'list',
       message: 'Which view framework do you want to use?',
@@ -210,7 +211,7 @@ const inquireNewProject = async () => {
       ],
       default: 'angular'
    };
-   const styleQuestion: inquirer.ListQuestion = {
+   const styleQuestion: ListQuestion = {
       name: 'style',
       type: 'list',
       message: 'Which style library do you want to use?',
@@ -230,13 +231,13 @@ const inquireNewProject = async () => {
       ],
       default: 'soho'
    };
-   const gitQuestion: inquirer.ConfirmQuestion = {
+   const gitQuestion: ConfirmQuestion = {
       name: 'git',
       type: 'confirm',
       message: 'Should Git be used for the project?',
       default: true,
    };
-   const installQuestion: inquirer.ConfirmQuestion = {
+   const installQuestion: ConfirmQuestion = {
       name: 'install',
       type: 'confirm',
       message: 'Should dependencies be installed? This can take a while.',
@@ -264,7 +265,7 @@ const inquireNewProject = async () => {
 };
 
 const inquireServeProject = async () => {
-   const portQuestion: inquirer.InputQuestion = {
+   const portQuestion: InputQuestion = {
       name: 'port',
       type: 'input',
       default: '8080',
@@ -277,13 +278,13 @@ const inquireServeProject = async () => {
          }
       }
    };
-   const mtQuestion: inquirer.ConfirmQuestion = {
+   const mtQuestion: ConfirmQuestion = {
       name: 'multiTenant',
       type: 'confirm',
       default: false,
       message: 'Enable Multi-Tenant proxy?'
    };
-   const ionQuestion: inquirer.ConfirmQuestion = {
+   const ionQuestion: ConfirmQuestion = {
       name: 'ionApi',
       type: 'confirm',
       default: false,
@@ -298,7 +299,7 @@ const inquireServeProject = async () => {
 };
 
 const inquireCommand = async () => {
-   const commandQuestion: inquirer.ListQuestion = {
+   const commandQuestion: ListQuestion = {
       name: 'command',
       type: 'list',
       message: 'What do you want to do?',

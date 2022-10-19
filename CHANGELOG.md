@@ -1,3 +1,36 @@
+# 6.0.0
+
+## BREAKING CHANGES
+There have been major version updates to many dependencies. These require NodeJS 16.x (LTS) to be installed.
+
+## Updated dependencies
+- Angular 14
+- IDS Enterprise Components 14
+
+## Upgrading from version 5
+(Based on a newly created project with Odin version 5.0.0 `odin new --soho --angular`)
+
+1. Install the latest CLI:
+```sh
+npm i -g @infor-up/m3-odin-cli@latest
+```
+2. Upgrade from Angular 12 to 13 (since `ng update` doesn't handle skipping versions):
+```sh
+# NOTE: I needed --force to deal with npm peerDependencies mistmatching in some packages
+ng update @angular/core@13 @angular/cli@13 --force
+```
+3. Stage/commit changes so that the working directory is clean (alternatively use `--allow-dirty` below)
+4. Upgrade from Angular 13 to 14, and other dependencies including Odin:
+```sh
+# NOTE: You might want to add karma, jasmine and other dev dependencies here as well.
+# The update command won't do anything special when upgrading them, but you might need it to sync peer dependencies
+ng update @angular/core @angular/cli ids-enterprise-ng @infor-up/m3-odin @infor-up/m3-odin-angular rxjs typescript
+```
+
+## Known Issues
+- https://github.com/infor-cloud/m3-h5-sdk/issues/146
+
+
 # 5.0.0
 ## Changes
 - **cli:** New IDS/Soho projects now uses the "new"/"uplift" theme by default, since this is the default theme in H5. Older applications are not affected by this.
