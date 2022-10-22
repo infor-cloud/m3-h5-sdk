@@ -154,7 +154,7 @@ export class MIUtil {
     * @returns A string in MI format.
     */
    public static toMIFormat(value: any): string {
-      if (CoreUtil.hasValue(value)) {
+      if (!CoreUtil.hasValue(value)) {
          return '';
       }
       if (MIUtil.isDate(value)) {
