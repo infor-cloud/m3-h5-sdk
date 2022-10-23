@@ -141,8 +141,14 @@ jobs:
           cd ./m3-odin
           npm ci
 
-      - name: run tests and publish results
+      - name: run tests
         uses: artiomtr/jest-coverage-report-action@v2
+        id: coverage
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output: report-markdown
           working-directory: ./m3-odin/projects/infor-up/m3-odin
+
+      - name: report results
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: ${{ steps.coverage.outputs.report }}
