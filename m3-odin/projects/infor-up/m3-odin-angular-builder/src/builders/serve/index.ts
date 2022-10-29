@@ -39,7 +39,7 @@ async function odinServeBuilder(
     return await executeDevServerBuilder(devServerOption, context).toPromise();
 }
 
-type PossibleProxyConfig = WebpackDevServer.ProxyConfigMap | WebpackDevServer.ProxyConfigArrayItem[] | undefined;
+type PossibleProxyConfig = WebpackDevServer.ProxyConfigArrayItem | WebpackDevServer.ProxyConfigMap | WebpackDevServer.ProxyConfigArray | undefined;
 type ProxyConfig = WebpackDevServer.ProxyConfigMap;
 function isProxyConfig(proxy: PossibleProxyConfig): proxy is ProxyConfig {
     return proxy !== undefined && !Array.isArray(proxy);
