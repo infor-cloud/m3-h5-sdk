@@ -1,10 +1,9 @@
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { AsyncSubject, Observable, of, throwError } from 'rxjs';
-import { IMIResponse, IMIService } from '../../mi/base';
-import { IMIRequest } from '../../mi/types';
-import { UserContext, UserServiceCore } from '../../m3/runtime';
-import { HttpUtil } from '../../util';
-import { IMessage, IUserContext } from '../../m3/types';
+import { IMIResponse, IMIService } from '../mi/base';
+import { IMIRequest } from '../mi/types';
+import { UserContext, UserServiceCore } from '../m3/runtime';
+import { HttpUtil } from '../util';
+import { IMessage, IUserContext } from '../m3/types';
 
 class MockMIService implements IMIService {
     execute(request: IMIRequest): Observable<IMIResponse> {
@@ -22,33 +21,25 @@ class MockMIService implements IMIService {
 describe('UserServiceCore', () => {
     const mockService = new MockMIService();
     let userService: UserServiceCore;
-    let isIframe;
 
     beforeEach(() => {
         // Function init will be called in constructor. To avoid this a mock is placed and removed after constructor call.
-        jest.spyOn(UserServiceCore.prototype as any, 'init').mockImplementation(() => { });
+        const spy = spyOn(UserServiceCore.prototype as any, 'init').and.callFake(() => { });
         userService = new UserServiceCore(mockService);
-        jest.restoreAllMocks();
-        isIframe = HttpUtil.isIframe;
-    });
-
-    afterEach(() => {
-        // restore the spy created with spyOn
-        jest.restoreAllMocks();
-        HttpUtil.isIframe = isIframe;
+        spy.and.callThrough();
     });
 
     it('should initialize', (done) => {
-        HttpUtil.isIframe = jest.fn().mockReturnValue(true) as (() => boolean);
-        const spyLogDebug = jest.spyOn(userService as any, 'logDebug').mockImplementation((message) => {
+        spyOn(HttpUtil, 'isIframe').and.returnValue(true);
+        const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake((message) => {
             expect(message).toBe('Running in IFrame');
         });
-        const spyRegisterMessage = jest.spyOn(userService as any, 'registerMessage').mockImplementation(() => { });
-        jest.spyOn(userService as any, 'onTimeout').mockImplementation(() => {
+        const spyRegisterMessage = spyOn(userService as any, 'registerMessage').and.callFake(() => { });
+        spyOn(userService as any, 'onTimeout').and.callFake(() => {
             done();
         });
-        const spySendMessage = jest.spyOn(userService as any, 'sendMessage').mockImplementation((message) => {
-            expect(message).toStrictEqual({ m3Command: 'user' });
+        const spySendMessage = spyOn(userService as any, 'sendMessage').and.callFake((message) => {
+            expect(message).toEqual({ m3Command: 'user' });
         });
 
         userService['init']();
@@ -60,10 +51,10 @@ describe('UserServiceCore', () => {
     });
 
     it('should handle timeout', () => {
-        const spyLogDebug = jest.spyOn(userService as any, 'logDebug').mockImplementation((message) => {
+        const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake((message) => {
             expect(message).toBe('onTimeout: No user message from H5');
         });
-        const spyLoadUserId = jest.spyOn(userService as any, 'loadUserId').mockImplementation(() => { });
+        const spyLoadUserId = spyOn(userService as any, 'loadUserId').and.callFake(() => { });
 
         userService['isMessagePending'] = true;
         userService['queue'] = [{} as AsyncSubject<UserContext>];
@@ -76,11 +67,11 @@ describe('UserServiceCore', () => {
 
     it('should parse data', () => {
         const message: IMessage = { m3Command: 'foo' };
-        const spyLogError = jest.spyOn(userService as any, 'logError').mockImplementation((message) => {
+        const spyLogError = spyOn(userService as any, 'logError').and.callFake((message) => {
             expect(message).toBe('parseMessage: Failed to parse: "foo"');
         });
 
-        expect(userService['parseMessage'](JSON.stringify(message))).toStrictEqual(message);
+        expect(userService['parseMessage'](JSON.stringify(message))).toEqual(message);
         expect(userService['parseMessage']('foo')).toBeNull();
         expect(spyLogError).toHaveBeenCalled();
     });
@@ -89,21 +80,21 @@ describe('UserServiceCore', () => {
         const dataJson: IMessage = { m3Command: 'user', m3Response: { m3User: 'foo', principalUser: 'bar', userContext: { hello: 'user' } } }
         const data = JSON.stringify(dataJson);
         const userContext: IUserContext = { hasError: () => false };
-        const spyLogDebug = jest.spyOn(userService as any, 'logDebug').mockImplementation((message) => {
+        const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake((message) => {
             expect(message).toBe('onMessage: User message from H5');
         });
-        const spyParseMessage = jest.spyOn(userService as any, 'parseMessage')
-            .mockReturnValueOnce(null)
-            .mockImplementation((message) => {
+        const spyParseMessage = spyOn(userService as any, 'parseMessage').and
+            .returnValue(null).and
+            .callFake((message) => {
                 expect(message).toBe(data);
                 return dataJson;
             });
-        const spyCreateUserContext = jest.spyOn(userService as any, 'createUserContext').mockImplementation((context) => {
-            expect(context).toStrictEqual(dataJson.m3Response.userContext);
+        const spyCreateUserContext = spyOn(userService as any, 'createUserContext').and.callFake((context) => {
+            expect(context).toBe(dataJson.m3Response.userContext);
             return userContext;
         });
-        const spySetContext = jest.spyOn(userService as any, 'setContext').mockImplementation((context) => {
-            expect(context).toStrictEqual(userContext);
+        const spySetContext = spyOn(userService as any, 'setContext').and.callFake((context) => {
+            expect(context).toBe(userContext);
         });
 
         userService['onMessage']({});
@@ -120,7 +111,7 @@ describe('UserServiceCore', () => {
     });
 
     it('should register a message', (done) => {
-        jest.spyOn(userService as any, 'onMessage').mockImplementation((context) => {
+        spyOn(userService as any, 'onMessage').and.callFake((context) => {
             expect(context).toBe('{"foo":"bar"}');
             done();
         });
@@ -131,7 +122,7 @@ describe('UserServiceCore', () => {
     it('should send a message', () => {
         const dataJson: IMessage = { m3Command: 'user' };
         const data = JSON.stringify(dataJson);
-        const spyPostMessage = jest.spyOn(parent, 'postMessage').mockImplementation((message, options) => {
+        const spyPostMessage = spyOn(parent, 'postMessage').and.callFake((message, options) => {
             expect(message).toBe(data);
             expect(options).toBe('*');
         });
@@ -145,14 +136,14 @@ describe('UserServiceCore', () => {
         context.errorMessage = 'this is an error';
 
         userService['createErrorContext'](context.errorMessage);
-        expect(userService['userContext']).toStrictEqual(context);
+        expect(userService['userContext']).toEqual(context);
     });
 
     it('should process queued items to resolve', (done) => {
         const userContext = { CONO: '100' } as IUserContext;
         const item = new AsyncSubject<UserContext>();
         item.subscribe((context) => {
-            expect(context).toStrictEqual(userContext);
+            expect(context).toBe(userContext);
             expect(userService['queue'].length).toBe(0);
             expect(userService['isExecuting']).toBe(false);
 
@@ -169,7 +160,7 @@ describe('UserServiceCore', () => {
         const item = new AsyncSubject<UserContext>();
         item.subscribe({
             next: null!, error: (context) => {
-                expect(context).toStrictEqual(userContext);
+                expect(context).toBe(userContext);
                 done();
             }
         });
@@ -181,10 +172,10 @@ describe('UserServiceCore', () => {
 
     it('should reject queue items', () => {
         const errorMessage = 'This is an error';
-        const spyCreateErrorContext = jest.spyOn(userService as any, 'createErrorContext').mockImplementation((message) => {
+        const spyCreateErrorContext = spyOn(userService as any, 'createErrorContext').and.callFake((message) => {
             expect(message).toBe(errorMessage);
         });
-        const spyProcessQueue = jest.spyOn(userService as any, 'processQueue').mockImplementation((param) => {
+        const spyProcessQueue = spyOn(userService as any, 'processQueue').and.callFake((param) => {
             expect(param).toBe(false);
         });
 
@@ -194,7 +185,7 @@ describe('UserServiceCore', () => {
     });
 
     it('should call to load a user', () => {
-        const spyLoadUserData = jest.spyOn(userService as any, 'loadUserData').mockImplementation(() => { });
+        const spyLoadUserData = spyOn(userService as any, 'loadUserData').and.callFake(() => { });
 
         userService['isExecuting'] = true;
         userService['loadUserId']();
@@ -208,27 +199,28 @@ describe('UserServiceCore', () => {
     it('should load user data', () => {
         const request: IMIRequest = { program: 'MNS150MI', transaction: 'GetUserData' };
         const response = { item: 'foo', errorMessage: 'failed' } as IMIResponse;
-        jest.spyOn(userService['miService'], 'execute')
-            .mockReturnValueOnce(of(response))
-            .mockImplementation((req) => {
-                expect(req).toStrictEqual(request);
-                return throwError(() => response);
-            });
+        const spyExecute = spyOn(userService['miService'], 'execute');
         let onUserDataParam;
-        const spyOnUserData = jest.spyOn(userService as any, 'onUserData').mockImplementation((param) => {
+        const spyOnUserData = spyOn(userService as any, 'onUserData').and.callFake((param) => {
             onUserDataParam = param;
         });
         let rejectQueueParam;
-        const spyRejectQueue = jest.spyOn(userService as any, 'rejectQueue').mockImplementation((param) => {
+        const spyRejectQueue = spyOn(userService as any, 'rejectQueue').and.callFake((param) => {
             rejectQueueParam = param;
         });
 
-        userService['loadUserData']();
+        spyExecute.and.returnValue(of(response));
         userService['loadUserData']();
         expect(spyOnUserData).toHaveBeenCalled();
-        expect(spyRejectQueue).toHaveBeenCalled();
         expect(onUserDataParam).toBe(response.item);
-        expect(rejectQueueParam).toBe(response.errorMessage);
+
+        spyExecute.and.callFake((req) => {
+            expect(req).toEqual(request);
+            return throwError(() => response);
+        });
+        userService['loadUserData']();
+        expect(spyRejectQueue).toHaveBeenCalled();
+        expect(rejectQueueParam).toEqual(response.errorMessage);
     });
 
     it('should add some aliases', () => {
@@ -285,7 +277,7 @@ describe('UserServiceCore', () => {
         } as unknown as IUserContext;
 
         userService['addAliases'](userContextBefore);
-        expect(userContextAfter).toStrictEqual(userContextBefore);
+        expect(userContextAfter).toEqual(userContextBefore);
     });
 
     it('should set context and update dependent', () => {
@@ -296,16 +288,16 @@ describe('UserServiceCore', () => {
             DIVI: '200',
             LANC: 'GB',
         } as IUserContext;
-        const spyUpdateUserContext = jest.spyOn(userService['miService']['instance'], 'updateUserContext').mockImplementation((cono, divi) => {
+        const spyUpdateUserContext = spyOn(userService['miService']['instance'], 'updateUserContext').and.callFake((cono, divi) => {
             expect(cono).toBe(userContext.CONO);
             expect(divi).toBe(userContext.DIVI);
         });
-        const spyLogInfo = jest.spyOn(userService as any, 'logInfo').mockImplementation((message) => {
+        const spyLogInfo = spyOn(userService as any, 'logInfo').and.callFake((message) => {
             expect(message).toBe('setContext: Initialized user context for test 100/200');
         });
 
         userService['setContext'](userContext);
-        expect(userService['userContext']).toStrictEqual(userContext);
+        expect(userService['userContext']).toBe(userContext);
         expect(spyUpdateUserContext).toHaveBeenCalled();
         expect(spyLogInfo).toHaveBeenCalled();
     })
@@ -313,12 +305,12 @@ describe('UserServiceCore', () => {
     it('should build and set user context', () => {
         const item = { user: 'foo' };
         const userContext = { m3User: 'foo' } as IUserContext;
-        const spyCreateUserContext = jest.spyOn(userService as any, 'createUserContext').mockImplementation((param) => {
-            expect(param).toStrictEqual(item);
+        const spyCreateUserContext = spyOn(userService as any, 'createUserContext').and.callFake((param) => {
+            expect(param).toBe(item);
             return userContext;
         });
-        const spySetContext = jest.spyOn(userService as any, 'setContext').mockImplementation((param) => {
-            expect(param).toStrictEqual(userContext);
+        const spySetContext = spyOn(userService as any, 'setContext').and.callFake((param) => {
+            expect(param).toBe(userContext);
         });
 
         userService['onUserData'](item);
@@ -331,11 +323,11 @@ describe('UserServiceCore', () => {
         const userContext = { m3User: 'foo' } as IUserContext;
         userService['userContext'] = userContext;
         userService['isUserContextAvailable'] = false;
-        const spyCreateErrorContext = jest.spyOn(userService as any, 'createErrorContext').mockImplementation(() => { });
+        const spyCreateErrorContext = spyOn(userService as any, 'createErrorContext').and.callFake(() => { });
 
         userService.getUserContext().subscribe({
             next: null!, error: (context) => {
-                expect(context).toStrictEqual(userContext);
+                expect(context).toBe(userContext);
                 done();
             }
         });
@@ -344,8 +336,8 @@ describe('UserServiceCore', () => {
 
     it('should return user context', (done) => {
         const userContext = { m3User: 'foo' } as IUserContext;
-        const spyPush = jest.spyOn(userService['queue'] as any, 'push').mockImplementation(() => { });
-        const spyLoadUserId = jest.spyOn(userService as any, 'loadUserId').mockImplementation(() => { });
+        const spyPush = spyOn(userService['queue'] as any, 'push').and.callFake(() => { });
+        const spyLoadUserId = spyOn(userService as any, 'loadUserId').and.callFake(() => { });
 
         userService.getUserContext();
         expect(spyPush).toHaveBeenCalled();
@@ -353,25 +345,25 @@ describe('UserServiceCore', () => {
 
         userService['userContext'] = userContext;
         userService.getUserContext().subscribe((context) => {
-            expect(context).toStrictEqual(userContext);
+            expect(context).toBe(userContext);
             done();
         });
     });
 
     it('should update user context if no one is present', () => {
         const userContext = { m3User: 'foo' } as IUserContext;
-        const spyCreateUserContext = jest.spyOn(userService as any, 'createUserContext').mockImplementation((context) => {
-            expect(context).toStrictEqual(userContext);
+        const spyCreateUserContext = spyOn(userService as any, 'createUserContext').and.callFake((context) => {
+            expect(context).toBe(userContext);
             return userContext;
         });
-        const spyAddAliases = jest.spyOn(userService as any, 'addAliases').mockImplementation((context) => {
-            expect(context).toStrictEqual(userContext);
+        const spyAddAliases = spyOn(userService as any, 'addAliases').and.callFake((context) => {
+            expect(context).toBe(userContext);
             (context as any)['CONO'] = '100';
         });
-        const spyUpdateDependent = jest.spyOn(userService as any, 'updateDependent').mockImplementation((context) => {
-            expect(context).toStrictEqual(userContext);
+        const spyUpdateDependent = spyOn(userService as any, 'updateDependent').and.callFake((context) => {
+            expect(context).toBe(userContext);
         });
-        const spyLogDebug = jest.spyOn(userService as any, 'logDebug').mockImplementation((message) => {
+        const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake((message) => {
             expect(message).toBe('setUserContext: Creating user context after logon');
         });
 
@@ -380,7 +372,7 @@ describe('UserServiceCore', () => {
         expect(spyAddAliases).toHaveBeenCalled();
         expect(spyUpdateDependent).toHaveBeenCalled();
         expect(spyLogDebug).toHaveBeenCalled();
-        expect(userService['userContext']).toStrictEqual(userContext);
+        expect(userService['userContext']).toBe(userContext);
     });
 
     it('should update user context if there is already one', () => {
@@ -388,14 +380,14 @@ describe('UserServiceCore', () => {
         const userContextAfter = { m3User: 'foo', ionApiUrl: 'http://cloud' } as IUserContext;
         const userContextParam = { ionApiUrl: userContextAfter.ionApiUrl } as IUserContext;
         userService['userContext'] = userContextBefore;
-        const spyAddAliases = jest.spyOn(userService as any, 'addAliases').mockImplementation((context) => {
-            expect(context).toStrictEqual(userContextParam);
+        const spyAddAliases = spyOn(userService as any, 'addAliases').and.callFake((context) => {
+            expect(context).toBe(userContextParam);
             (context as any)['CONO'] = '100';
         });
-        const spyUpdateDependent = jest.spyOn(userService as any, 'updateDependent').mockImplementation((context) => {
-            expect(context).toStrictEqual(userContextAfter);
+        const spyUpdateDependent = spyOn(userService as any, 'updateDependent').and.callFake((context) => {
+            expect(context).toEqual(userContextAfter);
         });
-        const spyLogDebug = jest.spyOn(userService as any, 'logDebug').mockImplementation((message) => {
+        const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake((message) => {
             expect(message).toBe('setUserContext: Updating user context after logon');
         });
 
@@ -403,12 +395,12 @@ describe('UserServiceCore', () => {
         expect(spyAddAliases).toHaveBeenCalled();
         expect(spyUpdateDependent).toHaveBeenCalled();
         expect(spyLogDebug).toHaveBeenCalled();
-        expect(userService['userContext']).toStrictEqual(userContextAfter);
+        expect(userService['userContext']).toEqual(userContextAfter);
     });
 
     it('should create user context object', () => {
         const item = { CONO: '100' };
         const userContext = new UserContext();
-        expect(userService['createUserContext'](item)).toStrictEqual(Object.assign(userContext, item));
+        expect(userService['createUserContext'](item)).toEqual(Object.assign(userContext, item));
     });
 })

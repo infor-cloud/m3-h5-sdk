@@ -1,30 +1,21 @@
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { Configuration, FormatUtil } from '../../m3/runtime';
-import { IDateOptions, IUserContext } from '../../m3/types';
+import { Configuration, FormatUtil } from './runtime';
+import { IDateOptions, IUserContext } from './types';
 
 describe('FormatUtil', () => {
-    let getDateFormat;
+    let firstActiveYear;
 
     beforeEach(() => {
-        getDateFormat = Configuration.getDateFormat;
+        firstActiveYear = Configuration['firstActiveYear'];
     });
 
     afterEach(() => {
-        Configuration.getDateFormat = getDateFormat;
+        Configuration['firstActiveYear'] = firstActiveYear;
     });
 
     it('should format date', () => {
         const date = new Date(2022, 0, 1);
 
-        Configuration.getDateFormat = jest.fn<() => string>()
-            .mockReturnValueOnce('yyMMdd')
-            .mockReturnValueOnce('yyyyMMdd')
-            .mockReturnValueOnce('MMddyy')
-            .mockReturnValueOnce('MMddyyyy')
-            .mockReturnValueOnce('ddMMyy')
-            .mockReturnValueOnce('ddMMyyyy')
-            .mockReturnValueOnce('yyMMdd')
-            .mockReturnValueOnce('yyMMdd');
+        spyOn(Configuration, 'getDateFormat').and.returnValues('yyMMdd', 'yyyyMMdd', 'MMddyy', 'MMddyyyy', 'ddMMyy', 'ddMMyyyy', 'yyMMdd', 'yyMMdd');
 
         expect(FormatUtil.formatDate(date)).toBe('220101');
         expect(FormatUtil.formatDate(date)).toBe('20220101');

@@ -1,14 +1,13 @@
-import { describe, expect, it } from '@jest/globals';
-import { IMIMetadataInfo, IMIMetadataMap, MIDataType } from '../../mi/base';
-import { MIMetadataInfo, MIRecord, MIUtil } from '../../mi/runtime';
+import { IMIMetadataInfo, IMIMetadataMap, MIDataType } from './base';
+import { MIMetadataInfo, MIRecord, MIUtil } from './runtime';
 
 describe('MI Meatdata Info', () => {
     const name = 'foo';
     const types = [
-        {typeString: 'A', type: MIDataType.String},
-        {typeString: 'D', type: MIDataType.Date},
-        {typeString: 'N', type: MIDataType.Numeric},
-        {typeString: 'X', type: undefined},
+        { typeString: 'A', type: MIDataType.String },
+        { typeString: 'D', type: MIDataType.Date },
+        { typeString: 'N', type: MIDataType.Numeric },
+        { typeString: 'X', type: undefined },
     ];
     const length = 12;
     const description = 'bar';

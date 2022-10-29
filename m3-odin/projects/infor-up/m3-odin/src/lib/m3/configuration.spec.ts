@@ -1,24 +1,32 @@
-import { beforeEach, describe, expect, it } from '@jest/globals';
-import { Configuration } from '../../m3/runtime';
-import { IUserContext } from '../../m3/types';
+import { Configuration } from './runtime';
+import { IUserContext } from './types';
 
 describe('Configuration', () => {
+    let firstActiveYear;
+    let userContext;
+
     beforeEach(() => {
-        Configuration['userContext'] = {} as IUserContext;
+        userContext = Configuration['userContext'];
+        firstActiveYear = Configuration['firstActiveYear'];
+    });
+
+    afterEach(() => {
+        Configuration['userContext'] = userContext;
+        Configuration['firstActiveYear'] = firstActiveYear;
     });
 
     it('should return date format', () => {
         const userContext = { dateFormat: 'foo' } as IUserContext;
         expect(Configuration.getDateFormat()).toBe('yyMMdd');
         Configuration['userContext'] = userContext;
-        expect(Configuration.getDateFormat()).toBe(userContext.dateFormat);
+        expect(Configuration.getDateFormat()).toBe(userContext.dateFormat as string);
     });
 
     it('should return decimal separator', () => {
         const userContext = { DCFM: ',' } as IUserContext;
         expect(Configuration.getDecimalSeparator()).toBe('.');
         Configuration['userContext'] = userContext;
-        expect(Configuration.getDecimalSeparator()).toBe(userContext.DCFM);
+        expect(Configuration.getDecimalSeparator()).toBe(userContext.DCFM as string);
     });
 
     it('should return first active date', () => {

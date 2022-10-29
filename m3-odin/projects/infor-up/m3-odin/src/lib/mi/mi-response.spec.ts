@@ -1,5 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
-import { MIResponse } from '../../mi/runtime';
+import { MIResponse } from './runtime';
 
 describe('MI Response', () => {
 

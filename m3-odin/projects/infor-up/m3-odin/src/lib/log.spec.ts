@@ -1,5 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { Log, ILogAppender } from '../index';
+import { Log, ILogAppender } from './log';
 
 describe('Log', () => {
     const log = Log['log'];
@@ -14,7 +13,7 @@ describe('Log', () => {
 
     beforeEach(() => {
         Log['level'] = -1;
-        Log['log'] = jest.fn().mockImplementation(() => { });
+        spyOn(Log as any, 'log').and.callFake(() => { });
     });
 
     afterEach(() => {
@@ -72,7 +71,7 @@ describe('Log', () => {
 
     it('should return log entry', () => {
         const time = 'TIME';
-        Log['getTime'] = jest.fn<() => string>().mockImplementation(() => {
+        spyOn(Log as any, 'getTime').and.callFake(() => {
             return time;
         });
 
@@ -91,7 +90,7 @@ describe('Log', () => {
     });
 
     it('should call log appender', () => {
-        const appender: ILogAppender = jest.fn<(level: number, text: string, ex?: any) => void>();
+        const appender: ILogAppender = jasmine.createSpy();
 
         Log.addAppender(appender);
         Log['log'] = log;
@@ -108,8 +107,8 @@ describe('Log', () => {
     it('should call log', () => {
         const logEntry = 'LOGENTRY';
         Log['log'] = log;
-        Log['getLogEntry'] = jest.fn<() => string>().mockImplementation(() => logEntry);
-        const mockFn = jest.fn().mockImplementation(() => {});
+        spyOn(Log, 'getLogEntry').and.callFake(() => logEntry);
+        const mockFn = jasmine.createSpy().and.callFake(() => { });
         console.error = mockFn;
         console.warn = mockFn;
         console.info = mockFn;

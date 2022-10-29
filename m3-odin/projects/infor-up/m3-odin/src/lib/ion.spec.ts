@@ -1,11 +1,9 @@
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { exec } from 'child_process';
 import { AsyncSubject, Observable, of, throwError } from 'rxjs';
-import { IFormResponse, ITranslationRequest, ITranslationResponse, IFormRequest } from '../form/base';
-import { IBookmark, IEnvironmentContext, IFormService, ISearchRequest } from '../form/types';
-import { IonApiServiceCore } from '../ion';
-import { IHttpRequest, IHttpResponse, IHttpService, IIonApiContext, IIonApiOptions, IIonApiRequest, IIonApiResponse } from '../types';
-import { CoreUtil, HttpUtil } from '../util';
+import { IFormResponse, ITranslationRequest, ITranslationResponse, IFormRequest } from './form/base';
+import { IBookmark, IEnvironmentContext, IFormService, ISearchRequest } from './form/types';
+import { IonApiServiceCore } from './ion';
+import { IHttpRequest, IHttpResponse, IHttpService, IIonApiContext, IIonApiRequest, IIonApiResponse } from './types';
+import { CoreUtil, HttpUtil } from './util';
 
 class MockIHttpService implements IHttpService {
     execute(request: IHttpRequest): Observable<IHttpResponse> {
@@ -56,15 +54,10 @@ describe('IonApiServiceCore', () => {
     const mockIHttpService = new MockIHttpService();
     const mockIFormService = new MockIFormService();
 
-    afterEach(() => {
-        // restore the spy created with spyOn
-        jest.restoreAllMocks();
-    });
-
     it('should set url and token from contructor', () => {
         const service = new IonApiServiceCore(mockIHttpService, mockIFormService);
-        expect(service['httpService']).toStrictEqual(mockIHttpService);
-        expect(service['formService']).toStrictEqual(mockIFormService);
+        expect(service['httpService']).toBe(mockIHttpService);
+        expect(service['formService']).toBe(mockIFormService);
         expect(service['logPrefix']).toEqual('[IonApiServiceCore] ');
     });
 
@@ -72,7 +65,7 @@ describe('IonApiServiceCore', () => {
         const service = new IonApiServiceCore(mockIHttpService, mockIFormService);
         expect(service['isDev']).toBe(false);
 
-        const isLocalHost = jest.spyOn(HttpUtil, 'isLocalhost').mockReturnValueOnce(false).mockReturnValueOnce(true);
+        const isLocalHost = spyOn(HttpUtil, 'isLocalhost').and.returnValues(false, true);
         expect(() => service.setDevelopmentToken('Foo')).toThrowError('Development tokens are only allowed for localhost');
 
         const tokenFoo = 'Foo';
@@ -92,14 +85,14 @@ describe('IonApiServiceCore', () => {
         const service = new IonApiServiceCore(mockIHttpService, mockIFormService);
         expect(service['context']).toBe(undefined);
 
-        const loadToken = jest.spyOn(IonApiServiceCore.prototype as any, 'loadToken').mockReturnThis();
+        const loadToken = spyOn(IonApiServiceCore.prototype as any, 'loadToken').and.returnValue(undefined);
         const subjectOne = service.getContext();
         expect(service['pending'].length).toBe(1);
-        expect(service['pending'][0].asObservable()).toStrictEqual(subjectOne);
+        expect(service['pending'][0].asObservable()).toEqual(subjectOne);
 
         const subjectTwo = service.getContext();
         expect(service['pending'].length).toBe(2);
-        expect(service['pending'][1].asObservable()).toStrictEqual(subjectTwo);
+        expect(service['pending'][1].asObservable()).toEqual(subjectTwo);
 
         // set context
         const token = 'Foo';
@@ -107,7 +100,7 @@ describe('IonApiServiceCore', () => {
 
         const subjectThree = service.getContext({ refresh: true });
         expect(service['pending'].length).toBe(3);
-        expect(service['pending'][1].asObservable()).toStrictEqual(subjectThree);
+        expect(service['pending'][1].asObservable()).toEqual(subjectThree);
 
         const subjectFour = service.getContext();
         expect(service['pending'].length).toBe(3);
@@ -140,7 +133,7 @@ describe('IonApiServiceCore', () => {
         expect(items.length).toBe(0);
 
         item.subscribe((val) => {
-            expect(val).toStrictEqual(value);
+            expect(val).toBe(value);
             done();
         });
     });
@@ -169,16 +162,16 @@ describe('IonApiServiceCore', () => {
 
         const param = { source: 'Foo' } as IIonApiRequest;
         const response = { statusText: 'Bar' } as IIonApiResponse;
-        const getContext = jest.spyOn(service, 'getContext').mockReturnValueOnce(of({} as IIonApiContext));
-        const executeApi = jest.spyOn(service as any, 'executeApi').mockImplementation((context, options, source, sub, isRetry) => {
+        const getContext = spyOn(service, 'getContext').and.returnValue(of({} as IIonApiContext));
+        const executeApi = spyOn(service as any, 'executeApi').and.callFake((context, options, source, sub, isRetry) => {
             (sub as AsyncSubject<IIonApiResponse>).next(response);
             (sub as AsyncSubject<IIonApiResponse>).complete();
         });
         const subject = service.execute(param);
         expect(getContext).toHaveBeenCalled();
-        expect(executeApi).toHaveBeenCalledWith({}, param, 'm3-odin-' + param.source, expect.anything(), false);
+        expect(executeApi).toHaveBeenCalledWith({}, param, 'm3-odin-' + param.source, jasmine.anything(), false);
         subject.subscribe((resp) => {
-            expect(resp).toStrictEqual(response);
+            expect(resp).toBe(response);
             done();
         });
     });
@@ -188,7 +181,7 @@ describe('IonApiServiceCore', () => {
 
         const param = { source: 'Foo' } as IIonApiRequest;
         const error = 'Bar';
-        const getContext = jest.spyOn(service, 'getContext').mockReturnValueOnce(throwError(() => error));
+        const getContext = spyOn(service, 'getContext').and.returnValue(throwError(() => error));
         const subject = service.execute(param);
         expect(getContext).toHaveBeenCalled();
         subject.subscribe({
@@ -205,24 +198,16 @@ describe('IonApiServiceCore', () => {
         const response = { body: 'bar' } as IHttpResponse;
         const environment = { ionApiUrl: 'Foo' } as IEnvironmentContext;
         const error = 'Error';
-        const execute = jest.spyOn(service['httpService'], 'execute')
-            .mockReturnValueOnce(of(response))
-            .mockReturnValueOnce(of(response))
-            .mockReturnValueOnce(of(response))
-            .mockReturnValueOnce(of(response))
-            .mockReturnValueOnce(of(response))
-            .mockReturnValueOnce(throwError(() => error));
-        const getEnvironmentContext = jest.spyOn(service['formService'], 'getEnvironmentContext')
-            .mockReturnValueOnce(of({} as IEnvironmentContext))
-            .mockReturnValueOnce(of({} as IEnvironmentContext))
-            .mockReturnValueOnce(throwError(() => error))
-            .mockReturnValueOnce(of(environment));
-        const reject = jest.spyOn(service as any, 'reject').mockReturnThis();
-        const resolve = jest.spyOn(service as any, 'resolve').mockReturnThis();
-        const logError = jest.spyOn(service as any, 'logError').mockReturnThis();
-        const logInfo = jest.spyOn(service as any, 'logInfo').mockReturnThis();
+        const execute = spyOn(service['httpService'], 'execute').and
+            .returnValues(of(response), of(response), of(response), of(response), of(response), throwError(() => error));
+        const getEnvironmentContext = spyOn(service['formService'], 'getEnvironmentContext').and
+            .returnValues(of({} as IEnvironmentContext), of({} as IEnvironmentContext), throwError(() => error), of(environment));
+        const reject = spyOn(service as any, 'reject').and.returnValue(undefined);
+        const resolve = spyOn(service as any, 'resolve').and.returnValue(undefined);
+        const logError = spyOn(service as any, 'logError').and.returnValue(undefined);
+        const logInfo = spyOn(service as any, 'logInfo').and.returnValue(undefined);
         const random = 'Bar';
-        jest.spyOn(CoreUtil, 'random').mockReturnValue(random);
+        spyOn(CoreUtil, 'random').and.returnValue(random);
 
         service['loadToken'](false);
         service['isDev'] = true;
@@ -242,25 +227,34 @@ describe('IonApiServiceCore', () => {
         expect(getEnvironmentContext).toHaveBeenCalledTimes(4);
 
         expect(reject).toHaveBeenCalledTimes(4);
-        expect(reject).toHaveBeenNthCalledWith(1, service['pending'], response);
-        expect(reject).toHaveBeenNthCalledWith(2, service['pending'], response);
-        expect(reject).toHaveBeenNthCalledWith(3, service['pending'], response);
-        expect(reject).toHaveBeenNthCalledWith(4, service['pending'], error);
+        expect(reject.calls.allArgs()).toEqual([
+            [service['pending'], response],
+            [service['pending'], response],
+            [service['pending'], response],
+            [service['pending'], error]
+        ]);
+
 
         expect(resolve).toHaveBeenCalledTimes(2);
-        expect(resolve).toHaveBeenNthCalledWith(1, service['pending'], service['context']);
-        expect(resolve).toHaveBeenNthCalledWith(2, service['pending'], service['context']);
+        expect(resolve.calls.allArgs()).toEqual([
+            [service['pending'], service['context']],
+            [service['pending'], service['context']]
+        ]);
 
         expect(logError).toHaveBeenCalledTimes(3);
-        expect(logError).toHaveBeenNthCalledWith(1, 'loadToken:  Failed to resolve ION Base URL. ION Base URL is null. Verify that it has been set as a grid property in the MUA Server, or set it by calling setUrl.');
-        expect(logError).toHaveBeenNthCalledWith(2, 'loadToken:  Failed to resolve ION Base URL. ION Base URL is null. Verify that it has been set as a grid property in the MUA Server, or set it by calling setUrl.');
-        expect(logError).toHaveBeenNthCalledWith(3, 'loadToken: Failed to resolve ION Base URL ' + error);
+        expect(logError.calls.allArgs()).toEqual([
+            ['loadToken:  Failed to resolve ION Base URL. ION Base URL is null. Verify that it has been set as a grid property in the MUA Server, or set it by calling setUrl.'],
+            ['loadToken:  Failed to resolve ION Base URL. ION Base URL is null. Verify that it has been set as a grid property in the MUA Server, or set it by calling setUrl.'],
+            ['loadToken: Failed to resolve ION Base URL ' + error]
+        ]);
 
         expect(logInfo).toHaveBeenCalledTimes(4);
-        expect(logInfo).toHaveBeenNthCalledWith(1, 'ION base url is not set. getEnvironmentContext will be called to lookup ION URL');
-        expect(logInfo).toHaveBeenNthCalledWith(2, 'ION base url is not set. Using relative path in Dev mode, in production the ION URL can be set with setUrl, if not set it will be automatically retreived from H5.');
-        expect(logInfo).toHaveBeenNthCalledWith(3, 'ION base url is not set. Using relative path in Dev mode, in production the ION URL can be set with setUrl, if not set it will be automatically retreived from H5.');
-        expect(logInfo).toHaveBeenNthCalledWith(4, 'ION base url is not set. Using relative path in Dev mode, in production the ION URL can be set with setUrl, if not set it will be automatically retreived from H5.');
+        expect(logInfo.calls.allArgs()).toEqual([
+            ['ION base url is not set. getEnvironmentContext will be called to lookup ION URL'],
+            ['ION base url is not set. Using relative path in Dev mode, in production the ION URL can be set with setUrl, if not set it will be automatically retreived from H5.'],
+            ['ION base url is not set. Using relative path in Dev mode, in production the ION URL can be set with setUrl, if not set it will be automatically retreived from H5.'],
+            ['ION base url is not set. Using relative path in Dev mode, in production the ION URL can be set with setUrl, if not set it will be automatically retreived from H5.']
+        ]);
 
         expect(service['url']).toBe(environment.ionApiUrl);
         expect(service['context'].getUrl()).toBe(service['url']);
@@ -270,11 +264,11 @@ describe('IonApiServiceCore', () => {
     it('should execute api', () => {
         const service = new IonApiServiceCore(mockIHttpService, mockIFormService);
 
-        const response = { body: 'bar' } as IHttpResponse;
+        const response = { body: 'bar' } as IIonApiResponse;
         const source = 'source';
         const url = 'foo';
         const context = new MockIonApiContext();
-        const retryContext = { ...context } as IIonApiContext;
+        const retryContext = new MockIonApiContext();
         const error = 'Error';
         const options = {
             url: context.getUrl() + '/' + url,
@@ -289,44 +283,39 @@ describe('IonApiServiceCore', () => {
         const subjectErrorTwo = new AsyncSubject<IIonApiResponse>();
         const subjectErrorThree = new AsyncSubject<IIonApiResponse>();
 
-        jest.spyOn(service as any, 'isDebug').mockReturnValue(true);
-        jest.spyOn(service as any, 'canRetry').mockReturnValue(true);
-        const logDebug = jest.spyOn(service as any, 'logDebug').mockReturnThis();
-        const execute = jest.spyOn(service['httpService'], 'execute')
-            .mockReturnValueOnce(of(response))
-            .mockReturnValueOnce(throwError(() => error))
-            .mockReturnValueOnce(throwError(() => error))
-            .mockReturnValueOnce(throwError(() => error));
-        const getContext = jest.spyOn(service, 'getContext')
-            .mockReturnValueOnce(of(retryContext))
-            .mockReturnValueOnce(throwError(() => error));
+        spyOn(service as any, 'isDebug').and.returnValue(true);
+        spyOn(service as any, 'canRetry').and.returnValue(true);
+        const logDebug = spyOn(service as any, 'logDebug').and.returnValue(undefined);
+        const execute = spyOn(service['httpService'], 'execute').and
+            .returnValues(of(response), throwError(() => error), throwError(() => error), throwError(() => error), throwError(() => error));
+        const getContext = spyOn(service, 'getContext').and
+            .returnValues(of(retryContext), throwError(() => error), throwError(() => error));
 
         service['executeApi'](context, { url } as IIonApiRequest, source, subjectSuccess, false);
         service['executeApi'](context, { url } as IIonApiRequest, source, subjectErrorOne, true);
         service['executeApi'](context, { url } as IIonApiRequest, source, subjectErrorTwo, false);
         service['executeApi'](context, { url } as IIonApiRequest, source, subjectErrorThree, false);
 
-        expect(execute).toHaveBeenCalledTimes(4);
-        expect(execute).toHaveBeenNthCalledWith(1, options);
-        expect(execute).toHaveBeenNthCalledWith(2, options);
-        expect(execute).toHaveBeenNthCalledWith(3, options);
-        expect(execute).toHaveBeenNthCalledWith(4, options);
+        expect(execute).toHaveBeenCalledTimes(5);
+        expect(execute).toHaveBeenCalledWith(options as unknown as IHttpRequest);
 
-        expect(logDebug).toHaveBeenCalledTimes(5);
-        expect(logDebug).toHaveBeenNthCalledWith(1, `executeApi: Executing ${options.url} (${source})`);
-        expect(logDebug).toHaveBeenNthCalledWith(2, `executeApi: Executed ${options.url} (${source})`);
-        expect(logDebug).toHaveBeenNthCalledWith(3, `executeApi: Executing ${options.url} (${source})`);
-        expect(logDebug).toHaveBeenNthCalledWith(4, `executeApi: Executing ${options.url} (${source})`);
-        expect(logDebug).toHaveBeenNthCalledWith(5, `executeApi: Executing ${options.url} (${source})`);
+        expect(logDebug).toHaveBeenCalledTimes(6);
+        expect(logDebug.calls.allArgs()).toEqual([
+            [`executeApi: Executing ${options.url} (${source})`],
+            [`executeApi: Executed ${options.url} (${source})`],
+            [`executeApi: Executing ${options.url} (${source})`],
+            [`executeApi: Executing ${options.url} (${source})`],
+            [`executeApi: Executing ${retryContext.getUrl()}/${options.url} (${source})`],
+            [`executeApi: Executing ${options.url} (${source})`],
+        ]);
 
         expect(getContext).toHaveBeenCalledTimes(2);
-        expect(getContext).toHaveBeenNthCalledWith(1, { refresh: true });
-        expect(getContext).toHaveBeenNthCalledWith(2, { refresh: true });
+        expect(getContext).toHaveBeenCalledWith({ refresh: true });
 
         let subscribeCount = 0;
         subjectSuccess.subscribe({
             next: (resp) => {
-                expect(resp).toStrictEqual(response);
+                expect(resp).toBe(response);
                 subscribeCount++;
             },
         });

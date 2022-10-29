@@ -1,17 +1,6 @@
-import { describe, expect, it, beforeEach, afterEach } from '@jest/globals';
-import { MIRecord, MIUtil } from '../../mi/runtime';
+import { MIRecord, MIUtil } from './runtime';
 
 describe('MI Record', () => {
-    let getDateFormatted;
-
-    beforeEach(() => {
-        getDateFormatted = MIUtil.getDateFormatted;
-    });
-
-    afterEach(() => {
-        MIUtil.getDateFormatted = getDateFormatted;
-    });
-
     it('should create MIRecord without values', () => {
         const record = new MIRecord();
         expect(record.metadata).toBeNull();
@@ -41,8 +30,8 @@ describe('MI Record', () => {
         const record = new MIRecord();
         const foo = '2022-10-16T03:24:00';
         const bar = 'hello';
-        MIUtil.getDateFormatted = jest.fn().mockImplementation((date) => {
-            expect(date).toStrictEqual(new Date(foo));
+        spyOn(MIUtil, 'getDateFormatted').and.callFake((date) => {
+            expect(date).toEqual(new Date(foo));
             return bar;
         });
 
@@ -54,7 +43,7 @@ describe('MI Record', () => {
         const record = new MIRecord();
         const foo = '2022-10-16T03:24:00';
         record.setDate('foo', new Date(foo));
-        expect(record['foo']).toStrictEqual(new Date(foo));
+        expect(record['foo']).toEqual(new Date(foo));
     });
 
     it('should set string', () => {

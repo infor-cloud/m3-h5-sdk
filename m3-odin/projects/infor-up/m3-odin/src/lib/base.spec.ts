@@ -1,7 +1,6 @@
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { CoreBase, ErrorState } from '../base';
-import { Log } from '../log';
-import { IErrorState } from '../types';
+import { CoreBase, ErrorState } from './base';
+import { Log } from './log';
+import { IErrorState } from './types';
 
 describe('ErrorState', () => {
     it('shoud return no error', () => {
@@ -25,26 +24,12 @@ describe('ErrorState', () => {
 });
 
 describe('CoreBase', () => {
-    const error = Log.error;
-    const warning = Log.warning;
-    const info = Log.info;
-    const debug = Log.debug;
-    const isDebug = Log.isDebug;
-
-    afterEach(() => {
-        Log.error = error;
-        Log.warning = warning;
-        Log.info = info;
-        Log.debug = debug;
-        Log.isDebug = isDebug;
-    });
-
     it('should log error', () => {
         const name = 'Error';
         const base = new CoreBase(name);
         const message = 'Foo';
         const ex = new Error();
-        Log.error = jest.fn().mockImplementation(() => {});
+        spyOn(Log, 'error').and.callFake(() => { });
 
         base['logError'](message, ex);
         expect(Log.error).toHaveBeenCalledWith(`[${name}] ${message}`, ex);
@@ -54,7 +39,7 @@ describe('CoreBase', () => {
         const name = 'Warning';
         const base = new CoreBase(name);
         const message = 'Foo';
-        Log.warning = jest.fn().mockImplementation(() => {});
+        spyOn(Log, 'warning').and.callFake(() => { });
 
         base['logWarning'](message);
         expect(Log.warning).toHaveBeenCalledWith(`[${name}] ${message}`);
@@ -64,7 +49,7 @@ describe('CoreBase', () => {
         const name = 'Info';
         const base = new CoreBase(name);
         const message = 'Foo';
-        Log.info = jest.fn().mockImplementation(() => {});
+        spyOn(Log, 'info').and.callFake(() => { });
 
         base['logInfo'](message);
         expect(Log.info).toHaveBeenCalledWith(`[${name}] ${message}`);
@@ -75,7 +60,7 @@ describe('CoreBase', () => {
         const base = new CoreBase(name);
         const message = 'Foo';
         const ex = new Error();
-        Log.debug = jest.fn().mockImplementation(() => {});
+        spyOn(Log, 'debug').and.callFake(() => { });
 
         base['logDebug'](message, ex);
         expect(Log.debug).toHaveBeenCalledWith(`[${name}] ${message}`, ex);
@@ -83,7 +68,7 @@ describe('CoreBase', () => {
 
     it('should return debug flag', () => {
         const base = new CoreBase('');
-        Log.isDebug = jest.fn(() => true).mockImplementation(() => true);
+        spyOn(Log, 'isDebug').and.returnValue(true);
 
         expect(base['isDebug']()).toBe(true);
     });

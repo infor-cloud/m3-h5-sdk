@@ -1,25 +1,20 @@
-import { beforeEach, afterEach, describe, expect, it, jest } from '@jest/globals';
-import { Log } from '../../log';
-import { UserServiceCore } from '../../m3/runtime';
-import { IUserContext } from '../../m3/types';
-import { IMIService } from '../../mi/base';
+import { Log } from '../log';
+import { UserServiceCore } from './runtime';
+import { IUserContext } from './types';
+import { IMIService } from '../mi/base';
+import { waitForAsync } from '@angular/core/testing';
 
 describe('CommonUtil via UserServiceCore', () => {
-    const userService = new UserServiceCore({} as IMIService);
-    let warning;
+    let userService;
 
-    beforeEach(() =>{
-        warning = Log.warning;
-    });
-
-    afterEach(() => {
-        Log.warning = warning;
-    });
+    beforeAll(waitForAsync(() => {
+        userService = new UserServiceCore({} as IMIService);
+    }));
 
     it('should return language tag', () => {
         const emptyContext = {} as IUserContext;
         const deContext = { LANC: 'DE' } as IUserContext;
-        Log.warning = jest.fn().mockImplementation((message) => {
+        spyOn(Log, 'warning').and.callFake((message) => {
             expect(message).toBe('getLanguageTag: M3 language undefined not found. Fallback to en-US');
         });
 

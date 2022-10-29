@@ -1,6 +1,5 @@
-import { describe, expect, it, beforeEach } from '@jest/globals';
-import { ITranslationJob, ITranslationRequest } from '../../form/base';
-import { Translator } from '../../form/runtime';
+import { ITranslationJob, ITranslationRequest } from './base';
+import { Translator } from './runtime';
 
 describe('Translator', () => {
     let translator: Translator;
@@ -30,7 +29,7 @@ describe('Translator', () => {
         const requestFoo: ITranslationRequest = { items: [{ key: 'foo' }] };
 
         expect(translator.translate(emptyRequest)).toBeNull();
-        expect(translator.translate(requestFoo)).toStrictEqual(job);
+        expect(translator.translate(requestFoo)).toEqual(job);
     });
 
     it('should be improved, because items is optional but throws error', () => {
@@ -57,7 +56,7 @@ describe('Translator', () => {
         } as unknown as ITranslationJob;
         const requestWithFile: ITranslationRequest = { items: [{ key: 'bar', file: 'hello' }] };
 
-        expect(translator.translate(requestWithFile)).toStrictEqual(job);
+        expect(translator.translate(requestWithFile)).toEqual(job);
     });
 
     it('should parse response', () => {
@@ -65,10 +64,10 @@ describe('Translator', () => {
         const jobAfter: ITranslationJob = { items: [{ key: 'FA31001', file: 'MVXCON' }], language: 'GB' };
         const response = '<?xml version="1.0" encoding="UTF-8" ?><Root mcv="1.0"><Result>0</Result><Texts language="GB"><Text file="MVXCON" key="FA31001">Tax Asset Group. Update</Text></Texts></Root>';
         translator.parseResponse(jobAfter, '');
-        expect(jobAfter).toStrictEqual(jobBefore);
+        expect(jobAfter).toEqual(jobBefore);
         translator.parseResponse(jobAfter, response);
         jobBefore.items[0].language = 'GB';
         jobBefore.items[0].text = 'Tax Asset Group. Update';
-        expect(jobAfter).toStrictEqual(jobBefore);
+        expect(jobAfter).toEqual(jobBefore);
     });
 });

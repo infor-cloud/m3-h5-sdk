@@ -30,7 +30,15 @@ module.exports = function (config) {
       reporters: [
         { type: 'html' },
         { type: 'text-summary' }
-      ]
+      ],
+      check: {
+        global: {
+          statements: 90,
+          branches: 80,
+          functions: 95,
+          lines: 90
+        }
+      },
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
@@ -38,7 +46,13 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false,
-    restartOnFileChange: true
+    singleRun: true,
+    restartOnFileChange: true,
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox'],
+      },
+    },
   });
 };

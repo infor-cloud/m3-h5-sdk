@@ -1,6 +1,5 @@
-import { describe, expect, it } from '@jest/globals';
-import { IMIMetadataInfo, MIDataType } from '../../mi/base';
-import { MIRecord, MIUtil } from '../../mi/runtime';
+import { IMIMetadataInfo, MIDataType } from '../mi/base';
+import { MIRecord, MIUtil } from '../mi/runtime';
 
 describe('MI Util', () => {
 
@@ -25,7 +24,7 @@ describe('MI Util', () => {
         const updatedFields = ['CUNO', 'SUNO'];
         const mandatoryFields = ['CONO', 'DIVI'];
         const expectedRecord = new MIRecord({ CONO: originalRecord['CONO'].toString(), DIVI: newRecord['DIVI'].toString(), CUNO: newRecord.CUNO, metadata: null });
-        expect(MIUtil.createUpdateRecord(originalRecord, newRecord, updatedFields, mandatoryFields)).toStrictEqual(expectedRecord);
+        expect(MIUtil.createUpdateRecord(originalRecord, newRecord, updatedFields, mandatoryFields)).toEqual(expectedRecord);
     });
 
     it('should return Date object from string', () => {
@@ -36,8 +35,8 @@ describe('MI Util', () => {
     });
 
     it('should convert a dictionary structure to an array', () => {
-        expect(MIUtil.metadataToArray({})).toStrictEqual([]);
+        expect(MIUtil.metadataToArray({})).toEqual([]);
         const metaData = { ITNO: { name: 'ITNO', type: MIDataType.String, length: 10, description: 'foo' } as IMIMetadataInfo };
-        expect(MIUtil.metadataToArray(metaData)).toStrictEqual([metaData.ITNO]);
+        expect(MIUtil.metadataToArray(metaData)).toEqual([metaData.ITNO]);
     });
 });

@@ -1,29 +1,22 @@
-import { describe, expect, it } from '@jest/globals';
 import { AsyncSubject, of, throwError } from 'rxjs';
-import { AjaxHttpService } from '../../http';
-import { IMIMetadataMap, IMIResponse } from '../../mi/base';
-import { MIMetadataInfo, MIRecord, MIResponse, MIServiceCore } from '../../mi/runtime';
-import { IMIRequest } from '../../mi/types';
-import { IHttpRequest, IHttpResponse, IHttpService } from '../../types';
-import { CoreUtil } from '../../util';
+import { AjaxHttpService } from '../http';
+import { IMIMetadataMap, IMIResponse } from './base';
+import { MIMetadataInfo, MIRecord, MIResponse, MIServiceCore } from './runtime';
+import { IMIRequest } from './types';
+import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
+import { CoreUtil } from '../util';
 
 describe('MI Service Core', () => {
-    afterEach(() => {
-        // restore the spy created with spyOn
-        jest.restoreAllMocks();
-    });
-
     it('should initialize', () => {
         const http = {} as IHttpService;
-        const spyLogDebug = jest.spyOn(MIServiceCore.prototype as any, 'logDebug').mockImplementation(() => { });
+        const spyLogDebug = spyOn(MIServiceCore.prototype as any, 'logDebug').and.callFake(() => { });
         const service = new MIServiceCore();
         const serviceHttp = new MIServiceCore(http);
 
         expect(service['http']).toBeInstanceOf(AjaxHttpService);
         expect(serviceHttp['http']).toBe(http);
         expect(spyLogDebug).toHaveBeenCalledTimes(3);
-        expect(spyLogDebug).toHaveBeenNthCalledWith(1, 'constructor');
-        expect(spyLogDebug).toHaveBeenNthCalledWith(2, 'IHttpService not passed using default implmentation');
+        expect(spyLogDebug.calls.allArgs()).toEqual([['constructor'], ['IHttpService not passed using default implmentation'], ['constructor']]);
 
         expect(service['csrfToken']).toBeUndefined();
         expect(service['csrfTimestamp']).toBe(0);
@@ -45,7 +38,7 @@ describe('MI Service Core', () => {
         };
         const request = service['createRequest'](requestExpected.url);
 
-        expect(request).toStrictEqual(requestExpected);
+        expect(request).toEqual(requestExpected);
     });
 
     it('should return if token is valid', () => {
@@ -74,20 +67,20 @@ describe('MI Service Core', () => {
     it('should execute to refersh token (success)', () => {
         const httpService = new AjaxHttpService();
         const httpResponse = { status: 200, body: 'bar' } as IHttpResponse;
-        const spyExecute = jest.spyOn(httpService, 'execute').mockImplementation(() => {
+        const spyExecute = spyOn(httpService, 'execute').and.callFake(() => {
             return of(httpResponse);
         });
         const service = new MIServiceCore(httpService);
-        const spyExecuteInternal = jest.spyOn(service, 'executeInternal').mockImplementation();
+        const spyExecuteInternal = spyOn(service, 'executeInternal').and.callFake(() => { { } });
         const request = { baseUrl: 'foo' } as unknown as IMIRequest;
         const subject = new AsyncSubject<IMIResponse>();
         const expectedHttpRequest = { cache: false, method: "GET", url: `${request['baseUrl']}/m3api-rest/csrf` };
 
         service['executeRefreshToken'](request, subject);
         expect(spyExecute).toHaveBeenCalledTimes(1);
-        expect(spyExecute).toHaveBeenNthCalledWith(1, expectedHttpRequest);
+        expect(spyExecute).toHaveBeenCalledWith(expectedHttpRequest);
         expect(spyExecuteInternal).toHaveBeenCalledTimes(1);
-        expect(spyExecuteInternal).toHaveBeenNthCalledWith(1, request, subject);
+        expect(spyExecuteInternal).toHaveBeenCalledWith(request, subject);
         expect(service['csrfStatus']).toBe(httpResponse.status);
         expect(service['csrfToken']).toBe(httpResponse.body);
     });
@@ -95,20 +88,20 @@ describe('MI Service Core', () => {
     it('should execute to refersh token (fail with 404)', () => {
         const httpService = new AjaxHttpService();
         const httpResponse = { status: 404, body: 'bar' } as IHttpResponse;
-        const spyExecute = jest.spyOn(httpService, 'execute').mockImplementation(() => {
+        const spyExecute = spyOn(httpService, 'execute').and.callFake(() => {
             return throwError(() => (httpResponse));
         });
         const service = new MIServiceCore(httpService);
-        const spyExecuteInternal = jest.spyOn(service, 'executeInternal').mockImplementation();
+        const spyExecuteInternal = spyOn(service, 'executeInternal').and.callFake(() => { });
         const request = { baseUrl: 'foo' } as unknown as IMIRequest;
         const subject = new AsyncSubject<IMIResponse>();
         const expectedHttpRequest = { cache: false, method: "GET", url: `${request['baseUrl']}/m3api-rest/csrf` };
 
         service['executeRefreshToken'](request, subject);
         expect(spyExecute).toHaveBeenCalledTimes(1);
-        expect(spyExecute).toHaveBeenNthCalledWith(1, expectedHttpRequest);
+        expect(spyExecute).toHaveBeenCalledWith(expectedHttpRequest);
         expect(spyExecuteInternal).toHaveBeenCalledTimes(1);
-        expect(spyExecuteInternal).toHaveBeenNthCalledWith(1, request, subject);
+        expect(spyExecuteInternal).toHaveBeenCalledWith(request, subject);
         expect(service['csrfStatus']).toBe(httpResponse.status);
         expect(service['csrfToken']).toBeNull();
     });
@@ -116,7 +109,7 @@ describe('MI Service Core', () => {
     it('should execute to refersh token (fail with 401)', (done) => {
         const httpService = new AjaxHttpService();
         const httpResponse = { status: 401, body: 'bar' } as IHttpResponse;
-        const spyExecute = jest.spyOn(httpService, 'execute').mockImplementation(() => {
+        const spyExecute = spyOn(httpService, 'execute').and.callFake(() => {
             return throwError(() => (httpResponse));
         });
         const service = new MIServiceCore(httpService);
@@ -126,7 +119,7 @@ describe('MI Service Core', () => {
 
         service['executeRefreshToken'](request, subject);
         expect(spyExecute).toHaveBeenCalledTimes(1);
-        expect(spyExecute).toHaveBeenNthCalledWith(1, expectedHttpRequest);
+        expect(spyExecute).toHaveBeenCalledWith(expectedHttpRequest);
         expect(service['csrfStatus']).toBe(httpResponse.status);
         expect(service['csrfToken']).toBeNull();
         subject.subscribe({
@@ -134,7 +127,7 @@ describe('MI Service Core', () => {
                 const response = new MIResponse();
                 response.errorMessage = `Failed to get CSRF token ${httpResponse.status}`;
                 response.errorType = 'TOKEN';
-                expect(err).toStrictEqual(response);
+                expect(err).toEqual(response);
                 done();
             },
         });
@@ -177,18 +170,10 @@ describe('MI Service Core', () => {
         const request = {} as IMIRequest;
         const value = { program: 'foo' } as IMIResponse;
         const service = new MIServiceCore();
-        const spyUseToken = jest.spyOn(service as any, 'useToken')
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(false)
-            .mockReturnValueOnce(false);
-        const spyIsTokenValid = jest.spyOn(service as any, 'isTokenValid')
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(false)
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(false);
-        const spyExecuteInternal = jest.spyOn(service as any, 'executeInternal').mockImplementation(() => { });
-        const spyExecuteRefreshToken = jest.spyOn(service as any, 'executeRefreshToken').mockImplementation((...a) => {
+        const spyUseToken = spyOn(service as any, 'useToken').and.returnValues(true, true, false, false);
+        const spyIsTokenValid = spyOn(service as any, 'isTokenValid').and.returnValues(true, false, true, false);
+        const spyExecuteInternal = spyOn(service as any, 'executeInternal').and.callFake(() => { });
+        const spyExecuteRefreshToken = spyOn(service as any, 'executeRefreshToken').and.callFake((...a) => {
             (a[1] as AsyncSubject<IMIResponse>).next(value);
             (a[1] as AsyncSubject<IMIResponse>).complete();
         });
@@ -203,14 +188,14 @@ describe('MI Service Core', () => {
         expect(spyExecuteRefreshToken).toHaveBeenCalledTimes(1);
 
         observable.subscribe((val) => {
-            expect(val).toStrictEqual(value);
+            expect(val).toBe(value);
             done();
         });
     });
 
     it('should update user context', () => {
         const service = new MIServiceCore();
-        const spyLogDebug = jest.spyOn(service as any, 'logDebug').mockImplementation(() => { });
+        const spyLogDebug = spyOn(service as any, 'logDebug').and.callFake(() => { });
         const company = 'foo';
         const division = 'bar';
 
@@ -223,12 +208,14 @@ describe('MI Service Core', () => {
 
     it('should create url', () => {
         const service = new MIServiceCore();
-        const spyLogDebug = jest.spyOn(service as any, 'logDebug').mockImplementation(() => { });
-        const spyLogInfo = jest.spyOn(service as any, 'logInfo').mockImplementation(() => { });
+        const spyIsDebug = spyOn(service as any, 'isDebug');
+        spyIsDebug.and.returnValue(false);
+        const spyLogDebug = spyOn(service as any, 'logDebug').and.callFake(() => { });
+        const spyLogInfo = spyOn(service as any, 'logInfo').and.callFake(() => { });
         const baseUrl = 'odin';
         const request = { program: 'foo', transaction: 'bar' } as IMIRequest;
         const random = 123456789;
-        CoreUtil.random = jest.fn().mockReturnValue(random);
+        spyOn(CoreUtil, 'random').and.returnValue(random.toString());
         const defaultMetadata = 'true';
         const defaultMaxRecords = 100;
         const expectedMaxRecords = 1;
@@ -249,13 +236,13 @@ describe('MI Service Core', () => {
 
         service['currentCompany'] = company;
         expect(service.createUrl(baseUrl, request)).toBe(`${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company}?_rid=${random}`);
-        const spyIsDebug = jest.spyOn(service as any, 'isDebug').mockReturnValueOnce(true);
+        spyIsDebug.and.returnValue(true);
         expect(service.createUrl(baseUrl, request)).toBe(`${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company}?_rid=${random}`);
 
 
-        expect(spyIsDebug).toHaveBeenCalledTimes(1);
+        expect(spyIsDebug).toHaveBeenCalledTimes(2);
+        expect(spyLogDebug.calls.allArgs()).toEqual([[`createUrl: using company ${company} and division null from user context`]]);
         expect(spyLogDebug).toHaveBeenCalledTimes(1);
-        expect(spyLogDebug).toHaveBeenCalledWith(`createUrl: using company ${company} and division null from user context`);
         expect(spyLogInfo).toHaveBeenCalledTimes(8);
         expect(spyLogInfo).toHaveBeenCalledWith('createUrl: company not set, user context not available.');
     });
@@ -273,10 +260,10 @@ describe('MI Service Core', () => {
         response.errorType = undefined as unknown as string;
         response.items = [];
 
-        expect(service.parseResponse(request, content)).toStrictEqual(response);
+        expect(service.parseResponse(request, content)).toEqual(response);
 
         response.metadata = null as unknown as IMIMetadataMap;
-        expect(service.parseResponse({ ...request, includeMetadata: true }, content)).toStrictEqual(response);
+        expect(service.parseResponse({ ...request, includeMetadata: true }, content)).toEqual(response);
 
         const record = new MIRecord();
         record['name1'] = 'bar';
@@ -289,17 +276,17 @@ describe('MI Service Core', () => {
         const info2 = new MIMetadataInfo('name2', 2, '', 'desc2');
         response.metadata = { name1: info1, name2: info2 };
         record['metadata'] = response.metadata;
-        expect(service.parseResponse({ ...request, includeMetadata: true, typedOutput: true }, content)).toStrictEqual(response);
-        expect(service.parseResponse({ ...request, includeMetadata: true }, content)).toStrictEqual(response);
+        expect(service.parseResponse({ ...request, includeMetadata: true, typedOutput: true }, content)).toEqual(response);
+        expect(service.parseResponse({ ...request, includeMetadata: true }, content)).toEqual(response);
     });
 
     it('should execute request internal without error in http response', (done) => {
         const service = new MIServiceCore();
-        const spyCreateUrl = jest.spyOn(service, 'createUrl').mockImplementation(() => '');
-        const spyExecuteHttp = jest.spyOn(service as any, 'executeHttp').mockImplementation(() => of({}));
+        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
+        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => of({}));
         const response = new MIResponse();
-        const spyHasError = jest.spyOn(response, 'hasError').mockReturnValueOnce(false);
-        const spyParseResponse = jest.spyOn(service as any, 'parseResponse').mockImplementation(() => response);
+        const spyHasError = spyOn(response, 'hasError').and.returnValue(false);
+        const spyParseResponse = spyOn(service as any, 'parseResponse').and.callFake(() => response);
         const subject = new AsyncSubject<IMIResponse>();
         const request = {} as IMIRequest;
 
@@ -310,18 +297,18 @@ describe('MI Service Core', () => {
         expect(spyParseResponse).toHaveBeenCalledTimes(1);
         expect(spyHasError).toHaveBeenCalledTimes(1);
         subject.subscribe(resp => {
-            expect(resp).toStrictEqual(response);
+            expect(resp).toBe(response);
             done();
         });
     });
 
     it('should execute request internal with error in http response', (done) => {
         const service = new MIServiceCore();
-        const spyCreateUrl = jest.spyOn(service, 'createUrl').mockImplementation(() => '');
-        const spyExecuteHttp = jest.spyOn(service as any, 'executeHttp').mockImplementation(() => of({}));
+        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
+        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => of({}));
         const response = new MIResponse();
-        const spyHasError = jest.spyOn(response, 'hasError').mockReturnValueOnce(true);
-        const spyParseResponse = jest.spyOn(service as any, 'parseResponse').mockImplementation(() => response);
+        const spyHasError = spyOn(response, 'hasError').and.returnValue(true);
+        const spyParseResponse = spyOn(service as any, 'parseResponse').and.callFake(() => response);
         const subject = new AsyncSubject<IMIResponse>();
         const request = {} as IMIRequest;
 
@@ -333,7 +320,7 @@ describe('MI Service Core', () => {
         expect(spyHasError).toHaveBeenCalledTimes(1);
         subject.subscribe({
             error: (err) => {
-                expect(err).toStrictEqual(response);
+                expect(err).toBe(response);
                 done();
             }
         });
@@ -341,10 +328,10 @@ describe('MI Service Core', () => {
 
     it('should execute request internal with exception in parseResponse', (done) => {
         const service = new MIServiceCore();
-        const spyCreateUrl = jest.spyOn(service, 'createUrl').mockImplementation(() => '');
-        const spyExecuteHttp = jest.spyOn(service as any, 'executeHttp').mockImplementation(() => of({}));
+        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
+        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => of({}));
         const error = 'foo error';
-        const spyParseResponse = jest.spyOn(service as any, 'parseResponse').mockImplementation(() => { throw error });
+        const spyParseResponse = spyOn(service as any, 'parseResponse').and.callFake(() => { throw error });
         const subject = new AsyncSubject<IMIResponse>();
         const request = {} as IMIRequest;
 
@@ -357,7 +344,7 @@ describe('MI Service Core', () => {
             error: (err) => {
                 const response = new MIResponse();
                 response.error = error;
-                expect(err).toStrictEqual(response);
+                expect(err).toEqual(response);
                 done();
             }
         });
@@ -365,9 +352,9 @@ describe('MI Service Core', () => {
 
     it('should execute request internal with http error', (done) => {
         const service = new MIServiceCore();
-        const spyCreateUrl = jest.spyOn(service, 'createUrl').mockImplementation(() => '');
+        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
         const response = { status: 401 } as IHttpResponse;
-        const spyExecuteHttp = jest.spyOn(service as any, 'executeHttp').mockImplementation(() => throwError(() => response));
+        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => throwError(() => response));
         const subject = new AsyncSubject<IMIResponse>();
         const request = { program: 'foo', transaction: 'bar' } as IMIRequest;
 
@@ -380,7 +367,7 @@ describe('MI Service Core', () => {
                 const resp = new MIResponse();
                 resp.errorCode = response.status.toString();
                 resp.errorMessage = `Failed to call ${request.program}.${request.transaction} ${response.status}`;
-                expect(err).toStrictEqual(resp);
+                expect(err).toEqual(resp);
                 done();
             }
         });
@@ -392,28 +379,17 @@ describe('MI Service Core', () => {
         const valueNumeric = '1';
         const valueDate = '20221001';
         const metadata = new MIMetadataInfo('', 0, '', '');
-        const spyIsString = jest.spyOn(metadata, 'isString')
-            .mockReturnValueOnce(true)
-            .mockReturnValue(false)
-            .mockReturnValue(false)
-            .mockReturnValue(false)
-            .mockReturnValue(false)
-            .mockReturnValue(false);
-        const spyIsNumeric = jest.spyOn(metadata, 'isNumeric')
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(true)
-            .mockReturnValue(false)
-            .mockReturnValue(false)
-            .mockReturnValue(false);
-        const spyIsDate = jest.spyOn(metadata, 'isDate')
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(false);
+        const spyIsString = spyOn(metadata, 'isString').and
+            .returnValues(true, false, false, false, false, false);
+        const spyIsNumeric = spyOn(metadata, 'isNumeric').and
+            .returnValues(true, true, false, false, false);
+        const spyIsDate = spyOn(metadata, 'isDate').and
+            .returnValues(true, true, false);
 
         expect(service['parseValue'](valueString, metadata)).toBe(valueString);
         expect(service['parseValue'](valueNumeric, metadata)).toBe(+valueNumeric);
         expect(service['parseValue'](undefined as unknown as string, metadata)).toBe(0);
-        expect(service['parseValue'](valueDate, metadata)).toStrictEqual(new Date(2022, 9, 1));
+        expect(service['parseValue'](valueDate, metadata)).toEqual(new Date(2022, 9, 1));
         expect(service['parseValue'](undefined as unknown as string, metadata)).toBeNull();
         expect(service['parseValue'](valueString, metadata)).toBe(valueString);
 
