@@ -1,17 +1,18 @@
-import * as archiver from 'archiver';
-import * as p from 'child_process';
-import * as fs from 'fs-extra';
-import * as path from 'path';
+import archiver from 'archiver';
+import p from 'child_process';
+import fs from 'fs-extra';
+import path from 'path';
+import url from 'url';
 
 export interface IOperation {
    name: string;
    start: number;
 }
 
-export const projectDirectory = (relativePath?: string): string => {
-   const projectRoot = path.join(__dirname, '../../m3-odin');
-   if (relativePath) {
-      return path.join(projectRoot, relativePath);
+export const projectDirectory = (relativeProjectPath?: string): string => {
+   const projectRoot = relativePath('../../m3-odin');
+   if (relativeProjectPath) {
+      return path.join(projectRoot, relativeProjectPath);
    } else {
       return projectRoot;
    }
@@ -52,8 +53,8 @@ export const end = (operation: IOperation): void => {
    console.log('End: ' + operation.name + ' ' + durationText + '\n');
 }
 
-export const setWorkingDirectory = (relativePath: string): void => {
-   process.chdir(path.join(__dirname, relativePath));
+export const setWorkingDirectory = (relativeDirectoryPath: string): void => {
+   process.chdir(relativePath(relativeDirectoryPath));
    console.log('Working directory: ' + process.cwd());
 }
 
@@ -113,7 +114,7 @@ export const replaceInFile = (file: string, searchValue: string, replaceValue: s
 
 /**
  * Gets the version number from a package.json file.
- * 
+ *
  * @param file the absolute file path to the package.json file
  */
 export const getPackageVersion = (file: string): string => {
@@ -144,7 +145,7 @@ export const resolveRelativeDirectoryLocation = (basePath: string, testPath: str
       return './';
    }
 
-   // Check parent directories   
+   // Check parent directories
    let relativeDirectory = '';
    while (true) {
       relativeDirectory += '../';
@@ -260,3 +261,8 @@ export const zip = async (sourceDir: string, destDir: string, name: string) => {
    });
 };
 
+export function relativePath(relativePath: string): string {
+   // For __dirname in es module: https://blog.logrocket.com/alternatives-dirname-node-js-es-modules/
+   const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+   return path.join(__dirname, relativePath);
+}

@@ -1,10 +1,10 @@
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import * as c from './common';
+import fs from 'fs-extra';
+import path from 'path';
+import { begin, createDirectory, deleteFiles, end, execSync, relativePath, removeDirectory, title, updatePackageVersion, zip } from './common.js';
 
-c.title('Pack M3 Odin Samples');
+title('Pack M3 Odin Samples');
 
-const versionNumber = require('../package.json').version;
+const versionNumber = fs.readJSONSync(relativePath("../package.json")).version;
 const proxyUrl = 'https://m3.server:25000';
 const distPath = ensureDirectory('../../dist');
 const tempPath = ensureEmptyDirectory('../../dist/temp');
@@ -15,26 +15,26 @@ const sampleAppsPath = path.join('../../m3-odin/src/app');
 packSamples();
 
 function deleteTempDirectory() {
-   const operation = c.begin('Delete temp directory');
+   const operation = begin('Delete temp directory');
    try {
       console.log('Removing directory: ' + tempPath);
       fs.removeSync(tempPath);
    } catch (error) {
       console.log("Caught error", error);
    }
-   c.end(operation);
+   end(operation);
 }
 
-function ensureEmptyDirectory(relativePath: string): string {
-   const directory = path.join(__dirname, relativePath);
-   c.removeDirectory(directory);
-   c.createDirectory(directory);
+function ensureEmptyDirectory(directoryPath: string): string {
+   const directory = relativePath(directoryPath);
+   removeDirectory(directory);
+   createDirectory(directory);
    return directory;
 }
 
-function ensureDirectory(relativePath: string): string {
-   const directory = path.join(__dirname, relativePath);
-   c.createDirectory(directory);
+function ensureDirectory(directoryPath: string): string {
+   const directory = relativePath(directoryPath);
+   createDirectory(directory);
    return directory;
 }
 
@@ -55,7 +55,7 @@ async function packSamples() {
 }
 
 async function packSampleApp(sampleSourceName: string, sampleName: string, isSoho?: boolean) {
-   const operation = c.begin('Packing Angular ' + (isSoho ? 'Soho' : 'Material') + ' sample');
+   const operation = begin('Packing Angular ' + (isSoho ? 'Soho' : 'Material') + ' sample');
 
    const sampleTargetPath = path.join(tempPath, sampleName);
    const sourceTargetPath = path.join(sampleTargetPath, 'src');
@@ -63,7 +63,7 @@ async function packSampleApp(sampleSourceName: string, sampleName: string, isSoh
 
    createProject(sampleName, isSoho);
 
-   c.deleteFiles(appTargetPath, fs.readdirSync(appTargetPath));
+   deleteFiles(appTargetPath, fs.readdirSync(appTargetPath));
 
    const typingsFilename = 'typings.d.ts';
    const typingsPath = path.join(sampleSourcePath, typingsFilename);
@@ -84,7 +84,7 @@ async function packSampleApp(sampleSourceName: string, sampleName: string, isSoh
 
    console.log('Updating version number');
    const packageJsonPath = path.join(sampleTargetPath, 'package.json');
-   c.updatePackageVersion(packageJsonPath, versionNumber);
+   updatePackageVersion(packageJsonPath, versionNumber);
 
    const angularJsonPath = path.join(sampleTargetPath, 'angular.json');
    addHighlightToPackageJson(packageJsonPath);
@@ -92,9 +92,9 @@ async function packSampleApp(sampleSourceName: string, sampleName: string, isSoh
 
    const zipFilename = sampleName + '-' + versionNumber + '.zip';
    console.log('Creating zip file: ' + zipFilename + ' from directory ' + tempAppPath);
-   await c.zip(tempAppPath, distPath, zipFilename).then();
+   await zip(tempAppPath, distPath, zipFilename).then();
 
-   c.end(operation);
+   end(operation);
 }
 
 function addHighlightToAngularJson(filePath: string, sampleName: string) {
@@ -121,21 +121,23 @@ function addHighlightToPackageJson(filePath: string) {
 }
 
 function createProject(name: string, isSoho?: boolean): void {
-   const operation = c.begin('Creating project with M3 Odin CLI');
+   const operation = begin('Creating project with M3 Odin CLI');
 
-   const command = 'odin new --skip-git --angular ' + (isSoho ? '--soho' : '--material') + ' --proxy ' + proxyUrl + ' ' + name;
+   const odinCliScript = relativePath("../dist/cli.js")
+   const command = `node ${odinCliScript} new --skip-git --angular ${isSoho ? '--soho' : '--material'} --proxy ${proxyUrl} ${name}`;
+   // const command = 'odin new --skip-git --angular ' + (isSoho ? '--soho' : '--material') + ' --proxy ' + proxyUrl + ' ' + name;
    console.log('Project name: ' + name);
    console.log('Temp directory: ' + tempPath);
    console.log('CLI command: ' + command);
 
    process.chdir(tempPath);
-   c.execSync(command);
+   execSync(command);
 
-   c.end(operation);
+   end(operation);
 }
 
 function copyBoilperplateFiles(sampleSourceName: string, sourcePath: string, targetPath: string): void {
-   const operation = c.begin('Copying boilerplate files');
+   const operation = begin('Copying boilerplate files');
 
    const srcTargetPath = path.join(targetPath, 'src');
 
@@ -160,5 +162,5 @@ function copyBoilperplateFiles(sampleSourceName: string, sourcePath: string, tar
    console.log('Copying directory: ' + sampleAppSourcePath + ' to ' + sampleAppTargetPath);
    fs.copySync(sampleAppSourcePath, sampleAppTargetPath);
 
-   c.end(operation);
+   end(operation);
 }

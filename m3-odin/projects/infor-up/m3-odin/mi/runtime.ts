@@ -21,7 +21,7 @@ import { IMIRequest } from './types';
  * The date format for date fields must be 'yyyyMMdd' and the decimal separator for decimal fields must be '.'.
  * There are several set functions on the MIRecord class that can be used to set input data on the correct format.
  *
- * For output the MIRecord may contains typed data if the [[IMIOptions.typedOutput]] property was set to true in the request.
+ * For output the MIRecord may contains typed data if the {@link IMIRequest.typedOutput} property was set to true in the request.
  * If this property was not set all output fields will be of type string and may require conversion for dates and numbers.
  *
  * **Example**
@@ -105,7 +105,7 @@ export class MIRecord {
 }
 
 /**
- * Represents the response from an M3 MI transaction. See [[IMIResponse]].
+ * Represents the response from an M3 MI transaction. See {@link IMIResponse}.
  * @hidden
  *
  * @since 2.0.0
@@ -168,12 +168,12 @@ export class MIUtil {
     * Creates a MIRecord that contains only the updated fields and the mandatory keys.
     * Should be used when making an update transaction so that unchanged values are not set by the update transaction.
     * Note that the values must have the correct type. Dates must be date objects and numeric values must be numbers.
-    * @param originalValues A [[MIRecord]] with the original values, for example the values from a Get or List transaction.
+    * @param originalValues A {@link MIRecord} with the original values, for example the values from a Get or List transaction.
     * @param newRecord A MIRecord or object with parameters for all values using the correct data type for the transaction.
     * @param fieldNames An array with field names that should be updated (if the value has changed). This list does not need to contain
     * the mandatory fields.
     * @param mandatoryFields An array with mandatoryFields. The mandatory fields should always be added to the new record.
-    * @returns A [[MIRecord]] that should be used in an update transaction.
+    * @returns A {@link MIRecord} that should be used in an update transaction.
     */
    public static createUpdateRecord(originalValues: MIRecord, newRecord: any, fieldNames: string[], mandatoryFields: string[]): MIRecord {
 
@@ -235,8 +235,8 @@ export class MIUtil {
 
    /**
     * Converts a dictionary structure to an array.
-    * @param metdataMap A map structure where the key is the field name and the value is a [[MIMetadataInfo]].
-    * @returns An array with [[MIMetadataInfo]].
+    * @param metdataMap A map structure where the key is the field name and the value is a {@link MIMetadataInfo}.
+    * @returns An array with {@link MIMetadataInfo}.
     *
     */
    public static metadataToArray(metadataMap: IMIMetadataMap): IMIMetadataInfo[] {
@@ -252,7 +252,7 @@ export class MIUtil {
 }
 
 /**
- * Implementation of [[IMIMetadataInfo]].
+ * Implementation of {@link IMIMetadataInfo}.
  * @hidden
  *
  * @since 2.0.0
@@ -293,7 +293,7 @@ export class MIMetadataInfo implements IMIMetadataInfo {
 }
 
 /**
- * Implementation of the [[IMIService]] interface.
+ * Implementation of the {@link IMIService} interface.
  *
  * ```typescript
  * import { MIServiceCore } from '@infor-up/m3-odin';
@@ -420,7 +420,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
    }
 
    /**
-    * See [[IMIService.execute]]
+    * See {@link IMIService.execute}
     */
    public execute(request: IMIRequest): Observable<IMIResponse> {
       const subject = new AsyncSubject<IMIResponse>();

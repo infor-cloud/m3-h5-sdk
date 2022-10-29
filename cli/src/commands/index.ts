@@ -1,5 +1,5 @@
-export { buildProject } from './build';
-export { login } from './login';
-export { INewProjectOptions, newProject } from './new';
-export { IServeOptions, serveProject } from './serve';
-export { setConfiguration } from './set';
+export { buildProject } from './build.js';
+export { login } from './login.js';
+export { INewProjectOptions, newProject } from './new.js';
+export { IServeOptions, serveProject } from './serve.js';
+export { setConfiguration } from './set.js';

@@ -1,8 +1,11 @@
-import * as archiver from 'archiver';
+import archiver from 'archiver';
 import { spawn } from 'child_process';
-import * as fs from 'fs-extra';
-import * as path from 'path';
+import fs from 'fs-extra';
+import path from 'path';
+import url from 'url';
 import { Configuration } from 'webpack-dev-server';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 type ISupportedAngularCommand = 'new' | 'serve' | 'build';
 

@@ -1,8 +1,8 @@
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import * as c from './common';
+import fs from 'fs-extra';
+import path from 'path';
+import { begin, end, execSync, relativePath, replaceAll, title } from './common.js';
 
-c.title('Update M3 Odin versions');
+title('Update M3 Odin versions');
 
 const directories = [
    'm3-odin/projects/infor-up/m3-odin',
@@ -35,7 +35,7 @@ function updateVersions(): void {
    }
 
    const currentDirectory = process.cwd();
-   const baseDirectory = path.join(__dirname, '../../');
+   const baseDirectory = relativePath('../../');
 
    let directory;
 
@@ -54,7 +54,7 @@ function updateVersions(): void {
 }
 
 function updateVersionInFile(filename: string, version: string, names: string[]): void {
-   const operation = c.begin('Update versions in file');
+   const operation = begin('Update versions in file');
    console.log('Filename: ' + filename);
 
    let content = fs.readFileSync(filename, 'utf8');
@@ -68,7 +68,7 @@ function updateVersionInFile(filename: string, version: string, names: string[])
       for (const name of names) {
          const search = `"${name}": "${existingVersion}"`;
          const replace = `"${name}": "${version}"`;
-         content = c.replaceAll(content, search, replace);
+         content = replaceAll(content, search, replace);
       }
 
       fs.writeFileSync(filename, content, 'utf8');
@@ -76,7 +76,7 @@ function updateVersionInFile(filename: string, version: string, names: string[])
       console.error('No existing version found');
    }
 
-   c.end(operation);
+   end(operation);
 }
 
 function findExistingVersion(json: any, names: string[]): string | null {
@@ -103,14 +103,14 @@ function findExistingVersion(json: any, names: string[]): string | null {
 }
 
 function updateVersionWithNpm(directory: string, version: string): void {
-   const operation = c.begin('Update npm version');
+   const operation = begin('Update npm version');
    console.log('Directory: ' + directory);
    console.log('Version: ' + version);
 
    process.chdir(directory);
-   c.execSync('npm version ' + version + ' --allow-same-version');
+   execSync('npm version ' + version + ' --allow-same-version');
 
-   c.end(operation);
+   end(operation);
 }
 
 function getVersion(): string | null {

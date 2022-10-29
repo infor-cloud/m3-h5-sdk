@@ -2,7 +2,7 @@
 import { INumberFormatOptions } from './types';
 
 /**
- * Represents options for sort functions in the [[ArrayUtil]] class.
+ * Represents options for sort functions in the {@link ArrayUtil} class.
  *
  * ```typescript
  * import { ISortOptions } from '@infor-up/m3-odin';

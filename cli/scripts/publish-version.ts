@@ -1,7 +1,6 @@
-import * as path from 'path';
-import * as c from './common';
+import { execNodeSync, relativePath, title } from './common.js';
 
-c.title('Publish a new M3 Odin version');
+title('Publish a new M3 Odin version');
 
 updateVersions();
 publish();
@@ -14,13 +13,13 @@ function updateVersions(): void {
       throw new Error(message);
    }
 
-   const command = path.join(__dirname, 'version') + ' ' + version;
-   c.execNodeSync(command);
+   const command = relativePath('version') + ' ' + version;
+   execNodeSync(command);
 }
 
 function publish() {
-   const command = path.join(__dirname, 'publish');
-   c.execNodeSync(command);
+   const command = relativePath('publish');
+   execNodeSync(command);
 }
 
 
@@ -31,4 +30,3 @@ function getVersion(): string | null {
    }
    return null;
 }
-

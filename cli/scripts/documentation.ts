@@ -1,49 +1,50 @@
-import * as path from 'path';
-import * as c from './common';
+import { begin, end, npmRun, projectDirectory, title } from './common.js';
 
-const name = 'M3 Odin';
-const moduleFormat = 'commonjs';
-const mode = 'file'; // modules | file
-const includes = [
-   'm3-odin',
-   'm3-odin-angular'
-];
+// const name = 'M3 Odin';
+// const moduleFormat = 'commonjs';
+// const mode = 'file'; // modules | file
+// const includes = [
+//    'm3-odin',
+//    'm3-odin-angular'
+// ];
 
-c.title('Generate M3 Odin API documentation');
+title('Generate M3 Odin API documentation');
 generate();
 
-function resolveVersion(): string {
-   const file = path.join(__dirname, '../../m3-odin/package.json');
-   return c.getPackageVersion(file);
-}
+// function resolveVersion(): string {
+//    const file = relativePath('../../m3-odin/package.json');
+//    return getPackageVersion(file);
+// }
 
 function generate(): void {
-   const operation = c.begin('Generating');
+   const operation = begin('Generating');
 
-   const sourceDirectory = c.projectDirectory('projects/infor-up');
-   const targetDirectory = c.projectDirectory('docs');
-   const version = resolveVersion();
+   npmRun('build:docs', projectDirectory());
 
-   console.log('Version: ' + version);
-   console.log('Source directory: ' + sourceDirectory);
-   console.log('Target directory: ' + sourceDirectory);
+   // const sourceDirectory = projectDirectory('projects/infor-up');
+   // const targetDirectory = projectDirectory('docs');
+   // const version = resolveVersion();
 
-   clearDirectory(targetDirectory);
+   // console.log('Version: ' + version);
+   // console.log('Source directory: ' + sourceDirectory);
+   // console.log('Target directory: ' + sourceDirectory);
 
-   process.chdir(sourceDirectory);
+   // clearDirectory(targetDirectory);
 
-   const sourceFiles = includes.join(' ');
-   const fullName = name + ' - ' + version;
-   const command = `typedoc --name "${fullName}" --readme none --mode ${mode} --module ${moduleFormat} --excludeExternals --externalPattern "*@angular*|*rxjs*" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out "${targetDirectory}" ${sourceFiles}`;
-   c.execSync(command);
+   // process.chdir(sourceDirectory);
 
-   c.end(operation);
+   // const sourceFiles = includes.join(' ');
+   // const fullName = name + ' - ' + version;
+   // const command = `typedoc --name "${fullName}" --readme none --mode ${mode} --module ${moduleFormat} --excludeExternals --externalPattern "*@angular*|*rxjs*" --excludeNotExported --excludePrivate --ignoreCompilerErrors --out "${targetDirectory}" ${sourceFiles}`;
+   // execSync(command);
+
+   end(operation);
 }
 
-function clearDirectory(directory: string): void {
-   const operation = c.begin('Clear directory');
-   console.log('Directory name: ' + directory);
-   c.removeDirectory(directory);
-   c.createDirectory(directory);
-   c.end(operation);
-}
+// function clearDirectory(directory: string): void {
+//    const operation = begin('Clear directory');
+//    console.log('Directory name: ' + directory);
+//    removeDirectory(directory);
+//    createDirectory(directory);
+//    end(operation);
+// }

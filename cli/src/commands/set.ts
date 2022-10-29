@@ -1,6 +1,6 @@
-import { Config } from 'http-proxy-middleware';
+import { Options as Config } from 'http-proxy-middleware';
 import { ProxyConfigMap } from 'webpack-dev-server';
-import { IOdinConfiguration, isValidProxyUrl, readConfig, removeSurroundingSlash, writeConfig } from '../utils';
+import { IOdinConfiguration, isValidProxyUrl, readConfig, removeSurroundingSlash, writeConfig } from '../utils.js';
 
 const isConfigurationObject = (obj?: string | Config): obj is Config => {
    return obj !== undefined && typeof obj !== 'string';

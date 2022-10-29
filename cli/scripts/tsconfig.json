@@ -1,14 +1,16 @@
 {
    "compilerOptions": {
-      "moduleResolution": "node",
-      "module": "umd",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "NodeNext",
+      "module": "NodeNext",
       "strict": true,
-      "target": "es5",
+      "target": "ES2022",
       "sourceMap": false,
       "skipLibCheck": true,
       "declaration": false,
       "lib": [
-         "es2015"
+         "ES2022"
       ]
    },
    "include": [

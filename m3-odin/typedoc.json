@@ -1,0 +1,18 @@
+{
+   "$schema": "https://typedoc.org/schema.json",
+   "readme": "none",
+   "name": "M3 Odin",
+   "entryPoints": [
+      "projects/infor-up/m3-odin",
+      "dist/infor-up/m3-odin-angular"
+   ],
+   "entryPointStrategy": "packages",
+   "excludeExternals": true,
+   "excludePrivate": true,
+   "cleanOutputDir": true,
+   "includeVersion": true,
+   "out": "docs",
+   "compilerOptions": {
+      "skipLibCheck": true
+   }
+}

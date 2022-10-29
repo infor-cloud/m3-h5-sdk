@@ -1,8 +1,8 @@
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import * as c from './common';
+import fs from 'fs-extra';
+import path from 'path';
+import { begin, buildTypeScript, createDirectory, end, execSync, npmRun, projectDirectory, relativePath, runClean, title } from './common.js';
 
-c.title('Publish M3 Odin');
+title('Publish M3 Odin');
 
 const compilerPath = resolveCompilerPath();
 const ngcCompilerPath = resolveNgcCompilerPath();
@@ -17,21 +17,21 @@ publishAngularBuilder();
 publishCli();
 
 function resolveDistPath(): string {
-   const directory = path.join(__dirname, '../../dist');
-   c.createDirectory(directory);
+   const directory = relativePath('../../dist');
+   createDirectory(directory);
    return directory;
 }
 
 function resolveCompilerPath(): string {
-   return path.join(__dirname, '../node_modules/typescript/bin/tsc');
+   return relativePath('../node_modules/typescript/bin/tsc');
 }
 
 function resolveNgcCompilerPath(): string {
-   return path.join(__dirname, '../../m3-odin/node_modules/.bin/ngc');
+   return relativePath('../../m3-odin/node_modules/.bin/ngc');
 }
 
 function publishNpm(directory: string): void {
-   const operation = c.begin('Publish NPM');
+   const operation = begin('Publish NPM');
    console.log('Publish directory: ' + directory);
    console.log('Output directory: ' + distPath);
 
@@ -41,53 +41,53 @@ function publishNpm(directory: string): void {
    const version: string = fs.readJsonSync(path.join(directory, 'package.json')).version;
    const tag = version.includes('-next') ? ' --tag next' : '';
 
-   c.execSync('npm publish ' + directory + ' --access public' + tag);
+   execSync('npm publish ' + directory + ' --access public' + tag);
 
    if (directory !== currentDirectory) {
       process.chdir(currentDirectory);
    }
 
-   c.end(operation);
+   end(operation);
 }
 
 function publishCore(): void {
-   const operation = c.begin('Publish M3 Odin Core');
+   const operation = begin('Publish M3 Odin Core');
 
-   c.npmRun('build:lib-core', c.projectDirectory());
-   const directory = c.projectDirectory('projects/infor-up/m3-odin');
+   npmRun('build:lib-core', projectDirectory());
+   const directory = projectDirectory('projects/infor-up/m3-odin');
    publishNpm(directory);
 
-   c.end(operation);
+   end(operation);
 }
 
 function publishAngular(): void {
-   const operation = c.begin('Publish M3 Odin Angular');
+   const operation = begin('Publish M3 Odin Angular');
 
-   c.npmRun('build:lib-angular', c.projectDirectory());
-   const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular');
+   npmRun('build:lib-angular', projectDirectory());
+   const projectDistDirectory = projectDirectory('dist/infor-up/m3-odin-angular');
    publishNpm(projectDistDirectory);
 
-   c.end(operation);
+   end(operation);
 }
 
 function publishAngularBuilder(): void {
-   const operation = c.begin('Publish M3 Odin Angular Builder');
+   const operation = begin('Publish M3 Odin Angular Builder');
 
-   c.npmRun('build:lib-angular-builder', c.projectDirectory());
-   const projectDistDirectory = c.projectDirectory('dist/infor-up/m3-odin-angular-builder');
+   npmRun('build:lib-angular-builder', projectDirectory());
+   const projectDistDirectory = projectDirectory('dist/infor-up/m3-odin-angular-builder');
    publishNpm(projectDistDirectory);
 
-   c.end(operation);
+   end(operation);
 }
 
 function publishCli(): void {
-   const operation = c.begin('Publish M3 Odin CLI');
+   const operation = begin('Publish M3 Odin CLI');
 
-   const directory = path.join(__dirname, '../');
-   c.runClean(directory);
-   c.buildTypeScript(directory, compilerPath);
+   const directory = relativePath('../');
+   runClean(directory);
+   buildTypeScript(directory, compilerPath);
 
    publishNpm(directory);
 
-   c.end(operation);
+   end(operation);
 }

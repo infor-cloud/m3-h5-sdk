@@ -1,8 +1,14 @@
-import * as fs from 'fs-extra';
-import * as os from 'os';
-import * as path from 'path';
-import * as puppeteer from 'puppeteer';
-import { readConfig, writeConfig } from '../utils';
+import fs from 'fs-extra';
+import os from 'os';
+import path from 'path';
+import puppeteer from 'puppeteer';
+import { ProxyConfigMap } from 'webpack-dev-server';
+import { readConfig, writeConfig } from '../utils.js';
+
+/**
+ * NOTE: This used to be puppeteer.Cookie
+ */
+type Cookie = puppeteer.Protocol.Network.Cookie
 
 export interface LoginOptions {
    ionApiConfig: string;
@@ -143,7 +149,7 @@ function updateOdinConfig(ionApiConfig: IonApiConfig, m3Url?: string) {
 
    function getPathConfig(proxyPath: string) {
       if (odinConfig.proxy && !Array.isArray(odinConfig.proxy)) {
-         const pathConfig = odinConfig.proxy[proxyPath];
+         const pathConfig = (odinConfig.proxy as ProxyConfigMap)[proxyPath];
          if (typeof pathConfig !== 'string') {
             return pathConfig;
          }
@@ -174,7 +180,7 @@ function writeTokenToFile(token: Token) {
    fs.writeJsonSync(filePath, content);
 }
 
-function writeCookiesToFile(cookies: puppeteer.Cookie[]) {
+function writeCookiesToFile(cookies: Cookie[]) {
    // File paths & content should match mtauth.ts
    const filePath = path.resolve(os.tmpdir(), 'cookieheader.json');
    const content = cookies.map(({ name, value }) => `${name}=${value};`).join(' ');
@@ -192,8 +198,8 @@ interface Token {
    expires_in: string;
 }
 
-async function waitForMneCookies(page: puppeteer.Page): Promise<puppeteer.Cookie[]> {
-   return new Promise<puppeteer.Cookie[]>((resolvePromise, rejectPromise) => {
+async function waitForMneCookies(page: puppeteer.Page): Promise<Cookie[]> {
+   return new Promise<Cookie[]>((resolvePromise, rejectPromise) => {
       const intervalId = setInterval(async () => {
          try {
             const cookies = await getAllCookies(page);
@@ -209,12 +215,12 @@ async function waitForMneCookies(page: puppeteer.Page): Promise<puppeteer.Cookie
       }, 1000);
    });
 
-   async function getAllCookies(_page: puppeteer.Page): Promise<puppeteer.Cookie[]> {
+   async function getAllCookies(_page: puppeteer.Page): Promise<Cookie[]> {
       const getAllCookiesResponse = await (_page as any)._client.send('Network.getAllCookies');
       return getAllCookiesResponse.cookies;
    }
 
-   function mneSessionCookie(cookie: puppeteer.Cookie) {
+   function mneSessionCookie(cookie: Cookie) {
       return cookie.path === '/mne' && cookie.name === 'JSESSIONID';
    }
 }

@@ -1,6 +1,6 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { registerLanguage } from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
 import css from 'highlight.js/lib/languages/css';
 import typescript from 'highlight.js/lib/languages/typescript';
 import xml from 'highlight.js/lib/languages/xml';
@@ -18,9 +18,9 @@ platformBrowserDynamic().bootstrapModule(AppModule)
 
 function initHighlightJs(): void {
    try {
-      registerLanguage('typescript', typescript);
-      registerLanguage('css', css);
-      registerLanguage('xml', xml);
+      hljs.registerLanguage('typescript', typescript);
+      hljs.registerLanguage('css', css);
+      hljs.registerLanguage('xml', xml);
    } catch (err) {
       console.error(err);
    }

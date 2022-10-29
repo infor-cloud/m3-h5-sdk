@@ -1,117 +1,100 @@
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
+import fs from 'fs-extra';
+import path from 'path';
+import { begin, end, execSync, relativePath, replaceAll, title } from './common.js';
+title('Update M3 Odin versions');
+const directories = [
+    'm3-odin/projects/infor-up/m3-odin',
+    'm3-odin/projects/infor-up/m3-odin-angular',
+    'm3-odin/projects/infor-up/m3-odin-angular-builder',
+    'm3-odin',
+    'cli'
+];
+const files = [
+    'm3-odin/package-lock.json',
+    'm3-odin/projects/infor-up/m3-odin-angular/package.json',
+    'm3-odin/projects/infor-up/m3-odin-angular-builder/package.json',
+    'cli/boilerplate/basic/package.json',
+    'cli/boilerplate/basic-material/package.json',
+    'cli/boilerplate/angular/package.json',
+    'cli/boilerplate/angular-soho/package.json',
+    'cli/boilerplate/angular-material/package.json'
+];
+updateVersions();
+function updateVersions() {
+    const version = getVersion();
+    if (!version) {
+        const message = 'Version parameter missing';
+        console.log(message);
+        throw new Error(message);
     }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "fs-extra", "path", "./common"], factory);
+    const currentDirectory = process.cwd();
+    const baseDirectory = relativePath('../../');
+    let directory;
+    for (let directory of directories) {
+        directory = path.join(baseDirectory, directory);
+        updateVersionWithNpm(directory, version);
     }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var fs = require("fs-extra");
-    var path = require("path");
-    var c = require("./common");
-    c.title('Update M3 Odin versions');
-    var directories = [
-        'm3-odin/projects/infor-up/m3-odin',
-        'm3-odin/projects/infor-up/m3-odin-angular',
-        'm3-odin/projects/infor-up/m3-odin-angular-builder',
-        'm3-odin',
-        'cli'
-    ];
-    var files = [
-        'm3-odin/package-lock.json',
-        'm3-odin/projects/infor-up/m3-odin-angular/package.json',
-        'm3-odin/projects/infor-up/m3-odin-angular-builder/package.json',
-        'cli/boilerplate/basic/package.json',
-        'cli/boilerplate/basic-material/package.json',
-        'cli/boilerplate/angular/package.json',
-        'cli/boilerplate/angular-soho/package.json',
-        'cli/boilerplate/angular-material/package.json'
-    ];
-    updateVersions();
-    function updateVersions() {
-        var version = getVersion();
-        if (!version) {
-            var message = 'Version parameter missing';
-            console.log(message);
-            throw new Error(message);
-        }
-        var currentDirectory = process.cwd();
-        var baseDirectory = path.join(__dirname, '../../');
-        var directory;
-        for (var _i = 0, directories_1 = directories; _i < directories_1.length; _i++) {
-            var directory_1 = directories_1[_i];
-            directory_1 = path.join(baseDirectory, directory_1);
-            updateVersionWithNpm(directory_1, version);
-        }
-        var keyNames = ['@infor-up/m3-odin', '@infor-up/m3-odin-angular', '@infor-up/m3-odin-angular-builder', '@infor-up/m3-odin-cli'];
-        for (var _a = 0, files_1 = files; _a < files_1.length; _a++) {
-            var file = files_1[_a];
-            var filename = path.join(baseDirectory, file);
-            updateVersionInFile(filename, version, keyNames);
-        }
-        process.chdir(currentDirectory);
+    const keyNames = ['@infor-up/m3-odin', '@infor-up/m3-odin-angular', '@infor-up/m3-odin-angular-builder', '@infor-up/m3-odin-cli'];
+    for (const file of files) {
+        const filename = path.join(baseDirectory, file);
+        updateVersionInFile(filename, version, keyNames);
     }
-    function updateVersionInFile(filename, version, names) {
-        var operation = c.begin('Update versions in file');
-        console.log('Filename: ' + filename);
-        var content = fs.readFileSync(filename, 'utf8');
-        var json = JSON.parse(content);
-        var existingVersion = findExistingVersion(json, names);
-        if (existingVersion) {
-            console.log('Found existing version: ' + existingVersion);
-            console.log('Replacing with version: ' + version);
-            for (var _i = 0, names_1 = names; _i < names_1.length; _i++) {
-                var name = names_1[_i];
-                var search = "\"" + name + "\": \"" + existingVersion + "\"";
-                var replace = "\"" + name + "\": \"" + version + "\"";
-                content = c.replaceAll(content, search, replace);
-            }
-            fs.writeFileSync(filename, content, 'utf8');
+    process.chdir(currentDirectory);
+}
+function updateVersionInFile(filename, version, names) {
+    const operation = begin('Update versions in file');
+    console.log('Filename: ' + filename);
+    let content = fs.readFileSync(filename, 'utf8');
+    const json = JSON.parse(content);
+    const existingVersion = findExistingVersion(json, names);
+    if (existingVersion) {
+        console.log('Found existing version: ' + existingVersion);
+        console.log('Replacing with version: ' + version);
+        for (const name of names) {
+            const search = `"${name}": "${existingVersion}"`;
+            const replace = `"${name}": "${version}"`;
+            content = replaceAll(content, search, replace);
         }
-        else {
-            console.error('No existing version found');
-        }
-        c.end(operation);
+        fs.writeFileSync(filename, content, 'utf8');
     }
-    function findExistingVersion(json, names) {
-        if (typeof json !== 'object') {
-            return null;
-        }
-        var keys = Object.keys(json);
-        for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
-            var key = keys_1[_i];
-            var value = json[key];
-            if (value && typeof value === 'string') {
-                for (var _a = 0, names_2 = names; _a < names_2.length; _a++) {
-                    var name = names_2[_a];
-                    if (key === name) {
-                        return value;
-                    }
+    else {
+        console.error('No existing version found');
+    }
+    end(operation);
+}
+function findExistingVersion(json, names) {
+    if (typeof json !== 'object') {
+        return null;
+    }
+    const keys = Object.keys(json);
+    for (const key of keys) {
+        let value = json[key];
+        if (value && typeof value === 'string') {
+            for (const name of names) {
+                if (key === name) {
+                    return value;
                 }
             }
-            value = findExistingVersion(value, names);
-            if (value) {
-                return value;
-            }
         }
-        return null;
-    }
-    function updateVersionWithNpm(directory, version) {
-        var operation = c.begin('Update npm version');
-        console.log('Directory: ' + directory);
-        console.log('Version: ' + version);
-        process.chdir(directory);
-        c.execSync('npm version ' + version + ' --allow-same-version');
-        c.end(operation);
-    }
-    function getVersion() {
-        var argv = process.argv;
-        if (argv.length >= 3) {
-            return argv[2];
+        value = findExistingVersion(value, names);
+        if (value) {
+            return value;
         }
-        return null;
     }
-});
+    return null;
+}
+function updateVersionWithNpm(directory, version) {
+    const operation = begin('Update npm version');
+    console.log('Directory: ' + directory);
+    console.log('Version: ' + version);
+    process.chdir(directory);
+    execSync('npm version ' + version + ' --allow-same-version');
+    end(operation);
+}
+function getVersion() {
+    const argv = process.argv;
+    if (argv.length >= 3) {
+        return argv[2];
+    }
+    return null;
+}

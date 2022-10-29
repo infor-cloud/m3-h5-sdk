@@ -1,7 +1,7 @@
 {
    "name": "@infor-up/m3-odin",
    "private": false,
-   "version": "5.0.0",
+   "version": "6.0.0",
    "description": "Odin for M3 web application development.",
    "main": "dist/index.js",
    "types": "dist/index.d.ts",
@@ -23,6 +23,6 @@
       "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
    },
    "peerDependencies": {
-      "rxjs": "^6.0.0"
+      "rxjs": "^7.0.0"
    }
 }
