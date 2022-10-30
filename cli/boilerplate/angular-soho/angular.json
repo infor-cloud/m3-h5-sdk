@@ -6,12 +6,12 @@
                "options": {
                   "assets": [
                      {
-                        "glob": "**/*",
+                        "glob": "**/*.min.css",
                         "input": "./node_modules/ids-enterprise/dist/css",
                         "output": "/assets/ids-enterprise/css"
                      },
                      {
-                        "glob": "**/*",
+                        "glob": "**/*.min.js",
                         "input": "./node_modules/ids-enterprise/dist/js/cultures",
                         "output": "/assets/ids-enterprise/js/cultures"
                      }
