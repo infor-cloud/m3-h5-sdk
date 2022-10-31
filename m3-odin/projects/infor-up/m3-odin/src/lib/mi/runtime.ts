@@ -154,7 +154,7 @@ export class MIUtil {
     * @returns A string in MI format.
     */
    public static toMIFormat(value: any): string {
-      if (CoreUtil.hasValue(value)) {
+      if (!CoreUtil.hasValue(value)) {
          return '';
       }
       if (MIUtil.isDate(value)) {
@@ -462,6 +462,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
     * @hidden
     */
    public createUrl(baseUrl: string, request: IMIRequest): string {
+      console.log('SVEN', baseUrl, request);
       let url = baseUrl + '/' + request.program + '/' + request.transaction;
       let maxRecords = 100;
       let excludeEmpty = 'true';
@@ -490,11 +491,13 @@ export class MIServiceCore extends CoreBase implements IMIService {
       let company = request.company;
       let division = request.division;
 
+      console.log('Hallo', this.currentCompany);
       if (!company && this.currentCompany) {
          // If no values are set in the request and a user context exist the values from the user context are used.
          company = this.currentCompany;
          division = this.currentDivision;
          if (this.isDebug()) {
+            console.log('DEBUG', baseUrl, request);
             this.logDebug('createUrl: using company ' + company + ' and division ' + division + ' from user context');
          }
       } else {

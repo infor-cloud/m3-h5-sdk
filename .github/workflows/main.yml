@@ -46,8 +46,9 @@ jobs:
           npm ci
           npm run build:libs
 
-      - name: Zip CLI directory for upload
-        run: zip -q cli.zip ./cli -r
+      - name: Zip CLI for upload
+        run: |
+          zip -q cli.zip ./cli -r
     
       - name: Upload CLI archive
         uses: actions/upload-artifact@v3
@@ -121,3 +122,24 @@ jobs:
           odin new --material --install --skip-git app-basic-none
           cd app-basic-none
           odin build
+
+  # Run all automated tests
+  test:
+    # Depends on successful run of Build
+    # needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      #- uses: browser-actions/setup-chrome@latest
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: run tests
+        run: |
+          cd ./m3-odin
+          npm ci
+          npm run ng -- test @infor-up/m3-odin --code-coverage --browsers=ChromeHeadlessCI
