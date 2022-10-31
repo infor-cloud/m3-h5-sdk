@@ -6,7 +6,7 @@
                "options": {
                   "assets": [
                      {
-                        "glob": "**/*.min.css",
+                        "glob": "**/theme-*(classic|new)-*.min.css",
                         "input": "./node_modules/ids-enterprise/dist/css",
                         "output": "/assets/ids-enterprise/css"
                      },
