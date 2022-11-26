@@ -124,6 +124,12 @@
                      }
                   ]
                }
+            },
+            "lint": {
+               "builder": "@angular-eslint/builder:lint",
+               "options": {
+                  "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+               }
             }
          }
       },
@@ -165,6 +171,15 @@
                   "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.spec.json",
                   "karmaConfig": "projects/infor-up/m3-odin-angular/karma.conf.js"
                }
+            },
+            "lint": {
+               "builder": "@angular-eslint/builder:lint",
+               "options": {
+                  "lintFilePatterns": [
+                     "projects/infor-up/m3-odin-angular/**/*.ts",
+                     "projects/infor-up/m3-odin-angular/**/*.html"
+                  ]
+               }
             }
          }
       },
@@ -195,6 +210,15 @@
                   "main": "projects/infor-up/m3-odin/src/test.ts",
                   "tsConfig": "projects/infor-up/m3-odin/tsconfig.spec.json",
                   "karmaConfig": "projects/infor-up/m3-odin/karma.conf.js"
+               }
+            },
+            "lint": {
+               "builder": "@angular-eslint/builder:lint",
+               "options": {
+                  "lintFilePatterns": [
+                     "projects/infor-up/m3-odin/**/*.ts",
+                     "projects/infor-up/m3-odin/**/*.html"
+                  ]
                }
             }
          }
