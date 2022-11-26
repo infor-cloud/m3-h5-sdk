@@ -12,7 +12,9 @@ describe("MI Service Core", () => {
       const spyLogDebug = spyOn(
          MIServiceCore.prototype as any,
          "logDebug"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
       const service = new MIServiceCore();
       const serviceHttp = new MIServiceCore(http);
 
@@ -84,8 +86,7 @@ describe("MI Service Core", () => {
       const service = new MIServiceCore(httpService);
       const spyExecuteInternal = spyOn(service, "executeInternal").and.callFake(
          () => {
-            {
-            }
+            return;
          }
       );
       const request = { baseUrl: "foo" } as unknown as IMIRequest;
@@ -113,7 +114,9 @@ describe("MI Service Core", () => {
       });
       const service = new MIServiceCore(httpService);
       const spyExecuteInternal = spyOn(service, "executeInternal").and.callFake(
-         () => {}
+         () => {
+            return;
+         }
       );
       const request = { baseUrl: "foo" } as unknown as IMIRequest;
       const subject = new AsyncSubject<IMIResponse>();
@@ -214,7 +217,9 @@ describe("MI Service Core", () => {
       const spyExecuteInternal = spyOn(
          service as any,
          "executeInternal"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
       const spyExecuteRefreshToken = spyOn(
          service as any,
          "executeRefreshToken"
@@ -240,9 +245,9 @@ describe("MI Service Core", () => {
 
    it("should update user context", () => {
       const service = new MIServiceCore();
-      const spyLogDebug = spyOn(service as any, "logDebug").and.callFake(
-         () => {}
-      );
+      const spyLogDebug = spyOn(service as any, "logDebug").and.callFake(() => {
+         return;
+      });
       const company = "foo";
       const division = "bar";
 
@@ -259,12 +264,12 @@ describe("MI Service Core", () => {
       const service = new MIServiceCore();
       const spyIsDebug = spyOn(service as any, "isDebug");
       spyIsDebug.and.returnValue(false);
-      const spyLogDebug = spyOn(service as any, "logDebug").and.callFake(
-         () => {}
-      );
-      const spyLogInfo = spyOn(service as any, "logInfo").and.callFake(
-         () => {}
-      );
+      const spyLogDebug = spyOn(service as any, "logDebug").and.callFake(() => {
+         return;
+      });
+      const spyLogInfo = spyOn(service as any, "logInfo").and.callFake(() => {
+         return;
+      });
       const baseUrl = "odin";
       const request = { program: "foo", transaction: "bar" } as IMIRequest;
       const random = 123456789;

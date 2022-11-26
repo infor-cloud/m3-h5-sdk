@@ -13,7 +13,9 @@ describe("Log", () => {
 
    beforeEach(() => {
       Log["level"] = -1;
-      spyOn(Log as any, "log").and.callFake(() => {});
+      spyOn(Log as any, "log").and.callFake(() => {
+         return;
+      });
    });
 
    afterEach(() => {
@@ -148,7 +150,9 @@ describe("Log", () => {
       const logEntry = "LOGENTRY";
       Log["log"] = log;
       spyOn(Log, "getLogEntry").and.callFake(() => logEntry);
-      const mockFn = jasmine.createSpy().and.callFake(() => {});
+      const mockFn = jasmine.createSpy().and.callFake(() => {
+         return;
+      });
       console.error = mockFn;
       console.warn = mockFn;
       console.info = mockFn;

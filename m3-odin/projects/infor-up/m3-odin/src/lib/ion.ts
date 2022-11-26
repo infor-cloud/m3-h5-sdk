@@ -298,7 +298,9 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
          try {
             item.next(value);
             item.complete();
-         } catch (ignore) {}
+         } catch (ignore) {
+            /* empty */
+         }
       }
       // Clear the array
       items.splice(0, items.length);
@@ -308,7 +310,9 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
       for (const item of items) {
          try {
             item.error(reason);
-         } catch (ignore) {}
+         } catch (ignore) {
+            /* empty */
+         }
       }
       // Clear the array
       items.splice(0, items.length);

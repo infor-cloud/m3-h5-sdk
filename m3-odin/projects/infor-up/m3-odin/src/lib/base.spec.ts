@@ -29,7 +29,9 @@ describe("CoreBase", () => {
       const base = new CoreBase(name);
       const message = "Foo";
       const ex = new Error();
-      spyOn(Log, "error").and.callFake(() => {});
+      spyOn(Log, "error").and.callFake(() => {
+         return;
+      });
 
       base["logError"](message, ex);
       expect(Log.error).toHaveBeenCalledWith(`[${name}] ${message}`, ex);
@@ -39,7 +41,9 @@ describe("CoreBase", () => {
       const name = "Warning";
       const base = new CoreBase(name);
       const message = "Foo";
-      spyOn(Log, "warning").and.callFake(() => {});
+      spyOn(Log, "warning").and.callFake(() => {
+         return;
+      });
 
       base["logWarning"](message);
       expect(Log.warning).toHaveBeenCalledWith(`[${name}] ${message}`);
@@ -49,7 +53,9 @@ describe("CoreBase", () => {
       const name = "Info";
       const base = new CoreBase(name);
       const message = "Foo";
-      spyOn(Log, "info").and.callFake(() => {});
+      spyOn(Log, "info").and.callFake(() => {
+         return;
+      });
 
       base["logInfo"](message);
       expect(Log.info).toHaveBeenCalledWith(`[${name}] ${message}`);
@@ -60,7 +66,9 @@ describe("CoreBase", () => {
       const base = new CoreBase(name);
       const message = "Foo";
       const ex = new Error();
-      spyOn(Log, "debug").and.callFake(() => {});
+      spyOn(Log, "debug").and.callFake(() => {
+         return;
+      });
 
       base["logDebug"](message, ex);
       expect(Log.debug).toHaveBeenCalledWith(`[${name}] ${message}`, ex);

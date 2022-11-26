@@ -611,7 +611,9 @@ describe("FormServiceCore", () => {
 
       formService["pending"] = [{ subject: null!, request: null! }];
       const spy = spyOn(formService as any, "executeWithSubject").and.callFake(
-         () => {}
+         () => {
+            return;
+         }
       );
       formService["processPending"]();
       expect(spy).toHaveBeenCalled();
@@ -933,9 +935,9 @@ describe("FormServiceCore", () => {
             );
          }
       );
-      const spyLogon = spyOn(formService as any, "logon").and.callFake(
-         () => {}
-      );
+      const spyLogon = spyOn(formService as any, "logon").and.callFake(() => {
+         return;
+      });
 
       formService["executeWithSession"](request).subscribe((resp) => {
          expect(resp).toBe(response);
@@ -949,7 +951,9 @@ describe("FormServiceCore", () => {
    it("shoud successfully send request in executeWithSubject", (done) => {
       const request = {
          commandType: "foo",
-         resolver: () => {},
+         resolver: () => {
+            return;
+         },
       } as IFormRequest;
       const response = { message: "hello" } as IFormResponse;
       const userContext = { CONO: "100" } as IUserContext;
@@ -994,7 +998,9 @@ describe("FormServiceCore", () => {
       const spyProcessPending = spyOn(
          formService as any,
          "processPending"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
 
       formService["executeWithSubject"](subject, request).subscribe((resp) => {
          expect(resp).toBe(response);
@@ -1011,7 +1017,9 @@ describe("FormServiceCore", () => {
    it("shoud erroneous send request in executeWithSubject", (done) => {
       const request = {
          commandType: "foo",
-         resolver: () => {},
+         resolver: () => {
+            return;
+         },
       } as IFormRequest;
       const response = { message: "hello" } as IFormResponse;
       const userContext = { CONO: "100" } as IUserContext;
@@ -1055,7 +1063,9 @@ describe("FormServiceCore", () => {
       const spyProcessPending = spyOn(
          formService as any,
          "processPending"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
 
       formService["executeWithSubject"](subject, request).subscribe({
          next: null!,
@@ -1181,7 +1191,9 @@ describe("FormServiceCore", () => {
          updateUserContext: (
             context: IUserContext,
             principalUser: string
-         ): any => {},
+         ): any => {
+            return;
+         },
       } as IUserService;
       const spyUpdateUserContext = spyOn(
          formService["userService"],

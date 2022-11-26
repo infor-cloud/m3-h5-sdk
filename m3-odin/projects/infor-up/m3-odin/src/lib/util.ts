@@ -165,10 +165,7 @@ export class ArrayUtil {
    /**
     * Gets the item matching the predicate.
     */
-   public static itemByPredicate<T>(
-      array: T[],
-      predicate: (item: T) => Object
-   ) {
+   public static itemByPredicate<T>(array: T[], predicate: (item: T) => T) {
       for (let i = 0; i < array.length; i++) {
          if (predicate(array[i])) {
             return array[i];
@@ -182,7 +179,7 @@ export class ArrayUtil {
     */
    public static filterByPredicate<T>(
       array: T[],
-      predicate: (item: T) => Object
+      predicate: (item: T) => T
    ): T[] {
       const target: T[] = [];
       for (let i = 0; i < array.length; i++) {
@@ -335,11 +332,13 @@ export class NumUtil {
     * @param defaultValue Optional default value to return if the string cannot be parsed. The default is zero.
     * @returns An integer parsed from the string or the default value.
     */
-   public static getInt(s: string, defaultValue: number = 0) {
+   public static getInt(s: string, defaultValue = 0) {
       if (s) {
          try {
             return parseInt(s, 10);
-         } catch (e) {}
+         } catch (e) {
+            /* empty */
+         }
       }
       return defaultValue;
    }
@@ -441,7 +440,7 @@ export class CoreUtil {
     * Creates a string with random uppercase letters and numbers.
     * The default length is 16 if the stringLength parameter is omitted.
     */
-   public static random(stringLength: number = 16): string {
+   public static random(stringLength = 16): string {
       const chars = CoreUtil.chars;
       let randomstring = "";
       for (let i = 0; i < stringLength; i++) {
@@ -511,10 +510,13 @@ export class StringUtil {
       try {
          stringValue = args[0];
          const params = Array.prototype.slice.call(args, 1);
-         stringValue = stringValue.replace(/{(\d+)}/g, function (): any {
-            const value = params[arguments[1]];
-            return typeof value !== "undefined" ? value : arguments[0];
-         });
+         stringValue = stringValue.replace(
+            /{(\d+)}/g,
+            function (...replaceArgs: any[]): any {
+               const value = params[replaceArgs[1]];
+               return typeof value !== "undefined" ? value : replaceArgs[0];
+            }
+         );
       } catch (ex) {
          // TODO Log?
          // Log.error('Failed to format string. Args: ' + args);

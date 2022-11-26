@@ -61,10 +61,10 @@ export class IdmDataService extends CoreBase {
    /**
     * Get items/search for items using an xquery
     *
-    * @param isMultiTenant boolean
-    * @param xquery string, e.g. 'MDS_File'
-    * @param offset number, default value: 0
-    * @param limit number, default value: 20
+    * @param isMultiTenant boolean
+    * @param xquery string, e.g. 'MDS_File'
+    * @param offset number, default value: 0
+    * @param limit number, default value: 20
     */
    private createSearchRequest(
       xquery: string,

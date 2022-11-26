@@ -18,7 +18,7 @@ interface ISocialUser {
 interface IUserDetailResponse {
    UserDetailList: ISocialUser[];
    Status: number;
-   ErrorList: {}[];
+   ErrorList: unknown[];
 }
 
 @Component({

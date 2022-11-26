@@ -38,12 +38,13 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
                x.setRequestHeader(name, headers[name]);
             }
          }
-         const self = this;
-         x.onreadystatechange = function () {
+         const onreadystatechange = function () {
             if (x.readyState === 4) {
-               self.onResponse(request, subject, x);
+               this.onResponse(request, subject, x);
             }
          };
+         x.onreadystatechange = onreadystatechange;
+
          if (method === "GET") {
             x.send();
          } else {

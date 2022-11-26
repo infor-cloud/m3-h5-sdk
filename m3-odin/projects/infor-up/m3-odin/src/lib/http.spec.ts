@@ -25,7 +25,9 @@ describe("AjaxHttpService", () => {
 
    it("should execute GET request", (done) => {
       const open = spyOn(XMLHttpRequest.prototype as any, "open").and.callFake(
-         () => {}
+         () => {
+            return;
+         }
       );
       const event = {} as Event;
       const send = spyOn(XMLHttpRequest.prototype as any, "send").and.callFake(
@@ -37,7 +39,9 @@ describe("AjaxHttpService", () => {
       const setRequestHeader = spyOn(
          XMLHttpRequest.prototype as any,
          "setRequestHeader"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
       const service = new AjaxHttpService();
       const request: IHttpRequest = {
          url: "http://cloud.com",
@@ -70,7 +74,9 @@ describe("AjaxHttpService", () => {
 
    it("should execute POST request", (done) => {
       const open = spyOn(XMLHttpRequest.prototype as any, "open").and.callFake(
-         () => {}
+         () => {
+            return;
+         }
       );
       const event = {} as Event;
       const send = spyOn(XMLHttpRequest.prototype as any, "send").and.callFake(
@@ -82,7 +88,9 @@ describe("AjaxHttpService", () => {
       const setRequestHeader = spyOn(
          XMLHttpRequest.prototype as any,
          "setRequestHeader"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
       const service = new AjaxHttpService();
       const request: IHttpRequest = {
          url: "http://cloud.com",
@@ -129,7 +137,9 @@ describe("AjaxHttpService", () => {
          ok: true,
          url: httpRequest.url,
       };
-      const logError = spyOn(service as any, "logError").and.callFake(() => {});
+      const logError = spyOn(service as any, "logError").and.callFake(() => {
+         return;
+      });
       service["onResponse"](httpRequest, subject, xmlHttpRequest);
       subject.subscribe((val) => {
          expect(val).toEqual(response);
@@ -153,7 +163,9 @@ describe("AjaxHttpService", () => {
          ok: true,
          url: httpRequest.url,
       };
-      const logError = spyOn(service as any, "logError").and.callFake(() => {});
+      const logError = spyOn(service as any, "logError").and.callFake(() => {
+         return;
+      });
       service["onResponse"](httpRequest, subject, xmlHttpRequest);
       subject.subscribe((val) => {
          expect(val).toEqual(response);

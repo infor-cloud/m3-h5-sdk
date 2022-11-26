@@ -130,8 +130,7 @@ export class MIResponse implements IMIResponse {
    public metadata: IMIMetadataMap;
 
    public hasError(): boolean {
-      const state = this;
-      return !!(state.errorMessage || state.errorCode || state.error);
+      return !!(this.errorMessage || this.errorCode || this.error);
    }
 }
 
@@ -256,9 +255,9 @@ export class MIUtil {
    public static metadataToArray(
       metadataMap: IMIMetadataMap
    ): IMIMetadataInfo[] {
-      const array = new Array();
+      const array = [];
       for (const field in metadataMap) {
-         if (metadataMap.hasOwnProperty(field)) {
+         if (Object.prototype.hasOwnProperty.call(metadataMap, field)) {
             const metadata = metadataMap[field];
             array.push(metadata);
          }
@@ -564,7 +563,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
       const record = request.record;
       if (record) {
          for (const field in record) {
-            if (record.hasOwnProperty(field)) {
+            if (Object.prototype.hasOwnProperty.call(record, field)) {
                const value = record[field];
                if (value != null) {
                   url +=
@@ -780,7 +779,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
             const metadataMap: IMIMetadataMap = {};
             const fields = input.Field;
             for (const record in fields) {
-               if (fields.hasOwnProperty(record)) {
+               if (Object.prototype.hasOwnProperty.call(fields, record)) {
                   const entry = input.Field[record];
                   const name = entry["@name"];
                   const metaDataInfo = new MIMetadataInfo(

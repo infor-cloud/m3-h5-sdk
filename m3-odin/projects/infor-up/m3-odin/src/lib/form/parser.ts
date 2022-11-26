@@ -517,7 +517,9 @@ export class FormParser {
    private getRowIndex(rowName: string): number {
       try {
          return parseInt(rowName.substring(1), 10) - 1; // 1-based list
-      } catch (ignore) {}
+      } catch (ignore) {
+         /* empty */
+      }
       return -1;
    }
 
@@ -974,7 +976,7 @@ export class FormParser {
  * @since 2.0.0
  */
 export class XmlUtil {
-   public static getBoolean(s: string, defaultValue: boolean = false) {
+   public static getBoolean(s: string, defaultValue = false) {
       if (s && s.length > 0) {
          return s[0].toLowerCase() === "t";
       }

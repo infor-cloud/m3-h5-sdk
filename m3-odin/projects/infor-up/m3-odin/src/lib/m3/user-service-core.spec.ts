@@ -24,7 +24,9 @@ describe("UserServiceCore", () => {
    beforeEach(() => {
       // Function init will be called in constructor. To avoid this a mock is placed and removed after constructor call.
       const spy = spyOn(UserServiceCore.prototype as any, "init").and.callFake(
-         () => {}
+         () => {
+            return;
+         }
       );
       userService = new UserServiceCore(mockService);
       spy.and.callThrough();
@@ -40,7 +42,9 @@ describe("UserServiceCore", () => {
       const spyRegisterMessage = spyOn(
          userService as any,
          "registerMessage"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
       spyOn(userService as any, "onTimeout").and.callFake(() => {
          done();
       });
@@ -68,7 +72,9 @@ describe("UserServiceCore", () => {
       const spyLoadUserId = spyOn(
          userService as any,
          "loadUserId"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
 
       userService["isMessagePending"] = true;
       userService["queue"] = [{} as AsyncSubject<UserContext>];
@@ -232,7 +238,9 @@ describe("UserServiceCore", () => {
       const spyLoadUserData = spyOn(
          userService as any,
          "loadUserData"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
 
       userService["isExecuting"] = true;
       userService["loadUserId"]();
@@ -395,7 +403,9 @@ describe("UserServiceCore", () => {
       const spyCreateErrorContext = spyOn(
          userService as any,
          "createErrorContext"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
 
       userService.getUserContext().subscribe({
          next: null!,
@@ -410,12 +420,16 @@ describe("UserServiceCore", () => {
    it("should return user context", (done) => {
       const userContext = { m3User: "foo" } as IUserContext;
       const spyPush = spyOn(userService["queue"] as any, "push").and.callFake(
-         () => {}
+         () => {
+            return;
+         }
       );
       const spyLoadUserId = spyOn(
          userService as any,
          "loadUserId"
-      ).and.callFake(() => {});
+      ).and.callFake(() => {
+         return;
+      });
 
       userService.getUserContext();
       expect(spyPush).toHaveBeenCalled();

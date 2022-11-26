@@ -244,7 +244,7 @@ describe("Util ArrayUtil", () => {
          undefined,
          value2,
          value1,
-         ,
+         undefined,
          value3,
       ]);
    });

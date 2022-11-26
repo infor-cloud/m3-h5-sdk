@@ -53,8 +53,6 @@ export class SampleViewerDialogComponent {
 
    private appName = "soho";
 
-   constructor() {}
-
    getSampleUrl(extension: string) {
       return `assets/source/${this.appName}-app/samples/${this.sample}/${
          this.sample

@@ -189,7 +189,9 @@ export class Log {
             for (let i = 0; i < Log.appenders.length; i++) {
                try {
                   Log.appenders[i](level, text, ex);
-               } catch (e) {}
+               } catch (e) {
+                  /* empty */
+               }
             }
          }
       }
