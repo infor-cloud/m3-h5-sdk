@@ -32,6 +32,7 @@
    margin-bottom: 0;
 }
 
-.full-width .column:first-child, .full-width .columns:first-child {
+.full-width .column:first-child,
+.full-width .columns:first-child {
    padding-left: 0 !important;
 }

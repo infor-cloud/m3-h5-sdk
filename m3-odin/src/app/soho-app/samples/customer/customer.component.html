@@ -2,16 +2,32 @@
    <div>
       <h1>Customer sample</h1>
       <p>
-         Master detail using CRS610MI, where the datagrid uses the transaction 'LstByNumber' (100 records). The detail view uses 'GetBasicData'
-         to retreive the item details, and updates the item using 'ChgBasicData' ...
+         Master detail using CRS610MI, where the datagrid uses the transaction
+         'LstByNumber' (100 records). The detail view uses 'GetBasicData' to
+         retreive the item details, and updates the item using 'ChgBasicData'
+         ...
       </p>
       <hr class="fieldset-hr" />
    </div>
 
-   <div #customersDatagrid id="gridCustomers" soho-datagrid [gridOptions]="datagridOptions" (selected)="onSelected($event.rows)"
-      soho-busyindicator [activated]="isBusy" [blockUI]="true" [displayDelay]="0"></div>
+   <div
+      #customersDatagrid
+      id="gridCustomers"
+      soho-datagrid
+      [gridOptions]="datagridOptions"
+      (selected)="onSelected($event.rows)"
+      soho-busyindicator
+      [activated]="isBusy"
+      [blockUI]="true"
+      [displayDelay]="0"
+   ></div>
 
-   <div soho-busyindicator [activated]="isDetailBusy" [blockUI]="true" [displayDelay]="0">
+   <div
+      soho-busyindicator
+      [activated]="isDetailBusy"
+      [blockUI]="true"
+      [displayDelay]="0"
+   >
       <div *ngIf="hasSelected && detailItem" class="row card">
          <div class="twelve columns">
             <div class="field">
@@ -80,7 +96,9 @@
 
          <div class="form-responsive row">
             <div class="twelve columns">
-               <button soho-button="primary" (click)="onUpdate()">Update</button>
+               <button soho-button="primary" (click)="onUpdate()">
+                  Update
+               </button>
             </div>
          </div>
       </div>

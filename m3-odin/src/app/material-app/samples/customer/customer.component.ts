@@ -9,9 +9,12 @@ import { MIService, UserService } from '@infor-up/m3-odin-angular';
 
 @Component({
    templateUrl: './customer.component.html',
-   styleUrls: ['./customer.component.css']
+   styleUrls: ['./customer.component.css'],
 })
-export class CustomerSampleComponent extends CoreBase implements OnInit, AfterViewInit {
+export class CustomerSampleComponent
+   extends CoreBase
+   implements OnInit, AfterViewInit
+{
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
 
@@ -25,7 +28,11 @@ export class CustomerSampleComponent extends CoreBase implements OnInit, AfterVi
    private items: any[] = [];
    private maxRecords = 100;
 
-   constructor(private miService: MIService, private userService: UserService, private snackBar: MatSnackBar) {
+   constructor(
+      private miService: MIService,
+      private userService: UserService,
+      private snackBar: MatSnackBar
+   ) {
       super('CustomerSampleComponent');
    }
 
@@ -42,41 +49,51 @@ export class CustomerSampleComponent extends CoreBase implements OnInit, AfterVi
       this.dataSource.sort = this.sort;
 
       // Reset the paginator after sorting
-      this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
    }
 
    listItems() {
-      if (this.isBusy) { return; }
+      if (this.isBusy) {
+         return;
+      }
       this.setBusy(true);
 
-      this.userService.getUserContext().subscribe((context) => {
-         const request: IMIRequest = {
-            program: 'CRS610MI',
-            transaction: 'LstByNumber',
-            outputFields: ['CUNO', 'CUNM', 'TOWN', 'CUA1'],
-            maxReturnedRecords: this.maxRecords
-         };
+      this.userService.getUserContext().subscribe(
+         (context) => {
+            const request: IMIRequest = {
+               program: 'CRS610MI',
+               transaction: 'LstByNumber',
+               outputFields: ['CUNO', 'CUNM', 'TOWN', 'CUA1'],
+               maxReturnedRecords: this.maxRecords,
+            };
 
-         this.miService.execute(request).subscribe((response: IMIResponse) => {
-            if (!response.hasError()) {
-               this.items = response.items;
-               this.setItems();
-            } else {
-               this.handleError('Failed to list items');
-            }
+            this.miService.execute(request).subscribe(
+               (response: IMIResponse) => {
+                  if (!response.hasError()) {
+                     this.items = response.items;
+                     this.setItems();
+                  } else {
+                     this.handleError('Failed to list items');
+                  }
+                  this.setBusy(false);
+               },
+               (error) => {
+                  this.setBusy(false);
+                  this.handleError('Failed to list items', error);
+               }
+            );
+         },
+         (error) => {
             this.setBusy(false);
-         }, (error) => {
-            this.setBusy(false);
-            this.handleError('Failed to list items', error);
-         });
-      }, (error) => {
-         this.setBusy(false);
-         this.handleError('Failed to get user context', error);
-      });
+            this.handleError('Failed to get user context', error);
+         }
+      );
    }
 
    onSelected(customer: any) {
-      if (this.isBusy) { return; }
+      if (this.isBusy) {
+         return;
+      }
 
       this.selection.toggle(customer);
       const isSelected = this.selection.isSelected(customer);
@@ -90,21 +107,24 @@ export class CustomerSampleComponent extends CoreBase implements OnInit, AfterVi
       const request: IMIRequest = {
          program: 'CRS610MI',
          transaction: 'ChgBasicData',
-         record: detailItem
+         record: detailItem,
       };
       this.setBusy(true);
-      this.miService.execute(request).subscribe((response: IMIResponse) => {
-         if (!response.hasError()) {
-            this.getDetails(response.item);
-            this.refreshTableItem();
-         } else {
+      this.miService.execute(request).subscribe(
+         (response: IMIResponse) => {
+            if (!response.hasError()) {
+               this.getDetails(response.item);
+               this.refreshTableItem();
+            } else {
+               this.setBusy(false);
+               this.handleError('Failed to update item');
+            }
+         },
+         (error) => {
             this.setBusy(false);
-            this.handleError('Failed to update item');
+            this.handleError('Failed to update item', error);
          }
-      }, (error) => {
-         this.setBusy(false);
-         this.handleError('Failed to update item', error);
-      });
+      );
    }
 
    private getDetails(selectedCustomer: any) {
@@ -112,26 +132,40 @@ export class CustomerSampleComponent extends CoreBase implements OnInit, AfterVi
          program: 'CRS610MI',
          transaction: 'GetBasicData',
          record: selectedCustomer,
-         outputFields: ['CUNM', 'CUNO', 'TOWN', 'CSCD', 'CUA1', 'CUA2', 'CUA3', 'CUA4']
+         outputFields: [
+            'CUNM',
+            'CUNO',
+            'TOWN',
+            'CSCD',
+            'CUA1',
+            'CUA2',
+            'CUA3',
+            'CUA4',
+         ],
       };
       this.setBusy(true);
-      this.miService.execute(request).subscribe((response: IMIResponse) => {
-         this.setBusy(false);
-         if (!response.hasError()) {
-            this.detailItem = response.item;
-         } else {
+      this.miService.execute(request).subscribe(
+         (response: IMIResponse) => {
+            this.setBusy(false);
+            if (!response.hasError()) {
+               this.detailItem = response.item;
+            } else {
+               this.detailItem = undefined;
+               this.handleError('Failed to get details');
+            }
+         },
+         (error) => {
+            this.setBusy(false);
             this.detailItem = undefined;
-            this.handleError('Failed to get details');
+            this.handleError('Failed to get details', error);
          }
-      }, (error) => {
-         this.setBusy(false);
-         this.detailItem = undefined;
-         this.handleError('Failed to get details', error);
-      });
+      );
    }
 
    private refreshTableItem() {
-      const idx = this.items.findIndex(obj => obj === this.selection.selected[0]);
+      const idx = this.items.findIndex(
+         (obj) => obj === this.selection.selected[0]
+      );
       this.items[idx] = this.detailItem;
       this.setItems();
       this.selection.select(this.detailItem);
@@ -147,7 +181,10 @@ export class CustomerSampleComponent extends CoreBase implements OnInit, AfterVi
 
    private handleError(message: string, error?: any) {
       this.logError(message, error ? '- Error: ' + JSON.stringify(error) : '');
-      this.snackBar.open('An error occured. ' + message + '. More details might be available in the browser console.',
+      this.snackBar.open(
+         'An error occured. ' +
+            message +
+            '. More details might be available in the browser console.',
          'Close',
          { duration: 5000 }
       );

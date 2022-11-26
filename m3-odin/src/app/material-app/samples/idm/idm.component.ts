@@ -5,21 +5,27 @@ import { IdmDataService, IIdmError, ISearchItems } from './idm-data.service';
 
 @Component({
    templateUrl: './idm.component.html',
-   styleUrls: ['idm.component.css']
+   styleUrls: ['idm.component.css'],
 })
 export class IdmSampleComponent extends CoreBase implements OnInit {
    items: ISearchItems;
 
-   constructor(private idmService: IdmDataService, private snackBar: MatSnackBar) {
+   constructor(
+      private idmService: IdmDataService,
+      private snackBar: MatSnackBar
+   ) {
       super('IdmSampleComponent');
    }
 
    ngOnInit() {
-      this.idmService.searchItems().subscribe(response => {
-         this.items = response.items;
-      }, (error: IIdmError) => {
-         this.handleError(error);
-      });
+      this.idmService.searchItems().subscribe(
+         (response) => {
+            this.items = response.items;
+         },
+         (error: IIdmError) => {
+            this.handleError(error);
+         }
+      );
    }
 
    private handleError(error: IIdmError) {
@@ -27,7 +33,10 @@ export class IdmSampleComponent extends CoreBase implements OnInit {
       if (!message.endsWith('.')) {
          message += '.';
       }
-      this.snackBar.open('An error occured. ' + message + ' More details might be available in the browser console.',
+      this.snackBar.open(
+         'An error occured. ' +
+            message +
+            ' More details might be available in the browser console.',
          'Close',
          { duration: 5000 }
       );

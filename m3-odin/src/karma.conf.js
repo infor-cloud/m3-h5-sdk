@@ -10,22 +10,32 @@ module.exports = function (config) {
          require('karma-chrome-launcher'),
          require('karma-jasmine-html-reporter'),
          require('karma-coverage-istanbul-reporter'),
-         require('@angular-devkit/build-angular/plugins/karma')
+         require('@angular-devkit/build-angular/plugins/karma'),
       ],
       files: [
          { pattern: '../node_modules/jquery/dist/jquery.js', watched: false },
          { pattern: '../node_modules/d3/dist/d3.js', watched: false },
-         { pattern: '../node_modules/ids-enterprise/dist/js/sohoxi.js', watched: false },
-         { pattern: '../node_modules/ids-enterprise/dist/js/cultures/en-US.js', watched: false },
-         { pattern: '../node_modules/ids-enterprise/dist/css/theme-new-light.css', watched: false },
+         {
+            pattern: '../node_modules/ids-enterprise/dist/js/sohoxi.js',
+            watched: false,
+         },
+         {
+            pattern: '../node_modules/ids-enterprise/dist/js/cultures/en-US.js',
+            watched: false,
+         },
+         {
+            pattern:
+               '../node_modules/ids-enterprise/dist/css/theme-new-light.css',
+            watched: false,
+         },
       ],
       client: {
-         clearContext: false // leave Jasmine Spec Runner output visible in browser
+         clearContext: false, // leave Jasmine Spec Runner output visible in browser
       },
       coverageIstanbulReporter: {
          dir: require('path').join(__dirname, 'coverage'),
          reports: ['html', 'lcovonly'],
-         fixWebpackSourcePaths: true
+         fixWebpackSourcePaths: true,
       },
       reporters: ['progress', 'kjhtml'],
       port: 9876,
@@ -33,6 +43,6 @@ module.exports = function (config) {
       logLevel: config.LOG_INFO,
       autoWatch: true,
       browsers: ['Chrome'],
-      singleRun: false
+      singleRun: false,
    });
 };

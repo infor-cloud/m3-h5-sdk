@@ -8,7 +8,7 @@ interface IKeyValue {
 }
 
 @Component({
-   templateUrl: './user-context.component.html'
+   templateUrl: './user-context.component.html',
 })
 export class UserContextSampleComponent extends CoreBase {
    userContext = {} as IUserContext;
@@ -23,11 +23,13 @@ export class UserContextSampleComponent extends CoreBase {
 
    onClickLoad(): void {
       this.logInfo('onClickLoad');
-      this.userService.getUserContext().subscribe((userContext: IUserContext) => {
-         this.logInfo('onClickLoad: Received user context');
-         this.userContext = userContext;
-         this.sortedValues = this.createSortedValues();
-      });
+      this.userService
+         .getUserContext()
+         .subscribe((userContext: IUserContext) => {
+            this.logInfo('onClickLoad: Received user context');
+            this.userContext = userContext;
+            this.sortedValues = this.createSortedValues();
+         });
    }
 
    private createSortedValues(): IKeyValue[] {

@@ -19,15 +19,23 @@
 
 <div soho-tab-panel-container>
    <div soho-tab-panel tabId="tab-html">
-      <odin-document-viewer [documentUrl]="getSampleUrl('HTML')"></odin-document-viewer>
+      <odin-document-viewer
+         [documentUrl]="getSampleUrl('HTML')"
+      ></odin-document-viewer>
    </div>
    <div soho-tab-panel tabId="tab-ts">
-      <odin-document-viewer [documentUrl]="getSampleUrl('TS')"></odin-document-viewer>
+      <odin-document-viewer
+         [documentUrl]="getSampleUrl('TS')"
+      ></odin-document-viewer>
    </div>
    <div soho-tab-panel tabId="tab-css">
-      <odin-document-viewer [documentUrl]="getSampleUrl('CSS')"></odin-document-viewer>
+      <odin-document-viewer
+         [documentUrl]="getSampleUrl('CSS')"
+      ></odin-document-viewer>
    </div>
    <div *ngIf="service" soho-tab-panel tabId="tab-service">
-      <odin-document-viewer [documentUrl]="getServiceUrl()"></odin-document-viewer>
+      <odin-document-viewer
+         [documentUrl]="getServiceUrl()"
+      ></odin-document-viewer>
    </div>
 </div>

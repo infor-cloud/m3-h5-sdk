@@ -13,9 +13,9 @@ import { MaterialAppModule } from './material-app/material-app.module';
       FormsModule,
       M3OdinModule,
       AppRoutingModule,
-      MaterialAppModule
+      MaterialAppModule,
    ],
    providers: [],
-   bootstrap: [AppComponent]
+   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

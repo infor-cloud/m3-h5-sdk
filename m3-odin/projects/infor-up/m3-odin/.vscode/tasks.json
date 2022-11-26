@@ -7,9 +7,7 @@
          "label": "Core: build",
          "type": "npm",
          "script": "build",
-         "problemMatcher": [
-            "$tsc-watch"
-         ],
+         "problemMatcher": ["$tsc-watch"],
          "group": "build"
       }
    ]

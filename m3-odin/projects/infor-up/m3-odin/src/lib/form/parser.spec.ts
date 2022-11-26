@@ -5,14 +5,14 @@ import { FormParser } from './parser';
  * It's currently only there to increase coverage.
  */
 describe('FormParser', () => {
-    beforeEach(() => {
-        FormParser['counter'] = 0;
-    });
+   beforeEach(() => {
+      FormParser['counter'] = 0;
+   });
 
-    it('should parse aps450 xml', () => {
-        const formResponse = FormParser.parse(aps450Content);
-        expect(formResponse.counter).toBe(1);
-    });
+   it('should parse aps450 xml', () => {
+      const formResponse = FormParser.parse(aps450Content);
+      expect(formResponse.counter).toBe(1);
+   });
 });
 
 const aps450Content = `<?xml version="1.0" encoding="UTF-8" ?>

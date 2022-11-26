@@ -3,11 +3,18 @@
 import 'zone.js';
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import {
+   BrowserDynamicTestingModule,
+   platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 import 'jasmine-ajax';
 
 declare const require: {
-   context(path: string, deep?: boolean, filter?: RegExp): {
+   context(
+      path: string,
+      deep?: boolean,
+      filter?: RegExp
+   ): {
       keys(): string[];
       <T>(id: string): T;
    };

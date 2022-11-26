@@ -2,10 +2,6 @@ export {
    IApplicationService,
    IUserService,
    IDateOptions,
-   IUserContext
+   IUserContext,
 } from './types';
-export {
-   ApplicationServiceCore,
-   FormatUtil,
-   UserServiceCore
-} from './runtime';
+export { ApplicationServiceCore, FormatUtil, UserServiceCore } from './runtime';

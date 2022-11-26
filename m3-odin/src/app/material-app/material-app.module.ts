@@ -26,7 +26,10 @@ import { M3OdinModule } from '@infor-up/m3-odin-angular';
 import { CommonAppModule } from '../common/common-app.module';
 import { MaterialAppComponent } from './material-app.component';
 import { MaterialAppRoutingModule } from './material-app.routes';
-import { SampleViewerComponent, SampleViewerDialogComponent } from './sample-viewer/sample-viewer.component';
+import {
+   SampleViewerComponent,
+   SampleViewerDialogComponent,
+} from './sample-viewer/sample-viewer.component';
 import { BookmarkSampleComponent } from './samples/bookmark/bookmark.component';
 import { PanelDetailSampleComponent } from './samples/bookmark/panel-detail/panel-detail.component';
 import { CustomerSampleComponent } from './samples/customer/customer.component';
@@ -57,7 +60,7 @@ import { UserContextSampleComponent } from './samples/user-context/user-context.
       LogSampleComponent,
       PanelDetailSampleComponent,
       SearchSampleComponent,
-      UserContextSampleComponent
+      UserContextSampleComponent,
    ],
    imports: [
       CommonModule,
@@ -84,8 +87,8 @@ import { UserContextSampleComponent } from './samples/user-context/user-context.
       MatSnackBarModule,
       MatTooltipModule,
       MatDialogModule,
-      MatTabsModule
+      MatTabsModule,
    ],
-   providers: [MediaMatcher, IdmDataService]
+   providers: [MediaMatcher, IdmDataService],
 })
-export class MaterialAppModule { }
+export class MaterialAppModule {}

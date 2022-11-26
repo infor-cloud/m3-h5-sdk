@@ -15,7 +15,9 @@ import { UserContextSampleComponent } from './samples/user-context/user-context.
 
 const routes: Routes = [
    {
-      path: 'material', component: MaterialAppComponent, children: [
+      path: 'material',
+      component: MaterialAppComponent,
+      children: [
          { path: '', component: HomeSampleComponent },
          { path: 'bookmark', component: BookmarkSampleComponent },
          { path: 'customer', component: CustomerSampleComponent },
@@ -27,12 +29,13 @@ const routes: Routes = [
          { path: 'launch', component: LaunchSampleComponent },
          { path: 'log', component: LogSampleComponent },
          { path: 'search', component: SearchSampleComponent },
-         { path: 'user-context', component: UserContextSampleComponent }
-      ]
-   }];
+         { path: 'user-context', component: UserContextSampleComponent },
+      ],
+   },
+];
 
 @NgModule({
    imports: [RouterModule.forChild(routes)],
-   exports: [RouterModule]
+   exports: [RouterModule],
 })
-export class MaterialAppRoutingModule { }
+export class MaterialAppRoutingModule {}

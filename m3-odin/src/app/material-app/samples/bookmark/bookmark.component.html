@@ -3,9 +3,23 @@
 <mat-divider></mat-divider>
 
 <mat-form-field>
-   <input matInput placeholder="Customer number (CUNO)" maxlength="10" [(ngModel)]="CUNO" name="bm-cuno" />
+   <input
+      matInput
+      placeholder="Customer number (CUNO)"
+      maxlength="10"
+      [(ngModel)]="CUNO"
+      name="bm-cuno"
+   />
 </mat-form-field>
-<button mat-raised-button color="primary" (click)="onClickOpen()" [disabled]="!isEnabled()" class="inline-btn">Open</button>
+<button
+   mat-raised-button
+   color="primary"
+   (click)="onClickOpen()"
+   [disabled]="!isEnabled()"
+   class="inline-btn"
+>
+   Open
+</button>
 
 <div *ngIf="controlInfos">
    <mat-divider></mat-divider>
@@ -14,7 +28,10 @@
          <mat-card-title class="title">Customer details</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-         <odin-panel-detail columns="3" [formData]="controlInfos"></odin-panel-detail>
+         <odin-panel-detail
+            columns="3"
+            [formData]="controlInfos"
+         ></odin-panel-detail>
       </mat-card-content>
    </mat-card>
 </div>

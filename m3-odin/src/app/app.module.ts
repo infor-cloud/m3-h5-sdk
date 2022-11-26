@@ -15,9 +15,9 @@ import { SohoAppModule } from './soho-app/soho-app.module';
       M3OdinModule,
       AppRoutingModule,
       SohoAppModule,
-      MaterialAppModule
+      MaterialAppModule,
    ],
    providers: [],
-   bootstrap: [AppComponent]
+   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

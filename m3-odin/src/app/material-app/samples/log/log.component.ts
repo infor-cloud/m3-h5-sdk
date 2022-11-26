@@ -3,7 +3,7 @@ import { CoreBase } from '@infor-up/m3-odin';
 
 @Component({
    templateUrl: './log.component.html',
-   styleUrls: ['./log.component.css']
+   styleUrls: ['./log.component.css'],
 })
 export class LogSampleComponent extends CoreBase {
    logs: any[] = [];

@@ -12,9 +12,8 @@ describe('CustomerComponent', () => {
       TestBed.configureTestingModule({
          declarations: [CustomerSampleComponent],
          imports: [FormsModule, SohoComponentsModule],
-         providers: [MIService, UserService]
-      })
-         .compileComponents();
+         providers: [MIService, UserService],
+      }).compileComponents();
    }));
 
    beforeEach(() => {

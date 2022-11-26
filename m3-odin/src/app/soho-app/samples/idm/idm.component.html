@@ -1,9 +1,11 @@
 <div class="full-width full-height scrollable-flex">
    <div>
       <h1>IDM sample</h1>
-      <p>This sample consists of a list of searched files using an xquery. For the sample to work in a non-multitenant (non-ionapi)
-         environment, it requires that the IDM proxy is available and installed in the same grid as the Odin proxy is configured
-         with.
+      <p>
+         This sample consists of a list of searched files using an xquery. For
+         the sample to work in a non-multitenant (non-ionapi) environment, it
+         requires that the IDM proxy is available and installed in the same grid
+         as the Odin proxy is configured with.
       </p>
       <hr class="fieldset-hr" />
    </div>
@@ -13,14 +15,24 @@
          <div class="twelve columns">
             <div class="card no-padding">
                <div class="card-header">
-                  <h2 class="card-title">Showing {{items.item.length}} files (of {{items.searchCount}} total) from query '{{items.searchXQuery}}'</h2>
+                  <h2 class="card-title">
+                     Showing {{ items.item.length }} files (of
+                     {{ items.searchCount }} total) from query '{{
+                        items.searchXQuery
+                     }}'
+                  </h2>
                </div>
                <div class="card-content">
                   <soho-listview>
                      <li soho-listview-item *ngFor="let item of items.item">
-                        <p soho-listview-header>Item #{{item.id}}</p>
-                        <p soho-listview-subheader>Name: {{item.displayName}}</p>
-                        <p soho-listview-micro>Last changed: {{item.lastChangedByName}}, {{item.lastChangedTS | date}}</p>
+                        <p soho-listview-header>Item #{{ item.id }}</p>
+                        <p soho-listview-subheader>
+                           Name: {{ item.displayName }}
+                        </p>
+                        <p soho-listview-micro>
+                           Last changed: {{ item.lastChangedByName }},
+                           {{ item.lastChangedTS | date }}
+                        </p>
                      </li>
                   </soho-listview>
                </div>
