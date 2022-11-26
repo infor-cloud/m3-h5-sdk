@@ -1,10 +1,16 @@
-import { AsyncSubject, Observable } from 'rxjs';
-import { CoreBase } from '../base';
-import { AjaxHttpService } from '../http';
-import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
-import { ArrayUtil, CoreUtil, HttpUtil, StringUtil } from '../util';
-import { IMIMetadataInfo, IMIMetadataMap, IMIResponse, IMIService, MIDataType } from './base';
-import { IMIRequest } from './types';
+import { AsyncSubject, Observable } from "rxjs";
+import { CoreBase } from "../base";
+import { AjaxHttpService } from "../http";
+import { IHttpRequest, IHttpResponse, IHttpService } from "../types";
+import { ArrayUtil, CoreUtil, HttpUtil, StringUtil } from "../util";
+import {
+   IMIMetadataInfo,
+   IMIMetadataMap,
+   IMIResponse,
+   IMIService,
+   MIDataType,
+} from "./base";
+import { IMIRequest } from "./types";
 
 /**
  * Represents input and output records used when executing M3 MI transactions.
@@ -155,7 +161,7 @@ export class MIUtil {
     */
    public static toMIFormat(value: any): string {
       if (!CoreUtil.hasValue(value)) {
-         return '';
+         return "";
       }
       if (MIUtil.isDate(value)) {
          return MIUtil.getDateFormatted(value);
@@ -175,8 +181,12 @@ export class MIUtil {
     * @param mandatoryFields An array with mandatoryFields. The mandatory fields should always be added to the new record.
     * @returns A {@link MIRecord} that should be used in an update transaction.
     */
-   public static createUpdateRecord(originalValues: MIRecord, newRecord: any, fieldNames: string[], mandatoryFields: string[]): MIRecord {
-
+   public static createUpdateRecord(
+      originalValues: MIRecord,
+      newRecord: any,
+      fieldNames: string[],
+      mandatoryFields: string[]
+   ): MIRecord {
       const updateRecord = new MIRecord();
       // Create copy
       const allFields = [...fieldNames];
@@ -184,7 +194,7 @@ export class MIUtil {
       if (mandatoryFields != null && mandatoryFields.length > 0) {
          for (let i = 0; i < mandatoryFields.length; i++) {
             const mandatoryField = mandatoryFields[i];
-            if (!(ArrayUtil.contains(allFields, mandatoryField))) {
+            if (!ArrayUtil.contains(allFields, mandatoryField)) {
                allFields.push(mandatoryField);
             }
          }
@@ -207,15 +217,19 @@ export class MIUtil {
    }
 
    /**
-   * Returns a string formatted in the database format yyyyMMdd which is the format used in all M3 API transactions.
-   * @param date A date object.
-   * @returns A string representaion of the date in yyyyMMdd format.
-   */
+    * Returns a string formatted in the database format yyyyMMdd which is the format used in all M3 API transactions.
+    * @param date A date object.
+    * @returns A string representaion of the date in yyyyMMdd format.
+    */
    public static getDateFormatted(date: Date): string {
       const yyyy = date.getFullYear().toString();
       const mm = (date.getMonth() + 1).toString(); // getMonth() is zero-based
       const dd = date.getDate().toString();
-      return yyyy + (mm.length === 2 ? mm : '0' + mm[0]) + (dd.length === 2 ? dd : '0' + dd[0]); // padding
+      return (
+         yyyy +
+         (mm.length === 2 ? mm : "0" + mm[0]) +
+         (dd.length === 2 ? dd : "0" + dd[0])
+      ); // padding
    }
 
    /**
@@ -239,7 +253,9 @@ export class MIUtil {
     * @returns An array with {@link MIMetadataInfo}.
     *
     */
-   public static metadataToArray(metadataMap: IMIMetadataMap): IMIMetadataInfo[] {
+   public static metadataToArray(
+      metadataMap: IMIMetadataMap
+   ): IMIMetadataInfo[] {
       const array = new Array();
       for (const field in metadataMap) {
          if (metadataMap.hasOwnProperty(field)) {
@@ -263,7 +279,12 @@ export class MIMetadataInfo implements IMIMetadataInfo {
    public length: number;
    public description: string;
 
-   constructor(name: string, length: number, typeString: string, description: string) {
+   constructor(
+      name: string,
+      length: number,
+      typeString: string,
+      description: string
+   ) {
       this.name = name;
       this.length = length;
       this.description = description;
@@ -282,11 +303,11 @@ export class MIMetadataInfo implements IMIMetadataInfo {
    }
 
    private setType(value: string) {
-      if (value === 'D') {
+      if (value === "D") {
          this.type = MIDataType.Date;
-      } else if (value === 'N') {
+      } else if (value === "N") {
          this.type = MIDataType.Numeric;
-      } else if (value === 'A') {
+      } else if (value === "A") {
          this.type = MIDataType.String;
       }
    }
@@ -307,7 +328,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
    /**
     * @hidden
     */
-   static baseUrl = ''; // The default base URL for M3 in ION API
+   static baseUrl = ""; // The default base URL for M3 in ION API
 
    /**
     * @hidden
@@ -322,23 +343,23 @@ export class MIServiceCore extends CoreBase implements IMIService {
    private currentDivision: string = null;
 
    constructor(private http?: IHttpService) {
-      super('MIServiceCore');
+      super("MIServiceCore");
       if (!http) {
          this.http = new AjaxHttpService();
-         this.logDebug('IHttpService not passed using default implmentation');
+         this.logDebug("IHttpService not passed using default implmentation");
       }
    }
 
    private createRequest(url: string): IHttpRequest {
       return {
-         method: 'GET',
+         method: "GET",
          url: url,
-         responseType: 'json',
+         responseType: "json",
          body: null,
          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-         }
+            "Content-Type": "application/json; charset=UTF-8",
+            Accept: "application/json",
+         },
       };
    }
 
@@ -361,34 +382,40 @@ export class MIServiceCore extends CoreBase implements IMIService {
       return true;
    }
 
-   private executeRefreshToken(request: IMIRequest, subject: AsyncSubject<IMIResponse>): void {
+   private executeRefreshToken(
+      request: IMIRequest,
+      subject: AsyncSubject<IMIResponse>
+   ): void {
       const url = this.getCsrfUrl(this.getBaseUrl(request));
       const httpRequest = {
-         method: 'GET',
+         method: "GET",
          url: url,
-         cache: false
+         cache: false,
       };
 
-      this.executeHttp(httpRequest).subscribe(httpResponse => {
-         this.csrfStatus = httpResponse.status;
-         this.csrfToken = httpResponse.body;
-         this.csrfTimestamp = new Date().getTime();
-         this.executeInternal(request, subject);
-      }, httpResponse => {
-         this.csrfStatus = httpResponse.status;
-         this.csrfToken = null;
-
-         if (this.csrfStatus !== 404) {
-            const message = 'Failed to get CSRF token ' + this.csrfStatus;
-            this.logError(message);
-            const errorResponse = new MIResponse();
-            errorResponse.errorMessage = message;
-            errorResponse.errorType = 'TOKEN';
-            subject.error(errorResponse);
-         } else {
+      this.executeHttp(httpRequest).subscribe(
+         (httpResponse) => {
+            this.csrfStatus = httpResponse.status;
+            this.csrfToken = httpResponse.body;
+            this.csrfTimestamp = new Date().getTime();
             this.executeInternal(request, subject);
+         },
+         (httpResponse) => {
+            this.csrfStatus = httpResponse.status;
+            this.csrfToken = null;
+
+            if (this.csrfStatus !== 404) {
+               const message = "Failed to get CSRF token " + this.csrfStatus;
+               this.logError(message);
+               const errorResponse = new MIResponse();
+               errorResponse.errorMessage = message;
+               errorResponse.errorType = "TOKEN";
+               subject.error(errorResponse);
+            } else {
+               this.executeInternal(request, subject);
+            }
          }
-      });
+      );
    }
 
    private executeHttp<T>(request: IHttpRequest): Observable<IHttpResponse> {
@@ -416,7 +443,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
    }
 
    private getLogInfo(response: IMIResponse): string {
-      return response.program + ' ' + response.transaction;
+      return response.program + " " + response.transaction;
    }
 
    /**
@@ -439,7 +466,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
     * @hidden
     */
    public updateUserContext(company: string, division: string): void {
-      this.logDebug('updateUserContext: ' + company + '/' + division);
+      this.logDebug("updateUserContext: " + company + "/" + division);
       this.currentCompany = company;
       this.currentDivision = division;
    }
@@ -448,76 +475,90 @@ export class MIServiceCore extends CoreBase implements IMIService {
     * @hidden
     */
    public getDefaultBaseUrl() {
-      return '/m3api-rest/execute';
+      return "/m3api-rest/execute";
    }
 
    /**
     * @hidden
     */
    public getCsrfUrl(baseUrl: string): string {
-      return HttpUtil.combine(baseUrl, '/m3api-rest/csrf');
+      return HttpUtil.combine(baseUrl, "/m3api-rest/csrf");
    }
 
    /**
     * @hidden
     */
    public createUrl(baseUrl: string, request: IMIRequest): string {
-      console.log('SVEN', baseUrl, request);
-      let url = baseUrl + '/' + request.program + '/' + request.transaction;
+      console.log("SVEN", baseUrl, request);
+      let url = baseUrl + "/" + request.program + "/" + request.transaction;
       let maxRecords = 100;
-      let excludeEmpty = 'true';
-      let metadata = 'true';
+      let excludeEmpty = "true";
+      let metadata = "true";
       let returnCols = null;
       if (request.maxReturnedRecords >= 0) {
          maxRecords = request.maxReturnedRecords;
       }
       if (!request.excludeEmptyValues) {
-         excludeEmpty = 'false';
+         excludeEmpty = "false";
       }
       if (request.outputFields && request.outputFields.length > 0) {
-         returnCols = request.outputFields.join(',');
+         returnCols = request.outputFields.join(",");
       }
 
       if (request.includeMetadata) {
-         metadata = 'true';
+         metadata = "true";
          request.includeMetadata = true;
       } else {
          request.includeMetadata = false;
       }
 
       // Add 'mandatory' parameters
-      url += ';metadata=' + metadata + ';maxrecs=' + maxRecords + ';excludempty=' + excludeEmpty;
+      url +=
+         ";metadata=" +
+         metadata +
+         ";maxrecs=" +
+         maxRecords +
+         ";excludempty=" +
+         excludeEmpty;
 
       let company = request.company;
       let division = request.division;
 
-      console.log('Hallo', this.currentCompany);
+      console.log("Hallo", this.currentCompany);
       if (!company && this.currentCompany) {
          // If no values are set in the request and a user context exist the values from the user context are used.
          company = this.currentCompany;
          division = this.currentDivision;
          if (this.isDebug()) {
-            console.log('DEBUG', baseUrl, request);
-            this.logDebug('createUrl: using company ' + company + ' and division ' + division + ' from user context');
+            console.log("DEBUG", baseUrl, request);
+            this.logDebug(
+               "createUrl: using company " +
+                  company +
+                  " and division " +
+                  division +
+                  " from user context"
+            );
          }
       } else {
-         this.logInfo('createUrl: company not set, user context not available.');
+         this.logInfo(
+            "createUrl: company not set, user context not available."
+         );
       }
 
       if (company) {
-         url += ';cono=' + company;
+         url += ";cono=" + company;
 
-         if (division || division === '') {
-            url += ';divi=' + division;
+         if (division || division === "") {
+            url += ";divi=" + division;
          }
       }
 
       // Add optional parameters
       if (returnCols) {
-         url += ';returncols=' + returnCols;
+         url += ";returncols=" + returnCols;
       }
 
-      url += '?';
+      url += "?";
 
       let recordAdded = false;
       const record = request.record;
@@ -526,7 +567,11 @@ export class MIServiceCore extends CoreBase implements IMIService {
             if (record.hasOwnProperty(field)) {
                const value = record[field];
                if (value != null) {
-                  url += (recordAdded ? '&' : '') + field + '=' + encodeURIComponent(value);
+                  url +=
+                     (recordAdded ? "&" : "") +
+                     field +
+                     "=" +
+                     encodeURIComponent(value);
                   if (!recordAdded) {
                      recordAdded = true;
                   }
@@ -536,73 +581,96 @@ export class MIServiceCore extends CoreBase implements IMIService {
       }
 
       // TODO There should be an options that controls if the request ID
-      url += (recordAdded ? '&_rid=' : '_rid=') + CoreUtil.random();
+      url += (recordAdded ? "&_rid=" : "_rid=") + CoreUtil.random();
 
       return url;
    }
 
-   public executeInternal(request: IMIRequest, subject: AsyncSubject<IMIResponse>): void {
-      const baseUrl = HttpUtil.combine(this.getBaseUrl(request), this.getDefaultBaseUrl());
+   public executeInternal(
+      request: IMIRequest,
+      subject: AsyncSubject<IMIResponse>
+   ): void {
+      const baseUrl = HttpUtil.combine(
+         this.getBaseUrl(request),
+         this.getDefaultBaseUrl()
+      );
       const url = this.createUrl(baseUrl, request);
 
       const httpRequest: IHttpRequest = this.createRequest(url);
       if (this.useToken(request)) {
-         httpRequest.headers['fnd-csrf-token'] = this.csrfToken;
+         httpRequest.headers["fnd-csrf-token"] = this.csrfToken;
       }
 
-      this.logDebug('execute: ' + url);
-      this.executeHttp(httpRequest).subscribe((httpResponse: IHttpResponse) => {
-         try {
-            const response = this.parseResponse(request, httpResponse.body); // was .data
-            const hasError = response.hasError();
-            if (hasError) {
-               this.logInfo('execute: ' + this.getLogInfo(response) + ' returned error.');
-               subject.error(response);
-            } else {
-               this.logInfo('execute: ' + this.getLogInfo(response) + ' completed OK');
-               subject.next(response);
-               subject.complete();
+      this.logDebug("execute: " + url);
+      this.executeHttp(httpRequest).subscribe(
+         (httpResponse: IHttpResponse) => {
+            try {
+               const response = this.parseResponse(request, httpResponse.body); // was .data
+               const hasError = response.hasError();
+               if (hasError) {
+                  this.logInfo(
+                     "execute: " +
+                        this.getLogInfo(response) +
+                        " returned error."
+                  );
+                  subject.error(response);
+               } else {
+                  this.logInfo(
+                     "execute: " + this.getLogInfo(response) + " completed OK"
+                  );
+                  subject.next(response);
+                  subject.complete();
+               }
+            } catch (ex) {
+               const errorResponse = new MIResponse();
+               this.logWarning(
+                  "execute: exception parsing response " + JSON.stringify(ex)
+               );
+               errorResponse.error = ex;
+               subject.error(errorResponse);
             }
-         } catch (ex) {
-            const errorResponse = new MIResponse();
-            this.logWarning('execute: exception parsing response ' + JSON.stringify(ex));
-            errorResponse.error = ex;
-            subject.error(errorResponse);
+         },
+         (httpResponse) => {
+            const response = new MIResponse();
+            const status = httpResponse.status;
+            const message =
+               "Failed to call " +
+               request.program +
+               "." +
+               request.transaction +
+               " " +
+               status;
+            this.logWarning("execute: " + message);
+            response.errorMessage = message;
+            response.errorCode = status.toString();
+            subject.error(response);
          }
-      }, httpResponse => {
-         const response = new MIResponse();
-         const status = httpResponse.status;
-         const message = 'Failed to call ' + request.program + '.' + request.transaction + ' ' + status;
-         this.logWarning('execute: ' + message);
-         response.errorMessage = message;
-         response.errorCode = status.toString();
-         subject.error(response);
-      });
+      );
    }
 
    private getBaseUrl(request: IMIRequest): string {
-      return request['baseUrl'] || MIServiceCore.baseUrl;
+      return request["baseUrl"] || MIServiceCore.baseUrl;
    }
 
    private parseMessage(response: IMIResponse, content: any) {
       const errorContent = content.ErrorMessage || content; // Error can be in the response, or in an ErrorMessage object, see KB 2159861
-      const code = errorContent['@code'];
-      const field = errorContent['@field'];
-      const errorType = errorContent['@type'];
-      let message = errorContent['Message'];
+      const code = errorContent["@code"];
+      const field = errorContent["@field"];
+      const errorType = errorContent["@type"];
+      let message = errorContent["Message"];
       if (message) {
          // Clean up the message that might contain the code, field and a lot of whitespace.
          if (code) {
-            message = message.replace(code, '');
+            message = message.replace(code, "");
          }
          if (field) {
-            message = message.replace(field, '');
+            message = message.replace(field, "");
          }
          response.errorMessage = message.trim();
       }
       response.errorCode = code ? code : errorType;
       response.errorField = field;
-      response.errorType = errorContent['@type'];
+      response.errorType = errorContent["@type"];
    }
 
    /**
@@ -663,7 +731,11 @@ export class MIServiceCore extends CoreBase implements IMIService {
       return response;
    }
 
-   private getTypedValue(name: string, value: string, metadata: { [k: string]: IMIMetadataInfo }): any {
+   private getTypedValue(
+      name: string,
+      value: string,
+      metadata: { [k: string]: IMIMetadataInfo }
+   ): any {
       try {
          if (metadata) {
             const metaDataInfo = metadata[name];
@@ -710,8 +782,13 @@ export class MIServiceCore extends CoreBase implements IMIService {
             for (const record in fields) {
                if (fields.hasOwnProperty(record)) {
                   const entry = input.Field[record];
-                  const name = entry['@name'];
-                  const metaDataInfo = new MIMetadataInfo(name, entry['@length'], entry['@type'], entry['@description']);
+                  const name = entry["@name"];
+                  const metaDataInfo = new MIMetadataInfo(
+                     name,
+                     entry["@length"],
+                     entry["@type"],
+                     entry["@description"]
+                  );
                   metadataMap[name] = metaDataInfo;
                }
             }

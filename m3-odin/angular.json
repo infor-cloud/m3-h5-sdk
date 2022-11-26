@@ -169,35 +169,35 @@
          }
       },
       "@infor-up/m3-odin": {
-        "projectType": "library",
-        "root": "projects/infor-up/m3-odin",
-        "sourceRoot": "projects/infor-up/m3-odin/src",
-        "prefix": "lib",
-        "architect": {
-          "build": {
-            "builder": "@angular-devkit/build-angular:ng-packagr",
-            "options": {
-              "project": "projects/infor-up/m3-odin/ng-package.json"
+         "projectType": "library",
+         "root": "projects/infor-up/m3-odin",
+         "sourceRoot": "projects/infor-up/m3-odin/src",
+         "prefix": "lib",
+         "architect": {
+            "build": {
+               "builder": "@angular-devkit/build-angular:ng-packagr",
+               "options": {
+                  "project": "projects/infor-up/m3-odin/ng-package.json"
+               },
+               "configurations": {
+                  "production": {
+                     "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.prod.json"
+                  },
+                  "development": {
+                     "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.json"
+                  }
+               },
+               "defaultConfiguration": "production"
             },
-            "configurations": {
-              "production": {
-                "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.prod.json"
-              },
-              "development": {
-                "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.json"
-              }
-            },
-            "defaultConfiguration": "production"
-          },
-          "test": {
-            "builder": "@angular-devkit/build-angular:karma",
-            "options": {
-              "main": "projects/infor-up/m3-odin/src/test.ts",
-              "tsConfig": "projects/infor-up/m3-odin/tsconfig.spec.json",
-              "karmaConfig": "projects/infor-up/m3-odin/karma.conf.js"
+            "test": {
+               "builder": "@angular-devkit/build-angular:karma",
+               "options": {
+                  "main": "projects/infor-up/m3-odin/src/test.ts",
+                  "tsConfig": "projects/infor-up/m3-odin/tsconfig.spec.json",
+                  "karmaConfig": "projects/infor-up/m3-odin/karma.conf.js"
+               }
             }
-          }
-        }
+         }
       }
    },
    "schematics": {

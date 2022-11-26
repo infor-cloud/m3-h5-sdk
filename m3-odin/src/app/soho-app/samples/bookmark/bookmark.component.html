@@ -5,9 +5,25 @@
       <hr class="fieldset-hr" />
 
       <label for="ods-cuno" class="required">Customer number (CUNO)</label>
-      <input id="ods-cuno" name="ods-cuno" type="text" [(ngModel)]="CUNO" maxlength="10" aria-required="true" data-validate="required"
-         required>
-      <button type="button" class="btn-primary form-btn" soho-button="primary" (click)="onClickOpen()" [disabled]="!isEnabled()">Open</button>
+      <input
+         id="ods-cuno"
+         name="ods-cuno"
+         type="text"
+         [(ngModel)]="CUNO"
+         maxlength="10"
+         aria-required="true"
+         data-validate="required"
+         required
+      />
+      <button
+         type="button"
+         class="btn-primary form-btn"
+         soho-button="primary"
+         (click)="onClickOpen()"
+         [disabled]="!isEnabled()"
+      >
+         Open
+      </button>
    </div>
 
    <div *ngIf="controlInfos">
@@ -18,7 +34,10 @@
                <h1>Customer details</h1>
             </div>
          </div>
-         <odin-panel-detail columns="3" [formData]="controlInfos"></odin-panel-detail>
+         <odin-panel-detail
+            columns="3"
+            [formData]="controlInfos"
+         ></odin-panel-detail>
       </div>
    </div>
 </div>

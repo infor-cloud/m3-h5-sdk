@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { MIService, UserService } from '@infor-up/m3-odin-angular';
-import { SohoComponentsModule } from 'ids-enterprise-ng';
-import { CustomerSampleComponent } from './customer.component';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormsModule } from "@angular/forms";
+import { MIService, UserService } from "@infor-up/m3-odin-angular";
+import { SohoComponentsModule } from "ids-enterprise-ng";
+import { CustomerSampleComponent } from "./customer.component";
 
-describe('CustomerComponent', () => {
+describe("CustomerComponent", () => {
    let component: CustomerSampleComponent;
    let fixture: ComponentFixture<CustomerSampleComponent>;
 
@@ -12,9 +12,8 @@ describe('CustomerComponent', () => {
       TestBed.configureTestingModule({
          declarations: [CustomerSampleComponent],
          imports: [FormsModule, SohoComponentsModule],
-         providers: [MIService, UserService]
-      })
-         .compileComponents();
+         providers: [MIService, UserService],
+      }).compileComponents();
    }));
 
    beforeEach(() => {
@@ -23,7 +22,7 @@ describe('CustomerComponent', () => {
       fixture.detectChanges();
    });
 
-   it('should create', () => {
+   it("should create", () => {
       expect(component).toBeTruthy();
    });
 });

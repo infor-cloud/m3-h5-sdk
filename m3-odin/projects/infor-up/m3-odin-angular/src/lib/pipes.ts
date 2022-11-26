@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { FormatUtil } from '@infor-up/m3-odin';
+import { Pipe, PipeTransform } from "@angular/core";
+import { FormatUtil } from "@infor-up/m3-odin";
 
 /**
  * Converts M3 dates to JavaScript Date objects.
@@ -22,10 +22,10 @@ import { FormatUtil } from '@infor-up/m3-odin';
  *
  * @since 2.0.0
  */
-@Pipe({ name: 'm3date' })
+@Pipe({ name: "m3date" })
 export class DatePipe implements PipeTransform {
    transform(value: any, type: string): any {
-      if (type === 'fromString') {
+      if (type === "fromString") {
          return FormatUtil.parseDate(value);
       }
       return value;

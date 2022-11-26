@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CoreBase, IFormControlInfo } from '@infor-up/m3-odin';
+import { Component, Input, OnInit } from "@angular/core";
+import { CoreBase, IFormControlInfo } from "@infor-up/m3-odin";
 
 @Component({
-   selector: 'odin-panel-detail',
-   templateUrl: './panel-detail.component.html'
+   selector: "odin-panel-detail",
+   templateUrl: "./panel-detail.component.html",
 })
 export class PanelDetailSampleComponent extends CoreBase implements OnInit {
    @Input() formData: IFormControlInfo[];
@@ -18,7 +18,7 @@ export class PanelDetailSampleComponent extends CoreBase implements OnInit {
    private maxColumns = 12;
 
    constructor() {
-      super('PanelDetailSampleComponent');
+      super("PanelDetailSampleComponent");
    }
 
    ngOnInit(): void {
@@ -32,37 +32,42 @@ export class PanelDetailSampleComponent extends CoreBase implements OnInit {
       let columnsInRow = 1;
       switch (columnWidth) {
          case maxColumns: {
-            columnClass = 'twelve';
+            columnClass = "twelve";
             break;
          }
          case 6: {
-            columnClass = 'six';
+            columnClass = "six";
             columnsInRow = 2;
             break;
          }
          case 4: {
-            columnClass = 'four';
+            columnClass = "four";
             columnsInRow = 3;
             break;
          }
          case 3: {
-            columnClass = 'three';
+            columnClass = "three";
             columnsInRow = 4;
             break;
          }
          case 2: {
-            columnClass = 'two';
+            columnClass = "two";
             columnsInRow = 6;
             break;
          }
          case 1: {
-            columnClass = 'one';
+            columnClass = "one";
             columnsInRow = 12;
             break;
          }
          default: {
-            this.logWarning('The entered value for columns is not supported: ' + this.columns + '. Using max columns: ' + maxColumns);
-            columnClass = 'one';
+            this.logWarning(
+               "The entered value for columns is not supported: " +
+                  this.columns +
+                  ". Using max columns: " +
+                  maxColumns
+            );
+            columnClass = "one";
             columnsInRow = 12;
             break;
          }
@@ -71,7 +76,11 @@ export class PanelDetailSampleComponent extends CoreBase implements OnInit {
       this.createLoopCounters(rowSpan, columnsInRow, columnClass);
    }
 
-   private createLoopCounters(rows: number, columnsInRow: number, columnClass: string) {
+   private createLoopCounters(
+      rows: number,
+      columnsInRow: number,
+      columnClass: string
+   ) {
       this.rowCounter = Array(rows);
       this.columnCounter = Array(columnsInRow).fill(columnClass);
    }

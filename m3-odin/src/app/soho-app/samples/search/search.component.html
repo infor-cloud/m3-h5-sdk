@@ -5,9 +5,24 @@
       <hr class="fieldset-hr" />
 
       <label for="ods-query" class="required">Query</label>
-      <input id="ods-query" name="ods-query" type="text" [(ngModel)]="query" maxlength="256" aria-required="true" data-validate="required"
-         required>
-      <button class="btn-primary form-btn" soho-button="primary" (click)="onClickSearch()" [disabled]="!isEnabled()">Search</button>
+      <input
+         id="ods-query"
+         name="ods-query"
+         type="text"
+         [(ngModel)]="query"
+         maxlength="256"
+         aria-required="true"
+         data-validate="required"
+         required
+      />
+      <button
+         class="btn-primary form-btn"
+         soho-button="primary"
+         (click)="onClickSearch()"
+         [disabled]="!isEnabled()"
+      >
+         Search
+      </button>
    </div>
 
    <div *ngIf="results.length">
@@ -20,15 +35,15 @@
             <div class="two columns" *ngFor="let result of results">
                <div>
                   Name:
-                  <span>{{getValue(result, 1)}}</span>
+                  <span>{{ getValue(result, 1) }}</span>
                </div>
                <div>
                   Number:
-                  <span>{{getValue(result, 0)}}</span>
+                  <span>{{ getValue(result, 0) }}</span>
                </div>
                <div>
                   Status:
-                  <span>{{getValue(result, 2)}}</span>
+                  <span>{{ getValue(result, 2) }}</span>
                </div>
             </div>
          </div>

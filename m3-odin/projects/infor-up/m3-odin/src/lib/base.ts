@@ -1,5 +1,5 @@
-import { Log } from './log';
-import { IErrorState } from './types';
+import { Log } from "./log";
+import { IErrorState } from "./types";
 
 /**
  * Error state implementation.
@@ -58,8 +58,8 @@ export class CoreBase extends ErrorState {
     */
    constructor(typeName: string) {
       super();
-      this.logPrefix = '[' + typeName + '] ';
-      this.logDebug('constructor');
+      this.logPrefix = "[" + typeName + "] ";
+      this.logDebug("constructor");
    }
 
    /**

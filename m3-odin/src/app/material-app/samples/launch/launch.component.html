@@ -3,8 +3,22 @@
 <mat-divider></mat-divider>
 
 <mat-form-field>
-   <input matInput placeholder="Link" maxlength="maxLengthLink" [(ngModel)]="link" name="launch-link" />
+   <input
+      matInput
+      placeholder="Link"
+      maxlength="maxLengthLink"
+      [(ngModel)]="link"
+      name="launch-link"
+   />
 </mat-form-field>
-<button mat-raised-button color="primary" (click)="onClickLaunch()" [disabled]="!canLaunch()" class="inline-btn">Launch</button>
+<button
+   mat-raised-button
+   color="primary"
+   (click)="onClickLaunch()"
+   [disabled]="!canLaunch()"
+   class="inline-btn"
+>
+   Launch
+</button>
 
 <odin-sample-viewer sample="launch"></odin-sample-viewer>

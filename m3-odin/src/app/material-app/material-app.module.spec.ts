@@ -1,13 +1,13 @@
-import { MaterialAppModule } from './material-app.module';
+import { MaterialAppModule } from "./material-app.module";
 
-describe('MaterialAppModule', () => {
+describe("MaterialAppModule", () => {
    let materialAppModule: MaterialAppModule;
 
    beforeEach(() => {
       materialAppModule = new MaterialAppModule();
    });
 
-   it('should create an instance', () => {
+   it("should create an instance", () => {
       expect(materialAppModule).toBeTruthy();
    });
 });

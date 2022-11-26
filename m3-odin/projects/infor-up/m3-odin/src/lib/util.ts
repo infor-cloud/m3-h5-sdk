@@ -1,5 +1,4 @@
-
-import { INumberFormatOptions } from './types';
+import { INumberFormatOptions } from "./types";
 
 /**
  * Represents options for sort functions in the {@link ArrayUtil} class.
@@ -28,7 +27,6 @@ export interface ISortOptions {
  * @since 2.0.0
  */
 export class ArrayUtil {
-
    /**
     * Checks if an item exists in an array.
     * @returns True if an item exists.
@@ -47,15 +45,19 @@ export class ArrayUtil {
     * @param options Optional options for controlling the sorting.
     * @returns The sorted array.
     */
-   public static sortByProperty(array: any[], property: string, options?: ISortOptions): any[] {
+   public static sortByProperty(
+      array: any[],
+      property: string,
+      options?: ISortOptions
+   ): any[] {
       const ignoreCase = options && options.ignoreCase;
       return array.sort((x, y) => {
          const xProp = x[property];
          const yProp = y[property];
 
          // User concatenation instead of toString to avoid crashes for missing properties
-         const a = ignoreCase ? ('' + xProp).toLocaleLowerCase() : xProp;
-         const b = ignoreCase ? ('' + yProp).toLocaleLowerCase() : yProp;
+         const a = ignoreCase ? ("" + xProp).toLocaleLowerCase() : xProp;
+         const b = ignoreCase ? ("" + yProp).toLocaleLowerCase() : yProp;
 
          if (a > b) {
             return 1;
@@ -100,7 +102,10 @@ export class ArrayUtil {
     * @param predicate a predicate function that returns true for a matching item in the array
     * @returns the removed item or null if the item could not be found
     */
-   public static removeByPredicate<T>(array: T[], predicate: (item: T) => boolean): T {
+   public static removeByPredicate<T>(
+      array: T[],
+      predicate: (item: T) => boolean
+   ): T {
       for (let i = 0; i < array.length; i++) {
          if (predicate(array[i])) {
             return array.splice(i, 1)[0];
@@ -116,7 +121,10 @@ export class ArrayUtil {
     * @param predicate a predicate function that returns true for a matching item in the array
     * @returns the index of the item or -1 if the item could not be found
     */
-   public static indexByPredicate<T>(array: T[], predicate: (item: T) => boolean): number {
+   public static indexByPredicate<T>(
+      array: T[],
+      predicate: (item: T) => boolean
+   ): number {
       for (let i = 0; i < array.length; i++) {
          if (predicate(array[i])) {
             return i;
@@ -128,7 +136,11 @@ export class ArrayUtil {
    /**
     * Gets the index of an item in an array by matching the value of a specific property.
     */
-   public static indexByProperty(array: any[], name: string, value: any): number {
+   public static indexByProperty(
+      array: any[],
+      name: string,
+      value: any
+   ): number {
       if (array) {
          for (let i = 0; i < array.length; i++) {
             const item = array[i];
@@ -153,7 +165,10 @@ export class ArrayUtil {
    /**
     * Gets the item matching the predicate.
     */
-   public static itemByPredicate<T>(array: T[], predicate: (item: T) => Object) {
+   public static itemByPredicate<T>(
+      array: T[],
+      predicate: (item: T) => Object
+   ) {
       for (let i = 0; i < array.length; i++) {
          if (predicate(array[i])) {
             return array[i];
@@ -165,7 +180,10 @@ export class ArrayUtil {
    /**
     * Filters an array based on a predicate.
     */
-   public static filterByPredicate<T>(array: T[], predicate: (item: T) => Object): T[] {
+   public static filterByPredicate<T>(
+      array: T[],
+      predicate: (item: T) => Object
+   ): T[] {
       const target: T[] = [];
       for (let i = 0; i < array.length; i++) {
          if (predicate(array[i])) {
@@ -179,7 +197,11 @@ export class ArrayUtil {
     * Checks if an item exists in an array by matching the value of a specific property.
     * @ returns True if an item with the property and value exists.
     */
-   public static containsByProperty(array: any[], name: string, value: any): boolean {
+   public static containsByProperty(
+      array: any[],
+      name: string,
+      value: any
+   ): boolean {
       return this.indexByProperty(array, name, value) >= 0;
    }
 
@@ -234,7 +256,7 @@ export class ArrayUtil {
    public static move(array: any[], index: number, newIndex: number): void {
       if (newIndex >= array.length) {
          let k = newIndex - array.length;
-         while ((k--) + 1) {
+         while (k-- + 1) {
             array.push(undefined);
          }
       }
@@ -268,7 +290,7 @@ export class NumUtil {
    private static defaultSeparator: string = NumUtil.getLocaleSeparator();
 
    private static defaultOptions: INumberFormatOptions = {
-      separator: NumUtil.defaultSeparator
+      separator: NumUtil.defaultSeparator,
    };
 
    private static getLocaleSeparator(): string {
@@ -317,8 +339,7 @@ export class NumUtil {
       if (s) {
          try {
             return parseInt(s, 10);
-         } catch (e) {
-         }
+         } catch (e) {}
       }
       return defaultValue;
    }
@@ -336,14 +357,16 @@ export class NumUtil {
     */
    public static format(value: any, options?: INumberFormatOptions): string {
       let s = value.toString();
-      if ('' === s) {
+      if ("" === s) {
          return s;
       }
-      let separator = options ? options.separator : NumUtil.defaultOptions.separator;
+      let separator = options
+         ? options.separator
+         : NumUtil.defaultOptions.separator;
       if (!separator) {
          separator = NumUtil.defaultSeparator;
       }
-      s = s.replace('.', separator);
+      s = s.replace(".", separator);
       return s;
    }
 
@@ -353,10 +376,9 @@ export class NumUtil {
     * @param length The length of the string.
     */
    public static pad(num: number, length: number): string {
-      let s = num + '';
+      let s = num + "";
       while (s.length < length) {
-         s = '0' + s;
-
+         s = "0" + s;
       }
       return s;
    }
@@ -367,11 +389,15 @@ export class NumUtil {
     * @returns True if string contains only integers.
     */
    public static hasOnlyIntegers(s: string): boolean {
-      if (!s) { return false; }
+      if (!s) {
+         return false;
+      }
 
-      const digits = '1234567890';
+      const digits = "1234567890";
       for (let i = 0; i < s.length; i++) {
-         if (digits.indexOf(s.charAt(i)) === -1) { return false; }
+         if (digits.indexOf(s.charAt(i)) === -1) {
+            return false;
+         }
       }
 
       return true;
@@ -388,24 +414,27 @@ export class NumUtil {
  * @since 2.0.0
  */
 export class CoreUtil {
-   private static chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+   private static chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
    public static getUuid(prefix: string): string {
       /* eslint-disable no-bitwise */
-      return prefix + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) +
-         (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+      return (
+         prefix +
+         (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) +
+         (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+      );
       /* eslint-enable no-bitwise */
    }
 
    public static hasValue(anyObject: any): boolean {
-      if (typeof anyObject !== 'undefined') {
+      if (typeof anyObject !== "undefined") {
          return anyObject != null;
       }
       return false;
    }
 
    public static isUndefined(anyObject: any): boolean {
-      return typeof anyObject === 'undefined';
+      return typeof anyObject === "undefined";
    }
 
    /**
@@ -414,7 +443,7 @@ export class CoreUtil {
     */
    public static random(stringLength: number = 16): string {
       const chars = CoreUtil.chars;
-      let randomstring = '';
+      let randomstring = "";
       for (let i = 0; i < stringLength; i++) {
          const rnum = Math.floor(Math.random() * chars.length);
          randomstring += chars.substring(rnum, rnum + 1);
@@ -474,17 +503,17 @@ export class StringUtil {
     * @returns The trimmed value.
     */
    public static trimEnd(value: string) {
-      return value.replace(/\s+$/, '');
+      return value.replace(/\s+$/, "");
    }
 
    public static format(...args: any[]): string {
-      let stringValue = 'missing';
+      let stringValue = "missing";
       try {
          stringValue = args[0];
          const params = Array.prototype.slice.call(args, 1);
          stringValue = stringValue.replace(/{(\d+)}/g, function (): any {
             const value = params[arguments[1]];
-            return (typeof value !== 'undefined' ? value : arguments[0]);
+            return typeof value !== "undefined" ? value : arguments[0];
          });
       } catch (ex) {
          // TODO Log?
@@ -507,8 +536,8 @@ export class HttpUtil {
    private static queryMap: { [key: string]: string };
    private static jsonStart = /^\[|^\{(?!\{)/;
    private static jsonEnds = {
-      '[': /]$/,
-      '{': /}$/
+      "[": /]$/,
+      "{": /}$/,
    };
 
    /**
@@ -525,7 +554,7 @@ export class HttpUtil {
     * @returns True if the hostname is localhost
     */
    public static isLocalhost(): boolean {
-      return window.location.hostname === 'localhost';
+      return window.location.hostname === "localhost";
    }
 
    /**
@@ -562,21 +591,21 @@ export class HttpUtil {
    }
 
    /**
-   * Parses a query string to a parameter map.
-   *
-   * Note that this function does not support multiple parameters with the same name.
-   *
-   * @param query A query string.
-   * @returns A parameter map.
-   */
+    * Parses a query string to a parameter map.
+    *
+    * Note that this function does not support multiple parameters with the same name.
+    *
+    * @param query A query string.
+    * @returns A parameter map.
+    */
    public static parseQuery(query: string): { [key: string]: string } {
-      if (query.indexOf('?') === 0) {
+      if (query.indexOf("?") === 0) {
          query = query.substring(1);
       }
       let match;
       const pl = /\+/g, // Regex for replacing addition symbol with a space
          search = /([^&=]+)=?([^&]*)/g,
-         decode = (s: string) => decodeURIComponent(s.replace(pl, ' '));
+         decode = (s: string) => decodeURIComponent(s.replace(pl, " "));
 
       const parameters = {};
       while ((match = search.exec(query))) {
@@ -600,13 +629,13 @@ export class HttpUtil {
          return url1;
       }
       const end = url1.length - 1;
-      if (url1.charAt(end) === '/') {
+      if (url1.charAt(end) === "/") {
          url1 = url1.substring(0, end);
       }
-      if (url2.charAt(0) === '/') {
+      if (url2.charAt(0) === "/") {
          url2 = url2.substring(1);
       }
-      return url1 + '/' + url2;
+      return url1 + "/" + url2;
    }
 
    /**
@@ -616,15 +645,15 @@ export class HttpUtil {
     * @returns A query string with encoded values.
     */
    public static toQuery(params: any): string {
-      let query = '';
+      let query = "";
       for (const key of Object.keys(params)) {
          if (query.length > 0) {
-            query += '&';
+            query += "&";
          }
          let value = params[key];
-         value = value != null ? value.toString() : '';
+         value = value != null ? value.toString() : "";
          if (value.length > 0) {
-            query += key + '=' + encodeURIComponent(value);
+            query += key + "=" + encodeURIComponent(value);
          } else {
             query += key;
          }

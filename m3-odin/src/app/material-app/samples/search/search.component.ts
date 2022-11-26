@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
-import { CoreBase, IFormResponse, ISearchRequest, ListRow } from '@infor-up/m3-odin';
-import { FormService } from '@infor-up/m3-odin-angular';
+import { Component } from "@angular/core";
+import {
+   CoreBase,
+   IFormResponse,
+   ISearchRequest,
+   ListRow,
+} from "@infor-up/m3-odin";
+import { FormService } from "@infor-up/m3-odin-angular";
 
 @Component({
-   templateUrl: './search.component.html'
+   templateUrl: "./search.component.html",
 })
 export class SearchSampleComponent extends CoreBase {
    canExecute = true;
@@ -11,7 +16,7 @@ export class SearchSampleComponent extends CoreBase {
    results: ListRow[] = [];
 
    constructor(private formService: FormService) {
-      super('SearchSampleComponent');
+      super("SearchSampleComponent");
    }
 
    isEnabled(): boolean {
@@ -19,7 +24,7 @@ export class SearchSampleComponent extends CoreBase {
    }
 
    onClickSearch(): void {
-      this.logDebug('onClickSearch: ' + this.query);
+      this.logDebug("onClickSearch: " + this.query);
       this.canExecute = false;
       this.search();
    }
@@ -30,17 +35,20 @@ export class SearchSampleComponent extends CoreBase {
 
    private search(): void {
       const request = {
-         program: 'MMS001',
+         program: "MMS001",
          query: this.query,
-         sortingOrder: '1',
-         view: 'STD01-01'
+         sortingOrder: "1",
+         view: "STD01-01",
       } as ISearchRequest;
 
-      this.formService.executeSearch(request).subscribe((r) => {
-         this.onResponse(r);
-      }, (r) => {
-         this.onError(r);
-      });
+      this.formService.executeSearch(request).subscribe(
+         (r) => {
+            this.onResponse(r);
+         },
+         (r) => {
+            this.onError(r);
+         }
+      );
    }
 
    private onResponse(response: IFormResponse): void {

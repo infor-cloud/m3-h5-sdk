@@ -1,5 +1,10 @@
-import { Observable } from 'rxjs';
-import { IFormRequest, IFormResponse, ITranslationRequest, ITranslationResponse } from './base';
+import { Observable } from "rxjs";
+import {
+   IFormRequest,
+   IFormResponse,
+   ITranslationRequest,
+   ITranslationResponse,
+} from "./base";
 
 /**
  * Represents an M3 bookmark.
@@ -40,7 +45,6 @@ import { IFormRequest, IFormResponse, ITranslationRequest, ITranslationResponse 
  *@since 2.0.0
  */
 export interface IBookmark {
-
    /**
     * Gets or sets the name of the bookmarked program.
     */
@@ -232,7 +236,7 @@ export interface ISearchRequest {
     *
     * Example: { 'W1OBKV': 'TEST', 'W2OBKV': ' ' }
     */
-   startPanelFields?: { [key: string]: string; };
+   startPanelFields?: { [key: string]: string };
 }
 
 /**
@@ -321,5 +325,9 @@ export interface IFormService {
     * @param params Optional additional parameters.
     * @returns An observable that will be completed with a form response.
     */
-   executeCommand(commandType: string, commandValue?: string, params?: any): Observable<IFormResponse>;
+   executeCommand(
+      commandType: string,
+      commandValue?: string,
+      params?: any
+   ): Observable<IFormResponse>;
 }

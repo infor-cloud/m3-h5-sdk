@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { M3OdinModule } from '@infor-up/m3-odin-angular';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MaterialAppModule } from './material-app/material-app.module';
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { M3OdinModule } from "@infor-up/m3-odin-angular";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { MaterialAppModule } from "./material-app/material-app.module";
 
 @NgModule({
    declarations: [AppComponent],
@@ -13,9 +13,9 @@ import { MaterialAppModule } from './material-app/material-app.module';
       FormsModule,
       M3OdinModule,
       AppRoutingModule,
-      MaterialAppModule
+      MaterialAppModule,
    ],
    providers: [],
-   bootstrap: [AppComponent]
+   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

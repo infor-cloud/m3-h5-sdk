@@ -1,8 +1,18 @@
 <div *ngFor="let row of rowCounter; let i = index" class="form-responsive row">
-   <div *ngFor="let column of columnCounter; let j = index" [ngClass]="column" class="columns">
+   <div
+      *ngFor="let column of columnCounter; let j = index"
+      [ngClass]="column"
+      class="columns"
+   >
       <div *ngIf="formData[i * columns + j] as info" class="field">
-         <label for="{{info.control.id}}">{{info.label.value}}</label>
-         <input id="{{info.control.id}}" name="{{info.control.name}}" type="text" [(ngModel)]="info.control.value" readonly>
+         <label for="{{ info.control.id }}">{{ info.label.value }}</label>
+         <input
+            id="{{ info.control.id }}"
+            name="{{ info.control.name }}"
+            type="text"
+            [(ngModel)]="info.control.value"
+            readonly
+         />
       </div>
    </div>
 </div>

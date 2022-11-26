@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { IMIRequest } from './types';
+import { Observable } from "rxjs";
+import { IMIRequest } from "./types";
 
 /**
  * Defines the possible data types for an MI value (String, Numeric or Date).
@@ -22,7 +22,7 @@ export enum MIDataType {
    /**
     * Date data type.
     */
-   Date
+   Date,
 }
 
 /**
@@ -38,12 +38,12 @@ export class MIConstants {
    /**
     * Gets the database date format for M3 API transactions (yyyyMMdd).
     */
-   public static readonly datePattern = 'yyyyMMdd';
+   public static readonly datePattern = "yyyyMMdd";
 
    /**
     * Gets the decimal separator for M3 API values (.).
     */
-   public static readonly decimalSeparator = '.';
+   public static readonly decimalSeparator = ".";
 }
 
 /**
@@ -150,7 +150,7 @@ export interface IMIMetadataMap {
 export interface IMIResponse {
    /**
     * Gets or sets an error.
-   */
+    */
    error?: any;
 
    /**
@@ -174,8 +174,8 @@ export interface IMIResponse {
    transaction?: string;
 
    /**
-   * Gets the first item in the items list. The item is of type [[MIRecord]].
-   */
+    * Gets the first item in the items list. The item is of type [[MIRecord]].
+    */
    item?: any;
 
    /**

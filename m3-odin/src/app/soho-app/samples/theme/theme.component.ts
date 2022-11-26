@@ -1,14 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
-import { UserService } from '@infor-up/m3-odin-angular';
-import { SohoMessageService, SohoPersonalizeDirective } from 'ids-enterprise-ng';
-import { first } from 'rxjs/operators';
+import { Component, ViewChild } from "@angular/core";
+import { UserService } from "@infor-up/m3-odin-angular";
+import {
+   SohoMessageService,
+   SohoPersonalizeDirective,
+} from "ids-enterprise-ng";
+import { first } from "rxjs/operators";
 
 @Component({
-   templateUrl: './theme.component.html'
+   templateUrl: "./theme.component.html",
 })
 export class ThemeSampleComponent {
-
-   @ViewChild(SohoPersonalizeDirective, { static: true }) personalize: SohoPersonalizeDirective;
+   @ViewChild(SohoPersonalizeDirective, { static: true })
+   personalize: SohoPersonalizeDirective;
    colors: SohoPersonalizationColors;
    themes: SohoTheme[];
 
@@ -29,7 +32,7 @@ export class ThemeSampleComponent {
    }
 
    set colorId(id: string) {
-      const color = this.colors[id]
+      const color = this.colors[id];
       if (color && color.value) {
          this.personalize.colors = {
             header: color.value,
@@ -38,7 +41,10 @@ export class ThemeSampleComponent {
       }
    }
 
-   constructor(private userService: UserService, private messageService: SohoMessageService) { }
+   constructor(
+      private userService: UserService,
+      private messageService: SohoMessageService
+   ) {}
 
    ngOnInit() {
       this.colors = this.personalize.personalizationColors();
@@ -51,19 +57,27 @@ export class ThemeSampleComponent {
       }
       try {
          this.fetchingContext = true;
-         const { theme } = await this.userService.getUserContext().pipe(first()).toPromise();
+         const { theme } = await this.userService
+            .getUserContext()
+            .pipe(first())
+            .toPromise();
          if (theme) {
             this.colorId = theme.toLowerCase();
          } else {
-            const ref = this.messageService.alert({
-               title: "Theme not detected",
-               message: "The 'theme' property may not be a part of the user context in some situations. See documentation for IUserContext.theme",
-               buttons: [{
-                  text: "OK",
-                  isDefault: true,
-                  click: () => ref.close(),
-               }],
-            }).open();
+            const ref = this.messageService
+               .alert({
+                  title: "Theme not detected",
+                  message:
+                     "The 'theme' property may not be a part of the user context in some situations. See documentation for IUserContext.theme",
+                  buttons: [
+                     {
+                        text: "OK",
+                        isDefault: true,
+                        click: () => ref.close(),
+                     },
+                  ],
+               })
+               .open();
          }
       } finally {
          this.fetchingContext = false;

@@ -1,4 +1,4 @@
-import { ArrayUtil } from './util';
+import { ArrayUtil } from "./util";
 
 /**
  * Interface for custom log appender callback functions.
@@ -45,7 +45,6 @@ export interface ILogAppender {
  * @since 2.0.0
  */
 export class Log {
-
    /**
     * Fatal log level. Severe errors that prevents the application from functioning.
     */
@@ -87,7 +86,14 @@ export class Log {
     */
    public static isConsoleLogEnabled = true;
 
-   private static prefixes: string[] = ['[FATAL]', '[ERROR]', '[WARNING]', '[INFO]', '[DEBUG]', '[TRACE]'];
+   private static prefixes: string[] = [
+      "[FATAL]",
+      "[ERROR]",
+      "[WARNING]",
+      "[INFO]",
+      "[DEBUG]",
+      "[TRACE]",
+   ];
    private static appenders: ILogAppender[] = [];
 
    /**
@@ -117,10 +123,17 @@ export class Log {
       const seconds = date.getSeconds();
       const ms = date.getMilliseconds();
 
-      const time = (hours < 10 ? '0' : '') + hours + ':' +
-         (minutes < 10 ? '0' : '') + minutes + ':' +
-         (seconds < 10 ? '0' : '') + seconds + ',' +
-         (ms < 10 ? '00' : (ms < 100 ? '0' : '') + ms);
+      const time =
+         (hours < 10 ? "0" : "") +
+         hours +
+         ":" +
+         (minutes < 10 ? "0" : "") +
+         minutes +
+         ":" +
+         (seconds < 10 ? "0" : "") +
+         seconds +
+         "," +
+         (ms < 10 ? "00" : (ms < 100 ? "0" : "") + ms);
 
       return time;
    }
@@ -131,25 +144,31 @@ export class Log {
     * @param ex An optional exception object.
     */
    public static getLogEntry(level: number, text: string, ex?: any) {
-      let logText = '[' + Log.getTime() + '] ' + this.prefixes[level] + ' ' + text;
+      let logText =
+         "[" + Log.getTime() + "] " + this.prefixes[level] + " " + text;
       if (ex) {
          const message = ex.message;
          const stack = ex.stack;
          if (stack) {
             if (message && stack.indexOf(message) < 0) {
-               logText += ' ' + message;
+               logText += " " + message;
             }
-            logText += ' ' + ex.stack;
+            logText += " " + ex.stack;
          } else if (message) {
-            logText += ' ' + message;
+            logText += " " + message;
          } else {
-            logText += ' ' + ex;
+            logText += " " + ex;
          }
       }
       return logText;
    }
 
-   private static log(currentLevel: number, level: number, text: string, ex?: any) {
+   private static log(
+      currentLevel: number,
+      level: number,
+      text: string,
+      ex?: any
+   ) {
       /* eslint-disable no-console */
       if (level <= currentLevel) {
          // Log to the console if it is enabled and exist in the current browser.
@@ -170,8 +189,7 @@ export class Log {
             for (let i = 0; i < Log.appenders.length; i++) {
                try {
                   Log.appenders[i](level, text, ex);
-               } catch (e) {
-               }
+               } catch (e) {}
             }
          }
       }

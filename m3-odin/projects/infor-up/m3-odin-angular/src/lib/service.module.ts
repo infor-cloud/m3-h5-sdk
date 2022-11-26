@@ -1,7 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { DatePipe } from './pipes';
-import { ApplicationService, FormService, IonApiService, MIService, UserService } from './service';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { DatePipe } from "./pipes";
+import {
+   ApplicationService,
+   FormService,
+   IonApiService,
+   MIService,
+   UserService,
+} from "./service";
 
 /**
  * Angular module for M3 Odin.
@@ -33,15 +39,15 @@ import { ApplicationService, FormService, IonApiService, MIService, UserService 
  * @since 2.0.0
  */
 @NgModule({
-   imports: [
-      CommonModule
+   imports: [CommonModule],
+   declarations: [DatePipe],
+   exports: [DatePipe],
+   providers: [
+      ApplicationService,
+      IonApiService,
+      MIService,
+      UserService,
+      FormService,
    ],
-   declarations: [
-      DatePipe
-   ],
-   exports: [
-      DatePipe
-   ],
-   providers: [ApplicationService, IonApiService, MIService, UserService, FormService]
 })
-export class M3OdinModule { }
+export class M3OdinModule {}
