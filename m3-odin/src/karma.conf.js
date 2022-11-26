@@ -9,7 +9,7 @@ module.exports = function (config) {
          require('karma-jasmine'),
          require('karma-chrome-launcher'),
          require('karma-jasmine-html-reporter'),
-         require('karma-coverage-istanbul-reporter'),
+         require('karma-coverage'),
          require('@angular-devkit/build-angular/plugins/karma')
       ],
       files: [
@@ -22,10 +22,21 @@ module.exports = function (config) {
       client: {
          clearContext: false // leave Jasmine Spec Runner output visible in browser
       },
-      coverageIstanbulReporter: {
-         dir: require('path').join(__dirname, 'coverage'),
-         reports: ['html', 'lcovonly'],
-         fixWebpackSourcePaths: true
+      coverageReporter: {
+         dir: require('path').join(__dirname, '../coverage/m3-odin-samples'),
+         reporters: [
+            { type: 'html' },
+            { type: 'text-summary' }
+         ],
+         fixWebpackSourcePaths: true,
+         check: {
+            global: {
+              statements: 10,
+              branches: 1,
+              functions: 3,
+              lines: 11
+            }
+         },
       },
       reporters: ['progress', 'kjhtml'],
       port: 9876,
@@ -33,6 +44,12 @@ module.exports = function (config) {
       logLevel: config.LOG_INFO,
       autoWatch: true,
       browsers: ['Chrome'],
-      singleRun: false
+      singleRun: true,
+      customLaunchers: {
+         ChromeHeadlessCI: {
+           base: 'ChromeHeadless',
+           flags: ['--no-sandbox'],
+         },
+       },   
    });
 };

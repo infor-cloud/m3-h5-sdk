@@ -142,4 +142,4 @@ jobs:
         run: |
           cd ./m3-odin
           npm ci
-          npm run ng -- test @infor-up/m3-odin --code-coverage --browsers=ChromeHeadlessCI
+          npm run ng -- test --code-coverage --browsers=ChromeHeadlessCI
