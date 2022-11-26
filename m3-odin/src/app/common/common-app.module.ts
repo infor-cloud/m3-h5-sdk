@@ -1,11 +1,11 @@
-import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
    DocumentViewerComponent,
    HighlightCodeDirective,
-} from "./document-viewer";
+} from './document-viewer';
 
 @NgModule({
    declarations: [DocumentViewerComponent, HighlightCodeDirective],

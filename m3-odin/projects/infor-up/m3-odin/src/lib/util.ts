@@ -1,4 +1,4 @@
-import { INumberFormatOptions } from "./types";
+import { INumberFormatOptions } from './types';
 
 /**
  * Represents options for sort functions in the {@link ArrayUtil} class.
@@ -56,8 +56,8 @@ export class ArrayUtil {
          const yProp = y[property];
 
          // User concatenation instead of toString to avoid crashes for missing properties
-         const a = ignoreCase ? ("" + xProp).toLocaleLowerCase() : xProp;
-         const b = ignoreCase ? ("" + yProp).toLocaleLowerCase() : yProp;
+         const a = ignoreCase ? ('' + xProp).toLocaleLowerCase() : xProp;
+         const b = ignoreCase ? ('' + yProp).toLocaleLowerCase() : yProp;
 
          if (a > b) {
             return 1;
@@ -356,7 +356,7 @@ export class NumUtil {
     */
    public static format(value: any, options?: INumberFormatOptions): string {
       let s = value.toString();
-      if ("" === s) {
+      if ('' === s) {
          return s;
       }
       let separator = options
@@ -365,7 +365,7 @@ export class NumUtil {
       if (!separator) {
          separator = NumUtil.defaultSeparator;
       }
-      s = s.replace(".", separator);
+      s = s.replace('.', separator);
       return s;
    }
 
@@ -375,9 +375,9 @@ export class NumUtil {
     * @param length The length of the string.
     */
    public static pad(num: number, length: number): string {
-      let s = num + "";
+      let s = num + '';
       while (s.length < length) {
-         s = "0" + s;
+         s = '0' + s;
       }
       return s;
    }
@@ -392,7 +392,7 @@ export class NumUtil {
          return false;
       }
 
-      const digits = "1234567890";
+      const digits = '1234567890';
       for (let i = 0; i < s.length; i++) {
          if (digits.indexOf(s.charAt(i)) === -1) {
             return false;
@@ -413,7 +413,7 @@ export class NumUtil {
  * @since 2.0.0
  */
 export class CoreUtil {
-   private static chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   private static chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
    public static getUuid(prefix: string): string {
       /* eslint-disable no-bitwise */
@@ -426,14 +426,14 @@ export class CoreUtil {
    }
 
    public static hasValue(anyObject: any): boolean {
-      if (typeof anyObject !== "undefined") {
+      if (typeof anyObject !== 'undefined') {
          return anyObject != null;
       }
       return false;
    }
 
    public static isUndefined(anyObject: any): boolean {
-      return typeof anyObject === "undefined";
+      return typeof anyObject === 'undefined';
    }
 
    /**
@@ -442,7 +442,7 @@ export class CoreUtil {
     */
    public static random(stringLength = 16): string {
       const chars = CoreUtil.chars;
-      let randomstring = "";
+      let randomstring = '';
       for (let i = 0; i < stringLength; i++) {
          const rnum = Math.floor(Math.random() * chars.length);
          randomstring += chars.substring(rnum, rnum + 1);
@@ -502,11 +502,11 @@ export class StringUtil {
     * @returns The trimmed value.
     */
    public static trimEnd(value: string) {
-      return value.replace(/\s+$/, "");
+      return value.replace(/\s+$/, '');
    }
 
    public static format(...args: any[]): string {
-      let stringValue = "missing";
+      let stringValue = 'missing';
       try {
          stringValue = args[0];
          const params = Array.prototype.slice.call(args, 1);
@@ -514,7 +514,7 @@ export class StringUtil {
             /{(\d+)}/g,
             function (...replaceArgs: any[]): any {
                const value = params[replaceArgs[1]];
-               return typeof value !== "undefined" ? value : replaceArgs[0];
+               return typeof value !== 'undefined' ? value : replaceArgs[0];
             }
          );
       } catch (ex) {
@@ -538,8 +538,8 @@ export class HttpUtil {
    private static queryMap: { [key: string]: string };
    private static jsonStart = /^\[|^\{(?!\{)/;
    private static jsonEnds = {
-      "[": /]$/,
-      "{": /}$/,
+      '[': /]$/,
+      '{': /}$/,
    };
 
    /**
@@ -556,7 +556,7 @@ export class HttpUtil {
     * @returns True if the hostname is localhost
     */
    public static isLocalhost(): boolean {
-      return window.location.hostname === "localhost";
+      return window.location.hostname === 'localhost';
    }
 
    /**
@@ -601,13 +601,13 @@ export class HttpUtil {
     * @returns A parameter map.
     */
    public static parseQuery(query: string): { [key: string]: string } {
-      if (query.indexOf("?") === 0) {
+      if (query.indexOf('?') === 0) {
          query = query.substring(1);
       }
       let match;
       const pl = /\+/g, // Regex for replacing addition symbol with a space
          search = /([^&=]+)=?([^&]*)/g,
-         decode = (s: string) => decodeURIComponent(s.replace(pl, " "));
+         decode = (s: string) => decodeURIComponent(s.replace(pl, ' '));
 
       const parameters = {};
       while ((match = search.exec(query))) {
@@ -631,13 +631,13 @@ export class HttpUtil {
          return url1;
       }
       const end = url1.length - 1;
-      if (url1.charAt(end) === "/") {
+      if (url1.charAt(end) === '/') {
          url1 = url1.substring(0, end);
       }
-      if (url2.charAt(0) === "/") {
+      if (url2.charAt(0) === '/') {
          url2 = url2.substring(1);
       }
-      return url1 + "/" + url2;
+      return url1 + '/' + url2;
    }
 
    /**
@@ -647,15 +647,15 @@ export class HttpUtil {
     * @returns A query string with encoded values.
     */
    public static toQuery(params: any): string {
-      let query = "";
+      let query = '';
       for (const key of Object.keys(params)) {
          if (query.length > 0) {
-            query += "&";
+            query += '&';
          }
          let value = params[key];
-         value = value != null ? value.toString() : "";
+         value = value != null ? value.toString() : '';
          if (value.length > 0) {
-            query += key + "=" + encodeURIComponent(value);
+            query += key + '=' + encodeURIComponent(value);
          } else {
             query += key;
          }

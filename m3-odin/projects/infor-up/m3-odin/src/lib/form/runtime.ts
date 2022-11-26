@@ -1,5 +1,5 @@
-import { ITranslationItem, ITranslationJob, ITranslationRequest } from "./base";
-import { FormParser, XmlUtil } from "./parser";
+import { ITranslationItem, ITranslationJob, ITranslationRequest } from './base';
+import { FormParser, XmlUtil } from './parser';
 
 /**
  * @hidden
@@ -9,14 +9,14 @@ export class Translator {
    /**
     * The name of the default language file (MVXCON).
     */
-   public static defaultFile = "MVXCON";
+   public static defaultFile = 'MVXCON';
 
    private static languages = {};
 
    public translate(request: ITranslationRequest): ITranslationJob {
       const language = request.language;
       const cache = this.getLanguage(language);
-      let constants = "";
+      let constants = '';
       const items = request.items;
       for (let i = 0; i < items.length; i++) {
          const item: ITranslationItem = items[i];
@@ -33,7 +33,7 @@ export class Translator {
                   item.file = Translator.defaultFile;
                }
                if (constants.indexOf(key) < 0) {
-                  constants += key + ",";
+                  constants += key + ',';
                }
             }
          }
@@ -52,8 +52,8 @@ export class Translator {
             LANC: language,
             CONSTANTS: constants,
          },
-         commandType: "FNC",
-         commandValue: "TRANSLATE",
+         commandType: 'FNC',
+         commandValue: 'TRANSLATE',
       };
 
       return job;
@@ -66,15 +66,15 @@ export class Translator {
          return;
       }
 
-      const nodes = document.getElementsByTagName("Text");
+      const nodes = document.getElementsByTagName('Text');
       if (!nodes) {
          return;
       }
 
       for (let i = 0; i < nodes.length; i++) {
          const node = nodes[i];
-         const file = XmlUtil.getAttribute(node, "file");
-         const key = XmlUtil.getAttribute(node, "key");
+         const file = XmlUtil.getAttribute(node, 'file');
+         const key = XmlUtil.getAttribute(node, 'key');
          const text = node.textContent;
          this.updateItem(job.items, job.language, file, key, text);
       }
@@ -84,7 +84,7 @@ export class Translator {
       if (!item.file) {
          item.file = Translator.defaultFile;
       }
-      return item.file + ":" + item.key;
+      return item.file + ':' + item.key;
    }
 
    private addToCache(language: string, item: ITranslationItem) {

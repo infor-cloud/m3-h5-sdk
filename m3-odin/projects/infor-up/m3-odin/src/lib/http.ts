@@ -1,7 +1,7 @@
-import { AsyncSubject, Observable } from "rxjs";
-import { CoreBase } from "./base";
-import { IHttpRequest, IHttpResponse, IHttpService } from "./types";
-import { HttpUtil } from "./util";
+import { AsyncSubject, Observable } from 'rxjs';
+import { CoreBase } from './base';
+import { IHttpRequest, IHttpResponse, IHttpService } from './types';
+import { HttpUtil } from './util';
 
 /**
  * Basic implementation of an HTTP serice.
@@ -16,19 +16,19 @@ import { HttpUtil } from "./util";
  */
 export class AjaxHttpService extends CoreBase implements IHttpService {
    constructor() {
-      super("AjaxHttpService");
+      super('AjaxHttpService');
    }
 
    execute(request: IHttpRequest): Observable<IHttpResponse> {
       const subject = new AsyncSubject<IHttpResponse>();
       const url = request.url;
-      this.logDebug("execute: " + url);
+      this.logDebug('execute: ' + url);
 
       // TODO Decide if the response type should be set on the request or not...
 
       try {
          const method = request.method;
-         const responseType = "";
+         const responseType = '';
          const x = new XMLHttpRequest();
          x.open(method, url, true);
          x.responseType = responseType as XMLHttpRequestResponseType;
@@ -45,7 +45,7 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
          };
          x.onreadystatechange = onreadystatechange;
 
-         if (method === "GET") {
+         if (method === 'GET') {
             x.send();
          } else {
             x.send(request.body);
@@ -70,29 +70,29 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
 
       if (x) {
          status = x.status;
-         contentType = x.getResponseHeader("Content-Type");
+         contentType = x.getResponseHeader('Content-Type');
          body = x.responseText;
       } else {
          status = 500;
-         body = "";
-         statusText = "Exception";
-         contentType = "";
+         body = '';
+         statusText = 'Exception';
+         contentType = '';
       }
 
-      this.logDebug("onResponse: Status " + status + " URL " + request.url);
+      this.logDebug('onResponse: Status ' + status + ' URL ' + request.url);
 
       const isSuccess = HttpUtil.isSuccess(status);
       if (isSuccess) {
          const bodyText = body;
          const isJson =
-            (contentType && contentType.indexOf("application/json") >= 0) ||
+            (contentType && contentType.indexOf('application/json') >= 0) ||
             (bodyText && HttpUtil.isJsonLike(bodyText));
          if (isJson) {
             try {
                body = JSON.parse(bodyText);
             } catch (ex) {
                this.logError(
-                  "onResponse: Failed to parse JSON response for URL " + url,
+                  'onResponse: Failed to parse JSON response for URL ' + url,
                   ex
                );
             }

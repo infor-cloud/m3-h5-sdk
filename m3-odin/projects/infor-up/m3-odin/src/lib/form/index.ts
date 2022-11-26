@@ -1,5 +1,5 @@
-export * from "./types";
-export * from "./elements";
+export * from './types';
+export * from './elements';
 export {
    IFormRequest,
    IFormResponse,
@@ -7,5 +7,5 @@ export {
    ITranslationJob,
    ITranslationRequest,
    ITranslationResponse,
-} from "./base";
-export { FormServiceCore } from "./service";
+} from './base';
+export { FormServiceCore } from './service';

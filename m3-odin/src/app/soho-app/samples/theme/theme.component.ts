@@ -1,13 +1,13 @@
-import { Component, ViewChild } from "@angular/core";
-import { UserService } from "@infor-up/m3-odin-angular";
+import { Component, ViewChild } from '@angular/core';
+import { UserService } from '@infor-up/m3-odin-angular';
 import {
    SohoMessageService,
    SohoPersonalizeDirective,
-} from "ids-enterprise-ng";
-import { first } from "rxjs/operators";
+} from 'ids-enterprise-ng';
+import { first } from 'rxjs/operators';
 
 @Component({
-   templateUrl: "./theme.component.html",
+   templateUrl: './theme.component.html',
 })
 export class ThemeSampleComponent {
    @ViewChild(SohoPersonalizeDirective, { static: true })
@@ -17,7 +17,7 @@ export class ThemeSampleComponent {
 
    fetchingContext = false;
 
-   private _colorId = "default";
+   private _colorId = 'default';
 
    get themeId() {
       return this.personalize.currentTheme.id;
@@ -66,12 +66,12 @@ export class ThemeSampleComponent {
          } else {
             const ref = this.messageService
                .alert({
-                  title: "Theme not detected",
+                  title: 'Theme not detected',
                   message:
                      "The 'theme' property may not be a part of the user context in some situations. See documentation for IUserContext.theme",
                   buttons: [
                      {
-                        text: "OK",
+                        text: 'OK',
                         isDefault: true,
                         click: () => ref.close(),
                      },

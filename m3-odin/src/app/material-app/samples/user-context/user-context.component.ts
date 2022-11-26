@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
-import { ArrayUtil, CoreBase, IUserContext } from "@infor-up/m3-odin";
-import { UserService, MIService } from "@infor-up/m3-odin-angular";
+import { Component } from '@angular/core';
+import { ArrayUtil, CoreBase, IUserContext } from '@infor-up/m3-odin';
+import { UserService, MIService } from '@infor-up/m3-odin-angular';
 
 interface IKeyValue {
    key: string;
@@ -8,7 +8,7 @@ interface IKeyValue {
 }
 
 @Component({
-   templateUrl: "./user-context.component.html",
+   templateUrl: './user-context.component.html',
 })
 export class UserContextSampleComponent extends CoreBase {
    userContext = {} as IUserContext;
@@ -18,15 +18,15 @@ export class UserContextSampleComponent extends CoreBase {
    userNameService: string;
 
    constructor(private miService: MIService, private userService: UserService) {
-      super("UserSampleComponent");
+      super('UserSampleComponent');
    }
 
    onClickLoad(): void {
-      this.logInfo("onClickLoad");
+      this.logInfo('onClickLoad');
       this.userService
          .getUserContext()
          .subscribe((userContext: IUserContext) => {
-            this.logInfo("onClickLoad: Received user context");
+            this.logInfo('onClickLoad: Received user context');
             this.userContext = userContext;
             this.sortedValues = this.createSortedValues();
          });
@@ -37,11 +37,11 @@ export class UserContextSampleComponent extends CoreBase {
       const values = [];
       for (const key of Object.keys(userContext)) {
          let value = userContext[key];
-         if (typeof value !== "string") {
+         if (typeof value !== 'string') {
             value = JSON.stringify(value);
          }
          values.push({ key: key, value: value });
       }
-      return ArrayUtil.sortByProperty(values, "key");
+      return ArrayUtil.sortByProperty(values, 'key');
    }
 }

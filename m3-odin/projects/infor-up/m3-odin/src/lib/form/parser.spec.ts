@@ -1,15 +1,15 @@
-import { FormParser } from "./parser";
+import { FormParser } from './parser';
 
 /*
  * TODO: This isn't a complete test spec for FormParser!!!!
  * It's currently only there to increase coverage.
  */
-describe("FormParser", () => {
+describe('FormParser', () => {
    beforeEach(() => {
-      FormParser["counter"] = 0;
+      FormParser['counter'] = 0;
    });
 
-   it("should parse aps450 xml", () => {
+   it('should parse aps450 xml', () => {
       const formResponse = FormParser.parse(aps450Content);
       expect(formResponse.counter).toBe(1);
    });

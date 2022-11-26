@@ -1,15 +1,15 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { CoreBase, IMIRequest, IMIResponse } from "@infor-up/m3-odin";
-import { MIService, UserService } from "@infor-up/m3-odin-angular";
+import { SelectionModel } from '@angular/cdk/collections';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { CoreBase, IMIRequest, IMIResponse } from '@infor-up/m3-odin';
+import { MIService, UserService } from '@infor-up/m3-odin-angular';
 
 @Component({
-   templateUrl: "./customer.component.html",
-   styleUrls: ["./customer.component.css"],
+   templateUrl: './customer.component.html',
+   styleUrls: ['./customer.component.css'],
 })
 export class CustomerSampleComponent
    extends CoreBase
@@ -18,7 +18,7 @@ export class CustomerSampleComponent
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
 
-   displayedColumns = ["select", "CUNO", "CUNM", "TOWN", "CUA1"];
+   displayedColumns = ['select', 'CUNO', 'CUNM', 'TOWN', 'CUA1'];
    dataSource = new MatTableDataSource<any>([]);
    selection = new SelectionModel<any>(false);
    detailItem: any;
@@ -33,7 +33,7 @@ export class CustomerSampleComponent
       private userService: UserService,
       private snackBar: MatSnackBar
    ) {
-      super("CustomerSampleComponent");
+      super('CustomerSampleComponent');
    }
 
    ngOnInit() {
@@ -61,9 +61,9 @@ export class CustomerSampleComponent
       this.userService.getUserContext().subscribe(
          (context) => {
             const request: IMIRequest = {
-               program: "CRS610MI",
-               transaction: "LstByNumber",
-               outputFields: ["CUNO", "CUNM", "TOWN", "CUA1"],
+               program: 'CRS610MI',
+               transaction: 'LstByNumber',
+               outputFields: ['CUNO', 'CUNM', 'TOWN', 'CUA1'],
                maxReturnedRecords: this.maxRecords,
             };
 
@@ -73,19 +73,19 @@ export class CustomerSampleComponent
                      this.items = response.items;
                      this.setItems();
                   } else {
-                     this.handleError("Failed to list items");
+                     this.handleError('Failed to list items');
                   }
                   this.setBusy(false);
                },
                (error) => {
                   this.setBusy(false);
-                  this.handleError("Failed to list items", error);
+                  this.handleError('Failed to list items', error);
                }
             );
          },
          (error) => {
             this.setBusy(false);
-            this.handleError("Failed to get user context", error);
+            this.handleError('Failed to get user context', error);
          }
       );
    }
@@ -105,8 +105,8 @@ export class CustomerSampleComponent
    onUpdate() {
       const detailItem = this.detailItem;
       const request: IMIRequest = {
-         program: "CRS610MI",
-         transaction: "ChgBasicData",
+         program: 'CRS610MI',
+         transaction: 'ChgBasicData',
          record: detailItem,
       };
       this.setBusy(true);
@@ -117,30 +117,30 @@ export class CustomerSampleComponent
                this.refreshTableItem();
             } else {
                this.setBusy(false);
-               this.handleError("Failed to update item");
+               this.handleError('Failed to update item');
             }
          },
          (error) => {
             this.setBusy(false);
-            this.handleError("Failed to update item", error);
+            this.handleError('Failed to update item', error);
          }
       );
    }
 
    private getDetails(selectedCustomer: any) {
       const request: IMIRequest = {
-         program: "CRS610MI",
-         transaction: "GetBasicData",
+         program: 'CRS610MI',
+         transaction: 'GetBasicData',
          record: selectedCustomer,
          outputFields: [
-            "CUNM",
-            "CUNO",
-            "TOWN",
-            "CSCD",
-            "CUA1",
-            "CUA2",
-            "CUA3",
-            "CUA4",
+            'CUNM',
+            'CUNO',
+            'TOWN',
+            'CSCD',
+            'CUA1',
+            'CUA2',
+            'CUA3',
+            'CUA4',
          ],
       };
       this.setBusy(true);
@@ -151,13 +151,13 @@ export class CustomerSampleComponent
                this.detailItem = response.item;
             } else {
                this.detailItem = undefined;
-               this.handleError("Failed to get details");
+               this.handleError('Failed to get details');
             }
          },
          (error) => {
             this.setBusy(false);
             this.detailItem = undefined;
-            this.handleError("Failed to get details", error);
+            this.handleError('Failed to get details', error);
          }
       );
    }
@@ -180,12 +180,12 @@ export class CustomerSampleComponent
    }
 
    private handleError(message: string, error?: any) {
-      this.logError(message, error ? "- Error: " + JSON.stringify(error) : "");
+      this.logError(message, error ? '- Error: ' + JSON.stringify(error) : '');
       this.snackBar.open(
-         "An error occured. " +
+         'An error occured. ' +
             message +
-            ". More details might be available in the browser console.",
-         "Close",
+            '. More details might be available in the browser console.',
+         'Close',
          { duration: 5000 }
       );
    }

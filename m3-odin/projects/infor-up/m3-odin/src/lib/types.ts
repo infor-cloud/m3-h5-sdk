@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 /**
  * Represents an HTTP request.
@@ -28,7 +28,7 @@ export interface IHttpRequest {
    /**
     * Gets or sets the expected response type.
     */
-   responseType?: "arraybuffer" | "blob" | "json" | "text";
+   responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
 
    /**
     * Gets or sets requests headers.

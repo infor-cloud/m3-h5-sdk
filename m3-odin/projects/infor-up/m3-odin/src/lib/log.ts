@@ -1,4 +1,4 @@
-import { ArrayUtil } from "./util";
+import { ArrayUtil } from './util';
 
 /**
  * Interface for custom log appender callback functions.
@@ -87,12 +87,12 @@ export class Log {
    public static isConsoleLogEnabled = true;
 
    private static prefixes: string[] = [
-      "[FATAL]",
-      "[ERROR]",
-      "[WARNING]",
-      "[INFO]",
-      "[DEBUG]",
-      "[TRACE]",
+      '[FATAL]',
+      '[ERROR]',
+      '[WARNING]',
+      '[INFO]',
+      '[DEBUG]',
+      '[TRACE]',
    ];
    private static appenders: ILogAppender[] = [];
 
@@ -124,16 +124,16 @@ export class Log {
       const ms = date.getMilliseconds();
 
       const time =
-         (hours < 10 ? "0" : "") +
+         (hours < 10 ? '0' : '') +
          hours +
-         ":" +
-         (minutes < 10 ? "0" : "") +
+         ':' +
+         (minutes < 10 ? '0' : '') +
          minutes +
-         ":" +
-         (seconds < 10 ? "0" : "") +
+         ':' +
+         (seconds < 10 ? '0' : '') +
          seconds +
-         "," +
-         (ms < 10 ? "00" : (ms < 100 ? "0" : "") + ms);
+         ',' +
+         (ms < 10 ? '00' : (ms < 100 ? '0' : '') + ms);
 
       return time;
    }
@@ -145,19 +145,19 @@ export class Log {
     */
    public static getLogEntry(level: number, text: string, ex?: any) {
       let logText =
-         "[" + Log.getTime() + "] " + this.prefixes[level] + " " + text;
+         '[' + Log.getTime() + '] ' + this.prefixes[level] + ' ' + text;
       if (ex) {
          const message = ex.message;
          const stack = ex.stack;
          if (stack) {
             if (message && stack.indexOf(message) < 0) {
-               logText += " " + message;
+               logText += ' ' + message;
             }
-            logText += " " + ex.stack;
+            logText += ' ' + ex.stack;
          } else if (message) {
-            logText += " " + message;
+            logText += ' ' + message;
          } else {
-            logText += " " + ex;
+            logText += ' ' + ex;
          }
       }
       return logText;

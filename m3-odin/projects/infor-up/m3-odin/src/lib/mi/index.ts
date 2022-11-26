@@ -1,4 +1,4 @@
-export { IMIOptions, IMIRequest, INameValue } from "./types";
+export { IMIOptions, IMIRequest, INameValue } from './types';
 export {
    MIConstants,
    MIDataType,
@@ -6,5 +6,5 @@ export {
    IMIMetadataMap,
    IMIResponse,
    IMIService,
-} from "./base";
-export { MIRecord, MIServiceCore } from "./runtime";
+} from './base';
+export { MIRecord, MIServiceCore } from './runtime';

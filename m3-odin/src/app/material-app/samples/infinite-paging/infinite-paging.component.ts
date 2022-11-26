@@ -1,19 +1,19 @@
-import { CollectionViewer, DataSource } from "@angular/cdk/collections";
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import {
    ArrayUtil,
    CoreBase,
    IMIRequest,
    IMIResponse,
-} from "@infor-up/m3-odin";
-import { MIService } from "@infor-up/m3-odin-angular";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { catchError, finalize, tap } from "rxjs/operators";
+} from '@infor-up/m3-odin';
+import { MIService } from '@infor-up/m3-odin-angular';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs/operators';
 
 @Component({
-   templateUrl: "./infinite-paging.component.html",
-   styleUrls: ["./infinite-paging.component.css"],
+   templateUrl: './infinite-paging.component.html',
+   styleUrls: ['./infinite-paging.component.css'],
 })
 export class InfinitePagingSampleComponent
    extends CoreBase
@@ -21,12 +21,12 @@ export class InfinitePagingSampleComponent
 {
    @ViewChild(MatPaginator) paginator: MatPaginator;
 
-   displayedColumns = ["CUNO", "CUNM", "STAT", "PHNO", "YREF"];
+   displayedColumns = ['CUNO', 'CUNM', 'STAT', 'PHNO', 'YREF'];
    dataSource: CustomerDataSource;
    maxRecords = 50;
 
    constructor(private miService: MIService) {
-      super("InfinitePagingSampleComponent");
+      super('InfinitePagingSampleComponent');
    }
 
    ngOnInit(): void {
@@ -57,7 +57,7 @@ export class CustomerDataSource extends CoreBase implements DataSource<any> {
    isLoading = this.loadingSubject.asObservable();
 
    constructor(private miService: MIService, private maxRecords: number) {
-      super("CustomerDataSource");
+      super('CustomerDataSource');
    }
 
    connect(collectionViewer: CollectionViewer): Observable<any[]> {
@@ -104,15 +104,15 @@ export class CustomerDataSource extends CoreBase implements DataSource<any> {
 
    private loadData() {
       if (this.endOfRecords) {
-         this.logInfo("No more records to fetch.");
+         this.logInfo('No more records to fetch.');
          return;
       }
       this.loadingSubject.next(true);
 
       const request: IMIRequest = {
-         program: "CRS610MI",
-         transaction: "LstByNumber",
-         outputFields: ["CUNO", "CUNM", "STAT", "PHNO", "YREF"],
+         program: 'CRS610MI',
+         transaction: 'LstByNumber',
+         outputFields: ['CUNO', 'CUNM', 'STAT', 'PHNO', 'YREF'],
          maxReturnedRecords: this.maxRecords,
          record: { CUNO: this.lastRecord },
       };
@@ -138,9 +138,9 @@ export class CustomerDataSource extends CoreBase implements DataSource<any> {
    private getTotalCount() {
       this.loadingSubject.next(true);
       const request: IMIRequest = {
-         program: "CRS610MI",
-         transaction: "LstByNumber",
-         outputFields: ["CUNO"],
+         program: 'CRS610MI',
+         transaction: 'LstByNumber',
+         outputFields: ['CUNO'],
          maxReturnedRecords: 0, // Get all records
       };
       this.miService

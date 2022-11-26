@@ -1,5 +1,5 @@
-import { Observable } from "rxjs";
-import { IErrorState, INumberFormatOptions } from "../types";
+import { Observable } from 'rxjs';
+import { IErrorState, INumberFormatOptions } from '../types';
 
 /**
  * Defines user context values for an M3 user. Most values are from MNS150.

@@ -3,7 +3,7 @@ import {
    FormResponse,
    ITranslationItem,
    TranslationItem,
-} from "./base";
+} from './base';
 import {
    Constraint,
    IFormControlInfo,
@@ -11,32 +11,32 @@ import {
    Panel,
    Position,
    TextBox,
-} from "./elements";
-import { FormParser } from "./parser";
-import { IBookmark } from "./types";
-import { IUserContext } from "../m3/types";
-import { FormConstants } from "./constants";
+} from './elements';
+import { FormParser } from './parser';
+import { IBookmark } from './types';
+import { IUserContext } from '../m3/types';
+import { FormConstants } from './constants';
 
-describe("FormResponse", () => {
+describe('FormResponse', () => {
    let formResponse: FormResponse;
    let textBox: TextBox;
    let textBoxInfo: IFormControlInfo;
 
    beforeAll(() => {
       const control = {
-         fieldHelp: "FACI",
-         id: "m3od-ctl-48",
+         fieldHelp: 'FACI',
+         id: 'm3od-ctl-48',
          isBrowsable: true,
          isEnabled: true,
          isRightAligned: false,
          isVisible: true,
-         name: "WWFACI",
+         name: 'WWFACI',
          originalName: null!,
-         referenceField: "MBFACI",
-         referenceFile: "MITBAL",
+         referenceField: 'MBFACI',
+         referenceFile: 'MITBAL',
          tabIndex: 527,
          type: 2,
-         value: "\n                    \n                    \n                            210\n                ",
+         value: '\n                    \n                    \n                            210\n                ',
       };
       const constraint = {
          isNumeric: false,
@@ -56,15 +56,15 @@ describe("FormResponse", () => {
          control: textBox,
          additionalInfo: null!,
       };
-      textBoxInfo.control!.id = "m3od-ctl-2";
+      textBoxInfo.control!.id = 'm3od-ctl-2';
 
       const additionalInfo = {
          type: 1,
          isEnabled: true,
          isVisible: true,
          id: null!,
-         value: "\n                    \n                            Facility Name\n                ",
-         name: "LBL_L21T3",
+         value: '\n                    \n                            Facility Name\n                ',
+         name: 'LBL_L21T3',
          toolTip: null!,
          isFixed: false,
          isAdditionalInfo: true,
@@ -82,10 +82,10 @@ describe("FormResponse", () => {
          type: 1,
          isEnabled: true,
          isVisible: true,
-         id: "WFAC315",
-         value: "\n                    \n                            Facility\n                ",
-         name: "WFAC315",
-         toolTip: "Facility",
+         id: 'WFAC315',
+         value: '\n                    \n                            Facility\n                ',
+         name: 'WFAC315',
+         toolTip: 'Facility',
          isFixed: false,
          isAdditionalInfo: false,
          isEmphasized: false,
@@ -97,62 +97,62 @@ describe("FormResponse", () => {
    });
 
    beforeEach(() => {
-      FormParser["idCounter"] = 0;
+      FormParser['idCounter'] = 0;
       formResponse = FormParser.parse(ops610Content);
    });
 
-   it("should respond to hasPanel", () => {
+   it('should respond to hasPanel', () => {
       formResponse = new FormResponse();
       expect(formResponse.hasPanel()).toBe(false);
       formResponse.panels = [{} as Panel];
       expect(formResponse.hasPanel()).toBe(true);
    });
 
-   it("should return value by name", () => {
-      expect(formResponse.getValue("Foo")).toBeUndefined();
-      expect(formResponse.getValue("Foo", "Bar")).toBe("Bar");
-      expect(formResponse.getValue("WWFACI")).toBe(
-         "\n" +
-            "                    \n" +
-            "                    \n" +
-            "                            210\n" +
-            "                "
+   it('should return value by name', () => {
+      expect(formResponse.getValue('Foo')).toBeUndefined();
+      expect(formResponse.getValue('Foo', 'Bar')).toBe('Bar');
+      expect(formResponse.getValue('WWFACI')).toBe(
+         '\n' +
+            '                    \n' +
+            '                    \n' +
+            '                            210\n' +
+            '                '
       );
    });
 
-   it("should return control by name", () => {
-      expect(formResponse.getControl("Foo")).toBeNull();
+   it('should return control by name', () => {
+      expect(formResponse.getControl('Foo')).toBeNull();
 
-      expect(formResponse.getControl("WWFACI")).toEqual(textBox);
+      expect(formResponse.getControl('WWFACI')).toEqual(textBox);
    });
 
-   it("should return multiple controls", () => {
+   it('should return multiple controls', () => {
       expect(formResponse.getControls([])).toEqual([]);
-      expect(formResponse.getControls(["Foo"])).toEqual([]);
-      expect(formResponse.getControls(["WWFACI", "W1LIVR"]).length).toBe(2);
+      expect(formResponse.getControls(['Foo'])).toEqual([]);
+      expect(formResponse.getControls(['WWFACI', 'W1LIVR']).length).toBe(2);
    });
 
-   it("should return control info by name", () => {
-      expect(formResponse.getControlInfo("Foo")).toBeNull();
-      expect(formResponse.getControlInfo("WWFACI")).toEqual(textBoxInfo);
+   it('should return control info by name', () => {
+      expect(formResponse.getControlInfo('Foo')).toBeNull();
+      expect(formResponse.getControlInfo('WWFACI')).toEqual(textBoxInfo);
    });
 
-   it("should return multiple control infos", () => {
+   it('should return multiple control infos', () => {
       expect(formResponse.getControlInfos([])).toEqual([]);
-      expect(formResponse.getControlInfos(["Foo"])).toEqual([]);
-      expect(formResponse.getControlInfos(["WWFACI", "W1LIVR"]).length).toBe(2);
+      expect(formResponse.getControlInfos(['Foo'])).toEqual([]);
+      expect(formResponse.getControlInfos(['WWFACI', 'W1LIVR']).length).toBe(2);
    });
 });
 
-describe("Bookmark", () => {
-   it("should return a URI", () => {
-      const bookmarkData: IBookmark = { program: "OPS610", source: "FOO" };
-      spyOn(Bookmark, "toParams").and.callFake((bm, uc) => {
+describe('Bookmark', () => {
+   it('should return a URI', () => {
+      const bookmarkData: IBookmark = { program: 'OPS610', source: 'FOO' };
+      spyOn(Bookmark, 'toParams').and.callFake((bm, uc) => {
          expect(bm).toBe(bookmarkData);
          return {
             BM_SOURCE: bookmarkData.source,
             BM_PROGRAM: bookmarkData.program,
-            Foo: "Bar",
+            Foo: 'Bar',
          };
       });
 
@@ -161,77 +161,77 @@ describe("Bookmark", () => {
       );
    });
 
-   it("should create values", () => {
+   it('should create values', () => {
       const userContext = {
-         currentCompany: "350",
-         currentDivision: "100",
+         currentCompany: '350',
+         currentDivision: '100',
       } as IUserContext;
 
       expect(() =>
-         Bookmark["createValues"](userContext, "", undefined, false)
+         Bookmark['createValues'](userContext, '', undefined, false)
       ).toThrowError("Cannot read properties of undefined (reading '')");
 
       const values = {};
-      const key = "Foo";
-      values[key] = "Bar";
-      expect(Bookmark["createValues"](userContext, key, values, false)).toBe(
+      const key = 'Foo';
+      values[key] = 'Bar';
+      expect(Bookmark['createValues'](userContext, key, values, false)).toBe(
          `${key},${values[key]}`
       );
 
-      const secondKey = "SUNO";
-      const twoKeys1 = key + "," + secondKey;
+      const secondKey = 'SUNO';
+      const twoKeys1 = key + ',' + secondKey;
       expect(
-         Bookmark["createValues"](userContext, twoKeys1, values, false)
+         Bookmark['createValues'](userContext, twoKeys1, values, false)
       ).toBe(`${key},${values[key]}`);
       expect(
-         Bookmark["createValues"](userContext, twoKeys1, values, true)
+         Bookmark['createValues'](userContext, twoKeys1, values, true)
       ).toBe(`${key},${values[key]},${secondKey},%20`);
 
-      const thirdKey = "WWCONO";
-      const twoKeys2 = key + "," + thirdKey;
+      const thirdKey = 'WWCONO';
+      const twoKeys2 = key + ',' + thirdKey;
       expect(
-         Bookmark["createValues"](userContext, twoKeys2, values, true)
+         Bookmark['createValues'](userContext, twoKeys2, values, true)
       ).toBe(`${key},${values[key]},${thirdKey},${userContext.currentCompany}`);
 
-      const fourthKey = "WWDIVI";
-      const twoKeys3 = key + "," + fourthKey;
+      const fourthKey = 'WWDIVI';
+      const twoKeys3 = key + ',' + fourthKey;
       expect(
-         Bookmark["createValues"](userContext, twoKeys3, values, true)
+         Bookmark['createValues'](userContext, twoKeys3, values, true)
       ).toBe(
          `${key},${values[key]},${fourthKey},${userContext.currentDivision}`
       );
 
-      const fifthKey = "WWFACI";
-      values["FACI"] = "200";
-      const twoKeys4 = key + "," + fifthKey;
+      const fifthKey = 'WWFACI';
+      values['FACI'] = '200';
+      const twoKeys4 = key + ',' + fifthKey;
       expect(
-         Bookmark["createValues"](userContext, twoKeys4, values, true)
-      ).toBe(`${key},${values[key]},${fifthKey},${values["FACI"]}`);
+         Bookmark['createValues'](userContext, twoKeys4, values, true)
+      ).toBe(`${key},${values[key]},${fifthKey},${values['FACI']}`);
 
-      const sixtKey = "WWWHLO";
-      const twoKeys5 = key + "," + sixtKey;
+      const sixtKey = 'WWWHLO';
+      const twoKeys5 = key + ',' + sixtKey;
       expect(
-         Bookmark["createValues"](userContext, twoKeys5, values, true)
+         Bookmark['createValues'](userContext, twoKeys5, values, true)
       ).toBe(`${key},${values[key]},${sixtKey},%20`);
    });
 
-   it("should return params", () => {
+   it('should return params', () => {
       const bookmarkData: IBookmark = {};
-      const userContext = { company: "100" } as IUserContext;
+      const userContext = { company: '100' } as IUserContext;
       const result = {
-         BM_INCLUDE_START_PANEL: "False",
-         BM_REQUIRE_PANEL: "False",
-         BM_SOURCE: "Web",
-         BM_SUPPRESS_CONFIRM: "False",
+         BM_INCLUDE_START_PANEL: 'False',
+         BM_REQUIRE_PANEL: 'False',
+         BM_SOURCE: 'Web',
+         BM_SUPPRESS_CONFIRM: 'False',
       };
       expect(Bookmark.toParams(bookmarkData, userContext)).toEqual(result);
 
       const values = {};
-      const key = "Foo";
-      values[key] = "Bar";
+      const key = 'Foo';
+      values[key] = 'Bar';
       bookmarkData.keyNames = key;
       bookmarkData.values = values;
-      const spyCreateValues = spyOn(Bookmark as any, "createValues");
+      const spyCreateValues = spyOn(Bookmark as any, 'createValues');
       spyCreateValues.and.callFake(
          (uc: IUserContext, keyNames, vals, isKeys) => {
             expect(uc).toBe(userContext);
@@ -266,7 +266,7 @@ describe("Bookmark", () => {
 
       bookmarkData.parameterNames = undefined;
       bookmarkData.fieldNames = key;
-      bookmarkData.informationCategory = "ADPROMOS";
+      bookmarkData.informationCategory = 'ADPROMOS';
       spyCreateValues.and.callFake(
          (uc: IUserContext, keyNames, vals, isKeys) => {
             expect(uc).toBe(userContext);
@@ -283,24 +283,24 @@ describe("Bookmark", () => {
       });
    });
 
-   it("should return source", () => {
-      const bookmarkData: IBookmark = { source: "Foo" };
+   it('should return source', () => {
+      const bookmarkData: IBookmark = { source: 'Foo' };
 
-      expect(Bookmark["getSource"](bookmarkData)).toEqual(
+      expect(Bookmark['getSource'](bookmarkData)).toEqual(
          bookmarkData.source as string
       );
    });
 });
 
-describe("TranslationItem", () => {
-   it("should construct translation item", () => {
-      const key = "Foo";
-      const file = "Bar";
+describe('TranslationItem', () => {
+   it('should construct translation item', () => {
+      const key = 'Foo';
+      const file = 'Bar';
       const translationItem = new TranslationItem(key, file);
       const result: ITranslationItem = { key, file };
 
       expect(translationItem).toEqual(
-         Object.assign(new TranslationItem("will be overwritten"), result)
+         Object.assign(new TranslationItem('will be overwritten'), result)
       );
    });
 });

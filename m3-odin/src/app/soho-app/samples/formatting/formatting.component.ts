@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
-import { CoreBase, IUserContext, FormatUtil } from "@infor-up/m3-odin";
-import { UserService } from "@infor-up/m3-odin-angular";
+import { Component } from '@angular/core';
+import { CoreBase, IUserContext, FormatUtil } from '@infor-up/m3-odin';
+import { UserService } from '@infor-up/m3-odin-angular';
 
 @Component({
-   templateUrl: "./formatting.component.html",
+   templateUrl: './formatting.component.html',
 })
 export class FormattingSampleComponent extends CoreBase {
    isInitialized = false;
@@ -16,7 +16,7 @@ export class FormattingSampleComponent extends CoreBase {
    shortDateString3: string;
 
    constructor(private userService: UserService) {
-      super("FormattingSampleComponent");
+      super('FormattingSampleComponent');
 
       this.userService
          .getUserContext()

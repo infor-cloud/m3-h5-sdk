@@ -11,19 +11,19 @@
          <div>M3 date format (DTFM): {{ m3DateFormat }}</div>
          <div>M3 date format (standardized): {{ dateFormat }}</div>
          <div>Today (M3 format): {{ today | date : dateFormat }}</div>
-         <div>Today (ISO format): {{ today | date : "yyyy-MM-dd" }}</div>
-         <div>Today (locale format): {{ today | date : "shortDate" }}</div>
+         <div>Today (ISO format): {{ today | date : 'yyyy-MM-dd' }}</div>
+         <div>Today (locale format): {{ today | date : 'shortDate' }}</div>
          <div>
             M3 short date string pipe conversion:
-            {{ shortDateString1 | m3date : "fromString" | date : "yyyy-MM-dd" }}
+            {{ shortDateString1 | m3date : 'fromString' | date : 'yyyy-MM-dd' }}
          </div>
          <div>
             M3 short date string pipe conversion:
-            {{ shortDateString2 | m3date : "fromString" | date : "yyyy-MM-dd" }}
+            {{ shortDateString2 | m3date : 'fromString' | date : 'yyyy-MM-dd' }}
          </div>
          <div>
             M3 short date string pipe conversion:
-            {{ shortDateString3 | m3date : "fromString" | date : "yyyy-MM-dd" }}
+            {{ shortDateString3 | m3date : 'fromString' | date : 'yyyy-MM-dd' }}
          </div>
       </mat-card-content>
    </mat-card>

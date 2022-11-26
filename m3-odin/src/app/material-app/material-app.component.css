@@ -57,7 +57,7 @@ odin-app .content-container {
 }
 
 odin-app {
-   font-family: Roboto, "Helvetica Neue", sans-serif;
+   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 odin-app .mat-divider {

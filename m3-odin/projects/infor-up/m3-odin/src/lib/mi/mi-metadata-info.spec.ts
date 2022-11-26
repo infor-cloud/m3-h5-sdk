@@ -1,16 +1,16 @@
-import { IMIMetadataInfo, IMIMetadataMap, MIDataType } from "./base";
-import { MIMetadataInfo, MIRecord, MIUtil } from "./runtime";
+import { IMIMetadataInfo, IMIMetadataMap, MIDataType } from './base';
+import { MIMetadataInfo, MIRecord, MIUtil } from './runtime';
 
-describe("MI Meatdata Info", () => {
-   const name = "foo";
+describe('MI Meatdata Info', () => {
+   const name = 'foo';
    const types = [
-      { typeString: "A", type: MIDataType.String },
-      { typeString: "D", type: MIDataType.Date },
-      { typeString: "N", type: MIDataType.Numeric },
-      { typeString: "X", type: undefined },
+      { typeString: 'A', type: MIDataType.String },
+      { typeString: 'D', type: MIDataType.Date },
+      { typeString: 'N', type: MIDataType.Numeric },
+      { typeString: 'X', type: undefined },
    ];
    const length = 12;
-   const description = "bar";
+   const description = 'bar';
 
    const objString = new MIMetadataInfo(
       name,
@@ -37,7 +37,7 @@ describe("MI Meatdata Info", () => {
       description
    );
 
-   it("should create String object", () => {
+   it('should create String object', () => {
       expect(objString.name).toBe(name);
       expect(objString.length).toBe(length);
       expect(objString.description).toBe(description);
@@ -47,7 +47,7 @@ describe("MI Meatdata Info", () => {
       expect(objString.isString()).toBe(true);
    });
 
-   it("should create Date object", () => {
+   it('should create Date object', () => {
       expect(objDate.name).toBe(name);
       expect(objDate.length).toBe(length);
       expect(objDate.description).toBe(description);
@@ -57,7 +57,7 @@ describe("MI Meatdata Info", () => {
       expect(objDate.isString()).toBe(false);
    });
 
-   it("should create Numeric object", () => {
+   it('should create Numeric object', () => {
       expect(objNumeric.name).toBe(name);
       expect(objNumeric.length).toBe(length);
       expect(objNumeric.description).toBe(description);
@@ -67,7 +67,7 @@ describe("MI Meatdata Info", () => {
       expect(objNumeric.isString()).toBe(false);
    });
 
-   it("should create Undefined object", () => {
+   it('should create Undefined object', () => {
       expect(objUndefined.name).toBe(name);
       expect(objUndefined.length).toBe(length);
       expect(objUndefined.description).toBe(description);

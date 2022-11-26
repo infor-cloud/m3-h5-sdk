@@ -1,16 +1,16 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import {
    AfterViewInit,
    Component,
    Directive,
    ElementRef,
    Input,
-} from "@angular/core";
-import { CoreBase } from "@infor-up/m3-odin";
-import hljs from "highlight.js/lib/core";
+} from '@angular/core';
+import { CoreBase } from '@infor-up/m3-odin';
+import hljs from 'highlight.js/lib/core';
 
 @Component({
-   selector: "odin-document-viewer",
+   selector: 'odin-document-viewer',
    template: `
       <pre
          *ngIf="contentLoaded"
@@ -24,18 +24,18 @@ export class DocumentViewerComponent extends CoreBase {
    }
 
    contentLoaded: boolean;
-   textContent = "No source file available.";
+   textContent = 'No source file available.';
 
    constructor(private http: HttpClient) {
-      super("DocumentViewerComponent");
+      super('DocumentViewerComponent');
    }
 
    private loadDocument(url: string): void {
-      this.http.get(url, { responseType: "text" }).subscribe(
+      this.http.get(url, { responseType: 'text' }).subscribe(
          (document) => this.updateDocument(document),
          (error) =>
             this.logWarning(
-               error.message || "Sample source file could not be loaded"
+               error.message || 'Sample source file could not be loaded'
             )
       );
    }
@@ -47,7 +47,7 @@ export class DocumentViewerComponent extends CoreBase {
 }
 
 @Directive({
-   selector: "code[odinHighlight]",
+   selector: 'code[odinHighlight]',
 })
 export class HighlightCodeDirective implements AfterViewInit {
    constructor(private eltRef: ElementRef) {}

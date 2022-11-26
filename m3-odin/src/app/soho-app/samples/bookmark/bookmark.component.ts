@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import {
    CoreBase,
    IBookmark,
    IFormControlInfo,
    IFormResponse,
-} from "@infor-up/m3-odin";
-import { FormService } from "@infor-up/m3-odin-angular";
-import { SohoMessageService } from "ids-enterprise-ng";
+} from '@infor-up/m3-odin';
+import { FormService } from '@infor-up/m3-odin-angular';
+import { SohoMessageService } from 'ids-enterprise-ng';
 
 @Component({
-   templateUrl: "./bookmark.component.html",
+   templateUrl: './bookmark.component.html',
 })
 export class BookmarkSampleComponent extends CoreBase {
-   fieldNames = ["WWCUNO", "WRCUNM", "WRTOWN", "WRCSCD", "WRPHNO", "WRYREF"];
+   fieldNames = ['WWCUNO', 'WRCUNM', 'WRTOWN', 'WRCSCD', 'WRPHNO', 'WRYREF'];
    controlInfos: IFormControlInfo[];
    canExecute = true;
    CUNO: string;
@@ -21,7 +21,7 @@ export class BookmarkSampleComponent extends CoreBase {
       private readonly formService: FormService,
       private messageService: SohoMessageService
    ) {
-      super("BookmarkSampleComponent");
+      super('BookmarkSampleComponent');
    }
 
    isEnabled(): boolean {
@@ -29,7 +29,7 @@ export class BookmarkSampleComponent extends CoreBase {
    }
 
    onClickOpen(): void {
-      this.logDebug("open: " + this.CUNO);
+      this.logDebug('open: ' + this.CUNO);
       this.canExecute = false;
       this.openBookmark();
    }
@@ -65,10 +65,10 @@ export class BookmarkSampleComponent extends CoreBase {
    }
 
    private onError(response: IFormResponse): void {
-      const message = response.message || "Unable to open bookmark";
+      const message = response.message || 'Unable to open bookmark';
       const buttons = [
          {
-            text: "OK",
+            text: 'OK',
             click: (e, modal) => {
                modal.close();
             },
@@ -76,7 +76,7 @@ export class BookmarkSampleComponent extends CoreBase {
       ];
       this.messageService
          .error()
-         .title("Bookmark error")
+         .title('Bookmark error')
          .message(message)
          .buttons(buttons)
          .open();
@@ -86,11 +86,11 @@ export class BookmarkSampleComponent extends CoreBase {
 
    private getBookmark(): IBookmark {
       return {
-         program: "CRS610",
-         table: "OCUSMA",
-         keyNames: "OKCONO,OKCUNO",
-         option: "5",
-         panel: "E",
+         program: 'CRS610',
+         table: 'OCUSMA',
+         keyNames: 'OKCONO,OKCUNO',
+         option: '5',
+         panel: 'E',
          isStateless: true,
       };
    }

@@ -1,13 +1,13 @@
-import { Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy } from '@angular/core';
 import {
    ArrayUtil,
    CoreBase,
    IMIRequest,
    IMIResponse,
-} from "@infor-up/m3-odin";
-import { MIService } from "@infor-up/m3-odin-angular";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { catchError, finalize } from "rxjs/operators";
+} from '@infor-up/m3-odin';
+import { MIService } from '@infor-up/m3-odin-angular';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 
 export interface IPagingResult {
    items: any[];
@@ -34,7 +34,7 @@ export class CustomerPagingService extends CoreBase implements OnDestroy {
    isLoading = this.loadingSubject.asObservable();
 
    constructor(private miService: MIService) {
-      super("CustomerPagingService");
+      super('CustomerPagingService');
    }
 
    ngOnDestroy() {
@@ -44,17 +44,17 @@ export class CustomerPagingService extends CoreBase implements OnDestroy {
 
    getData(request: SohoDataGridSourceRequest): Observable<any> {
       switch (request.type) {
-         case "initial":
+         case 'initial':
             this.getPage(this.currentPage, request);
             break;
-         case "next":
+         case 'next':
             this.getPage(this.currentPage + 1, request);
             break;
-         case "prev":
+         case 'prev':
             this.getPage(this.currentPage - 1, request);
             break;
          default:
-            this.logInfo("Unsupported request type: " + request.type);
+            this.logInfo('Unsupported request type: ' + request.type);
       }
 
       return this.dataSubject.asObservable();
@@ -73,14 +73,14 @@ export class CustomerPagingService extends CoreBase implements OnDestroy {
 
    private loadData(request?: SohoDataGridSourceRequest) {
       if (this.endOfRecords) {
-         this.logInfo("No more records to fetch.");
+         this.logInfo('No more records to fetch.');
          return;
       }
       this.loadingSubject.next(true);
       const miRequest: IMIRequest = {
-         program: "CRS610MI",
-         transaction: "LstByNumber",
-         outputFields: ["CUNO", "CUNM", "STAT", "PHNO", "YREF"],
+         program: 'CRS610MI',
+         transaction: 'LstByNumber',
+         outputFields: ['CUNO', 'CUNM', 'STAT', 'PHNO', 'YREF'],
          maxReturnedRecords: this.maxRecords,
          record: { CUNO: this.lastRecord },
       };

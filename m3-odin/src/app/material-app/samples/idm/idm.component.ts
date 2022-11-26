@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { CoreBase } from "@infor-up/m3-odin";
-import { IdmDataService, IIdmError, ISearchItems } from "./idm-data.service";
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CoreBase } from '@infor-up/m3-odin';
+import { IdmDataService, IIdmError, ISearchItems } from './idm-data.service';
 
 @Component({
-   templateUrl: "./idm.component.html",
-   styleUrls: ["idm.component.css"],
+   templateUrl: './idm.component.html',
+   styleUrls: ['idm.component.css'],
 })
 export class IdmSampleComponent extends CoreBase implements OnInit {
    items: ISearchItems;
@@ -14,7 +14,7 @@ export class IdmSampleComponent extends CoreBase implements OnInit {
       private idmService: IdmDataService,
       private snackBar: MatSnackBar
    ) {
-      super("IdmSampleComponent");
+      super('IdmSampleComponent');
    }
 
    ngOnInit() {
@@ -29,15 +29,15 @@ export class IdmSampleComponent extends CoreBase implements OnInit {
    }
 
    private handleError(error: IIdmError) {
-      let message = error.message || "Failed to perform action.";
-      if (!message.endsWith(".")) {
-         message += ".";
+      let message = error.message || 'Failed to perform action.';
+      if (!message.endsWith('.')) {
+         message += '.';
       }
       this.snackBar.open(
-         "An error occured. " +
+         'An error occured. ' +
             message +
-            " More details might be available in the browser console.",
-         "Close",
+            ' More details might be available in the browser console.',
+         'Close',
          { duration: 5000 }
       );
    }

@@ -1,6 +1,6 @@
-import { NumUtil, StringUtil } from "../util";
-import { FormResponse, IFormResponse } from "./base";
-import { FormConstants, Protocol, XmlNames } from "./constants";
+import { NumUtil, StringUtil } from '../util';
+import { FormResponse, IFormResponse } from './base';
+import { FormConstants, Protocol, XmlNames } from './constants';
 import {
    Button,
    CheckBox,
@@ -18,7 +18,7 @@ import {
    Panel,
    Position,
    TextBox,
-} from "./elements";
+} from './elements';
 
 /**
  * The Node.localName property has been removed from the TypeScript typings (lib.dom.d.ts). Probably because
@@ -57,7 +57,7 @@ export class FormParser {
       if (!FormParser.domParser) {
          FormParser.domParser = new DOMParser();
       }
-      return FormParser.domParser.parseFromString(content, "text/xml");
+      return FormParser.domParser.parseFromString(content, 'text/xml');
    }
 
    public static parse(content: string): FormResponse {
@@ -73,7 +73,7 @@ export class FormParser {
    }
 
    private generateName(prefix: string, left: number, top: number): string {
-      return prefix + "_L" + left + "T" + top;
+      return prefix + '_L' + left + 'T' + top;
    }
 
    private parseSession(node: Node, element: FormResponse) {
@@ -276,7 +276,7 @@ export class FormParser {
       this.parseAccess(node, element);
       element.position = this.parsePosition(node);
       const count = ++FormParser.idCounter;
-      element.id = "m3od-ctl-" + count;
+      element.id = 'm3od-ctl-' + count;
    }
 
    private parseInputElement(node: Node, element: FormControl) {
@@ -344,12 +344,12 @@ export class FormParser {
 
       if (element.position) {
          element.name = this.generateName(
-            "GRP",
+            'GRP',
             element.position.left,
             element.position.top
          );
       }
-      element.isLine = XmlUtil.getBoolAttribute(node, "r", false);
+      element.isLine = XmlUtil.getBoolAttribute(node, 'r', false);
       element.value = node.textContent;
 
       return element;
@@ -359,7 +359,7 @@ export class FormParser {
       const element = new Label();
       this.parseElement(node, element);
 
-      let name = XmlUtil.getAttribute(node, "id");
+      let name = XmlUtil.getAttribute(node, 'id');
       element.id = name;
       element.value = node.textContent;
 
@@ -369,10 +369,10 @@ export class FormParser {
          if (!name || name.length < 2) {
             // Generate a name to be used for hiding controls etc.
             // Captions with the text '-' and '/' gets the same as name and this is handled by checking if the length is less than 2.
-            name = this.generateName("LBL", position.left, position.top);
+            name = this.generateName('LBL', position.left, position.top);
          } else if (this.uniqueNames[name]) {
             // A label with the same name already exist, generate a new name
-            name = this.generateName("LBL", position.left, position.top);
+            name = this.generateName('LBL', position.left, position.top);
          } else {
             this.uniqueNames[name] = name;
          }
@@ -380,15 +380,15 @@ export class FormParser {
 
       element.name = name;
 
-      element.toolTip = XmlUtil.getAttribute(node, "tip");
-      element.isFixed = XmlUtil.getBoolAttribute(node, "fixFnt", false);
+      element.toolTip = XmlUtil.getAttribute(node, 'tip');
+      element.isFixed = XmlUtil.getBoolAttribute(node, 'fixFnt', false);
       element.isAdditionalInfo = XmlUtil.getBoolAttribute(
          node,
-         "addInfo",
+         'addInfo',
          false
       );
-      element.isEmphasized = XmlUtil.getBoolAttribute(node, "emp", false);
-      element.isColon = XmlUtil.getBoolAttribute(node, "cl", false);
+      element.isEmphasized = XmlUtil.getBoolAttribute(node, 'emp', false);
+      element.isColon = XmlUtil.getBoolAttribute(node, 'cl', false);
 
       return element;
    }
@@ -397,7 +397,7 @@ export class FormParser {
       const element = new CheckBox();
       this.parseInputElement(node, element);
       element.value = node.textContent;
-      element.isChecked = "1" === element.value;
+      element.isChecked = '1' === element.value;
       return element;
    }
 
@@ -408,7 +408,7 @@ export class FormParser {
 
       this.parseInputElement(node, element);
 
-      if (XmlUtil.getAttribute(node, "e") != null) {
+      if (XmlUtil.getAttribute(node, 'e') != null) {
          element.isEditable = true;
          element.value = XmlUtil.getAttribute(node, XmlNames.attributeValue);
       }
@@ -462,15 +462,15 @@ export class FormParser {
       panelElement: Panel
    ): TextBox {
       let element: TextBox;
-      const dateFormat = XmlUtil.getAttribute(node, "df");
+      const dateFormat = XmlUtil.getAttribute(node, 'df');
       if (
          dateFormat != null &&
          !isPosition &&
-         !(dateFormat.indexOf("YYWWD") >= 0)
+         !(dateFormat.indexOf('YYWWD') >= 0)
       ) {
          element = new DatePicker(
             dateFormat,
-            XmlUtil.getBoolAttribute(node, "hDf", false)
+            XmlUtil.getBoolAttribute(node, 'hDf', false)
          );
       } else {
          element = new TextBox();
@@ -487,7 +487,7 @@ export class FormParser {
          element.isEnabled = true;
          element.isVisible = true;
       } else {
-         element.isBrowsable = XmlUtil.hasAttribute(node, "browse");
+         element.isBrowsable = XmlUtil.hasAttribute(node, 'browse');
       }
 
       element.isRightAligned = XmlUtil.hasAttribute(
@@ -500,7 +500,7 @@ export class FormParser {
             panelElement.informationCategory = element.value;
          } else if (
             element.name === FormConstants.fieldHideCommandBar &&
-            element.value === "1"
+            element.value === '1'
          ) {
             panelElement.hideCommandBar = true;
          }
@@ -621,21 +621,21 @@ export class FormParser {
    }
 
    private parseSubRows(rowNode: Node, listElement: List, row: ListRow) {
-      const subRows = XmlUtil.selectNodes(rowNode, "SR");
+      const subRows = XmlUtil.selectNodes(rowNode, 'SR');
       if (!subRows || subRows.length === 0) {
          return;
       }
 
       listElement.hasSubRows = true;
       const subRow = subRows[0];
-      const subNodes = XmlUtil.selectNodes(subRow, "SC");
+      const subNodes = XmlUtil.selectNodes(subRow, 'SC');
       if (subNodes) {
          row.subItems = [];
          for (let j = 0; j < subNodes.length; j++) {
             const subNode = subNodes[j];
             const cell = new ListCell();
             cell.text = this.getStringTrimEnd(subNode);
-            cell.span = XmlUtil.getIntAttribute(subNode, "colspan", 0);
+            cell.span = XmlUtil.getIntAttribute(subNode, 'colspan', 0);
             cell.isRight = XmlUtil.hasAttribute(
                subNode,
                XmlNames.attributeJustification
@@ -648,7 +648,7 @@ export class FormParser {
    private parseListRows(listNode: Node, listElement: List) {
       listElement.items = [];
 
-      const nodes = XmlUtil.selectNodes(listNode, "LView/LRows/LR");
+      const nodes = XmlUtil.selectNodes(listNode, 'LView/LRows/LR');
       if (nodes == null) {
          return;
       }
@@ -662,7 +662,7 @@ export class FormParser {
    }
 
    private parseSubColumns(listNode: Node, listElement: List) {
-      const nodes = XmlUtil.selectNodes(listNode, "LView/LCols/LSubCol");
+      const nodes = XmlUtil.selectNodes(listNode, 'LView/LCols/LSubCol');
       if (!nodes || nodes.length === 0) {
          return;
       }
@@ -687,12 +687,12 @@ export class FormParser {
          if (index < 0) {
             return;
          }
-         originalColumnName = "_" + index;
+         originalColumnName = '_' + index;
       }
 
       // We don't want property names starting with & so they are replaced with blank for now.
       // This might have to change if there can be naming conflicts
-      originalColumnName = originalColumnName.replace("&", "");
+      originalColumnName = originalColumnName.replace('&', '');
 
       let name = originalColumnName;
       if (name.length > 4) {
@@ -701,7 +701,7 @@ export class FormParser {
 
       if (NumUtil.isNumber(name[0])) {
          // Properties cannot start with a number
-         name = "_" + name;
+         name = '_' + name;
       }
 
       columnElement.name = name;
@@ -712,7 +712,7 @@ export class FormParser {
       const node = XmlUtil.selectNode(columnNode, XmlNames.elementCaption);
       if (node) {
          column.header = XmlUtil.getText(node);
-         column.toolTip = XmlUtil.getAttribute(node, "tip");
+         column.toolTip = XmlUtil.getAttribute(node, 'tip');
       }
    }
 
@@ -749,15 +749,15 @@ export class FormParser {
          columnNode,
          XmlNames.attributeHelp
       );
-      column.aggregate = XmlUtil.getIntAttribute(columnNode, "agg", 0);
+      column.aggregate = XmlUtil.getIntAttribute(columnNode, 'agg', 0);
       column.aggregateDisplayRule = XmlUtil.getIntAttribute(
          columnNode,
-         "adr",
+         'adr',
          0
       );
       column.aggregateUpdateRule = XmlUtil.getIntAttribute(
          columnNode,
-         "aur",
+         'aur',
          0
       );
       column.isRight = XmlUtil.hasAttribute(
@@ -769,7 +769,7 @@ export class FormParser {
    }
 
    private parseColumns(listNode: Node, listElement: List) {
-      const nodes = XmlUtil.selectNodes(listNode, "LView/LCols/LCol");
+      const nodes = XmlUtil.selectNodes(listNode, 'LView/LCols/LCol');
       listElement.columns = [];
       let depth = 0;
       for (let i = 0; i < nodes.length; i++) {
@@ -808,7 +808,7 @@ export class FormParser {
 
    private parseList(responseElement: FormResponse, listNode: Node): List {
       const listElement = new List();
-      listElement.isCleared = XmlUtil.getBoolAttribute(listNode, "clr", false);
+      listElement.isCleared = XmlUtil.getBoolAttribute(listNode, 'clr', false);
 
       this.parseInputElement(listNode, listElement);
       this.parseColumns(listNode, listElement);
@@ -939,7 +939,7 @@ export class FormParser {
          XmlNames.elementBasicOption
       );
       const last = element.basicOptions.pop();
-      if (last["val"] !== 0) {
+      if (last['val'] !== 0) {
          element.basicOptions.push(last); // Push it back if its not related options
       }
    }
@@ -963,7 +963,7 @@ export class FormParser {
       nodes.forEach((optionNode: any, index: number) => {
          options.push({
             option: optionNode.textContent,
-            val: optionNode.attributes["val"].nodeValue,
+            val: optionNode.attributes['val'].nodeValue,
          });
       });
 
@@ -978,7 +978,7 @@ export class FormParser {
 export class XmlUtil {
    public static getBoolean(s: string, defaultValue = false) {
       if (s && s.length > 0) {
-         return s[0].toLowerCase() === "t";
+         return s[0].toLowerCase() === 't';
       }
       return defaultValue;
    }
@@ -1015,7 +1015,7 @@ export class XmlUtil {
 
    public static selectNodes(parent: Node, path: string): Node[] {
       const nodes = [];
-      XmlUtil.select(parent, path.split("/"), nodes);
+      XmlUtil.select(parent, path.split('/'), nodes);
       return nodes;
    }
 

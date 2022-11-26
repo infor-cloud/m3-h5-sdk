@@ -1,9 +1,9 @@
-import { ErrorState } from "../base";
-import { IUserContext } from "../m3/types";
-import { IErrorState } from "../types";
-import { FormConstants } from "./constants";
-import { FormControl, IFormControlInfo, Panel } from "./elements";
-import { IBookmark } from "./types";
+import { ErrorState } from '../base';
+import { IUserContext } from '../m3/types';
+import { IErrorState } from '../types';
+import { FormConstants } from './constants';
+import { FormControl, IFormControlInfo, Panel } from './elements';
+import { IBookmark } from './types';
 
 /**
  * Represents a request for M3 Forms.
@@ -300,29 +300,29 @@ export class FormResponse extends ErrorState implements IFormResponse {
  */
 export class Bookmark {
    private static nameMap = {
-      BM_PROGRAM: "program",
-      BM_TABLE_NAME: "tablename",
-      BM_PANEL: "panel",
-      BM_KEY_FIELDS: "keys",
-      BM_OPTION: "option",
-      BM_START_PANEL: "startpanel",
-      BM_FOCUS_FIELD_NAME: "focus",
-      BM_PANEL_SEQUENCE: "panelsequence",
-      BM_INCLUDE_START_PANEL: "includestartpanel",
-      BM_INQUIRY_TYPE: "sortingorder",
-      BM_VIEW: "view",
-      BM_SOURCE: "source",
-      BM_STATELESS: "stateless",
-      BM_START_PANEL_FIELDS: "fields",
-      BM_PARAMETERS: "parameters",
-      BM_AUTOMATION: "automation",
-      BM_AUTOMATION_TEMPLATE: "automationtemplate",
-      BM_SUPPRESS_CONFIRM: "requirepanel",
-      BM_REQUIRE_PANEL: "suppressconfirm",
+      BM_PROGRAM: 'program',
+      BM_TABLE_NAME: 'tablename',
+      BM_PANEL: 'panel',
+      BM_KEY_FIELDS: 'keys',
+      BM_OPTION: 'option',
+      BM_START_PANEL: 'startpanel',
+      BM_FOCUS_FIELD_NAME: 'focus',
+      BM_PANEL_SEQUENCE: 'panelsequence',
+      BM_INCLUDE_START_PANEL: 'includestartpanel',
+      BM_INQUIRY_TYPE: 'sortingorder',
+      BM_VIEW: 'view',
+      BM_SOURCE: 'source',
+      BM_STATELESS: 'stateless',
+      BM_START_PANEL_FIELDS: 'fields',
+      BM_PARAMETERS: 'parameters',
+      BM_AUTOMATION: 'automation',
+      BM_AUTOMATION_TEMPLATE: 'automationtemplate',
+      BM_SUPPRESS_CONFIRM: 'requirepanel',
+      BM_REQUIRE_PANEL: 'suppressconfirm',
    };
 
    private static getSource(bookmark: IBookmark) {
-      return bookmark.source ? bookmark.source : "Web";
+      return bookmark.source ? bookmark.source : 'Web';
    }
 
    private static add(params: any, name: string, value: string) {
@@ -333,17 +333,17 @@ export class Bookmark {
 
    private static addBool(params: any, name: string, value: boolean) {
       if (name) {
-         params[name] = value ? "True" : "False";
+         params[name] = value ? 'True' : 'False';
       }
    }
 
    private static addValue(str: string, key: string, value: string): string {
       if (str.length > 0) {
-         str += ",";
+         str += ',';
       }
 
       // Bookmark key values must be URL encoded in UTF-8 in the same way as done on the BE server.
-      return str + key + "," + encodeURIComponent(value);
+      return str + key + ',' + encodeURIComponent(value);
    }
 
    private static addInformationCategory(
@@ -359,7 +359,7 @@ export class Bookmark {
       let filters = bookmark.numberOfFilters;
       if (!filters) {
          // Workaround for Foundation bug, always send 0 instead of blank value.
-         filters = "0";
+         filters = '0';
       }
       str = Bookmark.addValue(str, FormConstants.fieldNumberOfFilters, filters);
       return str;
@@ -371,13 +371,13 @@ export class Bookmark {
       values: any,
       isKeys: boolean
    ) {
-      let str = "";
+      let str = '';
 
-      const keys = keyString.split(",");
+      const keys = keyString.split(',');
       for (let i = 0; i < keys.length; i++) {
          const key = keys[i];
          let value = values[key];
-         if (value === "" || (!value && isKeys)) {
+         if (value === '' || (!value && isKeys)) {
             // Automatically convert the empty string to a blank that is expected by BE for optional values.
             // Always send blank space for missing keys, some key values are optional.
             // Fallbacks are used for key values.
@@ -392,18 +392,18 @@ export class Bookmark {
                } else {
                   if (userContext) {
                      // Fallback to the user context for CONO and DIVI
-                     if (refKey === "CONO") {
+                     if (refKey === 'CONO') {
                         value = userContext.currentCompany;
-                     } else if (refKey === "DIVI") {
+                     } else if (refKey === 'DIVI') {
                         value = userContext.currentDivision;
                      }
                   }
                }
                if (!value) {
-                  value = " ";
+                  value = ' ';
                }
             } else {
-               value = " ";
+               value = ' ';
             }
          }
          if (value) {
@@ -418,48 +418,48 @@ export class Bookmark {
       userContext?: IUserContext
    ): string {
       const params = Bookmark.toParams(bookmark, userContext);
-      let query = "";
+      let query = '';
       const nameMap = Bookmark.nameMap;
       for (const param in params) {
          if (param) {
             const name = nameMap[param] || param;
             if (query) {
-               query += "&";
+               query += '&';
             }
-            query += name + "=" + encodeURIComponent(params[param]);
+            query += name + '=' + encodeURIComponent(params[param]);
          }
       }
 
-      const uri = "bookmark?" + query;
+      const uri = 'bookmark?' + query;
       return uri;
    }
 
    public static toParams(bookmark: IBookmark, userContext: IUserContext): any {
       const params = bookmark.params || {};
 
-      this.add(params, "BM_PROGRAM", bookmark.program);
-      this.add(params, "BM_PANEL_SEQUENCE", bookmark.panelSequence);
-      this.add(params, "BM_START_PANEL", bookmark.startPanel);
-      this.add(params, "BM_PANEL", bookmark.panel);
-      this.add(params, "BM_FOCUS_FIELD_NAME", bookmark.focusFieldName);
-      this.add(params, "BM_TABLE_NAME", bookmark.table);
-      this.add(params, "BM_OPTION", bookmark.option);
-      this.add(params, "BM_INQUIRY_TYPE", bookmark.sortingOrder);
-      this.add(params, "BM_SOURCE", this.getSource(bookmark));
-      this.add(params, "BM_VIEW", bookmark.view);
-      this.add(params, "BM_AUTOMATION", bookmark.automation);
-      this.add(params, "BM_AUTOMATION_TEMPLATE", bookmark.automationTemplate);
+      this.add(params, 'BM_PROGRAM', bookmark.program);
+      this.add(params, 'BM_PANEL_SEQUENCE', bookmark.panelSequence);
+      this.add(params, 'BM_START_PANEL', bookmark.startPanel);
+      this.add(params, 'BM_PANEL', bookmark.panel);
+      this.add(params, 'BM_FOCUS_FIELD_NAME', bookmark.focusFieldName);
+      this.add(params, 'BM_TABLE_NAME', bookmark.table);
+      this.add(params, 'BM_OPTION', bookmark.option);
+      this.add(params, 'BM_INQUIRY_TYPE', bookmark.sortingOrder);
+      this.add(params, 'BM_SOURCE', this.getSource(bookmark));
+      this.add(params, 'BM_VIEW', bookmark.view);
+      this.add(params, 'BM_AUTOMATION', bookmark.automation);
+      this.add(params, 'BM_AUTOMATION_TEMPLATE', bookmark.automationTemplate);
 
       this.addBool(
          params,
-         "BM_INCLUDE_START_PANEL",
+         'BM_INCLUDE_START_PANEL',
          bookmark.includeStartPanel
       );
-      this.addBool(params, "BM_REQUIRE_PANEL", bookmark.requirePanel);
-      this.addBool(params, "BM_SUPPRESS_CONFIRM", bookmark.suppressConfirm);
+      this.addBool(params, 'BM_REQUIRE_PANEL', bookmark.requirePanel);
+      this.addBool(params, 'BM_SUPPRESS_CONFIRM', bookmark.suppressConfirm);
 
       if (bookmark.isStateless) {
-         this.addBool(params, "BM_STATELESS", true);
+         this.addBool(params, 'BM_STATELESS', true);
       }
 
       const values = bookmark.values;
@@ -473,7 +473,7 @@ export class Bookmark {
             true
          );
       }
-      this.add(params, "BM_KEY_FIELDS", keys);
+      this.add(params, 'BM_KEY_FIELDS', keys);
 
       let parameters = bookmark.parameters;
       if (bookmark.parameterNames && values) {
@@ -484,7 +484,7 @@ export class Bookmark {
             false
          );
       }
-      this.add(params, "BM_PARAMETERS", parameters);
+      this.add(params, 'BM_PARAMETERS', parameters);
 
       let fields = bookmark.fields;
       const hasCategory = bookmark.informationCategory;
@@ -499,7 +499,7 @@ export class Bookmark {
             fields = Bookmark.addInformationCategory(fields, bookmark);
          }
       }
-      this.add(params, "BM_START_PANEL_FIELDS", fields);
+      this.add(params, 'BM_START_PANEL_FIELDS', fields);
 
       return params;
    }

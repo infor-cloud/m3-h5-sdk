@@ -40,7 +40,7 @@
                      'warning-text': item.type === 'WARNING'
                   }"
                >
-                  [{{ item.timestamp | date : "HH:mm:ss,SS" }}] [{{
+                  [{{ item.timestamp | date : 'HH:mm:ss,SS' }}] [{{
                      item.type
                   }}] {{ item.message }}
                </div>

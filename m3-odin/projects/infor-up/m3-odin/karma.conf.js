@@ -3,14 +3,14 @@
 
 module.exports = function (config) {
    config.set({
-      basePath: "",
-      frameworks: ["jasmine", "@angular-devkit/build-angular"],
+      basePath: '',
+      frameworks: ['jasmine', '@angular-devkit/build-angular'],
       plugins: [
-         require("karma-jasmine"),
-         require("karma-chrome-launcher"),
-         require("karma-jasmine-html-reporter"),
-         require("karma-coverage"),
-         require("@angular-devkit/build-angular/plugins/karma"),
+         require('karma-jasmine'),
+         require('karma-chrome-launcher'),
+         require('karma-jasmine-html-reporter'),
+         require('karma-coverage'),
+         require('@angular-devkit/build-angular/plugins/karma'),
       ],
       client: {
          jasmine: {
@@ -25,12 +25,12 @@ module.exports = function (config) {
          suppressAll: true, // removes the duplicated traces
       },
       coverageReporter: {
-         dir: require("path").join(
+         dir: require('path').join(
             __dirname,
-            "../../../coverage/infor-up/m3-odin"
+            '../../../coverage/infor-up/m3-odin'
          ),
-         subdir: ".",
-         reporters: [{ type: "html" }, { type: "text-summary" }],
+         subdir: '.',
+         reporters: [{ type: 'html' }, { type: 'text-summary' }],
          check: {
             global: {
                statements: 90,
@@ -40,18 +40,18 @@ module.exports = function (config) {
             },
          },
       },
-      reporters: ["progress", "kjhtml"],
+      reporters: ['progress', 'kjhtml'],
       port: 9876,
       colors: true,
       logLevel: config.LOG_INFO,
       autoWatch: true,
-      browsers: ["Chrome"],
+      browsers: ['Chrome'],
       singleRun: true,
       restartOnFileChange: true,
       customLaunchers: {
          ChromeHeadlessCI: {
-            base: "ChromeHeadless",
-            flags: ["--no-sandbox"],
+            base: 'ChromeHeadless',
+            flags: ['--no-sandbox'],
          },
       },
    });

@@ -1,4 +1,4 @@
-import { XmlNames } from "./constants";
+import { XmlNames } from './constants';
 
 /**
  * Defines constraints for a form control.
@@ -72,23 +72,23 @@ export class ControlType {
    public static getName(type: number) {
       switch (type) {
          case ControlType.label:
-            return "Label";
+            return 'Label';
          case ControlType.textBox:
-            return "TextBox";
+            return 'TextBox';
          case ControlType.checkBox:
-            return "CheckBox";
+            return 'CheckBox';
          case ControlType.comboBox:
-            return "ComboBox";
+            return 'ComboBox';
          case ControlType.datePicker:
-            return "DatePicker";
+            return 'DatePicker';
          case ControlType.groupBox:
-            return "GroupBox";
+            return 'GroupBox';
          case ControlType.button:
-            return "Button";
+            return 'Button';
          case ControlType.list:
-            return "List";
+            return 'List';
          case ControlType.listColumn:
-            return "ListColumn";
+            return 'ListColumn';
       }
       return null;
    }
@@ -197,7 +197,7 @@ export class ListColumn extends FormControl {
       return (
          (this.constraint != null && this.constraint.isNumeric) ||
          (this.columnType != null &&
-            (this.columnType === "S" || this.columnType === "P"))
+            (this.columnType === 'S' || this.columnType === 'P'))
       );
    }
 

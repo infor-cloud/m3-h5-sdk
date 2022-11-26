@@ -1,9 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { CoreBase, IIonApiRequest } from "@infor-up/m3-odin";
-import { FormService, IonApiService } from "@infor-up/m3-odin-angular";
-import { Observable, throwError } from "rxjs";
-import { catchError, flatMap, map } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { CoreBase, IIonApiRequest } from '@infor-up/m3-odin';
+import { FormService, IonApiService } from '@infor-up/m3-odin-angular';
+import { Observable, throwError } from 'rxjs';
+import { catchError, flatMap, map } from 'rxjs/operators';
 
 export interface IIdmError {
    code: string;
@@ -25,11 +25,11 @@ export interface ISearchItems {
 
 @Injectable()
 export class IdmDataService extends CoreBase {
-   private readonly proxyBaseUrl = "/ca";
-   private readonly ionBaseUrl = "/IDM";
-   private readonly idmRestRoot = "/api";
-   private readonly source = "ionapi-idm-sample";
-   private readonly mdsFileString = "/MDS_File";
+   private readonly proxyBaseUrl = '/ca';
+   private readonly ionBaseUrl = '/IDM';
+   private readonly idmRestRoot = '/api';
+   private readonly source = 'ionapi-idm-sample';
+   private readonly mdsFileString = '/MDS_File';
    private readonly offset = 0;
    private readonly limit = 20;
 
@@ -38,7 +38,7 @@ export class IdmDataService extends CoreBase {
       private httpClient: HttpClient,
       private ionApiService: IonApiService
    ) {
-      super("IDMDataService");
+      super('IDMDataService');
 
       // Force the application to behave as in Multitenant (default is on-prem)
       // To automatically determine if H5 is running in multi tenant or not H5 might need to be updated
@@ -71,7 +71,7 @@ export class IdmDataService extends CoreBase {
       offset: number = this.offset,
       limit: number = this.limit
    ): IIonApiRequest {
-      const request = this.createRequest(this.idmRestRoot + "/items/search");
+      const request = this.createRequest(this.idmRestRoot + '/items/search');
       request.url += `?$includeCount=true`;
       request.url += `&$limit=${limit}`;
       request.url += `&$offset=${offset}`;
@@ -82,9 +82,9 @@ export class IdmDataService extends CoreBase {
    private createRequest(url: string): IIonApiRequest {
       // Create HTTP GET request object
       const request: IIonApiRequest = {
-         method: "GET",
+         method: 'GET',
          url: url,
-         headers: { Accept: "application/json" },
+         headers: { Accept: 'application/json' },
          source: this.source,
       };
 
@@ -105,7 +105,7 @@ export class IdmDataService extends CoreBase {
                   body: request.body,
                   headers: request.headers,
                   reportProgress: false,
-                  observe: "response",
+                  observe: 'response',
                });
             }
          }),
@@ -114,7 +114,7 @@ export class IdmDataService extends CoreBase {
             const error: IIdmError = response.error
                ? response.error.error
                : response;
-            this.logError("Error: " + JSON.stringify(error));
+            this.logError('Error: ' + JSON.stringify(error));
             return throwError(error);
          })
       );

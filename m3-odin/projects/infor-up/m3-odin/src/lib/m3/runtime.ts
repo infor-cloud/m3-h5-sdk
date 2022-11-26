@@ -1,9 +1,9 @@
-import { AsyncSubject, Observable } from "rxjs";
-import { CoreBase, ErrorState } from "../base";
-import { Log } from "../log";
-import { IMIResponse, IMIService } from "../mi/base";
-import { IMIRequest } from "../mi/types";
-import { HttpUtil } from "../util";
+import { AsyncSubject, Observable } from 'rxjs';
+import { CoreBase, ErrorState } from '../base';
+import { Log } from '../log';
+import { IMIResponse, IMIService } from '../mi/base';
+import { IMIRequest } from '../mi/types';
+import { HttpUtil } from '../util';
 import {
    IApplicationService,
    IDateOptions,
@@ -12,7 +12,7 @@ import {
    IUserContext,
    IUserResponse,
    IUserService,
-} from "./types";
+} from './types';
 
 /**
  * @hidden
@@ -21,14 +21,14 @@ class Constants {
    /**
     * Gets the default date format (yyMMdd).
     */
-   public static readonly dateFormat = "yyMMdd";
+   public static readonly dateFormat = 'yyMMdd';
 
    /**
     * Gets the default long date format (yyyyMMdd).
     */
-   public static readonly dateFormatLong = "yyyyMMdd";
+   public static readonly dateFormatLong = 'yyyyMMdd';
 
-   public static readonly decimalSeparator = ".";
+   public static readonly decimalSeparator = '.';
 }
 
 /**
@@ -88,22 +88,22 @@ export class FormatUtil {
       }
 
       const toString = (value: number): string => {
-         return value < 10 ? "0" + value : "" + value;
+         return value < 10 ? '0' + value : '' + value;
       };
 
       const isShortYear = format.length === 6;
-      const yearString = date.getFullYear() + "";
+      const yearString = date.getFullYear() + '';
       const monthString = toString(date.getMonth() + 1);
       const dayString = toString(date.getDate());
 
       let dateString = format;
       if (isShortYear) {
-         dateString = dateString.replace("yy", yearString.substring(2, 4));
+         dateString = dateString.replace('yy', yearString.substring(2, 4));
       } else {
-         dateString = dateString.replace("yyyy", yearString);
+         dateString = dateString.replace('yyyy', yearString);
       }
-      dateString = dateString.replace("MM", monthString);
-      dateString = dateString.replace("dd", dayString);
+      dateString = dateString.replace('MM', monthString);
+      dateString = dateString.replace('dd', dayString);
 
       return dateString;
    }
@@ -125,7 +125,7 @@ export class FormatUtil {
       const length = value.length;
       if (length !== format.length || !(length === 6 || length === 8)) {
          throw new Error(
-            "Invalid format and/or value, format=" + format + " value=" + value
+            'Invalid format and/or value, format=' + format + ' value=' + value
          );
       }
 
@@ -139,16 +139,16 @@ export class FormatUtil {
          let c = format.charAt(i);
          if (i === length - 1) {
             i++;
-            c = "";
+            c = '';
          }
          if (c !== current) {
             const part = parseInt(value.substring(start, i), 10);
-            if (current === "y") {
+            if (current === 'y') {
                year = part;
                isShortYear = part < 100;
-            } else if (current === "M") {
+            } else if (current === 'M') {
                month = part - 1;
-            } else if (current === "d") {
+            } else if (current === 'd') {
                day = part;
             }
             start = i;
@@ -184,7 +184,7 @@ export class UserContext extends ErrorState implements IUserContext {
 
       // Set default values
       (<IUserContext>this).numberFormatOptions = {
-         separator: ".",
+         separator: '.',
       };
    }
 
@@ -201,23 +201,23 @@ export class UserContext extends ErrorState implements IUserContext {
 class CommonUtil {
    public static languageMap = {
       // TODO ar, el, he-IL, pt-BR, ru?
-      CS: "zh-CN",
-      CZ: "cs-CZ",
-      DE: "de-DE",
-      DK: "da-DK",
-      ES: "es-ES",
-      FI: "fi-FI",
-      FR: "fr-FR",
-      GB: "en-US",
-      HU: "hu-HU",
-      IT: "it-IT",
-      JP: "ja-JP",
-      NL: "nl-NL",
-      NO: "nb-NO",
-      PL: "pl-PL",
-      PT: "pt-PT",
-      SE: "sv-SE",
-      TR: "tr-TR",
+      CS: 'zh-CN',
+      CZ: 'cs-CZ',
+      DE: 'de-DE',
+      DK: 'da-DK',
+      ES: 'es-ES',
+      FI: 'fi-FI',
+      FR: 'fr-FR',
+      GB: 'en-US',
+      HU: 'hu-HU',
+      IT: 'it-IT',
+      JP: 'ja-JP',
+      NL: 'nl-NL',
+      NO: 'nb-NO',
+      PL: 'pl-PL',
+      PT: 'pt-PT',
+      SE: 'sv-SE',
+      TR: 'tr-TR',
    };
 
    /**
@@ -231,11 +231,11 @@ class CommonUtil {
    public static getLanguageTag(m3Language: string): string {
       let language = this.languageMap[m3Language];
       if (!language) {
-         language = "en-US";
+         language = 'en-US';
          Log.warning(
-            "getLanguageTag: M3 language " +
+            'getLanguageTag: M3 language ' +
                m3Language +
-               " not found. Fallback to " +
+               ' not found. Fallback to ' +
                language
          );
       }
@@ -253,26 +253,26 @@ class CommonUtil {
    public static getDateFormat(m3Format: string): string {
       let dateFormat = Constants.dateFormat;
       switch (m3Format) {
-         case "YMD":
-         case "YYMMDD":
-            dateFormat = "yyMMdd";
+         case 'YMD':
+         case 'YYMMDD':
+            dateFormat = 'yyMMdd';
             break;
-         case "YYYYMMDD":
-            dateFormat = "yyyyMMdd";
+         case 'YYYYMMDD':
+            dateFormat = 'yyyyMMdd';
             break;
-         case "MDY":
-         case "MMDDYY":
-            dateFormat = "MMddyy";
+         case 'MDY':
+         case 'MMDDYY':
+            dateFormat = 'MMddyy';
             break;
-         case "MMDDYYYY":
-            dateFormat = "MMddyyyy";
+         case 'MMDDYYYY':
+            dateFormat = 'MMddyyyy';
             break;
-         case "DMY":
-         case "DDMMYY":
-            dateFormat = "ddMMyy";
+         case 'DMY':
+         case 'DDMMYY':
+            dateFormat = 'ddMMyy';
             break;
-         case "DDMMYYYY":
-            dateFormat = "ddMMyyyy";
+         case 'DDMMYYYY':
+            dateFormat = 'ddMMyyyy';
             break;
       }
       return dateFormat;
@@ -297,19 +297,19 @@ export class UserServiceCore extends CoreBase implements IUserService {
    private isMessagePending = false;
 
    constructor(private miService: IMIService) {
-      super("UserServiceCore");
+      super('UserServiceCore');
       this.init();
    }
 
    private init() {
       if (HttpUtil.isIframe()) {
-         this.logDebug("Running in IFrame");
+         this.logDebug('Running in IFrame');
 
          // When we are in an IFrame we are most likely running in H5.
          // Try to reuse the existing user session from H5 first.
          this.registerMessage();
          const message: IMessage = {
-            m3Command: "user",
+            m3Command: 'user',
          };
 
          // TODO Replace with RxJS alternative for setTimeout
@@ -324,7 +324,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
       if (this.isMessagePending) {
          // If there is no response from H5 in the given max time we assume
          // that we are not being hosted in a supported version of H5.
-         this.logDebug("onTimeout: No user message from H5");
+         this.logDebug('onTimeout: No user message from H5');
          this.isMessagePending = false;
          this.isExecuting = false;
          if (this.queue.length > 0) {
@@ -339,14 +339,14 @@ export class UserServiceCore extends CoreBase implements IUserService {
          return message;
       } catch (ex) {
          this.logError(
-            "parseMessage: Failed to parse: " + JSON.stringify(data)
+            'parseMessage: Failed to parse: ' + JSON.stringify(data)
          );
       }
       return null;
    }
 
    private onMessage(data: any) {
-      if (!data || typeof data !== "string") {
+      if (!data || typeof data !== 'string') {
          return;
       }
 
@@ -355,8 +355,8 @@ export class UserServiceCore extends CoreBase implements IUserService {
          return;
       }
 
-      if (message.m3Command === "user") {
-         this.logDebug("onMessage: User message from H5");
+      if (message.m3Command === 'user') {
+         this.logDebug('onMessage: User message from H5');
          const response = message.m3Response as IUserResponse;
          this.m3User = response.m3User;
          this.principalUser = response.principalUser;
@@ -369,15 +369,15 @@ export class UserServiceCore extends CoreBase implements IUserService {
 
    private registerMessage() {
       const eventMethod = window.addEventListener
-         ? "addEventListener"
-         : "attachEvent";
+         ? 'addEventListener'
+         : 'attachEvent';
       const eventer = window[eventMethod];
       const messageEvent =
-         eventMethod === "attachEvent" ? "onmessage" : "message";
+         eventMethod === 'attachEvent' ? 'onmessage' : 'message';
       eventer(
          messageEvent,
          (e) => {
-            const key = e.message ? "message" : "data";
+            const key = e.message ? 'message' : 'data';
             const data = e[key];
             this.onMessage(data);
          },
@@ -386,7 +386,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
    }
 
    private sendMessage(message: IMessage) {
-      parent.postMessage(JSON.stringify(message), "*");
+      parent.postMessage(JSON.stringify(message), '*');
    }
 
    private createErrorContext(errorMessage: string) {
@@ -428,8 +428,8 @@ export class UserServiceCore extends CoreBase implements IUserService {
       const usid = this.m3User;
 
       const request: IMIRequest = {
-         program: "MNS150MI",
-         transaction: "GetUserData",
+         program: 'MNS150MI',
+         transaction: 'GetUserData',
       };
 
       this.miService.execute(request).subscribe(
@@ -446,19 +446,19 @@ export class UserServiceCore extends CoreBase implements IUserService {
       // Add additional alias fields for some values
       // Note that some values are duplicated with alternative case for compatibility with MForms / H5
       context.m3User = context.USID;
-      context["M3User"] = context.USID;
+      context['M3User'] = context.USID;
       context.company = context.CONO;
-      context["Company"] = context.CONO;
-      context.currentCompany = context["CurrentCompany"] || context.CONO;
-      context["CurrentCompany"] = context["CurrentCompany"] || context.CONO;
+      context['Company'] = context.CONO;
+      context.currentCompany = context['CurrentCompany'] || context.CONO;
+      context['CurrentCompany'] = context['CurrentCompany'] || context.CONO;
       context.division = context.DIVI;
-      context["Division"] = context.DIVI;
-      context.currentDivision = context["CurrentDivision"] || context.DIVI;
-      context["CurrentDivision"] = context["CurrentDivision"] || context.DIVI;
+      context['Division'] = context.DIVI;
+      context.currentDivision = context['CurrentDivision'] || context.DIVI;
+      context['CurrentDivision'] = context['CurrentDivision'] || context.DIVI;
       context.language = context.LANC;
-      context["Language"] = context.LANC;
-      context.currentLanguage = context["CurrentLanguage"] || context.LANC;
-      context["CurrentLanguage"] = context["CurrentLanguage"] || context.LANC;
+      context['Language'] = context.LANC;
+      context.currentLanguage = context['CurrentLanguage'] || context.LANC;
+      context['CurrentLanguage'] = context['CurrentLanguage'] || context.LANC;
 
       context.dateFormat = CommonUtil.getDateFormat(context.DTFM);
       context.languageTag = CommonUtil.getLanguageTag(context.LANC);
@@ -478,19 +478,19 @@ export class UserServiceCore extends CoreBase implements IUserService {
       }
 
       // User context values from H5 login reply
-      const theme = context["Theme"];
+      const theme = context['Theme'];
       if (theme) {
          context.theme = theme;
       }
 
-      const tenant = context["Tenant"];
+      const tenant = context['Tenant'];
       if (tenant) {
          context.tenant = tenant;
-         const isSingleTenant = tenant === "infor";
+         const isSingleTenant = tenant === 'infor';
          context.isMultiTenant = !isSingleTenant;
       }
 
-      const ionApiUrl = context["IonApiUrl"];
+      const ionApiUrl = context['IonApiUrl'];
       if (ionApiUrl) {
          context.ionApiUrl = ionApiUrl;
       }
@@ -511,14 +511,14 @@ export class UserServiceCore extends CoreBase implements IUserService {
       const company = context.currentCompany;
       const division = context.currentDivision;
       Configuration.update(context);
-      (this.miService["instance"] as any).updateUserContext(company, division);
+      (this.miService['instance'] as any).updateUserContext(company, division);
       this.processQueue(true);
       this.logInfo(
-         "setContext: Initialized user context for " +
+         'setContext: Initialized user context for ' +
             this.m3User +
-            " " +
+            ' ' +
             company +
-            "/" +
+            '/' +
             division
       );
    }
@@ -539,7 +539,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
       const subject = new AsyncSubject<IUserContext>();
 
       if (!this.isUserContextAvailable) {
-         this.createErrorContext("M3 UserContext not available");
+         this.createErrorContext('M3 UserContext not available');
          subject.error(this.userContext);
       } else if (this.userContext) {
          subject.next(this.userContext);
@@ -557,11 +557,11 @@ export class UserServiceCore extends CoreBase implements IUserService {
          this.principalUser = principalUser;
       }
       if (this.userContext) {
-         this.logDebug("setUserContext: Updating user context after logon");
+         this.logDebug('setUserContext: Updating user context after logon');
          Object.assign(this.userContext, context);
       } else {
          this.userContext = this.createUserContext(context);
-         this.logDebug("setUserContext: Creating user context after logon");
+         this.logDebug('setUserContext: Creating user context after logon');
       }
       this.isUserContextAvailable = true;
       this.addAliases(context);
@@ -577,7 +577,7 @@ export class ApplicationServiceCore
    implements IApplicationService
 {
    constructor() {
-      super("ApplicationServiceCore");
+      super('ApplicationServiceCore');
    }
 
    isH5(): boolean {
@@ -589,13 +589,13 @@ export class ApplicationServiceCore
          link: link,
       };
       const message: IMessage = {
-         m3Command: "launch",
+         m3Command: 'launch',
          m3Parameter: task,
       };
       this.sendMessage(message);
    }
 
    private sendMessage(message: IMessage) {
-      parent.postMessage(JSON.stringify(message), "*");
+      parent.postMessage(JSON.stringify(message), '*');
    }
 }

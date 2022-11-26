@@ -1,5 +1,5 @@
-import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import {
    ApplicationServiceCore,
    CoreBase,
@@ -29,8 +29,8 @@ import {
    IUserService,
    MIServiceCore,
    UserServiceCore,
-} from "@infor-up/m3-odin";
-import { Observable } from "rxjs";
+} from '@infor-up/m3-odin';
+import { Observable } from 'rxjs';
 
 /**
  * Angular implementation of {@link IMIService}
@@ -61,7 +61,7 @@ export class MIService extends CoreBase implements IMIService {
 
    // TODO Inject Angular common HTTP once we have verified the Ajax HTTP implementation
    constructor() {
-      super("MIService");
+      super('MIService');
       this.instance = new MIServiceCore();
    }
 
@@ -104,7 +104,7 @@ export class ApplicationService
    private instance: IApplicationService;
 
    constructor() {
-      super("ApplicationService");
+      super('ApplicationService');
       this.instance = new ApplicationServiceCore();
    }
 
@@ -151,7 +151,7 @@ export class UserService extends CoreBase implements IUserService {
    private instance: IUserService;
 
    constructor(miService: MIService) {
-      super("UserService");
+      super('UserService');
       this.instance = new UserServiceCore(miService);
    }
 
@@ -208,7 +208,7 @@ export class FormService extends CoreBase implements IFormService {
 
    // TODO Inject Angular common HTTP once we have verified the Ajax HTTP implementation
    constructor(private userService: UserService) {
-      super("FormService");
+      super('FormService');
       this.instance = new FormServiceCore(null, userService.getUserService());
    }
 
@@ -292,7 +292,7 @@ export interface IIonApiConfig {
  * ```
  * @since 3.0.0
  */
-export const IonApiConfig = new InjectionToken<IIonApiConfig>("IonApiConfig", {
+export const IonApiConfig = new InjectionToken<IIonApiConfig>('IonApiConfig', {
    factory() {
       return { withCredentials: false };
    },
@@ -330,7 +330,7 @@ export class IonApiService extends CoreBase implements IIonApiService {
       formService: FormService,
       @Inject(IonApiConfig) @Optional() config?: IIonApiConfig
    ) {
-      super("IonApiService");
+      super('IonApiService');
       this.instance = new IonApiServiceCore(
          new HttpServiceWrapper(http, config),
          formService
@@ -360,7 +360,7 @@ class HttpServiceWrapper implements IHttpService {
          headers: request.headers,
          reportProgress: false,
          withCredentials: this.config?.withCredentials,
-         observe: "response",
+         observe: 'response',
       });
    }
 }

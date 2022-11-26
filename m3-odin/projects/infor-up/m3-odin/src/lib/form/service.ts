@@ -1,9 +1,9 @@
-import { AsyncSubject, Observable } from "rxjs";
-import { CoreBase } from "../base";
-import { AjaxHttpService } from "../http";
-import { IUserContext, IUserService } from "../m3/types";
-import { IHttpRequest, IHttpResponse, IHttpService } from "../types";
-import { CoreUtil, HttpUtil, StringUtil } from "../util";
+import { AsyncSubject, Observable } from 'rxjs';
+import { CoreBase } from '../base';
+import { AjaxHttpService } from '../http';
+import { IUserContext, IUserService } from '../m3/types';
+import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
+import { CoreUtil, HttpUtil, StringUtil } from '../util';
 import {
    Bookmark,
    FormResponse,
@@ -12,15 +12,15 @@ import {
    ITranslationJob,
    ITranslationRequest,
    ITranslationResponse,
-} from "./base";
-import { FormParser, XmlUtil } from "./parser";
-import { Translator } from "./runtime";
+} from './base';
+import { FormParser, XmlUtil } from './parser';
+import { Translator } from './runtime';
 import {
    IBookmark,
    IEnvironmentContext,
    IFormService,
    ISearchRequest,
-} from "./types";
+} from './types';
 
 interface IPendingRequest {
    subject: AsyncSubject<IFormResponse>;
@@ -32,7 +32,7 @@ interface IPendingRequest {
  * @since 2.0.0
  */
 export class FormServiceCore extends CoreBase implements IFormService {
-   private readonly url = "/mne/servlet/MvxMCSvt";
+   private readonly url = '/mne/servlet/MvxMCSvt';
    private userContext: IUserContext;
    private environmentContext: IEnvironmentContext;
    private hasSession = false;
@@ -44,7 +44,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
       private httpService?: IHttpService,
       private userService?: IUserService
    ) {
-      super("FormServiceCore");
+      super('FormServiceCore');
 
       if (!httpService) {
          this.httpService = new AjaxHttpService();
@@ -74,8 +74,8 @@ export class FormServiceCore extends CoreBase implements IFormService {
       }
 
       const request: IFormRequest = {
-         commandType: "RUN",
-         commandValue: "BOOKMARK",
+         commandType: 'RUN',
+         commandValue: 'BOOKMARK',
          resolver: (r: IFormRequest, userContext: IUserContext) => {
             r.params = Bookmark.toParams(bookmark, userContext);
          },
@@ -87,18 +87,18 @@ export class FormServiceCore extends CoreBase implements IFormService {
       const program = request.program;
       const query = request.query;
 
-      this.validate("program", program);
-      this.validate("query", query);
+      this.validate('program', program);
+      this.validate('query', query);
 
       const formRequest: IFormRequest = {
-         commandType: "RUN",
-         commandValue: "SEARCH",
+         commandType: 'RUN',
+         commandValue: 'SEARCH',
          params: {
             STATELESS: true,
             SEARCH_PROGRAM: program,
             SEARCH_QUERY: query,
-            SEARCH_VIEW: request.view || "",
-            SEARCH_INQUIRY_TYPE: request.sortingOrder || "",
+            SEARCH_VIEW: request.view || '',
+            SEARCH_INQUIRY_TYPE: request.sortingOrder || '',
             SEARCH_FILTER_FIELDS: this.getFilterFields(request),
             SEARCH_START_PANEL_FIELDS: this.getStartPanelFields(request),
          },
@@ -108,29 +108,29 @@ export class FormServiceCore extends CoreBase implements IFormService {
 
    validate(name: string, value: string): void {
       if (!value) {
-         throw new Error("The " + name + " property is mandatory");
+         throw new Error('The ' + name + ' property is mandatory');
       }
    }
 
    private getFilterFields(request: ISearchRequest): string {
       const fields = request.filterFields;
-      return fields && fields.length > 0 ? fields.join(",") : "";
+      return fields && fields.length > 0 ? fields.join(',') : '';
    }
 
    private getStartPanelFields(request: ISearchRequest): string {
-      let values = "";
+      let values = '';
       const fields = request.startPanelFields;
       if (fields) {
          for (const field of Object.keys(fields)) {
             let value = fields[field];
             if (value == null || value.length === 0) {
-               value = " "; // Use space for optional values
+               value = ' '; // Use space for optional values
             }
             if (values.length > 0) {
-               values += ",";
+               values += ',';
             }
             values += field;
-            values += ",";
+            values += ',';
             values += encodeURIComponent(value);
          }
       }
@@ -199,31 +199,31 @@ export class FormServiceCore extends CoreBase implements IFormService {
          if (this.hasEnvironmentInformation()) {
             // Usercontext should have the information needed
             this.logDebug(
-               "getEnvironmentContext: user has tenantid set, getting data from user context"
+               'getEnvironmentContext: user has tenantid set, getting data from user context'
             );
             context = this.createEnvironmentContext(this.userContext);
-            this.logInfo("getEnvironmentContext: " + JSON.stringify(context));
+            this.logInfo('getEnvironmentContext: ' + JSON.stringify(context));
             this.environmentContext = context;
             subject.next(context);
             subject.complete();
          } else {
             this.logDebug(
-               "getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT"
+               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT'
             );
-            this.command("USER", "M3USER_OPT").subscribe(
+            this.command('USER', 'M3USER_OPT').subscribe(
                (r) => {
                   const document = r.document;
                   if (document) {
                      context = this.createEnvironmentContextFromXml(document);
                      this.environmentContext = context;
                      this.logInfo(
-                        "getEnvironmentContext: " + JSON.stringify(context)
+                        'getEnvironmentContext: ' + JSON.stringify(context)
                      );
                      subject.next(context);
                      subject.complete();
                   } else {
                      this.logError(
-                        "getEnvironmentContext: Unable to get user information from H5. Verify that the H5 version is supported."
+                        'getEnvironmentContext: Unable to get user information from H5. Verify that the H5 version is supported.'
                      );
                      this.environmentContext = context;
                      subject.error(context);
@@ -231,7 +231,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
                },
                (r) => {
                   this.logError(
-                     "getEnvironmentContext: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT failed."
+                     'getEnvironmentContext: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT failed.'
                   );
                   this.environmentContext = context;
                   subject.error(context);
@@ -261,17 +261,17 @@ export class FormServiceCore extends CoreBase implements IFormService {
       };
       const root = FormParser.selectRoot(document);
       if (root) {
-         const tenantId = XmlUtil.getElement(root, "Tenant");
-         const version = XmlUtil.getElement(root, "Version");
-         const ionApiUrl = XmlUtil.getElement(root, "IonApiUrl");
+         const tenantId = XmlUtil.getElement(root, 'Tenant');
+         const version = XmlUtil.getElement(root, 'Version');
+         const ionApiUrl = XmlUtil.getElement(root, 'IonApiUrl');
          if (StringUtil.isNullOrEmpty(tenantId)) {
             this.logWarning(
-               "createEnvironmentContextFromXml: Failed to get tenant information from H5. H5 version is: " +
+               'createEnvironmentContextFromXml: Failed to get tenant information from H5. H5 version is: ' +
                   version
             );
             return context;
          } else {
-            context.isMultiTenant = !(tenantId === "infor");
+            context.isMultiTenant = !(tenantId === 'infor');
             if (!StringUtil.isNullOrEmpty(ionApiUrl)) {
                context.ionApiUrl = HttpUtil.combine(ionApiUrl, tenantId);
             }
@@ -281,7 +281,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
          }
       } else {
          this.logError(
-            "createEnvironmentContextFromXml: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT has no response root."
+            'createEnvironmentContextFromXml: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT has no response root.'
          );
       }
       return context;
@@ -298,15 +298,15 @@ export class FormServiceCore extends CoreBase implements IFormService {
       const tenant = userContext.tenant;
       const ionApiUrl = userContext.ionApiUrl;
       if (tenant) {
-         context.isMultiTenant = !(tenant === "infor");
+         context.isMultiTenant = !(tenant === 'infor');
       } else {
          // eslint-disable-next-line max-len
          this.logWarning(
-            "getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem"
+            'getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem'
          );
       }
       if (ionApiUrl) {
-         this.logInfo("getEnvironmentContext: IonApiUrl " + ionApiUrl);
+         this.logInfo('getEnvironmentContext: IonApiUrl ' + ionApiUrl);
          context.ionApiUrl = ionApiUrl;
       }
       return context;
@@ -332,7 +332,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
       const subject = new AsyncSubject<IFormResponse>();
 
       if (this.hasSession) {
-         this.logDebug("logon: Existing session returned");
+         this.logDebug('logon: Existing session returned');
          const response = new FormResponse();
          subject.next(response);
          subject.complete();
@@ -342,40 +342,40 @@ export class FormServiceCore extends CoreBase implements IFormService {
             this.userService.getUserContext().subscribe(
                (userContext: IUserContext) => {
                   this.userContext = userContext;
-                  this.logDebug("logon: Logging on to H5...");
-                  this.command("LOGON", null).subscribe(
+                  this.logDebug('logon: Logging on to H5...');
+                  this.command('LOGON', null).subscribe(
                      (r) => {
-                        this.logDebug("logon: H5 logon complete.");
+                        this.logDebug('logon: H5 logon complete.');
                         this.hasSession = true;
                         subject.next(r);
                         subject.complete();
                         this.processPending();
                      },
                      (r) => {
-                        this.logError("logon: H5 logon failed.");
+                        this.logError('logon: H5 logon failed.');
                         subject.error(r);
                         this.rejectPending(r);
                      }
                   );
                },
                (userContextError) => {
-                  this.logError("Failed to get user context");
+                  this.logError('Failed to get user context');
                   subject.error(userContextError);
                   this.rejectPending(userContextError);
                }
             );
          } else {
-            this.logDebug("logon: Logging on to H5 user context exists...");
-            this.command("LOGON", null).subscribe(
+            this.logDebug('logon: Logging on to H5 user context exists...');
+            this.command('LOGON', null).subscribe(
                (r) => {
-                  this.logDebug("logon: H5 logon complete.");
+                  this.logDebug('logon: H5 logon complete.');
                   this.hasSession = true;
                   subject.next(r);
                   subject.complete();
                   this.processPending();
                },
                (r) => {
-                  this.logError("logon: H5 logon failed.");
+                  this.logError('logon: H5 logon failed.');
                   subject.error(r);
                   this.rejectPending(r);
                }
@@ -387,7 +387,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
    }
 
    private logoff(): Observable<IFormResponse> {
-      const observable = this.command("QUIT", null);
+      const observable = this.command('QUIT', null);
       this.hasSession = false;
       return observable;
    }
@@ -414,11 +414,11 @@ export class FormServiceCore extends CoreBase implements IFormService {
       request: IFormRequest
    ): Observable<IFormResponse> {
       if (this.hasSession) {
-         this.logDebug("executeWithSession: Using existing session");
+         this.logDebug('executeWithSession: Using existing session');
          return this.execute(request);
       }
 
-      this.logDebug("executeWithSession: No session, execution delayed.");
+      this.logDebug('executeWithSession: No session, execution delayed.');
 
       const subject = new AsyncSubject<IFormResponse>();
       this.pending.push({
@@ -436,10 +436,10 @@ export class FormServiceCore extends CoreBase implements IFormService {
       request: IFormRequest
    ): Observable<IFormResponse> {
       this.logDebug(
-         "executeWithSubject: Executing request " +
+         'executeWithSubject: Executing request ' +
             request.commandType +
-            " " +
-            (request.commandValue || "")
+            ' ' +
+            (request.commandValue || '')
       );
 
       if (!request.sessionId) {
@@ -472,11 +472,11 @@ export class FormServiceCore extends CoreBase implements IFormService {
       const params = this.createParams(request);
       const body = this.createBody(params);
       return {
-         method: "POST",
+         method: 'POST',
          url: this.url,
          body: body,
          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            'Content-Type': 'application/x-www-form-urlencoded',
          },
       };
    }
@@ -484,14 +484,14 @@ export class FormServiceCore extends CoreBase implements IFormService {
    private createBody(params: any): string {
       const str = [];
       for (const p of Object.keys(params)) {
-         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(params[p]));
+         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(params[p]));
       }
-      return str.join("&");
+      return str.join('&');
    }
 
    private createError(httpResponse: IHttpResponse): IFormResponse {
       // TODO Extract HTTP code etc from the response
-      this.logError("createError: Failed to execute request");
+      this.logError('createError: Failed to execute request');
       const response = new FormResponse();
       response.result = -1;
       return response;
@@ -510,14 +510,14 @@ export class FormServiceCore extends CoreBase implements IFormService {
       }
 
       const commandType = request.commandType;
-      if (commandType === "LOGON") {
-         this.addParam(params, "CLIENT", "WebUI");
+      if (commandType === 'LOGON') {
+         this.addParam(params, 'CLIENT', 'WebUI');
       }
-      this.addParam(params, "CMDTP", commandType);
-      this.addParam(params, "CMDVAL", request.commandValue);
-      this.addParam(params, "SID", request.sessionId);
-      this.addParam(params, "IID", request.instanceId);
-      this.addParam(params, "RID", CoreUtil.random());
+      this.addParam(params, 'CMDTP', commandType);
+      this.addParam(params, 'CMDVAL', request.commandValue);
+      this.addParam(params, 'SID', request.sessionId);
+      this.addParam(params, 'IID', request.instanceId);
+      this.addParam(params, 'RID', CoreUtil.random());
 
       return params;
    }
@@ -528,7 +528,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
       if (!this.sessionId) {
          this.sessionId = response.sessionId;
       }
-      if (response.request.commandType === "LOGON" && response.userData) {
+      if (response.request.commandType === 'LOGON' && response.userData) {
          this.updateUserContextAfterLogon(
             response.userData,
             response.principalUser

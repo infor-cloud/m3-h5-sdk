@@ -1,10 +1,10 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 import {
    IFormRequest,
    IFormResponse,
    ITranslationRequest,
    ITranslationResponse,
-} from "./base";
+} from './base';
 
 /**
  * Represents an M3 bookmark.

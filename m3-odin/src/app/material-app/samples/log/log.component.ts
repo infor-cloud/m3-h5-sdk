@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
-import { CoreBase } from "@infor-up/m3-odin";
+import { Component } from '@angular/core';
+import { CoreBase } from '@infor-up/m3-odin';
 
 @Component({
-   templateUrl: "./log.component.html",
-   styleUrls: ["./log.component.css"],
+   templateUrl: './log.component.html',
+   styleUrls: ['./log.component.css'],
 })
 export class LogSampleComponent extends CoreBase {
    logs: any[] = [];
 
    constructor() {
-      super("LogSampleComponent");
+      super('LogSampleComponent');
    }
 
    private addLog(type: string, message: string) {
@@ -22,26 +22,26 @@ export class LogSampleComponent extends CoreBase {
    }
 
    onClickDebug(): void {
-      const message = "Debug button clicked";
-      this.addLog("DEBUG", message);
+      const message = 'Debug button clicked';
+      this.addLog('DEBUG', message);
       this.logDebug(message);
    }
 
    onClickInfo(): void {
-      const message = "Info button clicked";
-      this.addLog("INFO", message);
+      const message = 'Info button clicked';
+      this.addLog('INFO', message);
       this.logInfo(message);
    }
 
    onClickWarning(): void {
-      const message = "Warning button clicked";
-      this.addLog("WARNING", message);
+      const message = 'Warning button clicked';
+      this.addLog('WARNING', message);
       this.logWarning(message);
    }
 
    onClickError(): void {
-      const message = "Error button clicked";
-      this.addLog("ERROR", message);
+      const message = 'Error button clicked';
+      this.addLog('ERROR', message);
       this.logError(message);
    }
 }
