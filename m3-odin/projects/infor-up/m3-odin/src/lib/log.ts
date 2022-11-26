@@ -150,7 +150,7 @@ export class Log {
    }
 
    private static log(currentLevel: number, level: number, text: string, ex?: any) {
-      // tslint:disable:no-console
+      /* eslint-disable no-console */
       if (level <= currentLevel) {
          // Log to the console if it is enabled and exist in the current browser.
          if (Log.isConsoleLogEnabled && window.console) {
@@ -175,7 +175,7 @@ export class Log {
             }
          }
       }
-      // tslint:enable:no-console
+      /* eslint-enable no-console */
    }
 
    /**

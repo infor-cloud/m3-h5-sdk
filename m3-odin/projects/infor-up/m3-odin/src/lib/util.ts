@@ -391,10 +391,10 @@ export class CoreUtil {
    private static chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
    public static getUuid(prefix: string): string {
-      // tslint:disable:no-bitwise
+      /* eslint-disable no-bitwise */
       return prefix + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) +
          (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-      // tslint:enable:no-bitwise
+      /* eslint-enable no-bitwise */
    }
 
    public static hasValue(anyObject: any): boolean {

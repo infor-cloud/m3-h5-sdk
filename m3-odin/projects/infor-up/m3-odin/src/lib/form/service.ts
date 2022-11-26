@@ -245,7 +245,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
       if (tenant) {
          context.isMultiTenant = !(tenant === 'infor');
       } else {
-         // tslint:disable-next-line:max-line-length
+         // eslint-disable-next-line max-len
          this.logWarning('getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem');
       }
       if (ionApiUrl) {
