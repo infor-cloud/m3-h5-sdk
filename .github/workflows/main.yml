@@ -138,8 +138,18 @@ jobs:
         with:
           node-version: '16'
 
-      - name: run tests
+      - name: Install packages
         run: |
           cd ./m3-odin
           npm ci
+
+      - name: Build libraries
+        run: |
+          cd ./m3-odin
+          npm run ng -- build @infor-up/m3-odin
+          npm run ng -- build @infor-up/m3-odin-angular
+
+      - name: Run tests
+        run: |
+          cd ./m3-odin
           npm run ng -- test --code-coverage --browsers=ChromeHeadlessCI
