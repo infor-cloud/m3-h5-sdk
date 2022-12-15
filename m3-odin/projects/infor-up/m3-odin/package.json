@@ -1,28 +1,21 @@
 {
-   "name": "@infor-up/m3-odin",
-   "private": false,
-   "version": "6.0.0",
-   "description": "Odin for M3 web application development.",
-   "main": "dist/index.js",
-   "types": "dist/index.d.ts",
-   "scripts": {
-      "build": "tsc",
-      "clean": "git clean -f -d -X dist"
-   },
-   "files": [
-      "dist",
-      "README.md"
-   ],
-   "author": {
-      "name": "Fredrik Eriksson",
-      "email": "fredrik.eriksson@infor.com"
-   },
-   "license": "Apache-2.0",
-   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
-   },
-   "peerDependencies": {
-      "rxjs": "^7.0.0"
-   }
+  "name": "@infor-up/m3-odin",
+  "private": false,
+  "version": "6.0.0",
+  "description": "Odin for M3 web application development.",
+  "author": {
+    "name": "Fredrik Eriksson",
+    "email": "fredrik.eriksson@infor.com"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
+  },
+  "peerDependencies": {
+    "rxjs": "^7.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
 }

@@ -28,8 +28,8 @@ ng update @angular/core @angular/cli ids-enterprise-ng @infor-up/m3-odin @infor-
 ```
 
 ## Known Issues
-- https://github.com/infor-cloud/m3-h5-sdk/issues/146
-
+- Issue with installing conflicting dependencies: https://github.com/infor-cloud/m3-h5-sdk/issues/146
+- Some have reported an issue with running `ng test` after upgrading Karma. See [this diff in karma.conf.js](https://github.com/infor-cloud/m3-h5-sdk/pull/147/files#diff-cb1252fe3e31974e46fa65268f681b2c20e9023cefd39dfd03fc7a267124b73e) for how to replace the deprecated `"karma-coverage-istanbul-reporter"` plugin with the `"karma-coverage"` plugin.
 
 # 5.0.0
 ## Changes
