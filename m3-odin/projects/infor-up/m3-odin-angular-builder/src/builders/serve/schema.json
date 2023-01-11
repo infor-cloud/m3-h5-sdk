@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "title": "Odin Server Target",
+    "description": "Odin Server target options for Build Facade.",
+    "type": "object",
+    "properties": {
+        "port": {
+            "type": "number",
+            "description": "Port to listen on"
+        },
+        "multiTenant": {
+            "type": "boolean",
+            "description": "Enable Multi-Tenant proxy"
+        },
+        "ionApi": {
+            "type": "boolean",
+            "description": "Use ION API for Multi-Tenant proxy requests"
+        }
+    }
+}
