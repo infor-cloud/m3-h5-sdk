@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { ArrayUtil, CoreBase, IMIRequest, IMIResponse } from '@infor-up/m3-odin';
 import { MIService } from '@infor-up/m3-odin-angular';
 import { BehaviorSubject, Observable, of } from 'rxjs';
