@@ -30,7 +30,7 @@ These are the names of the packages and their npm links:
 - @infor-up/m3-odin-cli
    - [https://www.npmjs.com/package/@infor-up/m3-odin-cli](https://www.npmjs.com/package/@infor-up/m3-odin-cli)
 - @infor-up/m3-odin
-   - [https://www.npmjs.com/package/@infor-up/m3-odi](https://www.npmjs.com/package/@infor-up/m3-odi)
+   - [https://www.npmjs.com/package/@infor-up/m3-odin](https://www.npmjs.com/package/@infor-up/m3-odin)
 - @infor-up/m3-odin-angular
    - [https://www.npmjs.com/package/@infor-up/m3-odin-angular](https://www.npmjs.com/package/@infor-up/m3-odin-angular)
 
@@ -53,6 +53,12 @@ Run the following command to verify that the CLI was installed successfully. The
 
 ```
 odin -h
+```
+
+If the installation did not create an alias, you can manually execute the commad as well using `npm exec'
+
+```
+npm exec odin -h
 ```
 
 # <a id="quick-start"></a> Quickstart
