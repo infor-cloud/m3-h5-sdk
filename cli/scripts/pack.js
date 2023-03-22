@@ -32,7 +32,7 @@ function packNpm(directory) {
 function packCore() {
     const operation = begin('Pack M3 Odin Core');
     npmRun('build:lib-core', projectDirectory());
-    const directory = projectDirectory('projects/infor-up/m3-odin');
+    const directory = projectDirectory('dist/infor-up/m3-odin');
     packNpm(directory);
     end(operation);
 }
