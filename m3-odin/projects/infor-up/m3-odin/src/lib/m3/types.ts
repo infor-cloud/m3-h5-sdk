@@ -190,6 +190,11 @@ export interface IUserContext extends IErrorState {
    FADT?: string;
 
    /**
+    * Contains the universal UserID in UUID format
+    */
+   EUID?: string;
+
+   /**
     * First active date in the M3 calendar.
     */
    firstActiveDate?: Date;
