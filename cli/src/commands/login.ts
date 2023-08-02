@@ -100,6 +100,7 @@ export async function login(options: LoginOptions) {
          width: WINDOW_WIDTH,
          height: WINDOW_HEIGHT,
       },
+      ignoreDefaultArgs: ['--enable-automation']
    });
    const [page] = await browser.pages();
    console.log('Waiting for ION API Token');
