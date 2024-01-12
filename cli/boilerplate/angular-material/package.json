@@ -1,9 +1,9 @@
 {
    "dependencies": {
-      "@infor-up/m3-odin": "7.0.0-next.3",
-      "@infor-up/m3-odin-angular": "7.0.0-next.3",
-      "@angular/cdk": "^15.0.0",
-      "@angular/material": "^15.0.0"
+      "@infor-up/m3-odin": "7.0.0-next.4",
+      "@infor-up/m3-odin-angular": "7.0.0-next.4",
+      "@angular/cdk": "^17.0.0",
+      "@angular/material": "^17.0.0"
    },
    "devDependencies": {}
 }
