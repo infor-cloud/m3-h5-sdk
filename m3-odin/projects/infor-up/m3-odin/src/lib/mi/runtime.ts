@@ -512,6 +512,11 @@ export class MIServiceCore extends CoreBase implements IMIService {
          }
       }
 
+      const m3User = request.m3User;
+      if (m3User) {
+         url += ';m3User=' + m3User;
+      }
+
       // Add optional parameters
       if (returnCols) {
          url += ';returncols=' + returnCols;
