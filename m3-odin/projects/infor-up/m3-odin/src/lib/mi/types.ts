@@ -86,6 +86,11 @@ export interface IMIOptions {
     * The default value is true.
     */
    enableCsrf?: boolean;
+
+   /**
+    * Overrides the user that will execute the API call towards M3
+    */
+   m3User?: string;
 }
 
 /**
