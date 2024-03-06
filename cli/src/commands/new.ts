@@ -8,7 +8,7 @@ import { configureName, configureProxy } from './set.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-export type NewProjectStyleOption = 'material' | 'soho' | 'none';
+export type NewProjectStyleOption = 'soho' | 'none';
 
 export interface INewProjectOptions {
    name: string;
@@ -37,12 +37,6 @@ const getBoilerplateDir = (style: NewProjectStyleOption, angular?: boolean) => {
             return path.resolve(__dirname, '../../boilerplate/angular-soho');
          } else {
             return path.resolve(__dirname, '../../boilerplate/basic');
-         }
-      case 'material':
-         if (angular) {
-            return path.resolve(__dirname, '../../boilerplate/angular-material');
-         } else {
-            return path.resolve(__dirname, '../../boilerplate/basic-material');
          }
       case 'none':
          if (angular) {
