@@ -1,6 +1,6 @@
 {
   "name": "m3-odin-samples",
-  "version": "7.0.0-next.4",
+  "version": "7.0.0-next.5",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
@@ -39,7 +39,7 @@
     "ids-enterprise-ng": "^17.5.5",
     "rxjs": "^7.4.0",
     "tslib": "^2.4.0",
-    "typedoc": "^0.25.7",
+    "typedoc": "^0.25.11",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
