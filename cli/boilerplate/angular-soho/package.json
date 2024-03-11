@@ -1,8 +1,8 @@
 {
    "dependencies": {
-      "@infor-up/m3-odin": "7.0.0-next.4",
-      "@infor-up/m3-odin-angular": "7.0.0-next.4",
-      "ids-enterprise-ng": "^17.0.0"
+      "@infor-up/m3-odin": "7.0.0-next.5",
+      "@infor-up/m3-odin-angular": "7.0.0-next.5",
+      "ids-enterprise-ng": "^17.5.5"
    },
    "devDependencies": {}
 }
