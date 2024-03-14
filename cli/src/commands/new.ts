@@ -96,6 +96,17 @@ const modAngularJson = (projectRoot: string, projectName: string, style: NewProj
    buildOptions.baseHref = boilerplateOptions.baseHref;
    buildOptions.outputPath = boilerplateOptions.outputPath;
 
+   // In Angular 17 default is now build-angular:application, which has different proxy mechanism, so we need to use the old builder for now
+   const build = angularJson.projects[projectName].architect.build;
+   build.builder = "@angular-devkit/build-angular:browser";
+
+   // Old builder expect "main" not "browser"
+   if (buildOptions.browser) {
+      const mainPath = buildOptions.browser;
+      delete buildOptions.browser;
+      buildOptions.main = mainPath;
+   }
+
    fs.writeJsonSync(angularJsonPath, angularJson, { spaces: 3 });
 };
 
