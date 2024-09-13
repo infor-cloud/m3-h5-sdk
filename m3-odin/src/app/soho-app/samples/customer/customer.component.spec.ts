@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MIService, UserService } from '@infor-up/m3-odin-angular';
 import { SohoComponentsModule } from 'ids-enterprise-ng';
@@ -8,7 +8,7 @@ describe('CustomerComponent', () => {
    let component: CustomerSampleComponent;
    let fixture: ComponentFixture<CustomerSampleComponent>;
 
-   beforeEach(async(() => {
+   beforeEach(fakeAsync(() => {
       TestBed.configureTestingModule({
          declarations: [CustomerSampleComponent],
          imports: [FormsModule, SohoComponentsModule],
