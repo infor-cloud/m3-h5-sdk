@@ -7,8 +7,8 @@ Built-in support for Material Design has been removed.
 
 ## Updated dependencies
 
-- Angular 17
-- IDS Enterprise Components 17
+- Angular 18
+- IDS Enterprise Components 18
 
 # 6.0.0
 

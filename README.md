@@ -33,7 +33,7 @@ These are the names of the packages and their npm links:
 - @infor-up/m3-odin-cli
   - [https://www.npmjs.com/package/@infor-up/m3-odin-cli](https://www.npmjs.com/package/@infor-up/m3-odin-cli)
 - @infor-up/m3-odin
-  - [https://www.npmjs.com/package/@infor-up/m3-odi](https://www.npmjs.com/package/@infor-up/m3-odi)
+  - [https://www.npmjs.com/package/@infor-up/m3-odi](https://www.npmjs.com/package/@infor-up/m3-odin)
 - @infor-up/m3-odin-angular
   - [https://www.npmjs.com/package/@infor-up/m3-odin-angular](https://www.npmjs.com/package/@infor-up/m3-odin-angular)
 
