@@ -45,17 +45,13 @@ async function packSamples() {
    const sohoSampleName = 'infor-m3-odin-sample-soho';
    await packSampleApp(sohoSampleSourceName, sohoSampleName, true);
 
-   const materialSampleSourceName = 'material-app';
-   const materialSampleName = 'infor-m3-odin-sample-material';
-   await packSampleApp(materialSampleSourceName, materialSampleName);
-
    process.chdir(currentDirectory);
 
    deleteTempDirectory();
 }
 
 async function packSampleApp(sampleSourceName: string, sampleName: string, isSoho?: boolean) {
-   const operation = begin('Packing Angular ' + (isSoho ? 'Soho' : 'Material') + ' sample');
+   const operation = begin('Packing Angular ' + (isSoho ? 'Soho' : '') + ' sample');
 
    const sampleTargetPath = path.join(tempPath, sampleName);
    const sourceTargetPath = path.join(sampleTargetPath, 'src');
@@ -124,7 +120,7 @@ function createProject(name: string, isSoho?: boolean): void {
    const operation = begin('Creating project with M3 Odin CLI');
 
    const odinCliScript = relativePath("../dist/cli.js")
-   const command = `node ${odinCliScript} new --skip-git --angular ${isSoho ? '--soho' : '--material'} --proxy ${proxyUrl} ${name}`;
+   const command = `node ${odinCliScript} new --skip-git --angular ${isSoho ? '--soho' : '--none'} --proxy ${proxyUrl} ${name}`;
    // const command = 'odin new --skip-git --angular ' + (isSoho ? '--soho' : '--material') + ' --proxy ' + proxyUrl + ' ' + name;
    console.log('Project name: ' + name);
    console.log('Temp directory: ' + tempPath);

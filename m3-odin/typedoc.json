@@ -4,7 +4,7 @@
    "name": "M3 Odin",
    "entryPoints": [
       "projects/infor-up/m3-odin",
-      "dist/infor-up/m3-odin-angular"
+      "projects/infor-up/m3-odin-angular"
    ],
    "entryPointStrategy": "packages",
    "excludeExternals": true,
