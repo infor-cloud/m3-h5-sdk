@@ -29,5 +29,9 @@
    },
    "exclude": [
       "boilerplate"
-   ]
+   ],
+   "angularCompilerOptions": {
+      "strictTemplates": true,
+      "strictInputTypes": false
+   },
 }
