@@ -5,6 +5,7 @@
    "projects": {
       "m3-odin-samples": {
          "root": "",
+         "sourceRoot": "src",
          "projectType": "application",
          "prefix": "odin",
          "architect": {
