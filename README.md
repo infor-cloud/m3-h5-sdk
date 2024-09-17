@@ -1,40 +1,44 @@
 # Introduction
+
 Odin is a framework for building web applications for M3, that consists of three parts:
+
 - A command line interface (CLI), 'odin' that is used to create new projects and perform other development related tasks such as running a development server and building the project for production.
 - Core API without any Angular dependencies that only requires RxJS
 - Angular services for M3 related functions such as: executing MI programs and bookmarks, retrieving user context and launching programs in H5 (the M3 client) if the application is running in a tab in H5.
 
-Odin is not a framework of UI components nor does it require the application developer to use a specific UI framework. There is however optional support for the Infor IDS controls (previously know as SoHo), using jQuery or Angular as well as Google Material.
+Odin is not a framework of UI components nor does it require the application developer to use a specific UI framework. There is however optional support for the Infor IDS controls (previously know as SoHo), using jQuery or Angular.
 
 # Content
 
-* [Packages](#packages)
-* [CLI installation](#cli-install)
-* [Quickstart](#quick-start)
-* [Projects](#projects)
-* [Samples](#samples)
-* [Development Proxy Authentication](#development-proxy-authentication)
-* [API Documentation](#api-documentation)
-* [Code Editor](#code-editor)
-* [Build](#build)
-* [Install in H5 (Infor M3)](#install)
-* [Code Examples](#code-examples)
-* [ION API Configuration](#ionapi-configuration)
-* [References](#references)
+- [Packages](#packages)
+- [CLI installation](#cli-install)
+- [Quickstart](#quick-start)
+- [Projects](#projects)
+- [Samples](#samples)
+- [Development Proxy Authentication](#development-proxy-authentication)
+- [API Documentation](#api-documentation)
+- [Code Editor](#code-editor)
+- [Build](#build)
+- [Install in H5 (Infor M3)](#install)
+- [Code Examples](#code-examples)
+- [ION API Configuration](#ionapi-configuration)
+- [References](#references)
 
 # <a id="packages"></a> Packages
+
 The M3 Odin SDK consists of three different NPM packages. The packages are published to the NPM registry and can be installed through npm. See more details about package installation in the following sections.
 
 These are the names of the packages and their npm links:
 
 - @infor-up/m3-odin-cli
-   - [https://www.npmjs.com/package/@infor-up/m3-odin-cli](https://www.npmjs.com/package/@infor-up/m3-odin-cli)
+  - [https://www.npmjs.com/package/@infor-up/m3-odin-cli](https://www.npmjs.com/package/@infor-up/m3-odin-cli)
 - @infor-up/m3-odin
-   - [https://www.npmjs.com/package/@infor-up/m3-odi](https://www.npmjs.com/package/@infor-up/m3-odi)
+  - [https://www.npmjs.com/package/@infor-up/m3-odi](https://www.npmjs.com/package/@infor-up/m3-odin)
 - @infor-up/m3-odin-angular
-   - [https://www.npmjs.com/package/@infor-up/m3-odin-angular](https://www.npmjs.com/package/@infor-up/m3-odin-angular)
+  - [https://www.npmjs.com/package/@infor-up/m3-odin-angular](https://www.npmjs.com/package/@infor-up/m3-odin-angular)
 
 # <a id="cli-install"></a> CLI installation
+
 The M3 Odin CLI is a command line interface for creating and working with projects. The CLI needs to be installed before it can be used.
 
 Run the following command to install the CLI globally on your local computer.
@@ -44,11 +48,13 @@ npm install -g @infor-up/m3-odin-cli
 ```
 
 Alternatively, to get the most up-to-date (but potentially unstable) version, add the `@next` tag:
+
 ```
 npm install -g @infor-up/m3-odin-cli@next
 ```
 
 ## Verify installation
+
 Run the following command to verify that the CLI was installed successfully. The command should output the help for the CLI.
 
 ```
@@ -56,6 +62,7 @@ odin -h
 ```
 
 # <a id="quick-start"></a> Quickstart
+
 The M3 Odin CLI can be used to create different types of projects. The quickstart shows how to create an Angular application project using the Infor Design System (IDS) components.
 
 1. Navigate to a folder where you would like to create the project.
@@ -76,32 +83,40 @@ The M3 Odin CLI can be used to create different types of projects. The quickstar
 7. Use an editor, for example Visual Studio Code, and start editing the code. Locate /src/app.component.html or /src/app.component.ts and start to do changes. The application will be automatically re-loaded in the browser.
 
 # <a id="projects"></a> Projects
+
 The M3 Odin CLI can be used to create different types of projects that includes different frameworks and functionality.
 
 ## Project names
+
 Note that the project names must adhere to the rules for the name property of a package.json file. A summary of the rules are that the name must start with a character, only contain lower case characters that are URL safe. We would recommend sticking to characters and dashes. More details about names can be found here [https://docs.npmjs.com/files/package.json#name](https://docs.npmjs.com/files/package.json#name)
 
-## New task  wizard
+## New task wizard
+
 Navigate to the folder that should contain the project and open a command interface.
 Run the following command to start the task wizard that can be used for the following;
+
 - Create a new project
 - Start development server
 - Build project for production
 
 ## Angular project with IDS components
+
 Create a new project, where the project name will be the context root for the application if deployed in H5. Follow the wizard to create a new project.
 
 ```
 odin new
 ```
+
 The following information will be requested:
+
 - The name of the project (note that it must follow the project name rules above)
 - Which framework to use: Angular / None
-   - Select: Angular
-- Which style library to use: SoHo / Material Design / None.
-   - Select: SoHo
+  - Select: Angular
+- Which style library to use: SoHo / None.
+  - Select: SoHo
 
 ## Simple project
+
 Create a non Angular, plain vanilla web project.
 
 ```
@@ -109,6 +124,7 @@ odin new my-project-name
 ```
 
 # <a id="development-proxy-authentication"></a> Development Proxy Authentication
+
 When an application is served locally using `odin serve`, it cannot make requests directly to the backend service (M3 or ION API). Cross-origin requests are usually blocked, and the sign-in flow requires redirects that are not needed when the application is deployed in H5. To bypass this, all requests to `/m3api-rest`, `/mne` etc. are sent through a proxy server started with `odin serve`. The target of the proxied requests are configured in the odin.json file, using the `odin set` command.
 
 Depending on the environment being used (see flow chart below for specifics), authentication needs to be set up either through basic authentication or the `odin login` command.
@@ -116,10 +132,13 @@ Depending on the environment being used (see flow chart below for specifics), au
 ![Pevelopment Proxy configuration flow chart](https://user-images.githubusercontent.com/4991954/110319955-dfa61380-800f-11eb-8068-4a974fb286a8.png)
 
 ## On-Premise Proxy Authentication
+
 When targeting an on-premise M3 environment, basic authentication is usually enabled, which means that the client will send credentials directly to the server. There is no need for any further configuration or `odin login` in this case.
 
 ## Multi-Tenant or Single-Tenant Cloud Proxy Authentication
+
 Authentication for a cloud environment is done through OAuth2 using the `odin login` command. This command does the following:
+
 1. Read the provided ION API configuration file (See [these instructions for how to generate one](https://github.com/infor-cloud/m3-h5-sdk/issues/55#issuecomment-651713612)).
 2. Open a browser window, where the user logs on to the configured environment.
 3. Gets an ION API bearer token, and saves it.
@@ -129,37 +148,43 @@ Authentication for a cloud environment is done through OAuth2 using the `odin lo
 Now, when running `odin serve --multi-tenant`, the proxy will modify the requests and add the ION API bearer token or M3 session cookie to the request headers.
 
 # <a id="api-documentation"></a> API Documentation
+
 The generated API documentation can be viewed here:
 
 [https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/](https://infor-cloud.github.io/m3-h5-sdk/m3-odin/docs/)
 
 # <a id="code-editor"></a> Code Editor
+
 We recommend Visual Studio Code ([https://code.visualstudio.com/](https://code.visualstudio.com/)) but any editor can be used.
 
 # <a id="samples"></a> Samples
+
 The Odin framework has two sets of samples using Angular. The focus of the samples are not to showcase UI Components but to show how the Odin API is used.
 
 As Odin has no UI preference the samples are available using two different UI Component systems:
+
 - Infor Design System (IDS)
-   - [https://design.infor.com/](https://design.infor.com/)
-- Angular Material
-   - [https://material.angular.io/](https://material.angular.io/)
+  - [https://design.infor.com/](https://design.infor.com/)
 
 IDS has two sets of components, one for jQuery and then those are wrapped into Angular Components. Please note that with Angular you should use the Angular components for SoHo.
 
-The samples are packaged as two Angular application and available as m3-odin-sample-soho-2.0.0.zip and m3-odin-sample-material-2.0.0.zip. The sample zip files can be downloaded from this directory: [https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples](https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples)
+The samples are packaged as one Angular application and available as m3-odin-sample-soho-2.0.0.zip. The sample zip files can be downloaded from this directory: [https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples](https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples)
 
 ## How to run a sample
+
 The sample are packaged as an application. To run it unzip the sample zip and run it as an application.
+
 1. Unzip the sample
 2. In the project folder run the following command
    ```
    npm install
    ```
 3. Update the proxy configuration
+
    ```
    odin set ion-proxy https://ionserver/TENANT
    ```
+
    ```
    odin set m3-proxy https://m3server
    ```
@@ -172,6 +197,7 @@ The sample are packaged as an application. To run it unzip the sample zip and ru
 6. Browse to http://localhost:8080
 
 # <a id="build"></a> Build
+
 Run the following command to build the project for production. A zip will be created in the dist folder. Note that the name of the zip as the name will be used as the application name when uploaded in H5. You can change the name of the zip file if necessary.
 
 ```
@@ -179,8 +205,10 @@ odin build
 ```
 
 # <a id="install"></a> Install in H5 (Infor M3)
+
 This section describes how to install the application in the H5 client. It is required to be an M3UI-Administrator to have access to the H5 Administration.
 Take the zip file in the dist folder created by the build command and upload it using the H5 Administration tool. The name of the zip file will be used as the path to the application.
+
 - Open the Infor M3 H5 client
 - Select Administrations Tools -> H5 Administration
 - Go to the Applications tab
@@ -188,6 +216,7 @@ Take the zip file in the dist folder created by the build command and upload it 
 - The application will be visible under Installed applications
 
 ## Test in H5 tab system
+
 To open an installed application within the H5 tab system press Crtl+R and paste in the URL to the application.
 
 ```
@@ -197,7 +226,9 @@ To open an installed application within the H5 tab system press Crtl+R and paste
 Antoher option is to go to Start to access the Start pages and add a page with a Custom menu widget in which it is possible to add a New link with the link set to /mne/apps/my-project-name.
 
 # <a id="code-examples"></a> Code Examples
+
 ## User Context
+
 The user context contains the information for the user in MNS150. The MIService will use and pass the current company as matrix parameters to the M3 MI programs unless specific CONO and DIVI are passed in the MIRequest. Keep the reference to the UserContext object and it will be
 automatically updated if company and division are changed during the session.
 
@@ -209,29 +240,42 @@ import { ArrayUtil, CoreBase, IUserContext } from "@infor-up/m3-odin";
 import { UserService } from "@infor-up/m3-odin-angular";
 
 @Component({
-  templateUrl: "./user-context.component.html"
+  templateUrl: "./user-context.component.html",
 })
 export class UserContextSampleComponent extends CoreBase {
   userContext = {} as IUserContext;
 
   constructor(private userService: UserService) {
     super("UserSampleComponent");
-    this.userService.getUserContext().subscribe((userContext: IUserContext) => {
-      this.userContext = userContext;
-      const lang = userContext.currentLanguage;
-      const divi = userContext.currentDivision;
-      const cono = userContext.currentCompany;
-      const usid = userContext.USID;
-      this.logInfo("User context: " + usid + ", cono: " + cono + ", divi: " + divi + ", lang: " + lang);
-    }, (errorContext: IUserContext) => {
-      // Handle error
-      this.logError(errorContext.errorMessage);
-    });
+    this.userService.getUserContext().subscribe(
+      (userContext: IUserContext) => {
+        this.userContext = userContext;
+        const lang = userContext.currentLanguage;
+        const divi = userContext.currentDivision;
+        const cono = userContext.currentCompany;
+        const usid = userContext.USID;
+        this.logInfo(
+          "User context: " +
+            usid +
+            ", cono: " +
+            cono +
+            ", divi: " +
+            divi +
+            ", lang: " +
+            lang
+        );
+      },
+      (errorContext: IUserContext) => {
+        // Handle error
+        this.logError(errorContext.errorMessage);
+      }
+    );
   }
 }
 ```
 
 ## Calling MI transactions
+
 Call M3 MI transactions to list, change and get M3 data. By default the framework will pass matrix parameters (visible as part of the URL path) for the current company and division if the user context has been retrieved. The example below assumes that the user context has already been retreived in another component, thus it will be automatically available within the MIService without having to explicity call it.
 
 To override those default values pass in CONO and DIVI in the MIRecord that is set as input on the MIRequest.
@@ -311,17 +355,18 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
 
     this.logError(message + " " + errorMessage);
   }
-  ```
+```
 
 ### Calling MI List transactions
+
 List transactions are MI transactions that returns multiple rows. The result is returned as a MIResponse with an items property. These types of transactions requires that maxReturnedRecords is set. The default value is 100.
 
 Always specify the output fields that are required so improve performance. On the response check for erros as the MI program might have replied with an errorCode for the transaction. The errorMessage will always be set if there is an error such as a more generic http error that will result in a call to the errorHandler.
 
 There are two error scenarios that needs to be considered:
+
 - The MI transaction returns an error (check for hasError() in the response)
 - The HTTP call fails (the error handler will be called)
-
 
 ```typescript
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -384,6 +429,7 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
 ```
 
 # <a id="ionapi-configuration"></a> ION API Configuration
+
 The `IonApiService` can be configured with various optional properties and overrides using the `IonApiConfig` DI token:
 
 ```typescript
@@ -407,8 +453,8 @@ import { IonApiConfig, M3OdinModule } from '@infor-up/m3-odin-angular';
 # <a id="references"></a> References
 
 - Infor Design System
-   - [https://design.infor.com/](https://design.infor.com/)
+  - [https://design.infor.com/](https://design.infor.com/)
 - Infor Design System's Enterprise Components
-   - [https://github.com/infor-design/enterprise](https://github.com/infor-design/enterprise)
+  - [https://github.com/infor-design/enterprise](https://github.com/infor-design/enterprise)
 - Infor Design System's Enterprise Components for Angular
-   - [https://github.com/infor-design/enterprise-ng](https://github.com/infor-design/enterprise-ng)
+  - [https://github.com/infor-design/enterprise-ng](https://github.com/infor-design/enterprise-ng)

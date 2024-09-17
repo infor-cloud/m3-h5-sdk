@@ -3,8 +3,8 @@
 
 module.exports = function (config) {
    config.set({
-      basePath: '',
-      frameworks: ['jasmine', '@angular-devkit/build-angular'],
+      basePath: "",
+      frameworks: ["jasmine", "@angular-devkit/build-angular"],
       plugins: [
          require('karma-jasmine'),
          require('karma-chrome-launcher'),
@@ -13,14 +13,24 @@ module.exports = function (config) {
          require('@angular-devkit/build-angular/plugins/karma')
       ],
       files: [
-         { pattern: '../node_modules/jquery/dist/jquery.js', watched: false },
-         { pattern: '../node_modules/d3/dist/d3.js', watched: false },
-         { pattern: '../node_modules/ids-enterprise/dist/js/sohoxi.js', watched: false },
-         { pattern: '../node_modules/ids-enterprise/dist/js/cultures/en-US.js', watched: false },
-         { pattern: '../node_modules/ids-enterprise/dist/css/theme-new-light.css', watched: false },
+         { pattern: "../node_modules/jquery/dist/jquery.js", watched: false },
+         { pattern: "../node_modules/d3/dist/d3.js", watched: false },
+         {
+            pattern: "../node_modules/ids-enterprise/dist/js/sohoxi.js",
+            watched: false,
+         },
+         {
+            pattern: "../node_modules/ids-enterprise/dist/js/cultures/en-US.js",
+            watched: false,
+         },
+         {
+            pattern:
+               "../node_modules/ids-enterprise/dist/css/theme-new-light.css",
+            watched: false,
+         },
       ],
       client: {
-         clearContext: false // leave Jasmine Spec Runner output visible in browser
+         clearContext: false, // leave Jasmine Spec Runner output visible in browser
       },
       coverageReporter: {
          dir: require('path').join(__dirname, '../coverage/m3-odin-samples'),
