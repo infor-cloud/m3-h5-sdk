@@ -54,7 +54,7 @@ function publishCore(): void {
    const operation = begin('Publish M3 Odin Core');
 
    npmRun('build:lib-core', projectDirectory());
-   const directory = projectDirectory('projects/infor-up/m3-odin');
+   const directory = projectDirectory('dist/infor-up/m3-odin');
    publishNpm(directory);
 
    end(operation);

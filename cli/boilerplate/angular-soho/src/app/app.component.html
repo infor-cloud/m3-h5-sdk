@@ -1,64 +1,71 @@
 <soho-icons-new></soho-icons-new>
 <soho-icons-empty-new></soho-icons-empty-new>
 
-<div soho-busyindicator [activated]="isBusy" [blockUI]="true" [displayDelay]="0">
-
-   <div class="row card top-padding">
-      <div class="form-responsive row">
-         <div class="six columns">
-            <div class="field">
-               <h1>User context</h1>
-               <p>Click the Load button to show all M3 user context values current values that will differ if running
-                  within
-                  H5 and for example the company has been changed.</p>
-            </div>
-            <button soho-button="primary" (click)="onClickLoad()">Load</button>
-         </div>
+<div
+  soho-busyindicator
+  [activated]="isBusy"
+  [blockUI]="true"
+  [displayDelay]="0"
+  [style.padding.rem]="4"
+>
+  <div class="row card top-padding" [style.height.%]="100">
+    <div class="form-responsive row">
+      <div class="six columns">
+        <div class="field">
+          <h1>User context</h1>
+          <p>
+            Click the Load button to show all M3 user context values current
+            values that will differ if running within H5 and for example the
+            company has been changed.
+          </p>
+        </div>
+        <button soho-button="primary" (click)="onClickLoad()">Load</button>
       </div>
-      <div class="form-responsive row top-padding">
-         <div class="six columns">
-            <div class="field">
-               <label for="di-cono">Company</label>
-               <input id="di-cono" [(ngModel)]="company" readonly />
-            </div>
-         </div>
-         <div class="six columns">
-            <div class="field">
-               <label for="di-ccono">Current company</label>
-               <input id="di-ccono" [(ngModel)]="currentCompany" readonly />
-            </div>
-         </div>
+    </div>
+    <div class="form-responsive row top-padding">
+      <div class="six columns">
+        <div class="field">
+          <label for="di-cono">Company</label>
+          <input id="di-cono" [(ngModel)]="company" readonly />
+        </div>
+      </div>
+      <div class="six columns">
+        <div class="field">
+          <label for="di-ccono">Current company</label>
+          <input id="di-ccono" [(ngModel)]="currentCompany" readonly />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-responsive row">
+      <div class="six columns">
+        <div class="field">
+          <label for="di-divi">Division</label>
+          <input id="di-divi" [(ngModel)]="division" readonly />
+        </div>
       </div>
 
-      <div class="form-responsive row">
-         <div class="six columns">
-            <div class="field">
-               <label for="di-divi">Division</label>
-               <input id="di-divi" [(ngModel)]="division" readonly />
-            </div>
-         </div>
-
-         <div class="six columns">
-            <div class="field">
-               <label for="di-cdivi">Current division</label>
-               <input id="di-cdivi" [(ngModel)]="currentDivision" readonly />
-            </div>
-         </div>
+      <div class="six columns">
+        <div class="field">
+          <label for="di-cdivi">Current division</label>
+          <input id="di-cdivi" [(ngModel)]="currentDivision" readonly />
+        </div>
       </div>
+    </div>
 
-      <div class="form-responsive row">
-         <div class="six columns">
-            <div class="field">
-               <label for="di-lang">Language</label>
-               <input id="di-lang" [(ngModel)]="language" readonly />
-            </div>
-         </div>
-         <div class="six columns">
-            <div class="field">
-               <label for="di-clang">Current language</label>
-               <input id="di-clang" [(ngModel)]="currentLanguage" readonly />
-            </div>
-         </div>
+    <div class="form-responsive row">
+      <div class="six columns">
+        <div class="field">
+          <label for="di-lang">Language</label>
+          <input id="di-lang" [(ngModel)]="language" readonly />
+        </div>
       </div>
-   </div>
+      <div class="six columns">
+        <div class="field">
+          <label for="di-clang">Current language</label>
+          <input id="di-clang" [(ngModel)]="currentLanguage" readonly />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

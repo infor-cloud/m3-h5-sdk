@@ -17,10 +17,8 @@ const files = [
    'm3-odin/projects/infor-up/m3-odin-angular/package.json',
    'm3-odin/projects/infor-up/m3-odin-angular-builder/package.json',
    'cli/boilerplate/basic/package.json',
-   'cli/boilerplate/basic-material/package.json',
    'cli/boilerplate/angular/package.json',
    'cli/boilerplate/angular-soho/package.json',
-   'cli/boilerplate/angular-material/package.json'
 ];
 
 
