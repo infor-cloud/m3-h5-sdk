@@ -60,7 +60,7 @@ export class IonApiSocialSampleComponent extends CoreBase {
          },
          (response: IIonApiResponse) => {
             // TODO Error
-         }
+         },
       );
    }
 
@@ -72,7 +72,7 @@ export class IonApiSocialSampleComponent extends CoreBase {
 
    private createRequest(
       relativeUrl: string,
-      headers?: object
+      headers?: object,
    ): IIonApiRequest {
       if (!headers) {
          // Create default headers

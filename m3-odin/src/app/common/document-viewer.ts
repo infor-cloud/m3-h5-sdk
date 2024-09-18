@@ -35,8 +35,8 @@ export class DocumentViewerComponent extends CoreBase {
          (document) => this.updateDocument(document),
          (error) =>
             this.logWarning(
-               error.message || 'Sample source file could not be loaded'
-            )
+               error.message || 'Sample source file could not be loaded',
+            ),
       );
    }
 

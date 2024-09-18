@@ -21,7 +21,7 @@ describe('ApplicationServiceCore', () => {
       const spySendMessage = spyOn(service as any, 'sendMessage').and.callFake(
          (message) => {
             expect(message).toBe(message);
-         }
+         },
       );
       service.launch(message.m3Parameter.link);
       expect(spySendMessage).toHaveBeenCalled();
@@ -31,9 +31,9 @@ describe('ApplicationServiceCore', () => {
       const spyPostMessage = spyOn(parent, 'postMessage').and.callFake(
          (message) => {
             expect(message).toBe(
-               '{"m3Command":"launch","m3Parameter":{"link":"foo"}}'
+               '{"m3Command":"launch","m3Parameter":{"link":"foo"}}',
             );
-         }
+         },
       );
       service['sendMessage'](message);
       expect(spyPostMessage).toHaveBeenCalled();

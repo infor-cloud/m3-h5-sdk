@@ -11,7 +11,7 @@ describe('MI Service Core', () => {
       const http = {} as IHttpService;
       const spyLogDebug = spyOn(
          MIServiceCore.prototype as any,
-         'logDebug'
+         'logDebug',
       ).and.callFake(() => {
          return;
       });
@@ -70,7 +70,7 @@ describe('MI Service Core', () => {
 
       expect(service['useToken'](request)).toBe(true);
       expect(service['useToken']({ ...request, enableCsrf: false })).toBe(
-         false
+         false,
       );
 
       service['csrfStatus'] = 404;
@@ -87,7 +87,7 @@ describe('MI Service Core', () => {
       const spyExecuteInternal = spyOn(service, 'executeInternal').and.callFake(
          () => {
             return;
-         }
+         },
       );
       const request = { baseUrl: 'foo' } as unknown as IMIRequest;
       const subject = new AsyncSubject<IMIResponse>();
@@ -116,7 +116,7 @@ describe('MI Service Core', () => {
       const spyExecuteInternal = spyOn(service, 'executeInternal').and.callFake(
          () => {
             return;
-         }
+         },
       );
       const request = { baseUrl: 'foo' } as unknown as IMIRequest;
       const subject = new AsyncSubject<IMIResponse>();
@@ -208,21 +208,21 @@ describe('MI Service Core', () => {
          true,
          true,
          false,
-         false
+         false,
       );
       const spyIsTokenValid = spyOn(
          service as any,
-         'isTokenValid'
+         'isTokenValid',
       ).and.returnValues(true, false, true, false);
       const spyExecuteInternal = spyOn(
          service as any,
-         'executeInternal'
+         'executeInternal',
       ).and.callFake(() => {
          return;
       });
       const spyExecuteRefreshToken = spyOn(
          service as any,
-         'executeRefreshToken'
+         'executeRefreshToken',
       ).and.callFake((...a) => {
          (a[1] as AsyncSubject<IMIResponse>).next(value);
          (a[1] as AsyncSubject<IMIResponse>).complete();
@@ -256,7 +256,7 @@ describe('MI Service Core', () => {
       expect(service['currentDivision']).toBe(division);
       expect(spyLogDebug).toHaveBeenCalledTimes(1);
       expect(spyLogDebug).toHaveBeenCalledWith(
-         `updateUserContext: ${company}/${division}`
+         `updateUserContext: ${company}/${division}`,
       );
    });
 
@@ -284,58 +284,58 @@ describe('MI Service Core', () => {
       const division = '200';
 
       expect(service.createUrl(baseUrl, request)).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?_rid=${random}`,
       );
       expect(
-         service.createUrl(baseUrl, { ...request, excludeEmptyValues: true })
+         service.createUrl(baseUrl, { ...request, excludeEmptyValues: true }),
       ).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${defaultExcludeEmpty}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${defaultExcludeEmpty}?_rid=${random}`,
       );
       expect(
          service.createUrl(baseUrl, {
             ...request,
             maxReturnedRecords: expectedMaxRecords,
-         })
+         }),
       ).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${expectedMaxRecords};excludempty=${changedExcludeEmpty}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${expectedMaxRecords};excludempty=${changedExcludeEmpty}?_rid=${random}`,
       );
       expect(service.createUrl(baseUrl, { ...request, outputFields })).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};returncols=${outputFields}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};returncols=${outputFields}?_rid=${random}`,
       );
       expect(
-         service.createUrl(baseUrl, { ...request, includeMetadata: true })
+         service.createUrl(baseUrl, { ...request, includeMetadata: true }),
       ).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?_rid=${random}`,
       );
       expect(
-         service.createUrl(baseUrl, { ...request, company, division })
+         service.createUrl(baseUrl, { ...request, company, division }),
       ).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company};divi=${division}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company};divi=${division}?_rid=${random}`,
       );
       expect(
          service.createUrl(baseUrl, {
             ...request,
             record: { program: 'MNS150' },
-         })
+         }),
       ).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?program=MNS150&_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?program=MNS150&_rid=${random}`,
       );
       expect(
          service.createUrl(baseUrl, {
             ...request,
             record: { program: 'MNS150', transaction: 'GetUserData' },
-         })
+         }),
       ).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?program=MNS150&transaction=GetUserData&_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty}?program=MNS150&transaction=GetUserData&_rid=${random}`,
       );
 
       service['currentCompany'] = company;
       expect(service.createUrl(baseUrl, request)).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company}?_rid=${random}`,
       );
       spyIsDebug.and.returnValue(true);
       expect(service.createUrl(baseUrl, request)).toBe(
-         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company}?_rid=${random}`
+         `${baseUrl}/${request.program}/${request.transaction};metadata=${defaultMetadata};maxrecs=${defaultMaxRecords};excludempty=${changedExcludeEmpty};cono=${company}?_rid=${random}`,
       );
 
       expect(spyIsDebug).toHaveBeenCalledTimes(2);
@@ -347,7 +347,7 @@ describe('MI Service Core', () => {
       expect(spyLogDebug).toHaveBeenCalledTimes(1);
       expect(spyLogInfo).toHaveBeenCalledTimes(8);
       expect(spyLogInfo).toHaveBeenCalledWith(
-         'createUrl: company not set, user context not available.'
+         'createUrl: company not set, user context not available.',
       );
    });
 
@@ -368,7 +368,7 @@ describe('MI Service Core', () => {
 
       response.metadata = null as unknown as IMIMetadataMap;
       expect(
-         service.parseResponse({ ...request, includeMetadata: true }, content)
+         service.parseResponse({ ...request, includeMetadata: true }, content),
       ).toEqual(response);
 
       const record = new MIRecord();
@@ -397,11 +397,11 @@ describe('MI Service Core', () => {
       expect(
          service.parseResponse(
             { ...request, includeMetadata: true, typedOutput: true },
-            content
-         )
+            content,
+         ),
       ).toEqual(response);
       expect(
-         service.parseResponse({ ...request, includeMetadata: true }, content)
+         service.parseResponse({ ...request, includeMetadata: true }, content),
       ).toEqual(response);
    });
 
@@ -409,13 +409,13 @@ describe('MI Service Core', () => {
       const service = new MIServiceCore();
       const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
       const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(
-         () => of({})
+         () => of({}),
       );
       const response = new MIResponse();
       const spyHasError = spyOn(response, 'hasError').and.returnValue(false);
       const spyParseResponse = spyOn(
          service as any,
-         'parseResponse'
+         'parseResponse',
       ).and.callFake(() => response);
       const subject = new AsyncSubject<IMIResponse>();
       const request = {} as IMIRequest;
@@ -436,13 +436,13 @@ describe('MI Service Core', () => {
       const service = new MIServiceCore();
       const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
       const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(
-         () => of({})
+         () => of({}),
       );
       const response = new MIResponse();
       const spyHasError = spyOn(response, 'hasError').and.returnValue(true);
       const spyParseResponse = spyOn(
          service as any,
-         'parseResponse'
+         'parseResponse',
       ).and.callFake(() => response);
       const subject = new AsyncSubject<IMIResponse>();
       const request = {} as IMIRequest;
@@ -465,12 +465,12 @@ describe('MI Service Core', () => {
       const service = new MIServiceCore();
       const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
       const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(
-         () => of({})
+         () => of({}),
       );
       const error = 'foo error';
       const spyParseResponse = spyOn(
          service as any,
-         'parseResponse'
+         'parseResponse',
       ).and.callFake(() => {
          throw error;
       });
@@ -497,7 +497,7 @@ describe('MI Service Core', () => {
       const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
       const response = { status: 401 } as IHttpResponse;
       const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(
-         () => throwError(() => response)
+         () => throwError(() => response),
       );
       const subject = new AsyncSubject<IMIResponse>();
       const request = { program: 'foo', transaction: 'bar' } as IMIRequest;
@@ -529,31 +529,31 @@ describe('MI Service Core', () => {
          false,
          false,
          false,
-         false
+         false,
       );
       const spyIsNumeric = spyOn(metadata, 'isNumeric').and.returnValues(
          true,
          true,
          false,
          false,
-         false
+         false,
       );
       const spyIsDate = spyOn(metadata, 'isDate').and.returnValues(
          true,
          true,
-         false
+         false,
       );
 
       expect(service['parseValue'](valueString, metadata)).toBe(valueString);
       expect(service['parseValue'](valueNumeric, metadata)).toBe(+valueNumeric);
       expect(
-         service['parseValue'](undefined as unknown as string, metadata)
+         service['parseValue'](undefined as unknown as string, metadata),
       ).toBe(0);
       expect(service['parseValue'](valueDate, metadata)).toEqual(
-         new Date(2022, 9, 1)
+         new Date(2022, 9, 1),
       );
       expect(
-         service['parseValue'](undefined as unknown as string, metadata)
+         service['parseValue'](undefined as unknown as string, metadata),
       ).toBeNull();
       expect(service['parseValue'](valueString, metadata)).toBe(valueString);
 

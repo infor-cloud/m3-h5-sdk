@@ -74,7 +74,7 @@ describe('FormResponse', () => {
       const additionalInfoPosition = { height: 1, left: 21, top: 3, width: 31 };
       additionalInfo.position = Object.assign(
          new Position(),
-         additionalInfoPosition
+         additionalInfoPosition,
       );
       textBoxInfo.additionalInfo = Object.assign(new Label(), additionalInfo);
 
@@ -116,7 +116,7 @@ describe('FormResponse', () => {
             '                    \n' +
             '                    \n' +
             '                            210\n' +
-            '                '
+            '                ',
       );
    });
 
@@ -157,7 +157,7 @@ describe('Bookmark', () => {
       });
 
       expect(Bookmark.toUri(bookmarkData)).toBe(
-         `bookmark?source=${bookmarkData.source}&program=${bookmarkData.program}&Foo=Bar`
+         `bookmark?source=${bookmarkData.source}&program=${bookmarkData.program}&Foo=Bar`,
       );
    });
 
@@ -168,50 +168,50 @@ describe('Bookmark', () => {
       } as IUserContext;
 
       expect(() =>
-         Bookmark['createValues'](userContext, '', undefined, false)
+         Bookmark['createValues'](userContext, '', undefined, false),
       ).toThrowError("Cannot read properties of undefined (reading '')");
 
       const values = {};
       const key = 'Foo';
       values[key] = 'Bar';
       expect(Bookmark['createValues'](userContext, key, values, false)).toBe(
-         `${key},${values[key]}`
+         `${key},${values[key]}`,
       );
 
       const secondKey = 'SUNO';
       const twoKeys1 = key + ',' + secondKey;
       expect(
-         Bookmark['createValues'](userContext, twoKeys1, values, false)
+         Bookmark['createValues'](userContext, twoKeys1, values, false),
       ).toBe(`${key},${values[key]}`);
       expect(
-         Bookmark['createValues'](userContext, twoKeys1, values, true)
+         Bookmark['createValues'](userContext, twoKeys1, values, true),
       ).toBe(`${key},${values[key]},${secondKey},%20`);
 
       const thirdKey = 'WWCONO';
       const twoKeys2 = key + ',' + thirdKey;
       expect(
-         Bookmark['createValues'](userContext, twoKeys2, values, true)
+         Bookmark['createValues'](userContext, twoKeys2, values, true),
       ).toBe(`${key},${values[key]},${thirdKey},${userContext.currentCompany}`);
 
       const fourthKey = 'WWDIVI';
       const twoKeys3 = key + ',' + fourthKey;
       expect(
-         Bookmark['createValues'](userContext, twoKeys3, values, true)
+         Bookmark['createValues'](userContext, twoKeys3, values, true),
       ).toBe(
-         `${key},${values[key]},${fourthKey},${userContext.currentDivision}`
+         `${key},${values[key]},${fourthKey},${userContext.currentDivision}`,
       );
 
       const fifthKey = 'WWFACI';
       values['FACI'] = '200';
       const twoKeys4 = key + ',' + fifthKey;
       expect(
-         Bookmark['createValues'](userContext, twoKeys4, values, true)
+         Bookmark['createValues'](userContext, twoKeys4, values, true),
       ).toBe(`${key},${values[key]},${fifthKey},${values['FACI']}`);
 
       const sixtKey = 'WWWHLO';
       const twoKeys5 = key + ',' + sixtKey;
       expect(
-         Bookmark['createValues'](userContext, twoKeys5, values, true)
+         Bookmark['createValues'](userContext, twoKeys5, values, true),
       ).toBe(`${key},${values[key]},${sixtKey},%20`);
    });
 
@@ -240,7 +240,7 @@ describe('Bookmark', () => {
             expect(isKeys).toBe(true);
 
             return `${key},${values[key]}`;
-         }
+         },
       );
       expect(Bookmark.toParams(bookmarkData, userContext)).toEqual({
          ...result,
@@ -257,7 +257,7 @@ describe('Bookmark', () => {
             expect(isKeys).toBe(false);
 
             return `${key},${values[key]}`;
-         }
+         },
       );
       expect(Bookmark.toParams(bookmarkData, userContext)).toEqual({
          ...result,
@@ -275,7 +275,7 @@ describe('Bookmark', () => {
             expect(isKeys).toBe(false);
 
             return `${key},${values[key]}`;
-         }
+         },
       );
       expect(Bookmark.toParams(bookmarkData, userContext)).toEqual({
          ...result,
@@ -287,7 +287,7 @@ describe('Bookmark', () => {
       const bookmarkData: IBookmark = { source: 'Foo' };
 
       expect(Bookmark['getSource'](bookmarkData)).toEqual(
-         bookmarkData.source as string
+         bookmarkData.source as string,
       );
    });
 });
@@ -300,7 +300,7 @@ describe('TranslationItem', () => {
       const result: ITranslationItem = { key, file };
 
       expect(translationItem).toEqual(
-         Object.assign(new TranslationItem('will be overwritten'), result)
+         Object.assign(new TranslationItem('will be overwritten'), result),
       );
    });
 });

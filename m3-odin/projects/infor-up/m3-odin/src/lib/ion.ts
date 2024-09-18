@@ -18,7 +18,10 @@ import { CoreUtil, HttpUtil, StringUtil } from './util';
  * @since 2.0.0
  */
 class IonApiContext implements IIonApiContext {
-   constructor(private url: string, private token: string) {}
+   constructor(
+      private url: string,
+      private token: string,
+   ) {}
 
    getUrl(): string {
       return this.url;
@@ -88,7 +91,7 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
 
    constructor(
       private httpService: IHttpService,
-      private formService: IFormService
+      private formService: IFormService,
    ) {
       super('IonApiServiceCore');
    }
@@ -146,7 +149,7 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
          },
          (r) => {
             subject.error(r);
-         }
+         },
       );
       return subject.asObservable();
    }
@@ -156,7 +159,7 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
       options: IIonApiRequest,
       source: string,
       subject: AsyncSubject<IIonApiResponse>,
-      isRetry: boolean
+      isRetry: boolean,
    ): void {
       options = Object.assign({}, options);
       const url = options.url;
@@ -201,19 +204,19 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
                         options,
                         source,
                         subject,
-                        true
+                        true,
                      );
                   },
                   (retryError) => {
                      // Reject when a new context cannot be retrieved.
                      subject.error(retryError);
-                  }
+                  },
                );
             } else {
                // Reject failed retry attemtps or when retry is disabled.
                subject.error(error);
             }
-         }
+         },
       );
    }
 
@@ -259,24 +262,24 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
                      if (StringUtil.isNullOrEmpty(baseUrl)) {
                         // eslint-disable-next-line max-len
                         this.logError(
-                           'loadToken:  Failed to resolve ION Base URL. ION Base URL is null. Verify that it has been set as a grid property in the MUA Server, or set it by calling setUrl.'
+                           'loadToken:  Failed to resolve ION Base URL. ION Base URL is null. Verify that it has been set as a grid property in the MUA Server, or set it by calling setUrl.',
                         );
                         this.reject(pending, response);
                      } else {
                         this.setUrl(baseUrl);
                         this.context = new IonApiContext(
                            this.url,
-                           context.getToken()
+                           context.getToken(),
                         );
                         this.resolve(pending, this.context);
                      }
                   },
                   (err) => {
                      this.logError(
-                        'loadToken: Failed to resolve ION Base URL ' + err
+                        'loadToken: Failed to resolve ION Base URL ' + err,
                      );
                      this.reject(pending, response);
-                  }
+                  },
                );
             } else {
                this.resolve(pending, context);
@@ -285,7 +288,7 @@ export class IonApiServiceCore extends CoreBase implements IIonApiService {
          (response) => {
             // Failed to load the token
             this.reject(pending, response);
-         }
+         },
       );
    }
 

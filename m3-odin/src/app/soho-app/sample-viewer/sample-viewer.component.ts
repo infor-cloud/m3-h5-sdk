@@ -31,7 +31,7 @@ export class SampleViewerComponent extends CoreBase {
       const dialogRef = this.modalService
          .modal<SampleViewerDialogComponent>(
             SampleViewerDialogComponent,
-            this.placeholder
+            this.placeholder,
          )
          .id('sample-viewer-modal')
          .title(`Source files for '${this.sample}' sample`)

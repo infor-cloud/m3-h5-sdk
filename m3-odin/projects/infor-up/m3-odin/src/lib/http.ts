@@ -60,7 +60,7 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
    private onResponse(
       request: IHttpRequest,
       subject: AsyncSubject<IHttpResponse>,
-      x: XMLHttpRequest
+      x: XMLHttpRequest,
    ): void {
       const url = request.url;
       let status;
@@ -93,7 +93,7 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
             } catch (ex) {
                this.logError(
                   'onResponse: Failed to parse JSON response for URL ' + url,
-                  ex
+                  ex,
                );
             }
          }

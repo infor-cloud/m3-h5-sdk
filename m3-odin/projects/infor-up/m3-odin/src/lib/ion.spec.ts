@@ -50,7 +50,7 @@ class MockIFormService implements IFormService {
    executeCommand(
       commandType: string,
       commandValue?: string | undefined,
-      params?: any
+      params?: any,
    ): Observable<IFormResponse> {
       throw new Error('Method not implemented.');
    }
@@ -88,10 +88,10 @@ describe('IonApiServiceCore', () => {
 
       const isLocalHost = spyOn(HttpUtil, 'isLocalhost').and.returnValues(
          false,
-         true
+         true,
       );
       expect(() => service.setDevelopmentToken('Foo')).toThrowError(
-         'Development tokens are only allowed for localhost'
+         'Development tokens are only allowed for localhost',
       );
 
       const tokenFoo = 'Foo';
@@ -113,7 +113,7 @@ describe('IonApiServiceCore', () => {
 
       const loadToken = spyOn(
          IonApiServiceCore.prototype as any,
-         'loadToken'
+         'loadToken',
       ).and.returnValue(undefined);
       const subjectOne = service.getContext();
       expect(service['pending'].length).toBe(1);
@@ -147,10 +147,10 @@ describe('IonApiServiceCore', () => {
       expect(service['canRetry']({} as IIonApiRequest, 0)).toBe(false);
       expect(service['canRetry']({} as IIonApiRequest, 401)).toBe(true);
       expect(
-         service['canRetry']({ ionApiRetry: true } as IIonApiRequest, 401)
+         service['canRetry']({ ionApiRetry: true } as IIonApiRequest, 401),
       ).toBe(true);
       expect(
-         service['canRetry']({ ionApiRetry: false } as IIonApiRequest, 401)
+         service['canRetry']({ ionApiRetry: false } as IIonApiRequest, 401),
       ).toBe(false);
    });
 
@@ -191,19 +191,19 @@ describe('IonApiServiceCore', () => {
    it('should execte with success', (done) => {
       const service = new IonApiServiceCore(mockIHttpService, mockIFormService);
       expect(() => service.execute({} as IIonApiRequest)).toThrowError(
-         'No source specified'
+         'No source specified',
       );
 
       const param = { source: 'Foo' } as IIonApiRequest;
       const response = { statusText: 'Bar' } as IIonApiResponse;
       const getContext = spyOn(service, 'getContext').and.returnValue(
-         of({} as IIonApiContext)
+         of({} as IIonApiContext),
       );
       const executeApi = spyOn(service as any, 'executeApi').and.callFake(
          (context, options, source, sub, isRetry) => {
             (sub as AsyncSubject<IIonApiResponse>).next(response);
             (sub as AsyncSubject<IIonApiResponse>).complete();
-         }
+         },
       );
       const subject = service.execute(param);
       expect(getContext).toHaveBeenCalled();
@@ -212,7 +212,7 @@ describe('IonApiServiceCore', () => {
          param,
          'm3-odin-' + param.source,
          jasmine.anything(),
-         false
+         false,
       );
       subject.subscribe((resp) => {
          expect(resp).toBe(response);
@@ -226,7 +226,7 @@ describe('IonApiServiceCore', () => {
       const param = { source: 'Foo' } as IIonApiRequest;
       const error = 'Bar';
       const getContext = spyOn(service, 'getContext').and.returnValue(
-         throwError(() => error)
+         throwError(() => error),
       );
       const subject = service.execute(param);
       expect(getContext).toHaveBeenCalled();
@@ -250,26 +250,26 @@ describe('IonApiServiceCore', () => {
          of(response),
          of(response),
          of(response),
-         throwError(() => error)
+         throwError(() => error),
       );
       const getEnvironmentContext = spyOn(
          service['formService'],
-         'getEnvironmentContext'
+         'getEnvironmentContext',
       ).and.returnValues(
          of({} as IEnvironmentContext),
          of({} as IEnvironmentContext),
          throwError(() => error),
-         of(environment)
+         of(environment),
       );
       const reject = spyOn(service as any, 'reject').and.returnValue(undefined);
       const resolve = spyOn(service as any, 'resolve').and.returnValue(
-         undefined
+         undefined,
       );
       const logError = spyOn(service as any, 'logError').and.returnValue(
-         undefined
+         undefined,
       );
       const logInfo = spyOn(service as any, 'logInfo').and.returnValue(
-         undefined
+         undefined,
       );
       const random = 'Bar';
       spyOn(CoreUtil, 'random').and.returnValue(random);
@@ -362,19 +362,19 @@ describe('IonApiServiceCore', () => {
       spyOn(service as any, 'isDebug').and.returnValue(true);
       spyOn(service as any, 'canRetry').and.returnValue(true);
       const logDebug = spyOn(service as any, 'logDebug').and.returnValue(
-         undefined
+         undefined,
       );
       const execute = spyOn(service['httpService'], 'execute').and.returnValues(
          of(response),
          throwError(() => error),
          throwError(() => error),
          throwError(() => error),
-         throwError(() => error)
+         throwError(() => error),
       );
       const getContext = spyOn(service, 'getContext').and.returnValues(
          of(retryContext),
          throwError(() => error),
-         throwError(() => error)
+         throwError(() => error),
       );
 
       service['executeApi'](
@@ -382,28 +382,28 @@ describe('IonApiServiceCore', () => {
          { url } as IIonApiRequest,
          source,
          subjectSuccess,
-         false
+         false,
       );
       service['executeApi'](
          context,
          { url } as IIonApiRequest,
          source,
          subjectErrorOne,
-         true
+         true,
       );
       service['executeApi'](
          context,
          { url } as IIonApiRequest,
          source,
          subjectErrorTwo,
-         false
+         false,
       );
       service['executeApi'](
          context,
          { url } as IIonApiRequest,
          source,
          subjectErrorThree,
-         false
+         false,
       );
 
       expect(execute).toHaveBeenCalledTimes(5);

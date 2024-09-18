@@ -74,7 +74,7 @@ describe('MIService', () => {
             expect(err.errorType).toBe('ServerReturnedNOK');
             expect(err.errorField).toBe('RCNT      ');
             expect(err.errorMessage).toBe(
-               "Designed to fail! Record count was:'-5      '"
+               "Designed to fail! Record count was:'-5      '",
             );
          } else {
             throw err;
@@ -84,7 +84,7 @@ describe('MIService', () => {
 
    function executeFakeRequest(
       fakeStatus: number,
-      fakeResponse?: unknown
+      fakeResponse?: unknown,
    ): Promise<IMIResponse> {
       jasmine.Ajax.stubRequest(/TST001MI\/Lst10Out/).andReturn({
          status: fakeStatus,

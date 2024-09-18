@@ -453,7 +453,10 @@ export class ComboBox extends FormControl {
  * @since 2.0.0
  */
 export class DatePicker extends TextBox {
-   constructor(public dateFormat: string, public hideDateFormat: boolean) {
+   constructor(
+      public dateFormat: string,
+      public hideDateFormat: boolean,
+   ) {
       super(ControlType.datePicker);
    }
 }
@@ -594,7 +597,7 @@ export class Panel {
 
    private findControlLabel(
       elements: FormControl[],
-      control: FormControl
+      control: FormControl,
    ): Label {
       const left = control.getLeft();
       let top = control.getTop();
@@ -641,7 +644,7 @@ export class Panel {
 
    private findAdditionalInfo(
       elements: FormControl[],
-      control: FormControl
+      control: FormControl,
    ): Label {
       const left = control.getLeft() + control.getWidth();
       const top = control.getTop();

@@ -9,17 +9,10 @@
       "moduleResolution": "node",
       "experimentalDecorators": true,
       "target": "ES2022",
-      "typeRoots": [
-         "node_modules/@types"
-      ],
-      "lib": [
-         "es2017",
-         "dom"
-      ],
+      "typeRoots": ["node_modules/@types"],
+      "lib": ["es2017", "dom"],
       "paths": {
-         "@infor-up/m3-odin": [
-            "dist/infor-up/m3-odin"
-         ],
+         "@infor-up/m3-odin": ["dist/infor-up/m3-odin"],
          "@infor-up/m3-odin-angular": [
             "dist/infor-up/m3-odin-angular/infor-up-m3-odin-angular",
             "dist/infor-up/m3-odin-angular"

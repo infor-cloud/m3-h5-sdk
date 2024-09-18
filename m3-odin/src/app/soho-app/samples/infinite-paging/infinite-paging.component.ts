@@ -84,12 +84,12 @@ export class InfinitePagingSampleComponent extends CoreBase {
          },
          source: (
             request: SohoDataGridSourceRequest,
-            response: SohoDataGridResponseFunction
+            response: SohoDataGridResponseFunction,
          ) => {
             this.pagingService
                .getData(request)
                .subscribe((result: IPagingResult) =>
-                  response(result.items, result.request)
+                  response(result.items, result.request),
                );
          },
       };

@@ -12,7 +12,7 @@ export class IdmSampleComponent extends CoreBase implements OnInit {
 
    constructor(
       private idmService: IdmDataService,
-      private messageService: SohoMessageService
+      private messageService: SohoMessageService,
    ) {
       super('IdmSampleComponent');
    }
@@ -24,7 +24,7 @@ export class IdmSampleComponent extends CoreBase implements OnInit {
          },
          (error: IIdmError) => {
             this.handleError(error);
-         }
+         },
       );
    }
 
@@ -45,7 +45,8 @@ export class IdmSampleComponent extends CoreBase implements OnInit {
          .error()
          .title('An error occured')
          .message(
-            message + ' More details might be available in the browser console.'
+            message +
+               ' More details might be available in the browser console.',
          )
          .buttons(buttons)
          .open();

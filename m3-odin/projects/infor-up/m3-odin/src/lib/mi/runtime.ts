@@ -184,7 +184,7 @@ export class MIUtil {
       originalValues: MIRecord,
       newRecord: any,
       fieldNames: string[],
-      mandatoryFields: string[]
+      mandatoryFields: string[],
    ): MIRecord {
       const updateRecord = new MIRecord();
       // Create copy
@@ -253,7 +253,7 @@ export class MIUtil {
     *
     */
    public static metadataToArray(
-      metadataMap: IMIMetadataMap
+      metadataMap: IMIMetadataMap,
    ): IMIMetadataInfo[] {
       const array = [];
       for (const field in metadataMap) {
@@ -282,7 +282,7 @@ export class MIMetadataInfo implements IMIMetadataInfo {
       name: string,
       length: number,
       typeString: string,
-      description: string
+      description: string,
    ) {
       this.name = name;
       this.length = length;
@@ -383,7 +383,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
 
    private executeRefreshToken(
       request: IMIRequest,
-      subject: AsyncSubject<IMIResponse>
+      subject: AsyncSubject<IMIResponse>,
    ): void {
       const url = this.getCsrfUrl(this.getBaseUrl(request));
       const httpRequest = {
@@ -413,7 +413,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
             } else {
                this.executeInternal(request, subject);
             }
-         }
+         },
       );
    }
 
@@ -535,12 +535,12 @@ export class MIServiceCore extends CoreBase implements IMIService {
                   company +
                   ' and division ' +
                   division +
-                  ' from user context'
+                  ' from user context',
             );
          }
       } else {
          this.logInfo(
-            'createUrl: company not set, user context not available.'
+            'createUrl: company not set, user context not available.',
          );
       }
 
@@ -587,11 +587,11 @@ export class MIServiceCore extends CoreBase implements IMIService {
 
    public executeInternal(
       request: IMIRequest,
-      subject: AsyncSubject<IMIResponse>
+      subject: AsyncSubject<IMIResponse>,
    ): void {
       const baseUrl = HttpUtil.combine(
          this.getBaseUrl(request),
-         this.getDefaultBaseUrl()
+         this.getDefaultBaseUrl(),
       );
       const url = this.createUrl(baseUrl, request);
 
@@ -610,12 +610,12 @@ export class MIServiceCore extends CoreBase implements IMIService {
                   this.logInfo(
                      'execute: ' +
                         this.getLogInfo(response) +
-                        ' returned error.'
+                        ' returned error.',
                   );
                   subject.error(response);
                } else {
                   this.logInfo(
-                     'execute: ' + this.getLogInfo(response) + ' completed OK'
+                     'execute: ' + this.getLogInfo(response) + ' completed OK',
                   );
                   subject.next(response);
                   subject.complete();
@@ -623,7 +623,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
             } catch (ex) {
                const errorResponse = new MIResponse();
                this.logWarning(
-                  'execute: exception parsing response ' + JSON.stringify(ex)
+                  'execute: exception parsing response ' + JSON.stringify(ex),
                );
                errorResponse.error = ex;
                subject.error(errorResponse);
@@ -643,7 +643,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
             response.errorMessage = message;
             response.errorCode = status.toString();
             subject.error(response);
-         }
+         },
       );
    }
 
@@ -733,7 +733,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
    private getTypedValue(
       name: string,
       value: string,
-      metadata: { [k: string]: IMIMetadataInfo }
+      metadata: { [k: string]: IMIMetadataInfo },
    ): any {
       try {
          if (metadata) {
@@ -786,7 +786,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
                      name,
                      entry['@length'],
                      entry['@type'],
-                     entry['@description']
+                     entry['@description'],
                   );
                   metadataMap[name] = metaDataInfo;
                }

@@ -48,7 +48,7 @@ export class SearchSampleComponent extends CoreBase {
          },
          (r) => {
             this.onError(r);
-         }
+         },
       );
    }
 

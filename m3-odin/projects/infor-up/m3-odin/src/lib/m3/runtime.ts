@@ -125,7 +125,7 @@ export class FormatUtil {
       const length = value.length;
       if (length !== format.length || !(length === 6 || length === 8)) {
          throw new Error(
-            'Invalid format and/or value, format=' + format + ' value=' + value
+            'Invalid format and/or value, format=' + format + ' value=' + value,
          );
       }
 
@@ -236,7 +236,7 @@ class CommonUtil {
             'getLanguageTag: M3 language ' +
                m3Language +
                ' not found. Fallback to ' +
-               language
+               language,
          );
       }
       return language;
@@ -339,7 +339,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
          return message;
       } catch (ex) {
          this.logError(
-            'parseMessage: Failed to parse: ' + JSON.stringify(data)
+            'parseMessage: Failed to parse: ' + JSON.stringify(data),
          );
       }
       return null;
@@ -381,7 +381,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
             const data = e[key];
             this.onMessage(data);
          },
-         false
+         false,
       );
    }
 
@@ -438,7 +438,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
          },
          (response: any) => {
             this.rejectQueue(response.errorMessage);
-         }
+         },
       );
    }
 
@@ -519,7 +519,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
             ' ' +
             company +
             '/' +
-            division
+            division,
       );
    }
 

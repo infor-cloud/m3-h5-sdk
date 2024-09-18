@@ -89,7 +89,7 @@ export class CustomerPagingService extends CoreBase implements OnDestroy {
          .execute(miRequest)
          .pipe(
             catchError(() => of([])),
-            finalize(() => this.loadingSubject.next(false))
+            finalize(() => this.loadingSubject.next(false)),
          )
          .subscribe((response: IMIResponse) => {
             const items = response.items;

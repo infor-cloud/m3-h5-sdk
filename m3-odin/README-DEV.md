@@ -41,6 +41,7 @@ The pack script will create npm packages in the `/dist` directory in the root.
 `npm run odin-pack-samples`
 
 ### Package SDK
+
 Packs the NPM packages, documentation and samples in the dist directory.
 `npm run odin-pack-sdk`
 

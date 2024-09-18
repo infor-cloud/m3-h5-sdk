@@ -16,7 +16,7 @@ describe('CommonUtil via UserServiceCore', () => {
       const deContext = { LANC: 'DE' } as IUserContext;
       spyOn(Log, 'warning').and.callFake((message) => {
          expect(message).toBe(
-            'getLanguageTag: M3 language undefined not found. Fallback to en-US'
+            'getLanguageTag: M3 language undefined not found. Fallback to en-US',
          );
       });
 

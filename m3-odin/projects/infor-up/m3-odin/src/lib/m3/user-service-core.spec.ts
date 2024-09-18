@@ -26,7 +26,7 @@ describe('UserServiceCore', () => {
       const spy = spyOn(UserServiceCore.prototype as any, 'init').and.callFake(
          () => {
             return;
-         }
+         },
       );
       userService = new UserServiceCore(mockService);
       spy.and.callThrough();
@@ -37,11 +37,11 @@ describe('UserServiceCore', () => {
       const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe('Running in IFrame');
-         }
+         },
       );
       const spyRegisterMessage = spyOn(
          userService as any,
-         'registerMessage'
+         'registerMessage',
       ).and.callFake(() => {
          return;
       });
@@ -50,7 +50,7 @@ describe('UserServiceCore', () => {
       });
       const spySendMessage = spyOn(
          userService as any,
-         'sendMessage'
+         'sendMessage',
       ).and.callFake((message) => {
          expect(message).toEqual({ m3Command: 'user' });
       });
@@ -67,11 +67,11 @@ describe('UserServiceCore', () => {
       const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe('onTimeout: No user message from H5');
-         }
+         },
       );
       const spyLoadUserId = spyOn(
          userService as any,
-         'loadUserId'
+         'loadUserId',
       ).and.callFake(() => {
          return;
       });
@@ -90,11 +90,11 @@ describe('UserServiceCore', () => {
       const spyLogError = spyOn(userService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe('parseMessage: Failed to parse: "foo"');
-         }
+         },
       );
 
       expect(userService['parseMessage'](JSON.stringify(message))).toEqual(
-         message
+         message,
       );
       expect(userService['parseMessage']('foo')).toBeNull();
       expect(spyLogError).toHaveBeenCalled();
@@ -114,7 +114,7 @@ describe('UserServiceCore', () => {
       const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe('onMessage: User message from H5');
-         }
+         },
       );
       const spyParseMessage = spyOn(userService as any, 'parseMessage')
          .and.returnValue(null)
@@ -124,14 +124,14 @@ describe('UserServiceCore', () => {
          });
       const spyCreateUserContext = spyOn(
          userService as any,
-         'createUserContext'
+         'createUserContext',
       ).and.callFake((context) => {
          expect(context).toBe(dataJson.m3Response.userContext);
          return userContext;
       });
       const spySetContext = spyOn(
          userService as any,
-         'setContext'
+         'setContext',
       ).and.callFake((context) => {
          expect(context).toBe(userContext);
       });
@@ -145,7 +145,7 @@ describe('UserServiceCore', () => {
       expect(spySetContext).toHaveBeenCalled();
       expect(userService['m3User']).toBe(dataJson.m3Response.m3User);
       expect(userService['principalUser']).toBe(
-         dataJson.m3Response.principalUser
+         dataJson.m3Response.principalUser,
       );
       expect(userService['isMessagePending']).toBe(false);
       expect(UserServiceCore.isH5Host).toBe(true);
@@ -167,7 +167,7 @@ describe('UserServiceCore', () => {
          (message, options) => {
             expect(message).toBe(data);
             expect(options).toBe('*');
-         }
+         },
       );
 
       userService['sendMessage'](dataJson);
@@ -218,13 +218,13 @@ describe('UserServiceCore', () => {
       const errorMessage = 'This is an error';
       const spyCreateErrorContext = spyOn(
          userService as any,
-         'createErrorContext'
+         'createErrorContext',
       ).and.callFake((message) => {
          expect(message).toBe(errorMessage);
       });
       const spyProcessQueue = spyOn(
          userService as any,
-         'processQueue'
+         'processQueue',
       ).and.callFake((param) => {
          expect(param).toBe(false);
       });
@@ -237,7 +237,7 @@ describe('UserServiceCore', () => {
    it('should call to load a user', () => {
       const spyLoadUserData = spyOn(
          userService as any,
-         'loadUserData'
+         'loadUserData',
       ).and.callFake(() => {
          return;
       });
@@ -261,14 +261,14 @@ describe('UserServiceCore', () => {
       let onUserDataParam;
       const spyOnUserData = spyOn(
          userService as any,
-         'onUserData'
+         'onUserData',
       ).and.callFake((param) => {
          onUserDataParam = param;
       });
       let rejectQueueParam;
       const spyRejectQueue = spyOn(
          userService as any,
-         'rejectQueue'
+         'rejectQueue',
       ).and.callFake((param) => {
          rejectQueueParam = param;
       });
@@ -354,7 +354,7 @@ describe('UserServiceCore', () => {
       } as IUserContext;
       const spyUpdateUserContext = spyOn(
          userService['miService']['instance'],
-         'updateUserContext'
+         'updateUserContext',
       ).and.callFake((cono, divi) => {
          expect(cono).toBe(userContext.CONO);
          expect(divi).toBe(userContext.DIVI);
@@ -362,9 +362,9 @@ describe('UserServiceCore', () => {
       const spyLogInfo = spyOn(userService as any, 'logInfo').and.callFake(
          (message) => {
             expect(message).toBe(
-               'setContext: Initialized user context for test 100/200'
+               'setContext: Initialized user context for test 100/200',
             );
-         }
+         },
       );
 
       userService['setContext'](userContext);
@@ -378,14 +378,14 @@ describe('UserServiceCore', () => {
       const userContext = { m3User: 'foo' } as IUserContext;
       const spyCreateUserContext = spyOn(
          userService as any,
-         'createUserContext'
+         'createUserContext',
       ).and.callFake((param) => {
          expect(param).toBe(item);
          return userContext;
       });
       const spySetContext = spyOn(
          userService as any,
-         'setContext'
+         'setContext',
       ).and.callFake((param) => {
          expect(param).toBe(userContext);
       });
@@ -402,7 +402,7 @@ describe('UserServiceCore', () => {
       userService['isUserContextAvailable'] = false;
       const spyCreateErrorContext = spyOn(
          userService as any,
-         'createErrorContext'
+         'createErrorContext',
       ).and.callFake(() => {
          return;
       });
@@ -422,11 +422,11 @@ describe('UserServiceCore', () => {
       const spyPush = spyOn(userService['queue'] as any, 'push').and.callFake(
          () => {
             return;
-         }
+         },
       );
       const spyLoadUserId = spyOn(
          userService as any,
-         'loadUserId'
+         'loadUserId',
       ).and.callFake(() => {
          return;
       });
@@ -446,30 +446,30 @@ describe('UserServiceCore', () => {
       const userContext = { m3User: 'foo' } as IUserContext;
       const spyCreateUserContext = spyOn(
          userService as any,
-         'createUserContext'
+         'createUserContext',
       ).and.callFake((context) => {
          expect(context).toBe(userContext);
          return userContext;
       });
       const spyAddAliases = spyOn(
          userService as any,
-         'addAliases'
+         'addAliases',
       ).and.callFake((context) => {
          expect(context).toBe(userContext);
          (context as any)['CONO'] = '100';
       });
       const spyUpdateDependent = spyOn(
          userService as any,
-         'updateDependent'
+         'updateDependent',
       ).and.callFake((context) => {
          expect(context).toBe(userContext);
       });
       const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'setUserContext: Creating user context after logon'
+               'setUserContext: Creating user context after logon',
             );
-         }
+         },
       );
 
       userService.updateUserContext(userContext, 'bar');
@@ -492,23 +492,23 @@ describe('UserServiceCore', () => {
       userService['userContext'] = userContextBefore;
       const spyAddAliases = spyOn(
          userService as any,
-         'addAliases'
+         'addAliases',
       ).and.callFake((context) => {
          expect(context).toBe(userContextParam);
          (context as any)['CONO'] = '100';
       });
       const spyUpdateDependent = spyOn(
          userService as any,
-         'updateDependent'
+         'updateDependent',
       ).and.callFake((context) => {
          expect(context).toEqual(userContextAfter);
       });
       const spyLogDebug = spyOn(userService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'setUserContext: Updating user context after logon'
+               'setUserContext: Updating user context after logon',
             );
-         }
+         },
       );
 
       userService.updateUserContext(userContextParam, 'bar');
@@ -522,7 +522,7 @@ describe('UserServiceCore', () => {
       const item = { CONO: '100' };
       const userContext = new UserContext();
       expect(userService['createUserContext'](item)).toEqual(
-         Object.assign(userContext, item)
+         Object.assign(userContext, item),
       );
    });
 });

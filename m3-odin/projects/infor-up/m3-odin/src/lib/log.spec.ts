@@ -38,7 +38,7 @@ describe('Log', () => {
          Log.levelTrace,
          Log.levelTrace,
          message,
-         error
+         error,
       );
    });
 
@@ -52,7 +52,7 @@ describe('Log', () => {
          Log.levelDebug,
          Log.levelDebug,
          message,
-         error
+         error,
       );
    });
 
@@ -62,7 +62,7 @@ describe('Log', () => {
          Log.level,
          Log.levelInfo,
          message,
-         error
+         error,
       );
    });
 
@@ -72,7 +72,7 @@ describe('Log', () => {
          Log.level,
          Log.levelWarning,
          message,
-         error
+         error,
       );
    });
 
@@ -82,7 +82,7 @@ describe('Log', () => {
          Log.level,
          Log.levelError,
          message,
-         error
+         error,
       );
    });
 
@@ -92,7 +92,7 @@ describe('Log', () => {
          Log.level,
          Log.levelFatal,
          message,
-         error
+         error,
       );
    });
 
@@ -108,26 +108,26 @@ describe('Log', () => {
       });
 
       expect(Log.getLogEntry(Log.levelFatal, message, error)).toContain(
-         `[${time}] ${Log['prefixes'][0]} ${message} ${error.name}: ${error.message}`
+         `[${time}] ${Log['prefixes'][0]} ${message} ${error.name}: ${error.message}`,
       );
       const msg = 'Other message';
       const expectedMessage = msg + ' expected';
       const errorWithMessageInStack = new Error(expectedMessage);
       errorWithMessageInStack.stack = msg;
       expect(
-         Log.getLogEntry(Log.levelFatal, message, errorWithMessageInStack)
+         Log.getLogEntry(Log.levelFatal, message, errorWithMessageInStack),
       ).toBe(
-         `[${time}] ${Log['prefixes'][0]} ${message} ${expectedMessage} ${msg}`
+         `[${time}] ${Log['prefixes'][0]} ${message} ${expectedMessage} ${msg}`,
       );
 
       const errorWithoutStack = new Error();
       errorWithoutStack.stack = undefined;
       expect(Log.getLogEntry(Log.levelFatal, message, errorWithoutStack)).toBe(
-         `[${time}] ${Log['prefixes'][0]} ${message} ${error.name}`
+         `[${time}] ${Log['prefixes'][0]} ${message} ${error.name}`,
       );
       errorWithoutStack.message = msg;
       expect(Log.getLogEntry(Log.levelFatal, message, errorWithoutStack)).toBe(
-         `[${time}] ${Log['prefixes'][0]} ${message} ${msg}`
+         `[${time}] ${Log['prefixes'][0]} ${message} ${msg}`,
       );
    });
 

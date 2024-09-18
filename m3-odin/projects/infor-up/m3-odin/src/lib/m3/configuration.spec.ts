@@ -20,7 +20,7 @@ describe('Configuration', () => {
       expect(Configuration.getDateFormat()).toBe('yyMMdd');
       Configuration['userContext'] = userContext;
       expect(Configuration.getDateFormat()).toBe(
-         userContext.dateFormat as string
+         userContext.dateFormat as string,
       );
    });
 
@@ -29,7 +29,7 @@ describe('Configuration', () => {
       expect(Configuration.getDecimalSeparator()).toBe('.');
       Configuration['userContext'] = userContext;
       expect(Configuration.getDecimalSeparator()).toBe(
-         userContext.DCFM as string
+         userContext.DCFM as string,
       );
    });
 
@@ -40,7 +40,7 @@ describe('Configuration', () => {
       expect(Configuration.getFirstActiveDate()).toBeUndefined();
       Configuration['userContext'] = userContext;
       expect(Configuration.getFirstActiveDate()).toBe(
-         userContext.firstActiveDate
+         userContext.firstActiveDate,
       );
    });
 
@@ -55,7 +55,7 @@ describe('Configuration', () => {
       expect(Configuration.getLastActiveDate()).toBeUndefined();
       Configuration['userContext'] = userContext;
       expect(Configuration.getLastActiveDate()).toBe(
-         userContext.lastActiveDate
+         userContext.lastActiveDate,
       );
    });
 

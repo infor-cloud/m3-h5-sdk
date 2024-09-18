@@ -37,12 +37,11 @@
                   [ngClass]="{
                      'info-text': item.type === 'INFO' || item.type === 'DEBUG',
                      'error-text': item.type === 'ERROR',
-                     'warning-text': item.type === 'WARNING'
+                     'warning-text': item.type === 'WARNING',
                   }"
                >
-                  [{{ item.timestamp | date : 'HH:mm:ss,SS' }}] [{{
-                     item.type
-                  }}] {{ item.message }}
+                  [{{ item.timestamp | date: 'HH:mm:ss,SS' }}] [{{ item.type }}]
+                  {{ item.message }}
                </div>
             </div>
          </div>

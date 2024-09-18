@@ -27,7 +27,7 @@ module.exports = function (config) {
       coverageReporter: {
          dir: require('path').join(
             __dirname,
-            '../../../coverage/infor-up/m3-odin'
+            '../../../coverage/infor-up/m3-odin',
          ),
          subdir: '.',
          reporters: [{ type: 'html' }, { type: 'text-summary' }],

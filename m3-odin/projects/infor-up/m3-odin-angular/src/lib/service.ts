@@ -261,7 +261,7 @@ export class FormService extends CoreBase implements IFormService {
    executeCommand(
       commandType: string,
       commandValue?: string,
-      params?: any
+      params?: any,
    ): Observable<IFormResponse> {
       return this.instance.executeCommand(commandType, commandValue, params);
    }
@@ -328,12 +328,12 @@ export class IonApiService extends CoreBase implements IIonApiService {
    constructor(
       http: HttpClient,
       formService: FormService,
-      @Inject(IonApiConfig) @Optional() config?: IIonApiConfig
+      @Inject(IonApiConfig) @Optional() config?: IIonApiConfig,
    ) {
       super('IonApiService');
       this.instance = new IonApiServiceCore(
          new HttpServiceWrapper(http, config),
-         formService
+         formService,
       );
    }
 
@@ -351,7 +351,10 @@ export class IonApiService extends CoreBase implements IIonApiService {
 }
 
 class HttpServiceWrapper implements IHttpService {
-   constructor(private http: HttpClient, private config?: IIonApiConfig) {}
+   constructor(
+      private http: HttpClient,
+      private config?: IIonApiConfig,
+   ) {}
 
    execute(request: IHttpRequest): Observable<IHttpResponse> {
       return this.http.request(request.method, request.url, {

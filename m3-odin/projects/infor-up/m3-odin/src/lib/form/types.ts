@@ -328,6 +328,6 @@ export interface IFormService {
    executeCommand(
       commandType: string,
       commandValue?: string,
-      params?: any
+      params?: any,
    ): Observable<IFormResponse>;
 }

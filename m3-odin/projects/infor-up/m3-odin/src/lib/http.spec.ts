@@ -27,18 +27,18 @@ describe('AjaxHttpService', () => {
       const open = spyOn(XMLHttpRequest.prototype as any, 'open').and.callFake(
          () => {
             return;
-         }
+         },
       );
       const event = {} as Event;
       const send = spyOn(XMLHttpRequest.prototype as any, 'send').and.callFake(
          () => {
             XMLHttpRequest.prototype.readyState === 4;
             XMLHttpRequest.prototype.onreadystatechange!(event);
-         }
+         },
       );
       const setRequestHeader = spyOn(
          XMLHttpRequest.prototype as any,
-         'setRequestHeader'
+         'setRequestHeader',
       ).and.callFake(() => {
          return;
       });
@@ -60,7 +60,7 @@ describe('AjaxHttpService', () => {
          (request, subject, x) => {
             (<Subject<IHttpResponse>>subject).next(response);
             (<Subject<IHttpResponse>>subject).complete();
-         }
+         },
       );
 
       service.execute(request).subscribe((val) => {
@@ -76,18 +76,18 @@ describe('AjaxHttpService', () => {
       const open = spyOn(XMLHttpRequest.prototype as any, 'open').and.callFake(
          () => {
             return;
-         }
+         },
       );
       const event = {} as Event;
       const send = spyOn(XMLHttpRequest.prototype as any, 'send').and.callFake(
          () => {
             XMLHttpRequest.prototype.readyState === 4;
             XMLHttpRequest.prototype.onreadystatechange!(event);
-         }
+         },
       );
       const setRequestHeader = spyOn(
          XMLHttpRequest.prototype as any,
-         'setRequestHeader'
+         'setRequestHeader',
       ).and.callFake(() => {
          return;
       });
@@ -109,7 +109,7 @@ describe('AjaxHttpService', () => {
          (request, subject, x) => {
             (<Subject<IHttpResponse>>subject).next(response);
             (<Subject<IHttpResponse>>subject).complete();
-         }
+         },
       );
 
       service.execute(request).subscribe((val) => {
@@ -171,7 +171,7 @@ describe('AjaxHttpService', () => {
          expect(val).toEqual(response);
          expect(logError).toHaveBeenCalledWith(
             `onResponse: Failed to parse JSON response for URL ${httpRequest.url}`,
-            new SyntaxError('Unexpected token \'o\', "foo" is not valid JSON')
+            new SyntaxError('Unexpected token \'o\', "foo" is not valid JSON'),
          );
          done();
       });

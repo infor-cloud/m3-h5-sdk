@@ -18,7 +18,7 @@ module.exports = function (config) {
       coverageReporter: {
          dir: require('path').join(
             __dirname,
-            '../../../coverage/infor-up/m3-odin-angular'
+            '../../../coverage/infor-up/m3-odin-angular',
          ),
          reports: ['html', 'lcovonly', 'text-summary'],
          fixWebpackSourcePaths: true,

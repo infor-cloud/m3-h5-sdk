@@ -55,7 +55,7 @@ describe('FormServiceCore', () => {
 
       const executeWithSession = spyOn(
          formService as any,
-         'executeWithSession'
+         'executeWithSession',
       ).and.callFake((request) => {
          expect(request).toEqual(formRequest);
       });
@@ -63,7 +63,7 @@ describe('FormServiceCore', () => {
       formService.executeCommand(
          formRequest.commandType,
          formRequest.commandValue,
-         formRequest.params
+         formRequest.params,
       );
       expect(executeWithSession).toHaveBeenCalled();
    });
@@ -77,7 +77,7 @@ describe('FormServiceCore', () => {
 
       const executeWithSession = spyOn(
          formService as any,
-         'executeWithSession'
+         'executeWithSession',
       ).and.callFake((request) => {
          expect(request).toBe(formRequest);
       });
@@ -106,7 +106,7 @@ describe('FormServiceCore', () => {
 
       const executeWithSession = spyOn(
          formService as any,
-         'executeWithSession'
+         'executeWithSession',
       ).and.callFake((request_) => {
          const request = request_ as IFormRequest;
          expect(request.commandType).toEqual(formRequest.commandType);
@@ -118,7 +118,7 @@ describe('FormServiceCore', () => {
       // Check stateful
       (formRequest.params = Bookmark.toParams(
          bookmarkStateful,
-         {} as IUserContext
+         {} as IUserContext,
       )),
          formService.executeBookmark(bookmarkStateful);
       expect(executeWithSession).toHaveBeenCalled();
@@ -126,7 +126,7 @@ describe('FormServiceCore', () => {
       // Check stateless
       (formRequest.params = Bookmark.toParams(
          bookmarkStateless,
-         {} as IUserContext
+         {} as IUserContext,
       )),
          formService.executeBookmark(bookmarkStateless);
       expect(executeWithSession).toHaveBeenCalled();
@@ -157,7 +157,7 @@ describe('FormServiceCore', () => {
 
       const executeWithSession = spyOn(
          formService as any,
-         'executeWithSession'
+         'executeWithSession',
       ).and.callFake((request) => {
          expect(request).toEqual(formRequest);
       });
@@ -168,7 +168,7 @@ describe('FormServiceCore', () => {
 
    it('should throw exception in validate', () => {
       expect(() => formService.validate('foo', null!)).toThrowError(
-         'The foo property is mandatory'
+         'The foo property is mandatory',
       );
    });
 
@@ -193,7 +193,7 @@ describe('FormServiceCore', () => {
          bar: null!,
       };
       expect(formService['getStartPanelFields'](searchRequest)).toBe(
-         'W1OBKV,TEST,W2OBKV,%20,foo,%20,bar,%20'
+         'W1OBKV,TEST,W2OBKV,%20,foo,%20,bar,%20',
       );
    });
 
@@ -215,18 +215,18 @@ describe('FormServiceCore', () => {
 
       formService['translator'] = {
          translate: (request: ITranslationRequest): ITranslationJob =>
-            ({} as ITranslationJob),
+            ({}) as ITranslationJob,
       } as Translator;
       const spyCreateHttpRequest = spyOn(
          formService as any,
-         'createHttpRequest'
+         'createHttpRequest',
       ).and.callFake(() => ({}));
       const spyOnTranslate = spyOn(
          formService as any,
-         'onTranslate'
+         'onTranslate',
       ).and.callFake(() => translationResponse);
       const spyExecute = spyOn(httpServiceMock, 'execute').and.callFake(() =>
-         of({} as IHttpResponse)
+         of({} as IHttpResponse),
       );
 
       formService.translate(translationRequest).subscribe((response) => {
@@ -244,18 +244,18 @@ describe('FormServiceCore', () => {
 
       formService['translator'] = {
          translate: (request: ITranslationRequest): ITranslationJob =>
-            ({} as ITranslationJob),
+            ({}) as ITranslationJob,
       } as Translator;
       const spyCreateHttpRequest = spyOn(
          formService as any,
-         'createHttpRequest'
+         'createHttpRequest',
       ).and.callFake(() => ({}));
       const spyCreateError = spyOn(
          formService as any,
-         'createError'
+         'createError',
       ).and.callFake(() => errorResponse);
       const spyExecute = spyOn(httpServiceMock, 'execute').and.callFake(() =>
-         throwError(() => new Error('error'))
+         throwError(() => new Error('error')),
       );
 
       formService.translate(translationRequest).subscribe({
@@ -281,8 +281,8 @@ describe('FormServiceCore', () => {
       formService['translator'] = {
          parseResponse: (
             job: ITranslationJob,
-            content: string
-         ): ITranslationResponse => ({} as ITranslationResponse),
+            content: string,
+         ): ITranslationResponse => ({}) as ITranslationResponse,
       } as unknown as Translator;
 
       const response = formService['onTranslate'](job, data);
@@ -317,25 +317,25 @@ describe('FormServiceCore', () => {
       };
       const spyHasEnvironmentInformation = spyOn(
          formService as any,
-         'hasEnvironmentInformation'
+         'hasEnvironmentInformation',
       ).and.callFake(() => true);
       const spyCreateEnvironmentContext = spyOn(
          formService as any,
-         'createEnvironmentContext'
+         'createEnvironmentContext',
       ).and.callFake(() => envContext);
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: user has tenantid set, getting data from user context'
+               'getEnvironmentContext: user has tenantid set, getting data from user context',
             );
-         }
+         },
       );
       const spyLogInfo = spyOn(formService as any, 'logInfo').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: {"isMultiTenant":true,"ionApiUrl":"cloud"}'
+               'getEnvironmentContext: {"isMultiTenant":true,"ionApiUrl":"cloud"}',
             );
-         }
+         },
       );
 
       formService.getEnvironmentContext().subscribe((context) => {
@@ -355,32 +355,32 @@ describe('FormServiceCore', () => {
       };
       const spyHasEnvironmentInformation = spyOn(
          formService as any,
-         'hasEnvironmentInformation'
+         'hasEnvironmentInformation',
       ).and.callFake(() => false);
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT'
+               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT',
             );
-         }
+         },
       );
       const spyLogInfo = spyOn(formService as any, 'logInfo').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: {"isMultiTenant":true,"ionApiUrl":"cloud"}'
+               'getEnvironmentContext: {"isMultiTenant":true,"ionApiUrl":"cloud"}',
             );
-         }
+         },
       );
       const spyCommand = spyOn(formService as any, 'command').and.callFake(
          (type, value): Observable<IFormResponse> => {
             expect(type).toBe('USER');
             expect(value).toBe('M3USER_OPT');
             return of({ document: {} as Document } as IFormResponse);
-         }
+         },
       );
       const spyCreateEnvironmentContextFromXml = spyOn(
          formService as any,
-         'createEnvironmentContextFromXml'
+         'createEnvironmentContextFromXml',
       ).and.callFake((_d) => envContext);
 
       formService.getEnvironmentContext().subscribe((context) => {
@@ -403,26 +403,26 @@ describe('FormServiceCore', () => {
       };
       const spyHasEnvironmentInformation = spyOn(
          formService as any,
-         'hasEnvironmentInformation'
+         'hasEnvironmentInformation',
       ).and.callFake(() => false);
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT'
+               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT',
             );
-         }
+         },
       );
       const spyLogError = spyOn(formService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: Unable to get user information from H5. Verify that the H5 version is supported.'
+               'getEnvironmentContext: Unable to get user information from H5. Verify that the H5 version is supported.',
             );
-         }
+         },
       );
       const spyCommand = spyOn(formService as any, 'command').and.callFake(
          (type, value): Observable<IFormResponse> => {
             return of({} as IFormResponse);
-         }
+         },
       );
 
       formService.getEnvironmentContext().subscribe({
@@ -447,26 +447,26 @@ describe('FormServiceCore', () => {
       };
       const spyHasEnvironmentInformation = spyOn(
          formService as any,
-         'hasEnvironmentInformation'
+         'hasEnvironmentInformation',
       ).and.callFake(() => false);
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT'
+               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT',
             );
-         }
+         },
       );
       const spyLogError = spyOn(formService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe(
-               'getEnvironmentContext: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT failed.'
+               'getEnvironmentContext: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT failed.',
             );
-         }
+         },
       );
       const spyCommand = spyOn(formService as any, 'command').and.callFake(
          (type, value): Observable<IFormResponse> => {
             return throwError(() => new Error('error'));
-         }
+         },
       );
 
       formService.getEnvironmentContext().subscribe({
@@ -497,61 +497,63 @@ describe('FormServiceCore', () => {
       };
       const emptyDocument = new DOMParser().parseFromString(
          '<?xml version="1.0" encoding="UTF-8"?>',
-         'text/xml'
+         'text/xml',
       );
       const documentWithoutTenant = new DOMParser().parseFromString(
          '<?xml version="1.0" encoding="UTF-8"?><Root mcv="1.0"></Root>',
-         'text/xml'
+         'text/xml',
       );
       const documentWithTenantInfor = new DOMParser().parseFromString(
          '<?xml version="1.0" encoding="UTF-8"?><Root mcv="1.0"><Tenant>infor</Tenant></Root>',
-         'text/xml'
+         'text/xml',
       );
       const documentWithTenantTest = new DOMParser().parseFromString(
          '<?xml version="1.0" encoding="UTF-8"?><Root mcv="1.0"><Tenant>Test</Tenant></Root>',
-         'text/xml'
+         'text/xml',
       );
       const documentWithIonApiUrl = new DOMParser().parseFromString(
          '<?xml version="1.0" encoding="UTF-8"?><Root mcv="1.0"><Tenant>infor</Tenant><IonApiUrl>foo</IonApiUrl></Root>',
-         'text/xml'
+         'text/xml',
       );
       const documentWithVersion = new DOMParser().parseFromString(
          '<?xml version="1.0" encoding="UTF-8"?><Root mcv="1.0"><Tenant>infor</Tenant><Version>foo</Version></Root>',
-         'text/xml'
+         'text/xml',
       );
       const spyLogError = spyOn(formService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe(
-               'createEnvironmentContextFromXml: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT has no response root.'
+               'createEnvironmentContextFromXml: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT has no response root.',
             );
-         }
+         },
       );
       const spyLogWarning = spyOn(
          formService as any,
-         'logWarning'
+         'logWarning',
       ).and.callFake((message) => {
          expect(message).toBe(
-            'createEnvironmentContextFromXml: Failed to get tenant information from H5. H5 version is: null'
+            'createEnvironmentContextFromXml: Failed to get tenant information from H5. H5 version is: null',
          );
       });
 
       expect(
-         formService['createEnvironmentContextFromXml'](emptyDocument)
+         formService['createEnvironmentContextFromXml'](emptyDocument),
       ).toEqual(envContext);
       expect(
-         formService['createEnvironmentContextFromXml'](documentWithoutTenant)
+         formService['createEnvironmentContextFromXml'](documentWithoutTenant),
       ).toEqual(envContext);
       expect(
-         formService['createEnvironmentContextFromXml'](documentWithTenantInfor)
+         formService['createEnvironmentContextFromXml'](
+            documentWithTenantInfor,
+         ),
       ).toEqual(envContext);
       expect(
-         formService['createEnvironmentContextFromXml'](documentWithTenantTest)
+         formService['createEnvironmentContextFromXml'](documentWithTenantTest),
       ).toEqual({ ...envContext, isMultiTenant: true });
       expect(
-         formService['createEnvironmentContextFromXml'](documentWithIonApiUrl)
+         formService['createEnvironmentContextFromXml'](documentWithIonApiUrl),
       ).toEqual({ ...envContext, ionApiUrl: 'foo/infor' });
       expect(
-         formService['createEnvironmentContextFromXml'](documentWithVersion)
+         formService['createEnvironmentContextFromXml'](documentWithVersion),
       ).toEqual({ ...envContext, version: 'foo' });
       expect(spyLogWarning).toHaveBeenCalled();
       expect(spyLogError).toHaveBeenCalled();
@@ -575,29 +577,29 @@ describe('FormServiceCore', () => {
       };
       const spyLogWarning = spyOn(
          formService as any,
-         'logWarning'
+         'logWarning',
       ).and.callFake((message) => {
          expect(message).toBe(
-            'getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem'
+            'getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem',
          );
       });
       const spyLogInfo = spyOn(formService as any, 'logInfo').and.callFake(
          (message) => {
             expect(message).toBe('getEnvironmentContext: IonApiUrl foo');
-         }
+         },
       );
 
       expect(formService['createEnvironmentContext'](userContext)).toEqual(
-         context
+         context,
       );
       expect(
-         formService['createEnvironmentContext'](userContextWithTenantInfor)
+         formService['createEnvironmentContext'](userContextWithTenantInfor),
       ).toEqual(context);
       expect(
-         formService['createEnvironmentContext'](userContextWithTenantTest)
+         formService['createEnvironmentContext'](userContextWithTenantTest),
       ).toEqual({ ...context, isMultiTenant: true });
       expect(
-         formService['createEnvironmentContext'](userContextWithIonApiUrl)
+         formService['createEnvironmentContext'](userContextWithIonApiUrl),
       ).toEqual({ ...context, ionApiUrl: 'foo' });
       expect(spyLogWarning).toHaveBeenCalled();
       expect(spyLogInfo).toHaveBeenCalled();
@@ -613,7 +615,7 @@ describe('FormServiceCore', () => {
       const spy = spyOn(formService as any, 'executeWithSubject').and.callFake(
          () => {
             return;
-         }
+         },
       );
       formService['processPending']();
       expect(spy).toHaveBeenCalled();
@@ -651,7 +653,7 @@ describe('FormServiceCore', () => {
             expect(type).toBe('LOGON');
             expect(value).toBeNull();
             return subject.asObservable();
-         }
+         },
       );
       const spyProcessPending = spyOn(formService as any, 'processPending');
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
@@ -661,7 +663,7 @@ describe('FormServiceCore', () => {
                'logon: H5 logon complete.',
             ];
             expect(messages.includes(message as string)).toBe(true);
-         }
+         },
       );
 
       expect(formService['hasSession']).toBe(false);
@@ -685,20 +687,20 @@ describe('FormServiceCore', () => {
             expect(type).toBe('LOGON');
             expect(value).toBeNull();
             return subject.asObservable();
-         }
+         },
       );
       const spyRejectPending = spyOn(formService as any, 'rejectPending');
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'logon: Logging on to H5 user context exists...'
+               'logon: Logging on to H5 user context exists...',
             );
-         }
+         },
       );
       const spyLogError = spyOn(formService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe('logon: H5 logon failed.');
-         }
+         },
       );
 
       expect(formService['hasSession']).toBe(false);
@@ -729,7 +731,7 @@ describe('FormServiceCore', () => {
             expect(type).toBe('LOGON');
             expect(value).toBeNull();
             return subject.asObservable();
-         }
+         },
       );
       const spyProcessPending = spyOn(formService as any, 'processPending');
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
@@ -739,7 +741,7 @@ describe('FormServiceCore', () => {
                'logon: H5 logon complete.',
             ];
             expect(messages.includes(message as string)).toBe(true);
-         }
+         },
       );
 
       expect(formService['hasSession']).toBe(false);
@@ -768,18 +770,18 @@ describe('FormServiceCore', () => {
             expect(type).toBe('LOGON');
             expect(value).toBeNull();
             return subject.asObservable();
-         }
+         },
       );
       const spyRejectPending = spyOn(formService as any, 'rejectPending');
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe('logon: Logging on to H5...');
-         }
+         },
       );
       const spyLogError = spyOn(formService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe('logon: H5 logon failed.');
-         }
+         },
       );
 
       expect(formService['hasSession']).toBe(false);
@@ -806,14 +808,14 @@ describe('FormServiceCore', () => {
       } as unknown as IUserService;
       const spyRejectPending = spyOn(
          formService as any,
-         'rejectPending'
+         'rejectPending',
       ).and.callFake((param) => {
          expect(param).toBe(error);
       });
       const spyLogError = spyOn(formService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe('Failed to get user context');
-         }
+         },
       );
 
       expect(formService['hasSession']).toBe(false);
@@ -838,7 +840,7 @@ describe('FormServiceCore', () => {
             expect(type).toBe('QUIT');
             expect(value).toBeNull();
             return subject.asObservable();
-         }
+         },
       );
       formService['hasSession'] = true;
       formService['logoff']().subscribe((resp) => {
@@ -859,13 +861,13 @@ describe('FormServiceCore', () => {
          (req) => {
             expect(req).toEqual(request);
             return of(response);
-         }
+         },
       );
 
       formService['sessionId'] = request.sessionId!;
       formService['command'](
          request.commandType!,
-         request.commandValue!
+         request.commandValue!,
       ).subscribe((resp: IFormResponse) => {
          expect(resp).toBe(response);
          expect(spyExecute).toHaveBeenCalled();
@@ -878,7 +880,7 @@ describe('FormServiceCore', () => {
       const response = { message: 'hello' } as IFormResponse;
       const spyExecuteWithSubject = spyOn(
          formService as any,
-         'executeWithSubject'
+         'executeWithSubject',
       ).and.callFake((sub_, req) => {
          const sub = sub_ as AsyncSubject<IFormResponse>;
          sub.next(response);
@@ -900,12 +902,12 @@ describe('FormServiceCore', () => {
          (req) => {
             expect(req).toBe(request);
             return of(response);
-         }
+         },
       );
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe('executeWithSession: Using existing session');
-         }
+         },
       );
 
       formService['executeWithSession'](request).subscribe((resp) => {
@@ -926,14 +928,14 @@ describe('FormServiceCore', () => {
             req.subject.next(response);
             req.subject.complete();
             return 1;
-         }
+         },
       );
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe(
-               'executeWithSession: No session, execution delayed.'
+               'executeWithSession: No session, execution delayed.',
             );
-         }
+         },
       );
       const spyLogon = spyOn(formService as any, 'logon').and.callFake(() => {
          return;
@@ -965,31 +967,31 @@ describe('FormServiceCore', () => {
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe('executeWithSubject: Executing request foo ');
-         }
+         },
       );
       const spyResolver = spyOn(request as any, 'resolver').and.callFake(
          (req, context) => {
             expect(req).toBe(request);
             expect(context).toBe(userContext);
-         }
+         },
       );
       const spyCreateHttpRequest = spyOn(
          formService as any,
-         'createHttpRequest'
+         'createHttpRequest',
       ).and.callFake((req) => {
          expect(req).toBe(request);
          return httpRequest;
       });
       const spyHttpServiceExecute = spyOn(
          formService['httpService']!,
-         'execute'
+         'execute',
       ).and.callFake((req) => {
          expect(req).toBe(httpRequest);
          return of(httpResponse);
       });
       const spyParseResponse = spyOn(
          formService as any,
-         'parseResponse'
+         'parseResponse',
       ).and.callFake((req, content) => {
          expect(req).toBe(request);
          expect(content).toBe(httpResponse.body);
@@ -997,7 +999,7 @@ describe('FormServiceCore', () => {
       });
       const spyProcessPending = spyOn(
          formService as any,
-         'processPending'
+         'processPending',
       ).and.callFake(() => {
          return;
       });
@@ -1031,38 +1033,38 @@ describe('FormServiceCore', () => {
       const spyLogDebug = spyOn(formService as any, 'logDebug').and.callFake(
          (message) => {
             expect(message).toBe('executeWithSubject: Executing request foo ');
-         }
+         },
       );
       const spyResolver = spyOn(request as any, 'resolver').and.callFake(
          (req, context) => {
             expect(req).toBe(request);
             expect(context).toBe(userContext);
-         }
+         },
       );
       const spyCreateHttpRequest = spyOn(
          formService as any,
-         'createHttpRequest'
+         'createHttpRequest',
       ).and.callFake((req) => {
          expect(req).toBe(request);
          return httpRequest;
       });
       const spyHttpServiceExecute = spyOn(
          formService['httpService']!,
-         'execute'
+         'execute',
       ).and.callFake((req) => {
          expect(req).toBe(httpRequest);
          return throwError(() => httpResponse);
       });
       const spyCreateError = spyOn(
          formService as any,
-         'createError'
+         'createError',
       ).and.callFake((resp) => {
          expect(resp).toBe(httpResponse);
          return response;
       });
       const spyProcessPending = spyOn(
          formService as any,
-         'processPending'
+         'processPending',
       ).and.callFake(() => {
          return;
       });
@@ -1092,14 +1094,14 @@ describe('FormServiceCore', () => {
       };
       const spyCreateParams = spyOn(
          formService as any,
-         'createParams'
+         'createParams',
       ).and.callFake((req) => {
          expect(req).toBe(request);
          return request.commandType;
       });
       const spyCreateBody = spyOn(
          formService as any,
-         'createBody'
+         'createBody',
       ).and.callFake((params) => {
          expect(params).toBe(request.commandType);
          return httpRequest.body;
@@ -1121,7 +1123,7 @@ describe('FormServiceCore', () => {
       const spyLogError = spyOn(formService as any, 'logError').and.callFake(
          (message) => {
             expect(message).toBe('createError: Failed to execute request');
-         }
+         },
       );
       expect(formService['createError']({} as IHttpResponse)).toEqual(response);
       expect(spyLogError).toHaveBeenCalled();
@@ -1173,7 +1175,7 @@ describe('FormServiceCore', () => {
       });
       const spyUpdateUserContextAfterLogon = spyOn(
          formService as any,
-         'updateUserContextAfterLogon'
+         'updateUserContextAfterLogon',
       ).and.callFake((userData, principalUser) => {
          expect(userData).toBe(response.userData);
          expect(principalUser).toBe(response.principalUser);
@@ -1190,14 +1192,14 @@ describe('FormServiceCore', () => {
       formService['userService'] = {
          updateUserContext: (
             context: IUserContext,
-            principalUser: string
+            principalUser: string,
          ): any => {
             return;
          },
       } as IUserService;
       const spyUpdateUserContext = spyOn(
          formService['userService'],
-         'updateUserContext'
+         'updateUserContext',
       ).and.callFake((context, pUser) => {
          expect(context).toBe(userData);
          expect(pUser).toBe(principalUser);

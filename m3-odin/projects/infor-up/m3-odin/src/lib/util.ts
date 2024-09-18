@@ -48,7 +48,7 @@ export class ArrayUtil {
    public static sortByProperty(
       array: any[],
       property: string,
-      options?: ISortOptions
+      options?: ISortOptions,
    ): any[] {
       const ignoreCase = options && options.ignoreCase;
       return array.sort((x, y) => {
@@ -104,7 +104,7 @@ export class ArrayUtil {
     */
    public static removeByPredicate<T>(
       array: T[],
-      predicate: (item: T) => boolean
+      predicate: (item: T) => boolean,
    ): T {
       for (let i = 0; i < array.length; i++) {
          if (predicate(array[i])) {
@@ -123,7 +123,7 @@ export class ArrayUtil {
     */
    public static indexByPredicate<T>(
       array: T[],
-      predicate: (item: T) => boolean
+      predicate: (item: T) => boolean,
    ): number {
       for (let i = 0; i < array.length; i++) {
          if (predicate(array[i])) {
@@ -139,7 +139,7 @@ export class ArrayUtil {
    public static indexByProperty(
       array: any[],
       name: string,
-      value: any
+      value: any,
    ): number {
       if (array) {
          for (let i = 0; i < array.length; i++) {
@@ -179,7 +179,7 @@ export class ArrayUtil {
     */
    public static filterByPredicate<T>(
       array: T[],
-      predicate: (item: T) => T
+      predicate: (item: T) => T,
    ): T[] {
       const target: T[] = [];
       for (let i = 0; i < array.length; i++) {
@@ -197,7 +197,7 @@ export class ArrayUtil {
    public static containsByProperty(
       array: any[],
       name: string,
-      value: any
+      value: any,
    ): boolean {
       return this.indexByProperty(array, name, value) >= 0;
    }
@@ -515,7 +515,7 @@ export class StringUtil {
             function (...replaceArgs: any[]): any {
                const value = params[replaceArgs[1]];
                return typeof value !== 'undefined' ? value : replaceArgs[0];
-            }
+            },
          );
       } catch (ex) {
          // TODO Log?

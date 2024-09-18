@@ -14,10 +14,10 @@ describe('MI Util', () => {
       expect(MIUtil.toMIFormat('foo')).toBe('foo');
       expect(MIUtil.toMIFormat(Number('123e-1'))).toBe('12.3');
       expect(MIUtil.toMIFormat(new Date('2022-10-16T02:00:00'))).toBe(
-         '20221016'
+         '20221016',
       );
       expect(MIUtil.toMIFormat(new Date('2022-03-06T02:00:00'))).toBe(
-         '20220306'
+         '20220306',
       );
    });
 
@@ -46,8 +46,8 @@ describe('MI Util', () => {
             originalRecord,
             newRecord,
             updatedFields,
-            mandatoryFields
-         )
+            mandatoryFields,
+         ),
       ).toEqual(expectedRecord);
    });
 

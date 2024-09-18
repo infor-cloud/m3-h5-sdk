@@ -15,7 +15,7 @@ export class SohoAppComponent extends CoreBase implements OnInit {
       Log.setDebug();
       Soho.Locale.culturesPath = 'assets/ids-enterprise/js/cultures/';
       return Soho.Locale.set('en-US').catch((err) =>
-         Log.error('Failed to set IDS Locale', err)
+         Log.error('Failed to set IDS Locale', err),
       );
    }
 

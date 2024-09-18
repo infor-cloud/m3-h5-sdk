@@ -19,7 +19,7 @@ export class BookmarkSampleComponent extends CoreBase {
 
    constructor(
       private readonly formService: FormService,
-      private messageService: SohoMessageService
+      private messageService: SohoMessageService,
    ) {
       super('BookmarkSampleComponent');
    }
@@ -46,7 +46,7 @@ export class BookmarkSampleComponent extends CoreBase {
          },
          (r) => {
             this.onError(r);
-         }
+         },
       );
    }
 

@@ -1,6 +1,5 @@
 {
    "root": true,
-   "ignorePatterns": ["projects/**/*"],
    "overrides": [
       {
          "files": ["*.ts"],
@@ -30,7 +29,10 @@
                   "prefix": "odin",
                   "style": "kebab-case"
                }
-            ]
+            ],
+            "@typescript-eslint/no-explicit-any": "warn",
+            "@typescript-eslint/no-unused-vars": "warn",
+            "@typescript-eslint/no-unused-expressions": "warn"
          }
       },
       {

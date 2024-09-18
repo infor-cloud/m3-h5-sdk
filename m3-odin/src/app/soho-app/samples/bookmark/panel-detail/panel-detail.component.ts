@@ -65,7 +65,7 @@ export class PanelDetailSampleComponent extends CoreBase implements OnInit {
                'The entered value for columns is not supported: ' +
                   this.columns +
                   '. Using max columns: ' +
-                  maxColumns
+                  maxColumns,
             );
             columnClass = 'one';
             columnsInRow = 12;
@@ -79,7 +79,7 @@ export class PanelDetailSampleComponent extends CoreBase implements OnInit {
    private createLoopCounters(
       rows: number,
       columnsInRow: number,
-      columnClass: string
+      columnClass: string,
    ) {
       this.rowCounter = Array(rows);
       this.columnCounter = Array(columnsInRow).fill(columnClass);

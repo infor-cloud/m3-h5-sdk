@@ -22,7 +22,7 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
    constructor(
       private miService: MIService,
       private userService: UserService,
-      private messageService: SohoMessageService
+      private messageService: SohoMessageService,
    ) {
       super('CustomerSampleComponent');
       this.initGrid();
@@ -107,7 +107,7 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
       this.setBusy(true);
 
       this.userService.getUserContext().subscribe(
-         (context) => {
+         () => {
             const request: IMIRequest = {
                program: 'CRS610MI',
                transaction: 'LstByNumber',
@@ -128,13 +128,13 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
                (error) => {
                   this.setBusy(false);
                   this.handleError('Failed to list items', error);
-               }
+               },
             );
          },
          (error) => {
             this.setBusy(false);
             this.handleError('Failed to get user context', error);
-         }
+         },
       );
    }
 
@@ -172,7 +172,7 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
          (error) => {
             this.setBusy(false, true);
             this.handleError('Failed to update item', error);
-         }
+         },
       );
    }
 
@@ -213,7 +213,7 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
             this.setBusy(false, true);
             this.detailItem = undefined;
             this.handleError('Failed to get details', error);
-         }
+         },
       );
    }
 
@@ -242,7 +242,7 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
          .title('An error occured')
          .message(
             message +
-               '. More details might be available in the browser console.'
+               '. More details might be available in the browser console.',
          )
          .buttons(buttons)
          .open();

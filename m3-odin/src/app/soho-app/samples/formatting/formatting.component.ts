@@ -24,13 +24,13 @@ export class FormattingSampleComponent extends CoreBase {
             this.m3DateFormat = userContext.DTFM;
             this.dateFormat = userContext.dateFormat;
             this.shortDateString1 = FormatUtil.formatDate(
-               new Date(2018, 11, 24)
+               new Date(2018, 11, 24),
             );
             this.shortDateString2 = FormatUtil.formatDate(
-               new Date(1999, 11, 24)
+               new Date(1999, 11, 24),
             );
             this.shortDateString3 = FormatUtil.formatDate(
-               new Date(1950, 11, 24)
+               new Date(1950, 11, 24),
             );
             this.isInitialized = true;
          });

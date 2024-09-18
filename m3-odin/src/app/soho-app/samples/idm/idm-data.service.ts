@@ -36,7 +36,7 @@ export class IdmDataService extends CoreBase {
    constructor(
       private formService: FormService,
       private httpClient: HttpClient,
-      private ionApiService: IonApiService
+      private ionApiService: IonApiService,
    ) {
       super('IDMDataService');
 
@@ -69,7 +69,7 @@ export class IdmDataService extends CoreBase {
    private createSearchRequest(
       xquery: string,
       offset: number = this.offset,
-      limit: number = this.limit
+      limit: number = this.limit,
    ): IIonApiRequest {
       const request = this.createRequest(this.idmRestRoot + '/items/search');
       request.url += `?$includeCount=true`;
@@ -116,7 +116,7 @@ export class IdmDataService extends CoreBase {
                : response;
             this.logError('Error: ' + JSON.stringify(error));
             return throwError(error);
-         })
+         }),
       );
    }
 }

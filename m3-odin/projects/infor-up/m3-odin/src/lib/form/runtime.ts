@@ -106,7 +106,7 @@ export class Translator {
       language: string,
       file: string,
       key: string,
-      text: string
+      text: string,
    ) {
       // Note that there can be more than one item that matches so all items must be checked.
       for (let i = 0; i < items.length; i++) {

@@ -16,25 +16,25 @@ describe('MI Meatdata Info', () => {
       name,
       length,
       types[0].typeString,
-      description
+      description,
    );
    const objDate = new MIMetadataInfo(
       name,
       length,
       types[1].typeString,
-      description
+      description,
    );
    const objNumeric = new MIMetadataInfo(
       name,
       length,
       types[2].typeString,
-      description
+      description,
    );
    const objUndefined = new MIMetadataInfo(
       name,
       length,
       types[3].typeString,
-      description
+      description,
    );
 
    it('should create String object', () => {

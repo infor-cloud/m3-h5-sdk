@@ -167,7 +167,7 @@ export class Log {
       currentLevel: number,
       level: number,
       text: string,
-      ex?: any
+      ex?: any,
    ) {
       /* eslint-disable no-console */
       if (level <= currentLevel) {

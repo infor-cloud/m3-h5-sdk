@@ -43,7 +43,7 @@ export class ThemeSampleComponent {
 
    constructor(
       private userService: UserService,
-      private messageService: SohoMessageService
+      private messageService: SohoMessageService,
    ) {}
 
    ngOnInit() {

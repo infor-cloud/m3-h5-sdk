@@ -26,10 +26,10 @@ describe('Util ArrayUtil', () => {
       ]);
       expect(array).toEqual([value4, value3, value2, value2, value1]); // array isn't immutable
       expect(
-         ArrayUtil.sortByProperty(array, 'foo', { ignoreCase: true })
+         ArrayUtil.sortByProperty(array, 'foo', { ignoreCase: true }),
       ).toEqual([value3, value2, value2, value4, value1]);
       expect(ArrayUtil.sortByProperty([value1, value2, value3], 'bar')).toEqual(
-         [value1, value2, value3]
+         [value1, value2, value3],
       );
    });
 
@@ -157,7 +157,7 @@ describe('Util ArrayUtil', () => {
       expect(ArrayUtil.containsByProperty(array, 'foo', value3.foo)).toBe(true);
       expect(ArrayUtil.containsByProperty(array, 'foo', 'bar')).toBe(false);
       expect(ArrayUtil.containsByProperty(array, 'bar', value3.foo)).toBe(
-         false
+         false,
       );
       expect(array).toEqual([value1, value2, value3, value3]);
    });
@@ -201,7 +201,7 @@ describe('Util ArrayUtil', () => {
       expect(ArrayUtil.findAll(array, predicate)).toEqual([value1, value3]);
       expect(ArrayUtil.findAll(array, predicate)).toEqual([]);
       expect(
-         ArrayUtil.findAll(undefined as unknown as [], predicate)
+         ArrayUtil.findAll(undefined as unknown as [], predicate),
       ).toBeNull();
       expect(array).toEqual([value1, value2, value3, value1]);
       expect(predicate).toHaveBeenCalledTimes(8);
@@ -288,7 +288,7 @@ describe('Util NumUtil', () => {
       expect(NumUtil.hasOnlyIntegers('foo')).toBe(false);
       expect(NumUtil.hasOnlyIntegers('foo0')).toBe(false);
       expect(NumUtil.hasOnlyIntegers(undefined as unknown as string)).toBe(
-         false
+         false,
       );
       expect(NumUtil.hasOnlyIntegers('0')).toBe(true);
    });
@@ -311,7 +311,7 @@ describe('Util StringUtil', () => {
       expect(StringUtil.startsWith('foo', 'fo')).toBe(true);
       expect(StringUtil.startsWith('foo', 'oo')).toBe(false);
       expect(StringUtil.startsWith(undefined as unknown as string, 'oo')).toBe(
-         false
+         false,
       );
    });
 
@@ -319,7 +319,7 @@ describe('Util StringUtil', () => {
       expect(StringUtil.endsWith('foo', 'fo')).toBe(false);
       expect(StringUtil.endsWith('foo', 'oo')).toBe(true);
       expect(StringUtil.endsWith(undefined as unknown as string, 'oo')).toBe(
-         false
+         false,
       );
    });
 
@@ -347,7 +347,7 @@ describe('Util HttpUtil', () => {
 
    it('should create query', () => {
       expect(HttpUtil.toQuery({ foo: 'bar', bar: 'foo' })).toBe(
-         'foo=bar&bar=foo'
+         'foo=bar&bar=foo',
       );
    });
 });

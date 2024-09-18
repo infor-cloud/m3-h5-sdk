@@ -348,12 +348,12 @@ export class Bookmark {
 
    private static addInformationCategory(
       str: string,
-      bookmark: IBookmark
+      bookmark: IBookmark,
    ): string {
       str = Bookmark.addValue(
          str,
          FormConstants.fieldInformationCategory,
-         bookmark.informationCategory
+         bookmark.informationCategory,
       );
 
       let filters = bookmark.numberOfFilters;
@@ -369,7 +369,7 @@ export class Bookmark {
       userContext: IUserContext,
       keyString: string,
       values: any,
-      isKeys: boolean
+      isKeys: boolean,
    ) {
       let str = '';
 
@@ -415,7 +415,7 @@ export class Bookmark {
 
    public static toUri(
       bookmark: IBookmark,
-      userContext?: IUserContext
+      userContext?: IUserContext,
    ): string {
       const params = Bookmark.toParams(bookmark, userContext);
       let query = '';
@@ -453,7 +453,7 @@ export class Bookmark {
       this.addBool(
          params,
          'BM_INCLUDE_START_PANEL',
-         bookmark.includeStartPanel
+         bookmark.includeStartPanel,
       );
       this.addBool(params, 'BM_REQUIRE_PANEL', bookmark.requirePanel);
       this.addBool(params, 'BM_SUPPRESS_CONFIRM', bookmark.suppressConfirm);
@@ -470,7 +470,7 @@ export class Bookmark {
             userContext,
             bookmark.keyNames,
             values,
-            true
+            true,
          );
       }
       this.add(params, 'BM_KEY_FIELDS', keys);
@@ -481,7 +481,7 @@ export class Bookmark {
             userContext,
             bookmark.parameterNames,
             values,
-            false
+            false,
          );
       }
       this.add(params, 'BM_PARAMETERS', parameters);
@@ -493,7 +493,7 @@ export class Bookmark {
             userContext,
             bookmark.fieldNames,
             values,
-            false
+            false,
          );
          if (hasCategory) {
             fields = Bookmark.addInformationCategory(fields, bookmark);
@@ -552,7 +552,10 @@ export interface ITranslationItem {
  * @since 2.0.0
  */
 export class TranslationItem implements ITranslationItem {
-   constructor(public key: string, public file: string = null) {}
+   constructor(
+      public key: string,
+      public file: string = null,
+   ) {}
 }
 
 /**

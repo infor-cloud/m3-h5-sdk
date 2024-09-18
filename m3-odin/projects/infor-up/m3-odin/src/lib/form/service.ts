@@ -42,7 +42,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
 
    constructor(
       private httpService?: IHttpService,
-      private userService?: IUserService
+      private userService?: IUserService,
    ) {
       super('FormServiceCore');
 
@@ -54,7 +54,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
    executeCommand(
       commandType: string,
       commandValue?: string,
-      params?: any
+      params?: any,
    ): Observable<IFormResponse> {
       const request: IFormRequest = {
          commandType: commandType,
@@ -155,7 +155,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
             },
             (httpResponse) => {
                subject.error(this.createError(httpResponse));
-            }
+            },
          );
       } else {
          // Resolve directly using the request as the response
@@ -199,7 +199,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
          if (this.hasEnvironmentInformation()) {
             // Usercontext should have the information needed
             this.logDebug(
-               'getEnvironmentContext: user has tenantid set, getting data from user context'
+               'getEnvironmentContext: user has tenantid set, getting data from user context',
             );
             context = this.createEnvironmentContext(this.userContext);
             this.logInfo('getEnvironmentContext: ' + JSON.stringify(context));
@@ -208,7 +208,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
             subject.complete();
          } else {
             this.logDebug(
-               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT'
+               'getEnvironmentContext: Get user information /MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT',
             );
             this.command('USER', 'M3USER_OPT').subscribe(
                (r) => {
@@ -217,13 +217,13 @@ export class FormServiceCore extends CoreBase implements IFormService {
                      context = this.createEnvironmentContextFromXml(document);
                      this.environmentContext = context;
                      this.logInfo(
-                        'getEnvironmentContext: ' + JSON.stringify(context)
+                        'getEnvironmentContext: ' + JSON.stringify(context),
                      );
                      subject.next(context);
                      subject.complete();
                   } else {
                      this.logError(
-                        'getEnvironmentContext: Unable to get user information from H5. Verify that the H5 version is supported.'
+                        'getEnvironmentContext: Unable to get user information from H5. Verify that the H5 version is supported.',
                      );
                      this.environmentContext = context;
                      subject.error(context);
@@ -231,11 +231,11 @@ export class FormServiceCore extends CoreBase implements IFormService {
                },
                (r) => {
                   this.logError(
-                     'getEnvironmentContext: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT failed.'
+                     'getEnvironmentContext: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT failed.',
                   );
                   this.environmentContext = context;
                   subject.error(context);
-               }
+               },
             );
          }
       }
@@ -267,7 +267,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
          if (StringUtil.isNullOrEmpty(tenantId)) {
             this.logWarning(
                'createEnvironmentContextFromXml: Failed to get tenant information from H5. H5 version is: ' +
-                  version
+                  version,
             );
             return context;
          } else {
@@ -281,14 +281,14 @@ export class FormServiceCore extends CoreBase implements IFormService {
          }
       } else {
          this.logError(
-            'createEnvironmentContextFromXml: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT has no response root.'
+            'createEnvironmentContextFromXml: Get user information MvxMCSvt?CMDTP=USER&CMDVAL=M3USER_OPT has no response root.',
          );
       }
       return context;
    }
 
    private createEnvironmentContext(
-      userContext: IUserContext
+      userContext: IUserContext,
    ): IEnvironmentContext {
       const context: IEnvironmentContext = {
          isMultiTenant: false,
@@ -302,7 +302,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
       } else {
          // eslint-disable-next-line max-len
          this.logWarning(
-            'getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem'
+            'getEnvironmentContext: User context does not contain tenant. Verify that the H5 is version 10.3.1.0.277 or later for on-prem',
          );
       }
       if (ionApiUrl) {
@@ -355,14 +355,14 @@ export class FormServiceCore extends CoreBase implements IFormService {
                         this.logError('logon: H5 logon failed.');
                         subject.error(r);
                         this.rejectPending(r);
-                     }
+                     },
                   );
                },
                (userContextError) => {
                   this.logError('Failed to get user context');
                   subject.error(userContextError);
                   this.rejectPending(userContextError);
-               }
+               },
             );
          } else {
             this.logDebug('logon: Logging on to H5 user context exists...');
@@ -378,7 +378,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
                   this.logError('logon: H5 logon failed.');
                   subject.error(r);
                   this.rejectPending(r);
-               }
+               },
             );
          }
       }
@@ -411,7 +411,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
    }
 
    private executeWithSession(
-      request: IFormRequest
+      request: IFormRequest,
    ): Observable<IFormResponse> {
       if (this.hasSession) {
          this.logDebug('executeWithSession: Using existing session');
@@ -433,13 +433,13 @@ export class FormServiceCore extends CoreBase implements IFormService {
 
    private executeWithSubject(
       subject: AsyncSubject<IFormResponse>,
-      request: IFormRequest
+      request: IFormRequest,
    ): Observable<IFormResponse> {
       this.logDebug(
          'executeWithSubject: Executing request ' +
             request.commandType +
             ' ' +
-            (request.commandValue || '')
+            (request.commandValue || ''),
       );
 
       if (!request.sessionId) {
@@ -462,7 +462,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
          (httpResponse: IHttpResponse) => {
             subject.error(this.createError(httpResponse));
             this.processPending();
-         }
+         },
       );
 
       return subject.asObservable();
@@ -531,7 +531,7 @@ export class FormServiceCore extends CoreBase implements IFormService {
       if (response.request.commandType === 'LOGON' && response.userData) {
          this.updateUserContextAfterLogon(
             response.userData,
-            response.principalUser
+            response.principalUser,
          );
       }
       return response;

@@ -17,7 +17,10 @@ export class UserContextSampleComponent extends CoreBase {
    userIdService: string;
    userNameService: string;
 
-   constructor(private miService: MIService, private userService: UserService) {
+   constructor(
+      private miService: MIService,
+      private userService: UserService,
+   ) {
       super('UserSampleComponent');
    }
 
