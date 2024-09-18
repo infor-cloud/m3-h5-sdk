@@ -8,7 +8,7 @@ import { configureName, configureProxy } from './set.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-export type NewProjectStyleOption = 'material' | 'soho' | 'none';
+export type NewProjectStyleOption = 'soho' | 'none';
 
 export interface INewProjectOptions {
    name: string;
@@ -37,12 +37,6 @@ const getBoilerplateDir = (style: NewProjectStyleOption, angular?: boolean) => {
             return path.resolve(__dirname, '../../boilerplate/angular-soho');
          } else {
             return path.resolve(__dirname, '../../boilerplate/basic');
-         }
-      case 'material':
-         if (angular) {
-            return path.resolve(__dirname, '../../boilerplate/angular-material');
-         } else {
-            return path.resolve(__dirname, '../../boilerplate/basic-material');
          }
       case 'none':
          if (angular) {
@@ -102,6 +96,17 @@ const modAngularJson = (projectRoot: string, projectName: string, style: NewProj
    buildOptions.baseHref = boilerplateOptions.baseHref;
    buildOptions.outputPath = boilerplateOptions.outputPath;
 
+   // In Angular 17 default is now build-angular:application, which has different proxy mechanism, so we need to use the old builder for now
+   const build = angularJson.projects[projectName].architect.build;
+   build.builder = "@angular-devkit/build-angular:browser";
+
+   // Old builder expect "main" not "browser"
+   if (buildOptions.browser) {
+      const mainPath = buildOptions.browser;
+      delete buildOptions.browser;
+      buildOptions.main = mainPath;
+   }
+
    fs.writeJsonSync(angularJsonPath, angularJson, { spaces: 3 });
 };
 
@@ -136,7 +141,7 @@ const npmInstall = (projectDir: string) => {
 };
 
 const newAngularProject = async (options: INewProjectOptions) => {
-   const ngOptions = ['--skip-install', '--strict=false'];
+   const ngOptions = ['--skip-install', '--strict=false', '--standalone=false'];
    if (!options.git) {
       ngOptions.push('--skip-git');
    }

@@ -60,7 +60,6 @@ program
    .command('new [projectName]')
    .description('Create a new project')
    .option('--proxy [url]', 'URL to MI REST Service, e.g "https://my.m3.environment.com:54008"')
-   .option('-m, --material', 'Set up as a Material-styled project')
    .option('-s, --soho', 'Set up as a Soho-styled project')
    .option('-a, --angular', 'Set up as an Angular CLI project')
    .option('-i, --install', 'Install NPM dependencies')
@@ -82,9 +81,7 @@ program
          };
       }
 
-      if (options.material) {
-         newOptions.style = 'material';
-      } else if (options.soho) {
+      if (options.soho) {
          newOptions.style = 'soho';
       } else {
          newOptions.style = 'none';
@@ -219,10 +216,6 @@ const inquireNewProject = async () => {
          {
             name: 'SoHo (Infor Design System)',
             value: 'soho',
-         },
-         {
-            name: 'Material Design',
-            value: 'material',
          },
          {
             name: 'None',

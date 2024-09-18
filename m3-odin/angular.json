@@ -81,20 +81,20 @@
             },
             "serve": {
                "builder": "@angular-devkit/build-angular:dev-server",
-               "options": {
-                  "browserTarget": "m3-odin-samples:build",
-                  "port": 8080
+              "options": {
+                "port": 8080,
+                  "buildTarget": "m3-odin-samples:build"
                },
                "configurations": {
                   "production": {
-                     "browserTarget": "m3-odin-samples:build:production"
+                    "buildTarget": "m3-odin-samples:build:production"
                   }
                }
             },
             "extract-i18n": {
                "builder": "@angular-devkit/build-angular:extract-i18n",
-               "options": {
-                  "browserTarget": "m3-odin-samples:build"
+              "options": {
+                "buildTarget": "m3-odin-samples:build"
                }
             },
             "test": {
@@ -228,5 +228,8 @@
       "@schematics/angular:component": {
          "style": "css"
       }
-   }
+  },
+  "cli": {
+    "analytics": false
+  }
 }
