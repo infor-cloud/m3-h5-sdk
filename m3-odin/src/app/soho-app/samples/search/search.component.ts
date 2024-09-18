@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
-import { CoreBase, IFormResponse, ISearchRequest, ListRow } from '@infor-up/m3-odin';
+import {
+   CoreBase,
+   IFormResponse,
+   ISearchRequest,
+   ListRow,
+} from '@infor-up/m3-odin';
 import { FormService } from '@infor-up/m3-odin-angular';
 
 @Component({
    templateUrl: './search.component.html',
-   styleUrls: ['./search.component.css']
+   styleUrls: ['./search.component.css'],
 })
 export class SearchSampleComponent extends CoreBase {
    canExecute = true;
@@ -34,14 +39,17 @@ export class SearchSampleComponent extends CoreBase {
          program: 'MMS001',
          query: this.query,
          sortingOrder: '1',
-         view: 'STD01-01'
+         view: 'STD01-01',
       } as ISearchRequest;
 
-      this.formService.executeSearch(request).subscribe((r) => {
-         this.onResponse(r);
-      }, (r) => {
-         this.onError(r);
-      });
+      this.formService.executeSearch(request).subscribe(
+         (r) => {
+            this.onResponse(r);
+         },
+         (r) => {
+            this.onError(r);
+         },
+      );
    }
 
    private onResponse(response: IFormResponse): void {

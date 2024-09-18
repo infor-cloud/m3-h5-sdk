@@ -4,7 +4,7 @@ import { MIService, UserService } from '@infor-up/m3-odin-angular';
 import { SohoDataGridComponent, SohoMessageService } from 'ids-enterprise-ng';
 
 @Component({
-   templateUrl: './customer.component.html'
+   templateUrl: './customer.component.html',
 })
 export class CustomerSampleComponent extends CoreBase implements OnInit {
    @ViewChild('customersDatagrid') datagrid: SohoDataGridComponent;
@@ -19,7 +19,11 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
    private maxRecords = 100;
    private pageSize = 25;
 
-   constructor(private miService: MIService, private userService: UserService, private messageService: SohoMessageService) {
+   constructor(
+      private miService: MIService,
+      private userService: UserService,
+      private messageService: SohoMessageService,
+   ) {
       super('CustomerSampleComponent');
       this.initGrid();
    }
@@ -41,67 +45,103 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
          indeterminate: false,
          columns: [
             {
-               width: 50, id: 'selectionCheckbox', field: '', name: '', sortable: false,
-               resizable: false, align: 'center', formatter: Soho.Formatters.SelectionCheckbox
+               width: 50,
+               id: 'selectionCheckbox',
+               field: '',
+               name: '',
+               sortable: false,
+               resizable: false,
+               align: 'center',
+               formatter: Soho.Formatters.SelectionCheckbox,
             },
             {
-               width: 'auto', id: 'col-cuno', field: 'CUNO', name: 'Number',
-               resizable: true, filterType: 'text', sortable: true
+               width: 'auto',
+               id: 'col-cuno',
+               field: 'CUNO',
+               name: 'Number',
+               resizable: true,
+               filterType: 'text',
+               sortable: true,
             },
             {
-               width: 'auto', id: 'col-cunm', field: 'CUNM', name: 'Name',
-               resizable: true, filterType: 'text', sortable: true
+               width: 'auto',
+               id: 'col-cunm',
+               field: 'CUNM',
+               name: 'Name',
+               resizable: true,
+               filterType: 'text',
+               sortable: true,
             },
             {
-               width: 'auto', id: 'col-town', field: 'TOWN', name: 'City',
-               resizable: true, filterType: 'text', sortable: true
+               width: 'auto',
+               id: 'col-town',
+               field: 'TOWN',
+               name: 'City',
+               resizable: true,
+               filterType: 'text',
+               sortable: true,
             },
             {
-               width: 'auto', id: 'col-cua1', field: 'CUA1', name: 'Address',
-               resizable: true, filterType: 'text', sortable: true
-            }
+               width: 'auto',
+               id: 'col-cua1',
+               field: 'CUA1',
+               name: 'Address',
+               resizable: true,
+               filterType: 'text',
+               sortable: true,
+            },
          ],
          dataset: [],
          emptyMessage: {
             title: 'No customers available',
-            icon: 'icon-empty-no-data'
-         }
+            icon: 'icon-empty-no-data',
+         },
       };
       this.datagridOptions = options;
    }
 
    listItems() {
-      if (this.isBusy) { return; }
+      if (this.isBusy) {
+         return;
+      }
       this.setBusy(true);
 
-      this.userService.getUserContext().subscribe((context) => {
-         const request: IMIRequest = {
-            program: 'CRS610MI',
-            transaction: 'LstByNumber',
-            outputFields: ['CUNO', 'CUNM', 'TOWN', 'CUA1'],
-            maxReturnedRecords: this.maxRecords
-         };
+      this.userService.getUserContext().subscribe(
+         () => {
+            const request: IMIRequest = {
+               program: 'CRS610MI',
+               transaction: 'LstByNumber',
+               outputFields: ['CUNO', 'CUNM', 'TOWN', 'CUA1'],
+               maxReturnedRecords: this.maxRecords,
+            };
 
-         this.miService.execute(request).subscribe((response: IMIResponse) => {
-            if (!response.hasError()) {
-               this.items = response.items;
-               this.updateGridData();
-            } else {
-               this.handleError('Failed to list items');
-            }
+            this.miService.execute(request).subscribe(
+               (response: IMIResponse) => {
+                  if (!response.hasError()) {
+                     this.items = response.items;
+                     this.updateGridData();
+                  } else {
+                     this.handleError('Failed to list items');
+                  }
+                  this.setBusy(false);
+               },
+               (error) => {
+                  this.setBusy(false);
+                  this.handleError('Failed to list items', error);
+               },
+            );
+         },
+         (error) => {
             this.setBusy(false);
-         }, (error) => {
-            this.setBusy(false);
-            this.handleError('Failed to list items', error);
-         });
-      }, (error) => {
-         this.setBusy(false);
-         this.handleError('Failed to get user context', error);
-      });
+            this.handleError('Failed to get user context', error);
+         },
+      );
    }
 
    onSelected(args: any[], isSingleSelect?: boolean) {
-      if (this.isBusy) { return; }
+      if (this.isBusy) {
+         return;
+      }
 
       const newCount = args.length;
       const selected = args && newCount === 1 ? args[0].data : null;
@@ -116,25 +156,30 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
       const request: IMIRequest = {
          program: 'CRS610MI',
          transaction: 'ChgBasicData',
-         record: detailItem
+         record: detailItem,
       };
       this.setBusy(true, true);
-      this.miService.execute(request).subscribe((response: IMIResponse) => {
-         if (!response.hasError()) {
-            this.getDetails(response.item);
-            this.refreshGridItem(detailItem);
-         } else {
+      this.miService.execute(request).subscribe(
+         (response: IMIResponse) => {
+            if (!response.hasError()) {
+               this.getDetails(response.item);
+               this.refreshGridItem(detailItem);
+            } else {
+               this.setBusy(false, true);
+               this.handleError('Failed to update item');
+            }
+         },
+         (error) => {
             this.setBusy(false, true);
-            this.handleError('Failed to update item');
-         }
-      }, (error) => {
-         this.setBusy(false, true);
-         this.handleError('Failed to update item', error);
-      });
+            this.handleError('Failed to update item', error);
+         },
+      );
    }
 
    private updateGridData() {
-      this.datagrid ? this.datagrid.dataset = this.items : this.datagridOptions.dataset = this.items;
+      this.datagrid
+         ? (this.datagrid.dataset = this.items)
+         : (this.datagridOptions.dataset = this.items);
    }
 
    private getDetails(selectedCustomer: MIRecord) {
@@ -143,21 +188,33 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
          program: 'CRS610MI',
          transaction: 'GetBasicData',
          record: selectedCustomer,
-         outputFields: ['CUNM', 'CUNO', 'TOWN', 'CSCD', 'CUA1', 'CUA2', 'CUA3', 'CUA4']
+         outputFields: [
+            'CUNM',
+            'CUNO',
+            'TOWN',
+            'CSCD',
+            'CUA1',
+            'CUA2',
+            'CUA3',
+            'CUA4',
+         ],
       };
-      this.miService.execute(request).subscribe((response: IMIResponse) => {
-         this.setBusy(false, true);
-         if (!response.hasError()) {
-            this.detailItem = response.item;
-         } else {
+      this.miService.execute(request).subscribe(
+         (response: IMIResponse) => {
+            this.setBusy(false, true);
+            if (!response.hasError()) {
+               this.detailItem = response.item;
+            } else {
+               this.detailItem = undefined;
+               this.handleError('Failed to get details');
+            }
+         },
+         (error) => {
+            this.setBusy(false, true);
             this.detailItem = undefined;
-            this.handleError('Failed to get details');
-         }
-      }, (error) => {
-         this.setBusy(false, true);
-         this.detailItem = undefined;
-         this.handleError('Failed to get details', error);
-      });
+            this.handleError('Failed to get details', error);
+         },
+      );
    }
 
    private refreshGridItem(detailItem: any) {
@@ -167,15 +224,26 @@ export class CustomerSampleComponent extends CoreBase implements OnInit {
    }
 
    private setBusy(isBusy: boolean, isDetail?: boolean) {
-      isDetail ? this.isDetailBusy = isBusy : this.isBusy = isBusy;
+      isDetail ? (this.isDetailBusy = isBusy) : (this.isBusy = isBusy);
    }
 
    private handleError(message: string, error?: any) {
       this.logError(message, error ? '- Error: ' + JSON.stringify(error) : '');
-      const buttons = [{ text: 'Ok', click: (e, modal) => { modal.close(); } }];
-      this.messageService.error()
+      const buttons = [
+         {
+            text: 'Ok',
+            click: (e, modal) => {
+               modal.close();
+            },
+         },
+      ];
+      this.messageService
+         .error()
          .title('An error occured')
-         .message(message + '. More details might be available in the browser console.')
+         .message(
+            message +
+               '. More details might be available in the browser console.',
+         )
          .buttons(buttons)
          .open();
    }

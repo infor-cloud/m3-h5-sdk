@@ -5,21 +5,34 @@ import { SohoModalDialogService } from 'ids-enterprise-ng';
 @Component({
    selector: 'odin-sample-viewer',
    templateUrl: './sample-viewer.component.html',
-   styleUrls: ['./sample-viewer.component.css']
+   styleUrls: ['./sample-viewer.component.css'],
 })
 export class SampleViewerComponent extends CoreBase {
    @Input() sample: string;
    @Input() service: string;
 
-   @ViewChild('dialogPlaceholder', { read: ViewContainerRef }) placeholder: ViewContainerRef;
+   @ViewChild('dialogPlaceholder', { read: ViewContainerRef })
+   placeholder: ViewContainerRef;
 
    constructor(private modalService: SohoModalDialogService) {
       super('SampleViewerComponent');
    }
 
    openDialog() {
-      const buttons = [{ text: 'Close', click: (e, modal) => { modal.close(); }, isDefault: true }];
-      const dialogRef = this.modalService.modal<SampleViewerDialogComponent>(SampleViewerDialogComponent, this.placeholder)
+      const buttons = [
+         {
+            text: 'Close',
+            click: (e, modal) => {
+               modal.close();
+            },
+            isDefault: true,
+         },
+      ];
+      const dialogRef = this.modalService
+         .modal<SampleViewerDialogComponent>(
+            SampleViewerDialogComponent,
+            this.placeholder,
+         )
          .id('sample-viewer-modal')
          .title(`Source files for '${this.sample}' sample`)
          .buttons(buttons)
@@ -32,7 +45,7 @@ export class SampleViewerComponent extends CoreBase {
 }
 
 @Component({
-   templateUrl: './sample-viewer-dialog.component.html'
+   templateUrl: './sample-viewer-dialog.component.html',
 })
 export class SampleViewerDialogComponent {
    sample: string;
@@ -40,10 +53,10 @@ export class SampleViewerDialogComponent {
 
    private appName = 'soho';
 
-   constructor() { }
-
    getSampleUrl(extension: string) {
-      return `assets/source/${this.appName}-app/samples/${this.sample}/${this.sample}.component.${extension.toLowerCase()}`;
+      return `assets/source/${this.appName}-app/samples/${this.sample}/${
+         this.sample
+      }.component.${extension.toLowerCase()}`;
    }
 
    getServiceUrl() {

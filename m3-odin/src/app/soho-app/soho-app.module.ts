@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { M3OdinModule } from '@infor-up/m3-odin-angular';
 import { SohoComponentsModule } from 'ids-enterprise-ng';
 import { CommonAppModule } from '../common/common-app.module';
-import { SampleViewerComponent, SampleViewerDialogComponent } from './sample-viewer/sample-viewer.component';
+import {
+   SampleViewerComponent,
+   SampleViewerDialogComponent,
+} from './sample-viewer/sample-viewer.component';
 import { BookmarkSampleComponent } from './samples/bookmark/bookmark.component';
 import { PanelDetailSampleComponent } from './samples/bookmark/panel-detail/panel-detail.component';
 import { ChartSampleComponent } from './samples/chart/chart.component';
@@ -42,7 +45,7 @@ import { SohoAppRoutingModule } from './soho-app.routes';
       ThemeSampleComponent,
       PanelDetailSampleComponent,
       SearchSampleComponent,
-      UserContextSampleComponent
+      UserContextSampleComponent,
    ],
    imports: [
       CommonModule,
@@ -50,8 +53,8 @@ import { SohoAppRoutingModule } from './soho-app.routes';
       M3OdinModule,
       SohoAppRoutingModule,
       SohoComponentsModule,
-      CommonAppModule
+      CommonAppModule,
    ],
-   providers: [CustomerPagingService, IdmDataService]
+   providers: [CustomerPagingService, IdmDataService],
 })
-export class SohoAppModule { }
+export class SohoAppModule {}

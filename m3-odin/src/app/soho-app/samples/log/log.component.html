@@ -1,14 +1,28 @@
 <div class="full-width full-height scrollable-flex">
    <div>
       <h1>Log sample</h1>
-      <p>Illustrates usage of available log methods and levels, as well as an output container inline in the web page.</p>
+      <p>
+         Illustrates usage of available log methods and levels, as well as an
+         output container inline in the web page.
+      </p>
       <hr class="fieldset-hr" />
 
       <button soho-button="primary" (click)="onClickDebug()">Debug log</button>
       <button soho-button="secondary" (click)="onClickInfo()">Info log</button>
-      <button soho-button="secondary" (click)="onClickWarning()">Warning log</button>
+      <button soho-button="secondary" (click)="onClickWarning()">
+         Warning log
+      </button>
       <button soho-button="primary" (click)="onClickError()">Error log</button>
-      <button soho-button="icon" icon="delete" soho-tooltip title="Clear output" (click)="onClickClear()" [disabled]="!logs.length">Clear output</button>
+      <button
+         soho-button="icon"
+         icon="delete"
+         soho-tooltip
+         title="Clear output"
+         (click)="onClickClear()"
+         [disabled]="!logs.length"
+      >
+         Clear output
+      </button>
    </div>
 
    <div *ngIf="logs.length">
@@ -19,8 +33,15 @@
                <h1>Inline output</h1>
             </div>
             <div *ngFor="let item of logs">
-               <div [ngClass]="{'info-text': item.type === 'INFO' || item.type === 'DEBUG', 'error-text': item.type === 'ERROR', 'warning-text': item.type === 'WARNING'}">
-                  [{{item.timestamp | date:'HH:mm:ss,SS'}}] [{{item.type}}] {{item.message}}
+               <div
+                  [ngClass]="{
+                     'info-text': item.type === 'INFO' || item.type === 'DEBUG',
+                     'error-text': item.type === 'ERROR',
+                     'warning-text': item.type === 'WARNING',
+                  }"
+               >
+                  [{{ item.timestamp | date: 'HH:mm:ss,SS' }}] [{{ item.type }}]
+                  {{ item.message }}
                </div>
             </div>
          </div>

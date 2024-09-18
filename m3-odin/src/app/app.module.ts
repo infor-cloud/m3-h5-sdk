@@ -16,6 +16,6 @@ import { SohoAppModule } from './soho-app/soho-app.module';
       SohoAppModule,
    ],
    providers: [],
-   bootstrap: [AppComponent]
+   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

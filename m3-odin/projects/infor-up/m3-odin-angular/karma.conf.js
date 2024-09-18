@@ -10,15 +10,18 @@ module.exports = function (config) {
          require('karma-chrome-launcher'),
          require('karma-jasmine-html-reporter'),
          require('karma-coverage'),
-         require('@angular-devkit/build-angular/plugins/karma')
+         require('@angular-devkit/build-angular/plugins/karma'),
       ],
       client: {
-         clearContext: false // leave Jasmine Spec Runner output visible in browser
+         clearContext: false, // leave Jasmine Spec Runner output visible in browser
       },
       coverageReporter: {
-         dir: require('path').join(__dirname, '../../../coverage/infor-up/m3-odin-angular'),
+         dir: require('path').join(
+            __dirname,
+            '../../../coverage/infor-up/m3-odin-angular',
+         ),
          reports: ['html', 'lcovonly', 'text-summary'],
-         fixWebpackSourcePaths: true
+         fixWebpackSourcePaths: true,
       },
       reporters: ['progress', 'kjhtml', 'coverage'],
       port: 9876,
@@ -27,6 +30,6 @@ module.exports = function (config) {
       autoWatch: true,
       browsers: ['ChromeHeadless'],
       singleRun: false,
-      restartOnFileChange: true
+      restartOnFileChange: true,
    });
 };

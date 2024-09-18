@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { CoreBase, HttpUtil, IIonApiRequest, IIonApiResponse } from '@infor-up/m3-odin';
+import {
+   CoreBase,
+   HttpUtil,
+   IIonApiRequest,
+   IIonApiResponse,
+} from '@infor-up/m3-odin';
 import { IonApiService } from '@infor-up/m3-odin-angular';
 
 interface ISocialUser {
@@ -13,11 +18,11 @@ interface ISocialUser {
 interface IUserDetailResponse {
    UserDetailList: ISocialUser[];
    Status: number;
-   ErrorList: {}[];
+   ErrorList: unknown[];
 }
 
 @Component({
-   templateUrl: './ionapi-social.component.html'
+   templateUrl: './ionapi-social.component.html',
 })
 export class IonApiSocialSampleComponent extends CoreBase {
    // https://m3ceappsdev.m3cedev.awsdev.infor.com/grid/rest/security/sessions/oauth
@@ -46,14 +51,17 @@ export class IonApiSocialSampleComponent extends CoreBase {
 
    private loadUser(): void {
       const request = this.createRequest('User/Detail');
-      this.ionApiService.execute(request).subscribe((response: IIonApiResponse) => {
-         if (!response.body.ErrorList) {
-            this.updateUser(response.body as IUserDetailResponse);
-         }
-         // TODO Error
-      }, (response: IIonApiResponse) => {
-         // TODO Error
-      });
+      this.ionApiService.execute(request).subscribe(
+         (response: IIonApiResponse) => {
+            if (!response.body.ErrorList) {
+               this.updateUser(response.body as IUserDetailResponse);
+            }
+            // TODO Error
+         },
+         (response: IIonApiResponse) => {
+            // TODO Error
+         },
+      );
    }
 
    private updateUser(response: IUserDetailResponse): void {
@@ -62,7 +70,10 @@ export class IonApiSocialSampleComponent extends CoreBase {
       this.email = user.Email;
    }
 
-   private createRequest(relativeUrl: string, headers?: object): IIonApiRequest {
+   private createRequest(
+      relativeUrl: string,
+      headers?: object,
+   ): IIonApiRequest {
       if (!headers) {
          // Create default headers
          headers = { Accept: 'application/json' };
@@ -76,7 +87,7 @@ export class IonApiSocialSampleComponent extends CoreBase {
          method: 'GET',
          url: url,
          headers: headers,
-         source: this.source
+         source: this.source,
       };
 
       return request;

@@ -7,12 +7,7 @@
       "skipLibCheck": true,
       "sourceMap": true,
       "declaration": true,
-      "lib": [
-         "es2017",
-         "dom"
-      ]
+      "lib": ["es2017", "dom"]
    },
-   "exclude": [
-      "**/*.spec.ts"
-   ]
+   "exclude": ["**/*.spec.ts"]
 }

@@ -4,7 +4,7 @@ import { CoreBase, Log } from '@infor-up/m3-odin';
 @Component({
    templateUrl: './soho-app.component.html',
    styleUrls: ['./soho-app.component.css'],
-   encapsulation: ViewEncapsulation.None
+   encapsulation: ViewEncapsulation.None,
 })
 export class SohoAppComponent extends CoreBase implements OnInit {
    title = 'Odin SoHo Xi';

@@ -4,7 +4,15 @@ import { Log } from '../log';
 import { IMIResponse, IMIService } from '../mi/base';
 import { IMIRequest } from '../mi/types';
 import { HttpUtil } from '../util';
-import { IApplicationService, IDateOptions, IMessage, ITask, IUserContext, IUserResponse, IUserService } from './types';
+import {
+   IApplicationService,
+   IDateOptions,
+   IMessage,
+   ITask,
+   IUserContext,
+   IUserResponse,
+   IUserService,
+} from './types';
 
 /**
  * @hidden
@@ -116,7 +124,9 @@ export class FormatUtil {
 
       const length = value.length;
       if (length !== format.length || !(length === 6 || length === 8)) {
-         throw new Error('Invalid format and/or value, format=' + format + ' value=' + value);
+         throw new Error(
+            'Invalid format and/or value, format=' + format + ' value=' + value,
+         );
       }
 
       let year;
@@ -169,13 +179,12 @@ export class FormatUtil {
  * @hidden
  */
 export class UserContext extends ErrorState implements IUserContext {
-
    constructor() {
       super();
 
       // Set default values
       (<IUserContext>this).numberFormatOptions = {
-         separator: '.'
+         separator: '.',
       };
    }
 
@@ -190,7 +199,6 @@ export class UserContext extends ErrorState implements IUserContext {
  * @hidden
  */
 class CommonUtil {
-
    public static languageMap = {
       // TODO ar, el, he-IL, pt-BR, ru?
       CS: 'zh-CN',
@@ -224,7 +232,12 @@ class CommonUtil {
       let language = this.languageMap[m3Language];
       if (!language) {
          language = 'en-US';
-         Log.warning('getLanguageTag: M3 language ' + m3Language + ' not found. Fallback to ' + language);
+         Log.warning(
+            'getLanguageTag: M3 language ' +
+               m3Language +
+               ' not found. Fallback to ' +
+               language,
+         );
       }
       return language;
    }
@@ -271,8 +284,8 @@ class CommonUtil {
  */
 export class UserServiceCore extends CoreBase implements IUserService {
    /**
-     * @hidden
-     */
+    * @hidden
+    */
    static isH5Host = false;
 
    private isUserContextAvailable = true;
@@ -325,7 +338,9 @@ export class UserServiceCore extends CoreBase implements IUserService {
          const message = JSON.parse(data) as IMessage;
          return message;
       } catch (ex) {
-         this.logError('parseMessage: Failed to parse: ' + JSON.stringify(data));
+         this.logError(
+            'parseMessage: Failed to parse: ' + JSON.stringify(data),
+         );
       }
       return null;
    }
@@ -353,14 +368,21 @@ export class UserServiceCore extends CoreBase implements IUserService {
    }
 
    private registerMessage() {
-      const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+      const eventMethod = window.addEventListener
+         ? 'addEventListener'
+         : 'attachEvent';
       const eventer = window[eventMethod];
-      const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
-      eventer(messageEvent, e => {
-         const key = e.message ? 'message' : 'data';
-         const data = e[key];
-         this.onMessage(data);
-      }, false);
+      const messageEvent =
+         eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+      eventer(
+         messageEvent,
+         (e) => {
+            const key = e.message ? 'message' : 'data';
+            const data = e[key];
+            this.onMessage(data);
+         },
+         false,
+      );
    }
 
    private sendMessage(message: IMessage) {
@@ -407,14 +429,17 @@ export class UserServiceCore extends CoreBase implements IUserService {
 
       const request: IMIRequest = {
          program: 'MNS150MI',
-         transaction: 'GetUserData'
+         transaction: 'GetUserData',
       };
 
-      this.miService.execute(request).subscribe((response: IMIResponse) => {
-         this.onUserData(response.item);
-      }, (response: any) => {
-         this.rejectQueue(response.errorMessage);
-      });
+      this.miService.execute(request).subscribe(
+         (response: IMIResponse) => {
+            this.onUserData(response.item);
+         },
+         (response: any) => {
+            this.rejectQueue(response.errorMessage);
+         },
+      );
    }
 
    private addAliases(context: IUserContext) {
@@ -439,7 +464,7 @@ export class UserServiceCore extends CoreBase implements IUserService {
       context.languageTag = CommonUtil.getLanguageTag(context.LANC);
 
       context.numberFormatOptions = {
-         separator: context.DCFM
+         separator: context.DCFM,
       };
 
       const options = { dateFormat: Constants.dateFormatLong } as IDateOptions;
@@ -488,7 +513,14 @@ export class UserServiceCore extends CoreBase implements IUserService {
       Configuration.update(context);
       (this.miService['instance'] as any).updateUserContext(company, division);
       this.processQueue(true);
-      this.logInfo('setContext: Initialized user context for ' + this.m3User + ' ' + company + '/' + division);
+      this.logInfo(
+         'setContext: Initialized user context for ' +
+            this.m3User +
+            ' ' +
+            company +
+            '/' +
+            division,
+      );
    }
 
    private onUserData(item) {
@@ -540,7 +572,10 @@ export class UserServiceCore extends CoreBase implements IUserService {
 /**
  * @hidden
  */
-export class ApplicationServiceCore extends CoreBase implements IApplicationService {
+export class ApplicationServiceCore
+   extends CoreBase
+   implements IApplicationService
+{
    constructor() {
       super('ApplicationServiceCore');
    }
@@ -551,11 +586,11 @@ export class ApplicationServiceCore extends CoreBase implements IApplicationServ
 
    launch(link: string): void {
       const task: ITask = {
-         link: link
+         link: link,
       };
       const message: IMessage = {
          m3Command: 'launch',
-         m3Parameter: task
+         m3Parameter: task,
       };
       this.sendMessage(message);
    }
