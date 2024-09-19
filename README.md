@@ -159,15 +159,6 @@ We recommend Visual Studio Code ([https://code.visualstudio.com/](https://code.v
 
 # <a id="samples"></a> Samples
 
-The Odin framework has two sets of samples using Angular. The focus of the samples are not to showcase UI Components but to show how the Odin API is used.
-
-As Odin has no UI preference the samples are available using two different UI Component systems:
-
-- Infor Design System (IDS)
-  - [https://design.infor.com/](https://design.infor.com/)
-
-IDS has two sets of components, one for jQuery and then those are wrapped into Angular Components. Please note that with Angular you should use the Angular components for SoHo.
-
 The samples are packaged as one Angular application and available as m3-odin-sample-soho-2.0.0.zip. The sample zip files can be downloaded from this directory: [https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples](https://github.com/infor-cloud/m3-h5-sdk/tree/master/m3-odin/samples)
 
 ## How to run a sample
