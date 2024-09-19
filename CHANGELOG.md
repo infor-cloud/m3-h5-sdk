@@ -22,7 +22,7 @@ npm i -g @infor-up/m3-odin-cli@latest
 
 2. Update all Angular 18 dependencies to `"^18.2.4"` in your package.json file.
 
-3. Update `ids-enterprise-ng` to `"~18.2.0"`
+3. Update `ids-enterprise-ng` to `"18.2.4"`
 
 ## Upgrading - alternative
 
