@@ -1,3 +1,13 @@
+# 7.1.0
+
+## Updated dependencies
+
+- Fix version for `ids-enterprise-ng` to be at `18.2.4`.
+
+## Known Issues
+
+- `ids-enterprise-ng` >`18.2.4` is not working at the time of writing.
+
 # 7.0.0
 
 ## BREAKING CHANGES
