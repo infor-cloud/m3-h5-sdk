@@ -20,15 +20,18 @@ Built-in support for Material Design has been removed.
 npm i -g @infor-up/m3-odin-cli@latest
 ```
 
-2. Update all Angular 18 dependencies to `"^18.2.4"` in your package.json file.
-
-3. Update `ids-enterprise-ng` to `"18.2.4"`
+3. Remove current `node_modules` and `package-lock.json` from your project.
+4. Update all Angular 18 dependencies to `"^18.2.4"` in your package.json file.
+5. Update `ids-enterprise-ng` to `"18.2.4"`
+6. Run `npm install`
 
 ## Upgrading - alternative
 
 1. With newest `m3-odin-cli` installed globally, create a new project.
 2. Open project and copy the `dependencies` and `peerDependencies`
 3. Add copied dependiencies to your project, remove duplicated old ones.
+4. Remove old `node_modules` and `package-lock.json`
+5. Run `npm install`
 
 ## Known Issues
 
