@@ -13,7 +13,7 @@
     "url": "git+https://github.com/infor-cloud/m3-h5-sdk.git"
   },
   "peerDependencies": {
-    "rxjs": "^7.4.0"
+    "rxjs": "^7.8.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
