@@ -141,7 +141,7 @@ const npmInstall = (projectDir: string) => {
 };
 
 const newAngularProject = async (options: INewProjectOptions) => {
-   const ngOptions = ['--skip-install', '--strict=false', '--standalone=false'];
+   const ngOptions = ['--skip-install', '--strict=true', '--standalone=true'];
    if (!options.git) {
       ngOptions.push('--skip-git');
    }
