@@ -6,7 +6,7 @@
 
 ## Known Issues
 
-- `ids-enterprise-ng` >`18.2.4` is not working at the time of writing.
+- 
 
 # 7.0.0
 
