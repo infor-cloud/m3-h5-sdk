@@ -1,14 +1,51 @@
+# 7.1.0
+
+## Updated dependencies
+
+- Fix version for `ids-enterprise-ng` to be at `18.2.4`.
+
+## Known Issues
+
+- 
+
 # 7.0.0
 
 ## BREAKING CHANGES
 
-There have been major version updates to many dependencies. These require NodeJS 18.x (LTS) to be installed.
+There have been major version updates to angular and ids-enterprise-ng dependencies. These require NodeJS >= 18.13.0 ([See Angular Version compatability](https://angular.dev/reference/versions)) to be installed.
 Built-in support for Material Design has been removed.
 
 ## Updated dependencies
 
 - Angular 18
 - IDS Enterprise Components 18
+
+## Upgrading from version 6
+
+1. Install a supported `node` version (>=18.13.0). Recommended to use [nvm](https://github.com/nvm-sh/nvm) if you need to switch between different node versions.
+
+2. Install the latest CLI:
+
+```sh
+npm i -g @infor-up/m3-odin-cli@latest
+```
+
+3. Remove current `node_modules` and `package-lock.json` from your project.
+4. Update all Angular 18 dependencies to `"^18.2.4"` in your package.json file.
+5. Update `ids-enterprise-ng` to `"18.2.4"`
+6. Run `npm install`
+
+## Upgrading - alternative
+
+1. With newest `m3-odin-cli` installed globally, create a new project.
+2. Open project and copy the `dependencies` and `peerDependencies`
+3. Add copied dependiencies to your project, remove duplicated old ones.
+4. Remove old `node_modules` and `package-lock.json`
+5. Run `npm install`
+
+## Known Issues
+
+- `ids-enterprise-ng` >`18.2.4` is not working at the time of writing.
 
 # 6.0.0
 
