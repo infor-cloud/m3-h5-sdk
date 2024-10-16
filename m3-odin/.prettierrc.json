@@ -1,3 +1,11 @@
 {
-   "singleQuote": true
+   "singleQuote": true,
+   "overrides": [
+      {
+         "files": "package-lock.json",
+         "options": {
+            "tabWidth": 2
+         }
+      }
+   ]
 }
