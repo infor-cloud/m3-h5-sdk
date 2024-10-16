@@ -50,10 +50,10 @@ export class Translator {
          language: language,
          params: {
             LANC: language,
-            CONSTANTS: constants
+            CONSTANTS: constants,
          },
          commandType: 'FNC',
-         commandValue: 'TRANSLATE'
+         commandValue: 'TRANSLATE',
       };
 
       return job;
@@ -62,10 +62,14 @@ export class Translator {
    public parseResponse(job: ITranslationJob, content: string) {
       const document = FormParser.parseXml(content);
       const root = FormParser.selectRoot(document);
-      if (!root) { return; }
+      if (!root) {
+         return;
+      }
 
       const nodes = document.getElementsByTagName('Text');
-      if (!nodes) { return; }
+      if (!nodes) {
+         return;
+      }
 
       for (let i = 0; i < nodes.length; i++) {
          const node = nodes[i];
@@ -97,7 +101,13 @@ export class Translator {
       return language;
    }
 
-   private updateItem(items: ITranslationItem[], language: string, file: string, key: string, text: string) {
+   private updateItem(
+      items: ITranslationItem[],
+      language: string,
+      file: string,
+      key: string,
+      text: string,
+   ) {
       // Note that there can be more than one item that matches so all items must be checked.
       for (let i = 0; i < items.length; i++) {
          const item = items[i];

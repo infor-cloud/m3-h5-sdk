@@ -156,11 +156,11 @@ export interface IErrorState {
  */
 export interface IIonApiOptions {
    /**
-	 * Gets or sets an optional value that indicates if the ION API token should be refreshed or not.
-	 *
-	 * The default value is false. This property should only be set to true if the current token is invalid.
-	 * An ION API call will return HTTP 401 when the token is invalid.
-	 */
+    * Gets or sets an optional value that indicates if the ION API token should be refreshed or not.
+    *
+    * The default value is false. This property should only be set to true if the current token is invalid.
+    * An ION API call will return HTTP 401 when the token is invalid.
+    */
    refresh?: boolean;
 }
 
@@ -187,13 +187,13 @@ export interface IIonApiRequest extends IHttpRequest {
    source: string;
 
    /**
-	 * Gets or sets an optional value that indicates if a request should be retried if the ION API returns a 401 HTTP response code.
-	 *
-	 * A 401 response code usually means that the OAuth token has expired and must be renewed. A 401 response code could also mean
-	 * that the user cannot be authorized at all.
-	 *
-	 * The default value is true.
-	 */
+    * Gets or sets an optional value that indicates if a request should be retried if the ION API returns a 401 HTTP response code.
+    *
+    * A 401 response code usually means that the OAuth token has expired and must be renewed. A 401 response code could also mean
+    * that the user cannot be authorized at all.
+    *
+    * The default value is true.
+    */
    ionApiRetry?: boolean;
 }
 
@@ -233,23 +233,23 @@ export interface IIonApiResponse extends IHttpResponse {
  */
 export interface IIonApiContext {
    /**
-	 * Gets the ION API base URL.
-	 * @return a URL
-	 */
+    * Gets the ION API base URL.
+    * @return a URL
+    */
    getUrl(): string;
 
    /**
-	 * Gets an OAUth token.
-	 *
-	 * The OAuth token must be provided in an Authorization header for each ION API call.
-	 * @return an OAuth token
-	 */
+    * Gets an OAUth token.
+    *
+    * The OAuth token must be provided in an Authorization header for each ION API call.
+    * @return an OAuth token
+    */
    getToken(): string;
 
    /**
-	 * Gets the name of the HTTP Authorization header (Authorization).
-	 * @return the authorization header name
-	 */
+    * Gets the name of the HTTP Authorization header (Authorization).
+    * @return the authorization header name
+    */
    getHeaderName(): string;
 
    /**
@@ -276,41 +276,41 @@ export interface IIonApiContext {
  */
 export interface IIonApiService {
    /**
-	 * Gets an ION API context required when making ION API HTTP requests.
-	 *
-	 * This function is asynchronous since a server request might be required to get the OAuth token for ION API.
-	 *
-	 * In most cases an ION API request can be executed using the executeIonApiAsync function that will automatically
-	 * get the ION API context and retry requests when the OAuth token has expired. This function can be used when more
-	 * control is required when making the request or when the executeIonApiAsync fuction cannot be used for some other reason.
-	 *
-	 * The OAuth token has a limited lifetime and will become invalid once it has timed out.
-	 * The OAuth token might be invalid if an ION API HTTP request returns 401.
-	 * A client can get a new ION API context with a new OAuth token by setting the refresh property to true on the options parameter.
-	 *
-	 * @param options Optional object for specifying options when getting the context.
-	 * @return A promise that will be resolved when the ION API context is available.
-	 */
+    * Gets an ION API context required when making ION API HTTP requests.
+    *
+    * This function is asynchronous since a server request might be required to get the OAuth token for ION API.
+    *
+    * In most cases an ION API request can be executed using the executeIonApiAsync function that will automatically
+    * get the ION API context and retry requests when the OAuth token has expired. This function can be used when more
+    * control is required when making the request or when the executeIonApiAsync fuction cannot be used for some other reason.
+    *
+    * The OAuth token has a limited lifetime and will become invalid once it has timed out.
+    * The OAuth token might be invalid if an ION API HTTP request returns 401.
+    * A client can get a new ION API context with a new OAuth token by setting the refresh property to true on the options parameter.
+    *
+    * @param options Optional object for specifying options when getting the context.
+    * @return A promise that will be resolved when the ION API context is available.
+    */
    getContext(options?: IIonApiOptions): Observable<IIonApiContext>;
 
    /**
-	 * Executes an ION API HTTP request.
-	 *
-	 * This function will automatically get the IonApiContext which contains the OAuth token necessary to complete the request.
-	 *
-	 * If the url parameter is relative (which it should be in most cases) the ION API base URL
+    * Executes an ION API HTTP request.
+    *
+    * This function will automatically get the IonApiContext which contains the OAuth token necessary to complete the request.
+    *
+    * If the url parameter is relative (which it should be in most cases) the ION API base URL
     * will be prepended to the URL before the request is executed.
-	 *
-	 * If the ION API HTTP request returns a 401 response code this function will perform a single retry. The retry attempt
-	 * will get a fresh OAuth token and repeat the same request. If the second request completes without errors it will be
-	 * transparent to the caller. If the second request fails the promise will be rejected.
-	 *
-	 * If more control is required when making the request the getIonApiContextAsync function can be used to
-	 * get the OAuth token and ION API base URL. In this case the retry for expired OAuth tokens must be handled manually.
-	 *
-	 * @param options An object that describes the request.
-	 * @returns An observable that can be subscribed to.
-	 */
+    *
+    * If the ION API HTTP request returns a 401 response code this function will perform a single retry. The retry attempt
+    * will get a fresh OAuth token and repeat the same request. If the second request completes without errors it will be
+    * transparent to the caller. If the second request fails the promise will be rejected.
+    *
+    * If more control is required when making the request the getIonApiContextAsync function can be used to
+    * get the OAuth token and ION API base URL. In this case the retry for expired OAuth tokens must be handled manually.
+    *
+    * @param options An object that describes the request.
+    * @returns An observable that can be subscribed to.
+    */
    execute(options: IIonApiRequest): Observable<IIonApiResponse>;
 
    /**

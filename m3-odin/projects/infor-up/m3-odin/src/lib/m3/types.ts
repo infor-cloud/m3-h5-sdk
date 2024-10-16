@@ -205,7 +205,6 @@ export interface IUserContext extends IErrorState {
    lastActiveDate?: Date;
 }
 
-
 /**
  * @hidden
  *

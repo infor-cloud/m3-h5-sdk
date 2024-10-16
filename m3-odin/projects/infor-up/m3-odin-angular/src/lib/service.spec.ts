@@ -73,23 +73,30 @@ describe('MIService', () => {
             expect(err.errorCode).toBe('CPF9898');
             expect(err.errorType).toBe('ServerReturnedNOK');
             expect(err.errorField).toBe('RCNT      ');
-            expect(err.errorMessage).toBe('Designed to fail! Record count was:\'-5      \'');
+            expect(err.errorMessage).toBe(
+               "Designed to fail! Record count was:'-5      '",
+            );
          } else {
             throw err;
          }
       }
    });
 
-   function executeFakeRequest(fakeStatus: number, fakeResponse?: unknown): Promise<IMIResponse> {
+   function executeFakeRequest(
+      fakeStatus: number,
+      fakeResponse?: unknown,
+   ): Promise<IMIResponse> {
       jasmine.Ajax.stubRequest(/TST001MI\/Lst10Out/).andReturn({
          status: fakeStatus,
          responseJSON: fakeResponse,
       });
-      return service.execute({
-         program: 'TST001MI',
-         transaction: 'Lst10Out',
-         company: 'test',
-      }).toPromise();
+      return service
+         .execute({
+            program: 'TST001MI',
+            transaction: 'Lst10Out',
+            company: 'test',
+         })
+         .toPromise();
    }
 
    function isResponse(value: any): value is IMIResponse {
@@ -102,609 +109,611 @@ describe('MIService', () => {
  */
 const RESPONSES = {
    OK: {
-      'Program': 'TST001MI',
-      'Transaction': 'Lst10Out',
-      'Metadata': {
-         'Field': [
+      Program: 'TST001MI',
+      Transaction: 'Lst10Out',
+      Metadata: {
+         Field: [
             {
                '@name': 'F001',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F002',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F003',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F004',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F005',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F006',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F007',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F008',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F009',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F010',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
-            }
-         ]
+               '@description': 'Text field',
+            },
+         ],
       },
-      'MIRecord': [
+      MIRecord: [
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000001'
+                  Name: 'F001',
+                  Value: '00000001',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000002'
+                  Name: 'F002',
+                  Value: '00000002',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000003'
+                  Name: 'F003',
+                  Value: '00000003',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000004'
+                  Name: 'F004',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000005'
+                  Name: 'F005',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000006'
+                  Name: 'F006',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000007'
+                  Name: 'F007',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000008'
+                  Name: 'F008',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000009'
+                  Name: 'F009',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000010'
-               }
+                  Name: 'F010',
+                  Value: '00000010',
+               },
             ],
-            'RowIndex': 0
+            RowIndex: 0,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000002'
+                  Name: 'F001',
+                  Value: '00000002',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000003'
+                  Name: 'F002',
+                  Value: '00000003',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000004'
+                  Name: 'F003',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000005'
+                  Name: 'F004',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000006'
+                  Name: 'F005',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000007'
+                  Name: 'F006',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000008'
+                  Name: 'F007',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000009'
+                  Name: 'F008',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000010'
+                  Name: 'F009',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000011'
-               }
+                  Name: 'F010',
+                  Value: '00000011',
+               },
             ],
-            'RowIndex': 1
+            RowIndex: 1,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000003'
+                  Name: 'F001',
+                  Value: '00000003',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000004'
+                  Name: 'F002',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000005'
+                  Name: 'F003',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000006'
+                  Name: 'F004',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000007'
+                  Name: 'F005',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000008'
+                  Name: 'F006',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000009'
+                  Name: 'F007',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000010'
+                  Name: 'F008',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000011'
+                  Name: 'F009',
+                  Value: '00000011',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000012'
-               }
+                  Name: 'F010',
+                  Value: '00000012',
+               },
             ],
-            'RowIndex': 2
+            RowIndex: 2,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000004'
+                  Name: 'F001',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000005'
+                  Name: 'F002',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000006'
+                  Name: 'F003',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000007'
+                  Name: 'F004',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000008'
+                  Name: 'F005',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000009'
+                  Name: 'F006',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000010'
+                  Name: 'F007',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000011'
+                  Name: 'F008',
+                  Value: '00000011',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000012'
+                  Name: 'F009',
+                  Value: '00000012',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000013'
-               }
+                  Name: 'F010',
+                  Value: '00000013',
+               },
             ],
-            'RowIndex': 3
+            RowIndex: 3,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000005'
+                  Name: 'F001',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000006'
+                  Name: 'F002',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000007'
+                  Name: 'F003',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000008'
+                  Name: 'F004',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000009'
+                  Name: 'F005',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000010'
+                  Name: 'F006',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000011'
+                  Name: 'F007',
+                  Value: '00000011',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000012'
+                  Name: 'F008',
+                  Value: '00000012',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000013'
+                  Name: 'F009',
+                  Value: '00000013',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000014'
-               }
+                  Name: 'F010',
+                  Value: '00000014',
+               },
             ],
-            'RowIndex': 4
-         }
-      ]
+            RowIndex: 4,
+         },
+      ],
    },
 
    NOK: {
-      'Message': 'Designed to fail!                                                                                                                   ',
+      Message:
+         'Designed to fail!                                                                                                                   ',
       '@type': 'ServerReturnedNOK',
       '@code': 'CPF9898',
       '@cfg': null,
-      '@field': 'RETT'
+      '@field': 'RETT',
    },
 
    NOK_AFTER_5: {
-      'Program': 'TST001MI',
-      'Transaction': 'Lst10Out',
-      'Metadata': {
-         'Field': [
+      Program: 'TST001MI',
+      Transaction: 'Lst10Out',
+      Metadata: {
+         Field: [
             {
                '@name': 'F001',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F002',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F003',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F004',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F005',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F006',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F007',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F008',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F009',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
+               '@description': 'Text field',
             },
             {
                '@name': 'F010',
                '@type': 'A',
                '@length': 8,
-               '@description': 'Text field'
-            }
-         ]
+               '@description': 'Text field',
+            },
+         ],
       },
-      'MIRecord': [
+      MIRecord: [
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000001'
+                  Name: 'F001',
+                  Value: '00000001',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000002'
+                  Name: 'F002',
+                  Value: '00000002',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000003'
+                  Name: 'F003',
+                  Value: '00000003',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000004'
+                  Name: 'F004',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000005'
+                  Name: 'F005',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000006'
+                  Name: 'F006',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000007'
+                  Name: 'F007',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000008'
+                  Name: 'F008',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000009'
+                  Name: 'F009',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000010'
-               }
+                  Name: 'F010',
+                  Value: '00000010',
+               },
             ],
-            'RowIndex': 0
+            RowIndex: 0,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000002'
+                  Name: 'F001',
+                  Value: '00000002',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000003'
+                  Name: 'F002',
+                  Value: '00000003',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000004'
+                  Name: 'F003',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000005'
+                  Name: 'F004',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000006'
+                  Name: 'F005',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000007'
+                  Name: 'F006',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000008'
+                  Name: 'F007',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000009'
+                  Name: 'F008',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000010'
+                  Name: 'F009',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000011'
-               }
+                  Name: 'F010',
+                  Value: '00000011',
+               },
             ],
-            'RowIndex': 1
+            RowIndex: 1,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000003'
+                  Name: 'F001',
+                  Value: '00000003',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000004'
+                  Name: 'F002',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000005'
+                  Name: 'F003',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000006'
+                  Name: 'F004',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000007'
+                  Name: 'F005',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000008'
+                  Name: 'F006',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000009'
+                  Name: 'F007',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000010'
+                  Name: 'F008',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000011'
+                  Name: 'F009',
+                  Value: '00000011',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000012'
-               }
+                  Name: 'F010',
+                  Value: '00000012',
+               },
             ],
-            'RowIndex': 2
+            RowIndex: 2,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000004'
+                  Name: 'F001',
+                  Value: '00000004',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000005'
+                  Name: 'F002',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000006'
+                  Name: 'F003',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000007'
+                  Name: 'F004',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000008'
+                  Name: 'F005',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000009'
+                  Name: 'F006',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000010'
+                  Name: 'F007',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000011'
+                  Name: 'F008',
+                  Value: '00000011',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000012'
+                  Name: 'F009',
+                  Value: '00000012',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000013'
-               }
+                  Name: 'F010',
+                  Value: '00000013',
+               },
             ],
-            'RowIndex': 3
+            RowIndex: 3,
          },
          {
-            'NameValue': [
+            NameValue: [
                {
-                  'Name': 'F001',
-                  'Value': '00000005'
+                  Name: 'F001',
+                  Value: '00000005',
                },
                {
-                  'Name': 'F002',
-                  'Value': '00000006'
+                  Name: 'F002',
+                  Value: '00000006',
                },
                {
-                  'Name': 'F003',
-                  'Value': '00000007'
+                  Name: 'F003',
+                  Value: '00000007',
                },
                {
-                  'Name': 'F004',
-                  'Value': '00000008'
+                  Name: 'F004',
+                  Value: '00000008',
                },
                {
-                  'Name': 'F005',
-                  'Value': '00000009'
+                  Name: 'F005',
+                  Value: '00000009',
                },
                {
-                  'Name': 'F006',
-                  'Value': '00000010'
+                  Name: 'F006',
+                  Value: '00000010',
                },
                {
-                  'Name': 'F007',
-                  'Value': '00000011'
+                  Name: 'F007',
+                  Value: '00000011',
                },
                {
-                  'Name': 'F008',
-                  'Value': '00000012'
+                  Name: 'F008',
+                  Value: '00000012',
                },
                {
-                  'Name': 'F009',
-                  'Value': '00000013'
+                  Name: 'F009',
+                  Value: '00000013',
                },
                {
-                  'Name': 'F010',
-                  'Value': '00000014'
-               }
+                  Name: 'F010',
+                  Value: '00000014',
+               },
             ],
-            'RowIndex': 4
-         }
+            RowIndex: 4,
+         },
       ],
-      'ErrorMessage': {
+      ErrorMessage: {
          '@type': 'ServerReturnedNOK',
          '@code': 'CPF9898',
          '@cfg': '97',
          '@field': 'RCNT      ',
-         'Message': 'Designed to fail! Record count was:\'-5      \'                                                                                       '
-      }
-   }
+         Message:
+            "Designed to fail! Record count was:'-5      '                                                                                       ",
+      },
+   },
 };

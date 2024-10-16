@@ -2,27 +2,50 @@
    <section>
       <h1>Theme</h1>
       <p>
-         This sample uses the soho-personalize directive to set the theme/color. See IDS documentation for further
-         configuration, using the correct icons, fonts etc.
+         This sample uses the soho-personalize directive to set the theme/color.
+         See IDS documentation for further configuration, using the correct
+         icons, fonts etc.
       </p>
       <hr class="fieldset-hr" />
    </section>
    <section soho-personalize>
       <div class="field">
          <label for="theme">Themes</label>
-         <select id="theme" soho-dropdown class="input-sm" [(ngModel)]="themeId">
-            <option *ngFor="let theme of themes" [value]="theme.id">{{theme.id}}</option>
+         <select
+            id="theme"
+            soho-dropdown
+            class="input-sm"
+            [(ngModel)]="themeId"
+         >
+            <option *ngFor="let theme of themes" [value]="theme.id">
+               {{ theme.id }}
+            </option>
          </select>
       </div>
       <div class="field">
          <label for="color">Colors</label>
-         <select id="color" soho-dropdown class="input-sm" [(ngModel)]="colorId">
-            <option *ngFor="let color of colors | keyvalue" [ngValue]="color.value.id">{{color.value.name}}</option>
+         <select
+            id="color"
+            soho-dropdown
+            class="input-sm"
+            [(ngModel)]="colorId"
+         >
+            <option
+               *ngFor="let color of colors | keyvalue"
+               [ngValue]="color.value.id"
+            >
+               {{ color.value.name }}
+            </option>
          </select>
       </div>
       <div class="field">
-         <button soho-button="primary" soho-busyindicator [activated]="fetchingContext"
-            [class.busy-sm]="fetchingContext" (click)="getThemeFromContext()">
+         <button
+            soho-button="primary"
+            soho-busyindicator
+            [activated]="fetchingContext"
+            [class.busy-sm]="fetchingContext"
+            (click)="getThemeFromContext()"
+         >
             Get from UserContext
          </button>
       </div>

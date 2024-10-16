@@ -17,7 +17,9 @@ import { SohoAppComponent } from './soho-app.component';
 
 const routes: Routes = [
    {
-      path: 'soho', component: SohoAppComponent, children: [
+      path: 'soho',
+      component: SohoAppComponent,
+      children: [
          { path: '', component: HomeSampleComponent },
          { path: 'bookmark', component: BookmarkSampleComponent },
          { path: 'chart', component: ChartSampleComponent },
@@ -31,12 +33,13 @@ const routes: Routes = [
          { path: 'log', component: LogSampleComponent },
          { path: 'theme', component: ThemeSampleComponent },
          { path: 'search', component: SearchSampleComponent },
-         { path: 'user-context', component: UserContextSampleComponent }
-      ]
-   }];
+         { path: 'user-context', component: UserContextSampleComponent },
+      ],
+   },
+];
 
 @NgModule({
    imports: [RouterModule.forChild(routes)],
-   exports: [RouterModule]
+   exports: [RouterModule],
 })
-export class SohoAppRoutingModule { }
+export class SohoAppRoutingModule {}

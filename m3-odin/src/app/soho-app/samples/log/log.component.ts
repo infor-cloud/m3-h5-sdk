@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
 
 @Component({
-   templateUrl: './log.component.html'
+   templateUrl: './log.component.html',
 })
 export class LogSampleComponent extends CoreBase {
    logs: any[] = [];

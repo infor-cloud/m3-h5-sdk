@@ -1,8 +1,36 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
-import { ApplicationServiceCore, CoreBase, FormServiceCore, IApplicationService, IBookmark, IEnvironmentContext, IFormRequest, IFormResponse, IFormService, IHttpRequest, IHttpResponse, IHttpService, IIonApiContext, IIonApiOptions, IIonApiRequest, IIonApiResponse, IIonApiService, IMIRequest, IMIResponse, IMIService, IonApiServiceCore, ISearchRequest, ITranslationRequest, ITranslationResponse, IUserContext, IUserService, MIServiceCore, UserServiceCore } from '@infor-up/m3-odin';
+import {
+   ApplicationServiceCore,
+   CoreBase,
+   FormServiceCore,
+   IApplicationService,
+   IBookmark,
+   IEnvironmentContext,
+   IFormRequest,
+   IFormResponse,
+   IFormService,
+   IHttpRequest,
+   IHttpResponse,
+   IHttpService,
+   IIonApiContext,
+   IIonApiOptions,
+   IIonApiRequest,
+   IIonApiResponse,
+   IIonApiService,
+   IMIRequest,
+   IMIResponse,
+   IMIService,
+   IonApiServiceCore,
+   ISearchRequest,
+   ITranslationRequest,
+   ITranslationResponse,
+   IUserContext,
+   IUserService,
+   MIServiceCore,
+   UserServiceCore,
+} from '@infor-up/m3-odin';
 import { Observable } from 'rxjs';
-
 
 /**
  * Angular implementation of {@link IMIService}
@@ -29,7 +57,6 @@ import { Observable } from 'rxjs';
  */
 @Injectable()
 export class MIService extends CoreBase implements IMIService {
-
    private instance: IMIService;
 
    // TODO Inject Angular common HTTP once we have verified the Ajax HTTP implementation
@@ -70,7 +97,10 @@ export class MIService extends CoreBase implements IMIService {
  * @since 2.0.0
  */
 @Injectable()
-export class ApplicationService extends CoreBase implements IApplicationService {
+export class ApplicationService
+   extends CoreBase
+   implements IApplicationService
+{
    private instance: IApplicationService;
 
    constructor() {
@@ -228,7 +258,11 @@ export class FormService extends CoreBase implements IFormService {
    /**
     * See {@link IFormService.executeCommand}
     */
-   executeCommand(commandType: string, commandValue?: string, params?: any): Observable<IFormResponse> {
+   executeCommand(
+      commandType: string,
+      commandValue?: string,
+      params?: any,
+   ): Observable<IFormResponse> {
       return this.instance.executeCommand(commandType, commandValue, params);
    }
 }
@@ -237,7 +271,6 @@ export class FormService extends CoreBase implements IFormService {
  * Interface for the `IonApiConfig` injection token.
  */
 export interface IIonApiConfig {
-
    /**
     * Set the `XMLHttpRequest.withCredentials` property when making requests.
     * See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
@@ -262,7 +295,7 @@ export interface IIonApiConfig {
 export const IonApiConfig = new InjectionToken<IIonApiConfig>('IonApiConfig', {
    factory() {
       return { withCredentials: false };
-   }
+   },
 });
 
 /**
@@ -292,9 +325,16 @@ export const IonApiConfig = new InjectionToken<IIonApiConfig>('IonApiConfig', {
 export class IonApiService extends CoreBase implements IIonApiService {
    private instance: IIonApiService;
 
-   constructor(http: HttpClient, formService: FormService, @Inject(IonApiConfig) @Optional() config?: IIonApiConfig) {
+   constructor(
+      http: HttpClient,
+      formService: FormService,
+      @Inject(IonApiConfig) @Optional() config?: IIonApiConfig,
+   ) {
       super('IonApiService');
-      this.instance = new IonApiServiceCore(new HttpServiceWrapper(http, config), formService);
+      this.instance = new IonApiServiceCore(
+         new HttpServiceWrapper(http, config),
+         formService,
+      );
    }
 
    getContext(options?: IIonApiOptions): Observable<IIonApiContext> {
@@ -311,8 +351,10 @@ export class IonApiService extends CoreBase implements IIonApiService {
 }
 
 class HttpServiceWrapper implements IHttpService {
-   constructor(private http: HttpClient, private config?: IIonApiConfig) {
-   }
+   constructor(
+      private http: HttpClient,
+      private config?: IIonApiConfig,
+   ) {}
 
    execute(request: IHttpRequest): Observable<IHttpResponse> {
       return this.http.request(request.method, request.url, {
@@ -321,7 +363,7 @@ class HttpServiceWrapper implements IHttpService {
          headers: request.headers,
          reportProgress: false,
          withCredentials: this.config?.withCredentials,
-         observe: 'response'
+         observe: 'response',
       });
    }
 }

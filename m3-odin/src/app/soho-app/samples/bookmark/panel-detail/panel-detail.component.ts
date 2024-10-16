@@ -3,7 +3,7 @@ import { CoreBase, IFormControlInfo } from '@infor-up/m3-odin';
 
 @Component({
    selector: 'odin-panel-detail',
-   templateUrl: './panel-detail.component.html'
+   templateUrl: './panel-detail.component.html',
 })
 export class PanelDetailSampleComponent extends CoreBase implements OnInit {
    @Input() formData: IFormControlInfo[];
@@ -61,7 +61,12 @@ export class PanelDetailSampleComponent extends CoreBase implements OnInit {
             break;
          }
          default: {
-            this.logWarning('The entered value for columns is not supported: ' + this.columns + '. Using max columns: ' + maxColumns);
+            this.logWarning(
+               'The entered value for columns is not supported: ' +
+                  this.columns +
+                  '. Using max columns: ' +
+                  maxColumns,
+            );
             columnClass = 'one';
             columnsInRow = 12;
             break;
@@ -71,7 +76,11 @@ export class PanelDetailSampleComponent extends CoreBase implements OnInit {
       this.createLoopCounters(rowSpan, columnsInRow, columnClass);
    }
 
-   private createLoopCounters(rows: number, columnsInRow: number, columnClass: string) {
+   private createLoopCounters(
+      rows: number,
+      columnsInRow: number,
+      columnClass: string,
+   ) {
       this.rowCounter = Array(rows);
       this.columnCounter = Array(columnsInRow).fill(columnClass);
    }

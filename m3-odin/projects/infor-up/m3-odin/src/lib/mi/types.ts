@@ -1,4 +1,3 @@
-
 /**
  * Represents a name value pair that is returned by the M3 API for each field.
  *
@@ -74,11 +73,11 @@ export interface IMIOptions {
    includeMetadata?: boolean;
 
    /**
-   * Gets or sets a value that indicates if output should be converted to numbers and dates
-   * according to the metadata definition for the MI transaction.
-   * This implicitly turns on includeMetadata in the options to load the metadata information.
-   * The default value is false.
-   */
+    * Gets or sets a value that indicates if output should be converted to numbers and dates
+    * according to the metadata definition for the MI transaction.
+    * This implicitly turns on includeMetadata in the options to load the metadata information.
+    * The default value is false.
+    */
    typedOutput?: boolean;
 
    /**
@@ -135,9 +134,9 @@ export interface IMIRequest extends IMIOptions {
    transaction: string;
 
    /**
-   * Gets or sets the MIRecord containing the input data to the transaction.
-   * This property is not required for transactions without mandatory input fields.
-   */
+    * Gets or sets the MIRecord containing the input data to the transaction.
+    * This property is not required for transactions without mandatory input fields.
+    */
    record?: any;
 
    /**

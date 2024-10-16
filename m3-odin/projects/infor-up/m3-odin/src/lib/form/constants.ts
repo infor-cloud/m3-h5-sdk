@@ -19,7 +19,6 @@ export class Protocol {
  * @since 2.0.0
  */
 export class XmlNames {
-
    /**
     * Element name: Root
     */

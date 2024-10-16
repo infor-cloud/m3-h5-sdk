@@ -38,12 +38,13 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
                x.setRequestHeader(name, headers[name]);
             }
          }
-         const self = this;
-         x.onreadystatechange = function () {
+         const onreadystatechange = function () {
             if (x.readyState === 4) {
-               self.onResponse(request, subject, x);
+               this.onResponse(request, subject, x);
             }
          };
+         x.onreadystatechange = onreadystatechange;
+
          if (method === 'GET') {
             x.send();
          } else {
@@ -56,7 +57,11 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
       return subject.asObservable();
    }
 
-   private onResponse(request: IHttpRequest, subject: AsyncSubject<IHttpResponse>, x: XMLHttpRequest): void {
+   private onResponse(
+      request: IHttpRequest,
+      subject: AsyncSubject<IHttpResponse>,
+      x: XMLHttpRequest,
+   ): void {
       const url = request.url;
       let status;
       let statusText;
@@ -79,12 +84,17 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
       const isSuccess = HttpUtil.isSuccess(status);
       if (isSuccess) {
          const bodyText = body;
-         const isJson = (contentType && contentType.indexOf('application/json') >= 0) || (bodyText && HttpUtil.isJsonLike(bodyText));
+         const isJson =
+            (contentType && contentType.indexOf('application/json') >= 0) ||
+            (bodyText && HttpUtil.isJsonLike(bodyText));
          if (isJson) {
             try {
                body = JSON.parse(bodyText);
             } catch (ex) {
-               this.logError('onResponse: Failed to parse JSON response for URL ' + url, ex);
+               this.logError(
+                  'onResponse: Failed to parse JSON response for URL ' + url,
+                  ex,
+               );
             }
          }
       }
@@ -94,7 +104,7 @@ export class AjaxHttpService extends CoreBase implements IHttpService {
          status: status,
          statusText: statusText,
          ok: isSuccess,
-         body: body
+         body: body,
       };
 
       if (isSuccess) {

@@ -3,7 +3,13 @@ import { CoreBase } from '../base';
 import { AjaxHttpService } from '../http';
 import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
 import { ArrayUtil, CoreUtil, HttpUtil, StringUtil } from '../util';
-import { IMIMetadataInfo, IMIMetadataMap, IMIResponse, IMIService, MIDataType } from './base';
+import {
+   IMIMetadataInfo,
+   IMIMetadataMap,
+   IMIResponse,
+   IMIService,
+   MIDataType,
+} from './base';
 import { IMIRequest } from './types';
 
 /**
@@ -124,8 +130,7 @@ export class MIResponse implements IMIResponse {
    public metadata: IMIMetadataMap;
 
    public hasError(): boolean {
-      const state = this;
-      return !!(state.errorMessage || state.errorCode || state.error);
+      return !!(this.errorMessage || this.errorCode || this.error);
    }
 }
 
@@ -175,8 +180,12 @@ export class MIUtil {
     * @param mandatoryFields An array with mandatoryFields. The mandatory fields should always be added to the new record.
     * @returns A {@link MIRecord} that should be used in an update transaction.
     */
-   public static createUpdateRecord(originalValues: MIRecord, newRecord: any, fieldNames: string[], mandatoryFields: string[]): MIRecord {
-
+   public static createUpdateRecord(
+      originalValues: MIRecord,
+      newRecord: any,
+      fieldNames: string[],
+      mandatoryFields: string[],
+   ): MIRecord {
       const updateRecord = new MIRecord();
       // Create copy
       const allFields = [...fieldNames];
@@ -184,7 +193,7 @@ export class MIUtil {
       if (mandatoryFields != null && mandatoryFields.length > 0) {
          for (let i = 0; i < mandatoryFields.length; i++) {
             const mandatoryField = mandatoryFields[i];
-            if (!(ArrayUtil.contains(allFields, mandatoryField))) {
+            if (!ArrayUtil.contains(allFields, mandatoryField)) {
                allFields.push(mandatoryField);
             }
          }
@@ -207,15 +216,19 @@ export class MIUtil {
    }
 
    /**
-   * Returns a string formatted in the database format yyyyMMdd which is the format used in all M3 API transactions.
-   * @param date A date object.
-   * @returns A string representaion of the date in yyyyMMdd format.
-   */
+    * Returns a string formatted in the database format yyyyMMdd which is the format used in all M3 API transactions.
+    * @param date A date object.
+    * @returns A string representaion of the date in yyyyMMdd format.
+    */
    public static getDateFormatted(date: Date): string {
       const yyyy = date.getFullYear().toString();
       const mm = (date.getMonth() + 1).toString(); // getMonth() is zero-based
       const dd = date.getDate().toString();
-      return yyyy + (mm.length === 2 ? mm : '0' + mm[0]) + (dd.length === 2 ? dd : '0' + dd[0]); // padding
+      return (
+         yyyy +
+         (mm.length === 2 ? mm : '0' + mm[0]) +
+         (dd.length === 2 ? dd : '0' + dd[0])
+      ); // padding
    }
 
    /**
@@ -239,10 +252,12 @@ export class MIUtil {
     * @returns An array with {@link MIMetadataInfo}.
     *
     */
-   public static metadataToArray(metadataMap: IMIMetadataMap): IMIMetadataInfo[] {
-      const array = new Array();
+   public static metadataToArray(
+      metadataMap: IMIMetadataMap,
+   ): IMIMetadataInfo[] {
+      const array = [];
       for (const field in metadataMap) {
-         if (metadataMap.hasOwnProperty(field)) {
+         if (Object.prototype.hasOwnProperty.call(metadataMap, field)) {
             const metadata = metadataMap[field];
             array.push(metadata);
          }
@@ -263,7 +278,12 @@ export class MIMetadataInfo implements IMIMetadataInfo {
    public length: number;
    public description: string;
 
-   constructor(name: string, length: number, typeString: string, description: string) {
+   constructor(
+      name: string,
+      length: number,
+      typeString: string,
+      description: string,
+   ) {
       this.name = name;
       this.length = length;
       this.description = description;
@@ -337,8 +357,8 @@ export class MIServiceCore extends CoreBase implements IMIService {
          body: null,
          headers: {
             'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-         }
+            Accept: 'application/json',
+         },
       };
    }
 
@@ -361,34 +381,40 @@ export class MIServiceCore extends CoreBase implements IMIService {
       return true;
    }
 
-   private executeRefreshToken(request: IMIRequest, subject: AsyncSubject<IMIResponse>): void {
+   private executeRefreshToken(
+      request: IMIRequest,
+      subject: AsyncSubject<IMIResponse>,
+   ): void {
       const url = this.getCsrfUrl(this.getBaseUrl(request));
       const httpRequest = {
          method: 'GET',
          url: url,
-         cache: false
+         cache: false,
       };
 
-      this.executeHttp(httpRequest).subscribe(httpResponse => {
-         this.csrfStatus = httpResponse.status;
-         this.csrfToken = httpResponse.body;
-         this.csrfTimestamp = new Date().getTime();
-         this.executeInternal(request, subject);
-      }, httpResponse => {
-         this.csrfStatus = httpResponse.status;
-         this.csrfToken = null;
-
-         if (this.csrfStatus !== 404) {
-            const message = 'Failed to get CSRF token ' + this.csrfStatus;
-            this.logError(message);
-            const errorResponse = new MIResponse();
-            errorResponse.errorMessage = message;
-            errorResponse.errorType = 'TOKEN';
-            subject.error(errorResponse);
-         } else {
+      this.executeHttp(httpRequest).subscribe(
+         (httpResponse) => {
+            this.csrfStatus = httpResponse.status;
+            this.csrfToken = httpResponse.body;
+            this.csrfTimestamp = new Date().getTime();
             this.executeInternal(request, subject);
-         }
-      });
+         },
+         (httpResponse) => {
+            this.csrfStatus = httpResponse.status;
+            this.csrfToken = null;
+
+            if (this.csrfStatus !== 404) {
+               const message = 'Failed to get CSRF token ' + this.csrfStatus;
+               this.logError(message);
+               const errorResponse = new MIResponse();
+               errorResponse.errorMessage = message;
+               errorResponse.errorType = 'TOKEN';
+               subject.error(errorResponse);
+            } else {
+               this.executeInternal(request, subject);
+            }
+         },
+      );
    }
 
    private executeHttp<T>(request: IHttpRequest): Observable<IHttpResponse> {
@@ -485,7 +511,13 @@ export class MIServiceCore extends CoreBase implements IMIService {
       }
 
       // Add 'mandatory' parameters
-      url += ';metadata=' + metadata + ';maxrecs=' + maxRecords + ';excludempty=' + excludeEmpty;
+      url +=
+         ';metadata=' +
+         metadata +
+         ';maxrecs=' +
+         maxRecords +
+         ';excludempty=' +
+         excludeEmpty;
 
       let company = request.company;
       let division = request.division;
@@ -496,10 +528,18 @@ export class MIServiceCore extends CoreBase implements IMIService {
          division = this.currentDivision;
          if (this.isDebug()) {
             console.log('DEBUG', baseUrl, request);
-            this.logDebug('createUrl: using company ' + company + ' and division ' + division + ' from user context');
+            this.logDebug(
+               'createUrl: using company ' +
+                  company +
+                  ' and division ' +
+                  division +
+                  ' from user context',
+            );
          }
       } else {
-         this.logInfo('createUrl: company not set, user context not available.');
+         this.logInfo(
+            'createUrl: company not set, user context not available.',
+         );
       }
 
       if (company) {
@@ -521,10 +561,14 @@ export class MIServiceCore extends CoreBase implements IMIService {
       const record = request.record;
       if (record) {
          for (const field in record) {
-            if (record.hasOwnProperty(field)) {
+            if (Object.prototype.hasOwnProperty.call(record, field)) {
                const value = record[field];
                if (value != null) {
-                  url += (recordAdded ? '&' : '') + field + '=' + encodeURIComponent(value);
+                  url +=
+                     (recordAdded ? '&' : '') +
+                     field +
+                     '=' +
+                     encodeURIComponent(value);
                   if (!recordAdded) {
                      recordAdded = true;
                   }
@@ -539,8 +583,14 @@ export class MIServiceCore extends CoreBase implements IMIService {
       return url;
    }
 
-   public executeInternal(request: IMIRequest, subject: AsyncSubject<IMIResponse>): void {
-      const baseUrl = HttpUtil.combine(this.getBaseUrl(request), this.getDefaultBaseUrl());
+   public executeInternal(
+      request: IMIRequest,
+      subject: AsyncSubject<IMIResponse>,
+   ): void {
+      const baseUrl = HttpUtil.combine(
+         this.getBaseUrl(request),
+         this.getDefaultBaseUrl(),
+      );
       const url = this.createUrl(baseUrl, request);
 
       const httpRequest: IHttpRequest = this.createRequest(url);
@@ -549,33 +599,50 @@ export class MIServiceCore extends CoreBase implements IMIService {
       }
 
       this.logDebug('execute: ' + url);
-      this.executeHttp(httpRequest).subscribe((httpResponse: IHttpResponse) => {
-         try {
-            const response = this.parseResponse(request, httpResponse.body); // was .data
-            const hasError = response.hasError();
-            if (hasError) {
-               this.logInfo('execute: ' + this.getLogInfo(response) + ' returned error.');
-               subject.error(response);
-            } else {
-               this.logInfo('execute: ' + this.getLogInfo(response) + ' completed OK');
-               subject.next(response);
-               subject.complete();
+      this.executeHttp(httpRequest).subscribe(
+         (httpResponse: IHttpResponse) => {
+            try {
+               const response = this.parseResponse(request, httpResponse.body); // was .data
+               const hasError = response.hasError();
+               if (hasError) {
+                  this.logInfo(
+                     'execute: ' +
+                        this.getLogInfo(response) +
+                        ' returned error.',
+                  );
+                  subject.error(response);
+               } else {
+                  this.logInfo(
+                     'execute: ' + this.getLogInfo(response) + ' completed OK',
+                  );
+                  subject.next(response);
+                  subject.complete();
+               }
+            } catch (ex) {
+               const errorResponse = new MIResponse();
+               this.logWarning(
+                  'execute: exception parsing response ' + JSON.stringify(ex),
+               );
+               errorResponse.error = ex;
+               subject.error(errorResponse);
             }
-         } catch (ex) {
-            const errorResponse = new MIResponse();
-            this.logWarning('execute: exception parsing response ' + JSON.stringify(ex));
-            errorResponse.error = ex;
-            subject.error(errorResponse);
-         }
-      }, httpResponse => {
-         const response = new MIResponse();
-         const status = httpResponse.status;
-         const message = 'Failed to call ' + request.program + '.' + request.transaction + ' ' + status;
-         this.logWarning('execute: ' + message);
-         response.errorMessage = message;
-         response.errorCode = status.toString();
-         subject.error(response);
-      });
+         },
+         (httpResponse) => {
+            const response = new MIResponse();
+            const status = httpResponse.status;
+            const message =
+               'Failed to call ' +
+               request.program +
+               '.' +
+               request.transaction +
+               ' ' +
+               status;
+            this.logWarning('execute: ' + message);
+            response.errorMessage = message;
+            response.errorCode = status.toString();
+            subject.error(response);
+         },
+      );
    }
 
    private getBaseUrl(request: IMIRequest): string {
@@ -661,7 +728,11 @@ export class MIServiceCore extends CoreBase implements IMIService {
       return response;
    }
 
-   private getTypedValue(name: string, value: string, metadata: { [k: string]: IMIMetadataInfo }): any {
+   private getTypedValue(
+      name: string,
+      value: string,
+      metadata: { [k: string]: IMIMetadataInfo },
+   ): any {
       try {
          if (metadata) {
             const metaDataInfo = metadata[name];
@@ -706,10 +777,15 @@ export class MIServiceCore extends CoreBase implements IMIService {
             const metadataMap: IMIMetadataMap = {};
             const fields = input.Field;
             for (const record in fields) {
-               if (fields.hasOwnProperty(record)) {
+               if (Object.prototype.hasOwnProperty.call(fields, record)) {
                   const entry = input.Field[record];
                   const name = entry['@name'];
-                  const metaDataInfo = new MIMetadataInfo(name, entry['@length'], entry['@type'], entry['@description']);
+                  const metaDataInfo = new MIMetadataInfo(
+                     name,
+                     entry['@length'],
+                     entry['@type'],
+                     entry['@description'],
+                  );
                   metadataMap[name] = metaDataInfo;
                }
             }

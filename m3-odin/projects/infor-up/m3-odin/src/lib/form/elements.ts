@@ -133,8 +133,7 @@ export class FormControl {
    public position: Position;
    public constraint: Constraint;
 
-   constructor(public type: number) {
-   }
+   constructor(public type: number) {}
 
    public getTypeName() {
       return ControlType.getName(this.type);
@@ -195,8 +194,11 @@ export class ListColumn extends FormControl {
     * Gets a value that indicates if the list column is numeric.
     */
    public isNumeric(): boolean {
-      return (this.constraint != null && this.constraint.isNumeric) ||
-         (this.columnType != null && (this.columnType === 'S' || this.columnType === 'P'));
+      return (
+         (this.constraint != null && this.constraint.isNumeric) ||
+         (this.columnType != null &&
+            (this.columnType === 'S' || this.columnType === 'P'))
+      );
    }
 
    /**
@@ -451,7 +453,10 @@ export class ComboBox extends FormControl {
  * @since 2.0.0
  */
 export class DatePicker extends TextBox {
-   constructor(public dateFormat: string, public hideDateFormat: boolean) {
+   constructor(
+      public dateFormat: string,
+      public hideDateFormat: boolean,
+   ) {
       super(ControlType.datePicker);
    }
 }
@@ -567,7 +572,7 @@ export class Panel {
          return {
             control: control,
             label: this.findControlLabel(this.controlList, control),
-            additionalInfo: this.findAdditionalInfo(this.controlList, control)
+            additionalInfo: this.findAdditionalInfo(this.controlList, control),
          };
       }
       return null;
@@ -590,7 +595,10 @@ export class Panel {
       return controls;
    }
 
-   private findControlLabel(elements: FormControl[], control: FormControl): Label {
+   private findControlLabel(
+      elements: FormControl[],
+      control: FormControl,
+   ): Label {
       const left = control.getLeft();
       let top = control.getTop();
       let label: Label;
@@ -614,7 +622,9 @@ export class Panel {
 
       // If no label is found try to find a label directly above the field
       top--;
-      if (top <= 0) { return null; }
+      if (top <= 0) {
+         return null;
+      }
 
       for (i = 0; i < elements.length; i++) {
          label = <Label>elements[i];
@@ -632,7 +642,10 @@ export class Panel {
       return null;
    }
 
-   private findAdditionalInfo(elements: FormControl[], control: FormControl): Label {
+   private findAdditionalInfo(
+      elements: FormControl[],
+      control: FormControl,
+   ): Label {
       const left = control.getLeft() + control.getWidth();
       const top = control.getTop();
 
@@ -643,7 +656,7 @@ export class Panel {
             const labelTop = label.getTop();
             if (labelTop === top) {
                const labelLeft = label.getLeft();
-               if (labelLeft >= left && labelLeft <= (left + 2)) {
+               if (labelLeft >= left && labelLeft <= left + 2) {
                   return label;
                }
             }

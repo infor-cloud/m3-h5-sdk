@@ -1,17 +1,10 @@
-export {
-   IMIOptions,
-   IMIRequest,
-   INameValue
-} from './types';
+export { IMIOptions, IMIRequest, INameValue } from './types';
 export {
    MIConstants,
    MIDataType,
    IMIMetadataInfo,
    IMIMetadataMap,
    IMIResponse,
-   IMIService
+   IMIService,
 } from './base';
-export {
-   MIRecord,
-   MIServiceCore
-} from './runtime';
+export { MIRecord, MIServiceCore } from './runtime';

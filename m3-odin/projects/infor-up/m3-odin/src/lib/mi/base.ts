@@ -22,7 +22,7 @@ export enum MIDataType {
    /**
     * Date data type.
     */
-   Date
+   Date,
 }
 
 /**
@@ -150,7 +150,7 @@ export interface IMIMetadataMap {
 export interface IMIResponse {
    /**
     * Gets or sets an error.
-   */
+    */
    error?: any;
 
    /**
@@ -174,8 +174,8 @@ export interface IMIResponse {
    transaction?: string;
 
    /**
-   * Gets the first item in the items list. The item is of type [[MIRecord]].
-   */
+    * Gets the first item in the items list. The item is of type [[MIRecord]].
+    */
    item?: any;
 
    /**

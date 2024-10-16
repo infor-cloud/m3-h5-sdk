@@ -13,7 +13,7 @@ import { SohoAppModule } from './soho-app/soho-app.module';
       FormsModule,
       M3OdinModule,
       AppRoutingModule,
-      SohoAppModule
+      SohoAppModule,
    ],
    providers: [
       {
@@ -30,6 +30,6 @@ import { SohoAppModule } from './soho-app/soho-app.module';
          },
       },
    ],
-   bootstrap: [AppComponent]
+   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

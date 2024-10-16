@@ -1,5 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ArrayUtil, CoreBase, IMIRequest, IMIResponse } from '@infor-up/m3-odin';
+import {
+   ArrayUtil,
+   CoreBase,
+   IMIRequest,
+   IMIResponse,
+} from '@infor-up/m3-odin';
 import { MIService } from '@infor-up/m3-odin-angular';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
@@ -14,8 +19,10 @@ export class CustomerPagingService extends CoreBase implements OnDestroy {
    private dataSubject = new BehaviorSubject<IPagingResult>({
       items: [],
       request: {
-         filterExpr: undefined, preserveSelected: false, hideDisabledPagers: true
-      }
+         filterExpr: undefined,
+         preserveSelected: false,
+         hideDisabledPagers: true,
+      },
    });
    private loadingSubject = new BehaviorSubject<boolean>(false);
    private items: { [index: number]: any[] } = {};
@@ -75,19 +82,25 @@ export class CustomerPagingService extends CoreBase implements OnDestroy {
          transaction: 'LstByNumber',
          outputFields: ['CUNO', 'CUNM', 'STAT', 'PHNO', 'YREF'],
          maxReturnedRecords: this.maxRecords,
-         record: { CUNO: this.lastRecord }
+         record: { CUNO: this.lastRecord },
       };
 
-      this.miService.execute(miRequest).pipe(
-         catchError(() => of([])),
-         finalize(() => this.loadingSubject.next(false))
-      ).subscribe((response: IMIResponse) => {
-         const items = response.items;
-         this.items[this.currentPage] = items;
-         this.lastRecord = ArrayUtil.last(items).CUNO;
-         this.endOfRecords = items.length === 0 || items.length === 1 || items.length < this.maxRecords;
-         request.lastPage = this.endOfRecords;
-         this.dataSubject.next({ items: items, request: request });
-      });
+      this.miService
+         .execute(miRequest)
+         .pipe(
+            catchError(() => of([])),
+            finalize(() => this.loadingSubject.next(false)),
+         )
+         .subscribe((response: IMIResponse) => {
+            const items = response.items;
+            this.items[this.currentPage] = items;
+            this.lastRecord = ArrayUtil.last(items).CUNO;
+            this.endOfRecords =
+               items.length === 0 ||
+               items.length === 1 ||
+               items.length < this.maxRecords;
+            request.lastPage = this.endOfRecords;
+            this.dataSubject.next({ items: items, request: request });
+         });
    }
 }

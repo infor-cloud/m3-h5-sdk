@@ -6,6 +6,6 @@ export {
    ITranslationItem,
    ITranslationJob,
    ITranslationRequest,
-   ITranslationResponse
+   ITranslationResponse,
 } from './base';
 export { FormServiceCore } from './service';

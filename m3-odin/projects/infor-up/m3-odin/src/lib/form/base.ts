@@ -299,7 +299,6 @@ export class FormResponse extends ErrorState implements IFormResponse {
  * @since 2.0.0
  */
 export class Bookmark {
-
    private static nameMap = {
       BM_PROGRAM: 'program',
       BM_TABLE_NAME: 'tablename',
@@ -319,7 +318,7 @@ export class Bookmark {
       BM_AUTOMATION: 'automation',
       BM_AUTOMATION_TEMPLATE: 'automationtemplate',
       BM_SUPPRESS_CONFIRM: 'requirepanel',
-      BM_REQUIRE_PANEL: 'suppressconfirm'
+      BM_REQUIRE_PANEL: 'suppressconfirm',
    };
 
    private static getSource(bookmark: IBookmark) {
@@ -347,8 +346,15 @@ export class Bookmark {
       return str + key + ',' + encodeURIComponent(value);
    }
 
-   private static addInformationCategory(str: string, bookmark: IBookmark): string {
-      str = Bookmark.addValue(str, FormConstants.fieldInformationCategory, bookmark.informationCategory);
+   private static addInformationCategory(
+      str: string,
+      bookmark: IBookmark,
+   ): string {
+      str = Bookmark.addValue(
+         str,
+         FormConstants.fieldInformationCategory,
+         bookmark.informationCategory,
+      );
 
       let filters = bookmark.numberOfFilters;
       if (!filters) {
@@ -359,7 +365,12 @@ export class Bookmark {
       return str;
    }
 
-   private static createValues(userContext: IUserContext, keyString: string, values: any, isKeys: boolean) {
+   private static createValues(
+      userContext: IUserContext,
+      keyString: string,
+      values: any,
+      isKeys: boolean,
+   ) {
       let str = '';
 
       const keys = keyString.split(',');
@@ -402,7 +413,10 @@ export class Bookmark {
       return str;
    }
 
-   public static toUri(bookmark: IBookmark, userContext?: IUserContext): string {
+   public static toUri(
+      bookmark: IBookmark,
+      userContext?: IUserContext,
+   ): string {
       const params = Bookmark.toParams(bookmark, userContext);
       let query = '';
       const nameMap = Bookmark.nameMap;
@@ -436,7 +450,11 @@ export class Bookmark {
       this.add(params, 'BM_AUTOMATION', bookmark.automation);
       this.add(params, 'BM_AUTOMATION_TEMPLATE', bookmark.automationTemplate);
 
-      this.addBool(params, 'BM_INCLUDE_START_PANEL', bookmark.includeStartPanel);
+      this.addBool(
+         params,
+         'BM_INCLUDE_START_PANEL',
+         bookmark.includeStartPanel,
+      );
       this.addBool(params, 'BM_REQUIRE_PANEL', bookmark.requirePanel);
       this.addBool(params, 'BM_SUPPRESS_CONFIRM', bookmark.suppressConfirm);
 
@@ -448,20 +466,35 @@ export class Bookmark {
 
       let keys = bookmark.keys;
       if (bookmark.keyNames && values) {
-         keys = Bookmark.createValues(userContext, bookmark.keyNames, values, true);
+         keys = Bookmark.createValues(
+            userContext,
+            bookmark.keyNames,
+            values,
+            true,
+         );
       }
       this.add(params, 'BM_KEY_FIELDS', keys);
 
       let parameters = bookmark.parameters;
       if (bookmark.parameterNames && values) {
-         parameters = Bookmark.createValues(userContext, bookmark.parameterNames, values, false);
+         parameters = Bookmark.createValues(
+            userContext,
+            bookmark.parameterNames,
+            values,
+            false,
+         );
       }
       this.add(params, 'BM_PARAMETERS', parameters);
 
       let fields = bookmark.fields;
       const hasCategory = bookmark.informationCategory;
       if ((bookmark.fieldNames && values) || hasCategory) {
-         fields = Bookmark.createValues(userContext, bookmark.fieldNames, values, false);
+         fields = Bookmark.createValues(
+            userContext,
+            bookmark.fieldNames,
+            values,
+            false,
+         );
          if (hasCategory) {
             fields = Bookmark.addInformationCategory(fields, bookmark);
          }
@@ -519,8 +552,10 @@ export interface ITranslationItem {
  * @since 2.0.0
  */
 export class TranslationItem implements ITranslationItem {
-   constructor(public key: string, public file: string = null) {
-   }
+   constructor(
+      public key: string,
+      public file: string = null,
+   ) {}
 }
 
 /**

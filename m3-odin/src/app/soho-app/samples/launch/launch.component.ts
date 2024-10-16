@@ -3,7 +3,7 @@ import { CoreBase } from '@infor-up/m3-odin';
 import { ApplicationService } from '@infor-up/m3-odin-angular';
 
 @Component({
-   templateUrl: './launch.component.html'
+   templateUrl: './launch.component.html',
 })
 export class LaunchSampleComponent extends CoreBase {
    link: string;
