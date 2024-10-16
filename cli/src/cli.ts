@@ -148,7 +148,8 @@ program
       buildProject().then(() => {
          console.log('Project built successfully');
       }).catch(error => {
-         console.error('Build failed:', error);
+         console.error(error);
+         exit('Build failed:', false);
       });
    });
 
