@@ -13,5 +13,6 @@ export {
 } from './base';
 export {
    MIRecord,
-   MIServiceCore
+   MIServiceCore,
+   MIUtil
 } from './runtime';

@@ -1,6 +1,7 @@
 export * from './types';
 export * from './elements';
 export {
+   Bookmark,
    IFormRequest,
    IFormResponse,
    ITranslationItem,
