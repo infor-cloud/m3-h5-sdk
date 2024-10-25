@@ -1,3 +1,7 @@
+# 7.1.1
+
+- Export of MIUtil and Bookmark classes.
+
 # 7.1.0
 
 ## Updated dependencies
