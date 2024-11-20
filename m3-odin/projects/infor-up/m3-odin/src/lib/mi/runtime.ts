@@ -715,6 +715,14 @@ export class MIServiceCore extends CoreBase implements IMIService {
             }
             return metadataMap;
          }
+         else if (input && input.Field) {
+            var metadataMap = {};
+            var entry = input.Field;
+            var name = entry['@name'];
+            var metaDataInfo = new MIMetadataInfo(name, entry['@length'], entry['@type'], entry['@description']);
+            metadataMap[name] = metaDataInfo;
+            return metadataMap;
+         }
       } catch (e) {
          // TODO Support some kind of logger injection for logging.
       }
