@@ -5,12 +5,14 @@ title('Update M3 Odin versions');
 const directories = [
     'm3-odin/projects/infor-up/m3-odin',
     'm3-odin/projects/infor-up/m3-odin-angular',
+    'm3-odin/projects/infor-up/m3-odin-angular-builder',
     'm3-odin',
     'cli'
 ];
 const files = [
     'm3-odin/package-lock.json',
     'm3-odin/projects/infor-up/m3-odin-angular/package.json',
+    'm3-odin/projects/infor-up/m3-odin-angular-builder/package.json',
     'cli/boilerplate/basic/package.json',
     'cli/boilerplate/angular/package.json',
     'cli/boilerplate/angular-soho/package.json',
@@ -30,7 +32,7 @@ function updateVersions() {
         directory = path.join(baseDirectory, directory);
         updateVersionWithNpm(directory, version);
     }
-    const keyNames = ['@infor-up/m3-odin', '@infor-up/m3-odin-angular', '@infor-up/m3-odin-cli'];
+    const keyNames = ['@infor-up/m3-odin', '@infor-up/m3-odin-angular', '@infor-up/m3-odin-angular-builder', '@infor-up/m3-odin-cli'];
     for (const file of files) {
         const filename = path.join(baseDirectory, file);
         updateVersionInFile(filename, version, keyNames);
