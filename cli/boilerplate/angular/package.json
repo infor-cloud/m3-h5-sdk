@@ -1,7 +1,7 @@
 {
    "dependencies": {
-      "@infor-up/m3-odin": "7.1.1-next.2",
-      "@infor-up/m3-odin-angular": "7.1.1-next.2"
+      "@infor-up/m3-odin": "7.1.1",
+      "@infor-up/m3-odin-angular": "7.1.1"
    },
    "devDependencies": {}
 }
