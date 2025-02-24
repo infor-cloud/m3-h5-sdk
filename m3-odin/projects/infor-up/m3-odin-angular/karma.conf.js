@@ -17,16 +17,33 @@ module.exports = function (config) {
       },
       coverageReporter: {
          dir: require('path').join(__dirname, '../../../coverage/infor-up/m3-odin-angular'),
-         reports: ['html', 'lcovonly', 'text-summary'],
-         fixWebpackSourcePaths: true
+         reporters: [
+            { type: 'html' },
+            { type: 'text-summary' }
+         ],
+         fixWebpackSourcePaths: true,
+         check: {
+            global: {
+              statements: 24,
+              branches: 80,
+              functions: 8,
+              lines: 25
+            }
+         },    
       },
-      reporters: ['progress', 'kjhtml', 'coverage'],
+      reporters: ['progress', 'kjhtml'],
       port: 9876,
       colors: true,
       logLevel: config.LOG_INFO,
       autoWatch: true,
-      browsers: ['ChromeHeadless'],
-      singleRun: false,
-      restartOnFileChange: true
+      browsers: ['Chrome'],
+      singleRun: true,
+      restartOnFileChange: true,
+      customLaunchers: {
+         ChromeHeadlessCI: {
+           base: 'ChromeHeadless',
+           flags: ['--no-sandbox'],
+         },
+       },   
    });
 };

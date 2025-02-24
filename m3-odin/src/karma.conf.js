@@ -6,10 +6,11 @@ module.exports = function (config) {
       basePath: "",
       frameworks: ["jasmine", "@angular-devkit/build-angular"],
       plugins: [
-         require("karma-jasmine"),
-         require("karma-chrome-launcher"),
-         require("karma-jasmine-html-reporter"),
-         require("@angular-devkit/build-angular/plugins/karma"),
+         require('karma-jasmine'),
+         require('karma-chrome-launcher'),
+         require('karma-jasmine-html-reporter'),
+         require('karma-coverage'),
+         require('@angular-devkit/build-angular/plugins/karma')
       ],
       files: [
          { pattern: "../node_modules/jquery/dist/jquery.js", watched: false },
@@ -31,12 +32,34 @@ module.exports = function (config) {
       client: {
          clearContext: false, // leave Jasmine Spec Runner output visible in browser
       },
-      reporters: ["progress", "kjhtml"],
+      coverageReporter: {
+         dir: require('path').join(__dirname, '../coverage/m3-odin-samples'),
+         reporters: [
+            { type: 'html' },
+            { type: 'text-summary' }
+         ],
+         fixWebpackSourcePaths: true,
+         check: {
+            global: {
+              statements: 10,
+              branches: 1,
+              functions: 3,
+              lines: 10
+            }
+         },
+      },
+      reporters: ['progress', 'kjhtml'],
       port: 9876,
       colors: true,
       logLevel: config.LOG_INFO,
       autoWatch: true,
-      browsers: ["Chrome"],
-      singleRun: false,
+      browsers: ['Chrome'],
+      singleRun: true,
+      customLaunchers: {
+         ChromeHeadlessCI: {
+           base: 'ChromeHeadless',
+           flags: ['--no-sandbox'],
+         },
+       },   
    });
 };
