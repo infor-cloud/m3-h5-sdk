@@ -443,9 +443,6 @@ import { IonApiConfig, M3OdinModule } from '@infor-up/m3-odin-angular';
 
 # <a id="references"></a> References
 
-- Infor Design System
-  - [https://design.infor.com/](https://design.infor.com/)
-- Infor Design System's Enterprise Components
-  - [https://github.com/infor-design/enterprise](https://github.com/infor-design/enterprise)
 - Infor Design System's Enterprise Components for Angular
   - [https://github.com/infor-design/enterprise-ng](https://github.com/infor-design/enterprise-ng)
+    - Component examples can be found in their src/app folder.
