@@ -26,6 +26,7 @@ import { AppComponent } from './app.component';
          multi: true,
          useFactory: (locale: string) => () => {
             Soho.Locale.culturesPath = 'assets/ids-enterprise/js/cultures/';
+            Soho.Locale.minify = true;
             return Soho.Locale.set(locale).catch(err => {
                Log.error('Failed to set IDS locale', err);
             });
