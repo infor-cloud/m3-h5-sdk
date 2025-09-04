@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CoreBase, HttpUtil, IIonApiRequest, IIonApiResponse } from '@infor-up/m3-odin';
 import { IonApiService } from '@infor-up/m3-odin-angular';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
 
 interface ISocialUser {
    FirstName: string;
@@ -17,7 +18,8 @@ interface IUserDetailResponse {
 }
 
 @Component({
-   templateUrl: './ionapi-social.component.html'
+   templateUrl: './ionapi-social.component.html',
+   imports: [SampleViewerComponent]
 })
 export class IonApiSocialSampleComponent extends CoreBase {
    // https://m3ceappsdev.m3cedev.awsdev.infor.com/grid/rest/security/sessions/oauth

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, } from '@angular/core';
 import { CoreBase, IUserContext, FormatUtil } from '@infor-up/m3-odin';
 import { UserService } from '@infor-up/m3-odin-angular';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-   templateUrl: './formatting.component.html'
+   templateUrl: './formatting.component.html',
+   imports: [SampleViewerComponent, NgIf]
 })
 export class FormattingSampleComponent extends CoreBase {
    isInitialized = false;

@@ -1,9 +1,11 @@
+import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Directive, ElementRef, Input } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
 import hljs from 'highlight.js/lib/core';
 
 @Component({
+   imports: [NgIf],
    selector: 'odin-document-viewer',
    template: `
       <pre *ngIf="contentLoaded"><code odinHighlight>{{textContent}}</code></pre>

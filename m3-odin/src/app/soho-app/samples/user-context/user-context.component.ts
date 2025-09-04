@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ArrayUtil, CoreBase, IUserContext } from '@infor-up/m3-odin';
 import { UserService, MIService } from '@infor-up/m3-odin-angular';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
 
 interface IKeyValue {
    key: string;
@@ -8,7 +9,8 @@ interface IKeyValue {
 }
 
 @Component({
-   templateUrl: './user-context.component.html'
+   templateUrl: './user-context.component.html',
+   imports: [SampleViewerComponent]
 })
 export class UserContextSampleComponent extends CoreBase {
    userContext = {} as IUserContext;

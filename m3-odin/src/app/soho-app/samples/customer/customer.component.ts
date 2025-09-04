@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CoreBase, IMIRequest, IMIResponse, MIRecord } from '@infor-up/m3-odin';
 import { MIService, UserService } from '@infor-up/m3-odin-angular';
-import { SohoDataGridComponent, SohoMessageService } from 'ids-enterprise-ng';
+import { SohoComponentsModule, SohoDataGridComponent, SohoMessageService } from 'ids-enterprise-ng';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-   templateUrl: './customer.component.html'
+   templateUrl: './customer.component.html',
+   imports: [SampleViewerComponent, SohoComponentsModule, NgIf]
 })
 export class CustomerSampleComponent extends CoreBase implements OnInit {
    @ViewChild('customersDatagrid') datagrid: SohoDataGridComponent;

@@ -6,13 +6,15 @@ import { DocumentViewerComponent, HighlightCodeDirective } from './document-view
 
 @NgModule({
    declarations: [
-      DocumentViewerComponent,
-      HighlightCodeDirective
+
    ],
    exports: [
       DocumentViewerComponent
+
    ],
    imports: [
+      DocumentViewerComponent,
+      HighlightCodeDirective,
       CommonModule,
       HttpClientModule,
       FormsModule

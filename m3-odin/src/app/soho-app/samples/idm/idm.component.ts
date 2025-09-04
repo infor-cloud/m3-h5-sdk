@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
 import { SohoMessageService } from 'ids-enterprise-ng';
 import { IdmDataService, IIdmError, ISearchItems } from './idm-data.service';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
+import { NgFor } from '@angular/common';
 
 @Component({
    templateUrl: './idm.component.html',
-   styleUrls: ['./idm.component.css']
+   styleUrls: ['./idm.component.css'],
+   imports: [SampleViewerComponent, NgFor]
+
 })
 export class IdmSampleComponent extends CoreBase implements OnInit {
    items: ISearchItems;

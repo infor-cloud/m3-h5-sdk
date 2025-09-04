@@ -2,9 +2,14 @@ import { Component } from '@angular/core';
 import { CoreBase, IBookmark, IFormControlInfo, IFormResponse } from '@infor-up/m3-odin';
 import { FormService } from '@infor-up/m3-odin-angular';
 import { SohoMessageService } from 'ids-enterprise-ng';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PanelDetailSampleComponent } from './panel-detail/panel-detail.component';
 
 @Component({
-   templateUrl: './bookmark.component.html'
+   templateUrl: './bookmark.component.html',
+   imports: [SampleViewerComponent, NgIf, FormsModule, PanelDetailSampleComponent]
 })
 export class BookmarkSampleComponent extends CoreBase {
    fieldNames = ['WWCUNO', 'WRCUNM', 'WRTOWN', 'WRCSCD', 'WRPHNO', 'WRYREF'];

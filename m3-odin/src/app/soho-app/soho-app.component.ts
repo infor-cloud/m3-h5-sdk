@@ -1,8 +1,14 @@
+/// <reference types="ids-enterprise-typings" />
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { CoreBase, Log } from '@infor-up/m3-odin';
+import { SohoComponentsModule } from 'ids-enterprise-ng';
 
 @Component({
+   selector: 'odin-app',
    templateUrl: './soho-app.component.html',
+   imports: [RouterOutlet, SohoComponentsModule, RouterLink],
    styleUrls: [
       './soho-app.component.css'
    ],

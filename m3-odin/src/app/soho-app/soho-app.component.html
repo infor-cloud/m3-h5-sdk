@@ -1,13 +1,34 @@
-<link rel="stylesheet" id="stylesheet" href="/assets/ids-enterprise/css/theme-new-light.css" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet" />
+<link
+   rel="stylesheet"
+   id="stylesheet"
+   href="/assets/ids-enterprise/css/theme-new-light.css"
+   type="text/css"
+/>
+<link
+   href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600"
+   rel="stylesheet"
+/>
 <soho-icons-new></soho-icons-new>
 <soho-icons-empty-new></soho-icons-empty-new>
-<nav id="application-menu" soho-application-menu [triggers]="triggers" [openOnLarge]="true" [filterable]="true">
+<nav
+   id="application-menu"
+   soho-application-menu
+   [triggers]="triggers"
+   [openOnLarge]="true"
+   [filterable]="true"
+>
    <div soho-searchfield-wrapper>
       <label class="audible" for="application-menu-searchfield">Search</label>
-      <input soho-searchfield id="application-menu-searchfield" [clearable]="true" />
+      <input
+         soho-searchfield
+         id="application-menu-searchfield"
+         [clearable]="true"
+      />
    </div>
-   <div class="accordion panel inverse" data-options='{"allowOnePane": true, "rerouteOnLinkClick": false}'>
+   <div
+      class="accordion panel inverse"
+      data-options='{"allowOnePane": true, "rerouteOnLinkClick": false}'
+   >
       <div class="accordion-header" (click)="homeLink.click()">
          <svg soho-icon icon="home"></svg>
          <a #homeLink routerLink="home">
@@ -50,7 +71,10 @@
             <span>Infinite paging</span>
          </a>
       </div>
-      <div class="accordion-header list-item" (click)="ionApiSocialLink.click()">
+      <div
+         class="accordion-header list-item"
+         (click)="ionApiSocialLink.click()"
+      >
          <svg soho-icon icon="user"></svg>
          <a #ionApiSocialLink routerLink="ionapi-social">
             <span>ION API social</span>
@@ -97,11 +121,15 @@
    <header class="header is-personalizable">
       <div class="toolbar" role="toolbar">
          <div class="title">
-            <button type="button" id="appmenu-trigger" class="btn-icon application-menu-trigger">
+            <button
+               type="button"
+               id="appmenu-trigger"
+               class="btn-icon application-menu-trigger"
+            >
                <span class="audible">Open Menu</span>
                <svg soho-icon icon="menu"></svg>
             </button>
-            <h1>{{title}}</h1>
+            <h1>{{ title }}</h1>
          </div>
       </div>
    </header>

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
 
 @Component({
-   templateUrl: './log.component.html'
+   templateUrl: './log.component.html',
+   imports: [SampleViewerComponent]
 })
 export class LogSampleComponent extends CoreBase {
    logs: any[] = [];

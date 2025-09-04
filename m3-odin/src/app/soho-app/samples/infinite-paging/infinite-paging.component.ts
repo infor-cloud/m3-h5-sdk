@@ -1,10 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
-import { SohoDataGridComponent } from 'ids-enterprise-ng';
+import { SohoComponentsModule, SohoDataGridComponent } from 'ids-enterprise-ng';
 import { CustomerPagingService, IPagingResult } from './customer-paging.service';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-   templateUrl: './infinite-paging.component.html'
+   templateUrl: './infinite-paging.component.html',
+   imports: [SampleViewerComponent, SohoComponentsModule, AsyncPipe]
 })
 export class InfinitePagingSampleComponent extends CoreBase {
    @ViewChild('infinitePagingDatagrid') datagrid: SohoDataGridComponent;

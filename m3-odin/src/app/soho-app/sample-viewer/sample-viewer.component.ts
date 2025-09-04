@@ -1,11 +1,14 @@
 import { Component, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
-import { SohoModalDialogService } from 'ids-enterprise-ng';
+import { SohoComponentsModule, SohoModalDialogService } from 'ids-enterprise-ng';
+import { DocumentViewerComponent } from '../../common/document-viewer';
 
 @Component({
+   imports: [SohoComponentsModule],
    selector: 'odin-sample-viewer',
    templateUrl: './sample-viewer.component.html',
-   styleUrls: ['./sample-viewer.component.css']
+   styleUrls: ['./sample-viewer.component.css'],
+
 })
 export class SampleViewerComponent extends CoreBase {
    @Input() sample: string;
@@ -32,7 +35,8 @@ export class SampleViewerComponent extends CoreBase {
 }
 
 @Component({
-   templateUrl: './sample-viewer-dialog.component.html'
+   templateUrl: './sample-viewer-dialog.component.html',
+   imports: [DocumentViewerComponent]
 })
 export class SampleViewerDialogComponent {
    sample: string;

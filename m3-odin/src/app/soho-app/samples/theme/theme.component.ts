@@ -1,10 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { UserService } from '@infor-up/m3-odin-angular';
-import { SohoMessageService, SohoPersonalizeDirective } from 'ids-enterprise-ng';
+import { SohoComponentsModule, SohoMessageService, SohoPersonalizeDirective } from 'ids-enterprise-ng';
 import { first } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
 
 @Component({
-   templateUrl: './theme.component.html'
+   templateUrl: './theme.component.html',
+   imports: [FormsModule, SampleViewerComponent, SohoComponentsModule]
+
 })
 export class ThemeSampleComponent {
 

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { CoreBase } from '@infor-up/m3-odin';
+import { SampleViewerComponent } from '../../sample-viewer/sample-viewer.component';
+import { SohoComponentsModule } from 'ids-enterprise-ng';
 
 @Component({
-   templateUrl: './chart.component.html'
+   templateUrl: './chart.component.html',
+   imports: [SampleViewerComponent, SohoComponentsModule]
 })
 export class ChartSampleComponent extends CoreBase {
    data = [{

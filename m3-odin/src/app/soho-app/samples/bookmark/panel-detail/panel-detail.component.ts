@@ -1,9 +1,11 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CoreBase, IFormControlInfo } from '@infor-up/m3-odin';
 
 @Component({
    selector: 'odin-panel-detail',
-   templateUrl: './panel-detail.component.html'
+   templateUrl: './panel-detail.component.html',
+   imports: [NgFor, NgIf, NgClass]
 })
 export class PanelDetailSampleComponent extends CoreBase implements OnInit {
    @Input() formData: IFormControlInfo[];
