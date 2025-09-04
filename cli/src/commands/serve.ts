@@ -18,7 +18,7 @@ export interface IServeOptions {
 
 async function serveBasicProject(options: IServeOptions) {
    const configWithDevServerEntry = addWebpackClientEntry(baseConfig, options.port);
-   const webpackCompiler = webpack(configWithDevServerEntry);
+   const webpackCompiler = webpack(configWithDevServerEntry) as webpack.Compiler;
    const odinConfig = readConfig();
    delete odinConfig.projectName; // TODO: webpack-dev-server does not allow additional properties. Find another place to store projectName.
    const devServerConfig: WebpackDevServer.Configuration = odinConfig;

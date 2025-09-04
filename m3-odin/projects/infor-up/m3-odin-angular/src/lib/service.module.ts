@@ -34,9 +34,7 @@ import { ApplicationService, FormService, IonApiService, MIService, UserService 
  */
 @NgModule({
    imports: [
-      CommonModule
-   ],
-   declarations: [
+      CommonModule,
       DatePipe
    ],
    exports: [

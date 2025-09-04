@@ -91,6 +91,10 @@ const modAngularJson = (projectRoot: string, projectName: string, style: NewProj
    const boilerplateOptions = boilerplateJson.projects.projectName.architect.build.options;
    const buildOptions = angularJson.projects[projectName].architect.build.options;
 
+   console.log('build options before,', buildOptions);
+   buildOptions.scripts = buildOptions.scripts || [];
+   console.log('build options after,', buildOptions);
+
    buildOptions.assets = [...buildOptions.assets, ...boilerplateOptions.assets];
    buildOptions.styles = [...buildOptions.styles, ...boilerplateOptions.styles];
    buildOptions.scripts = [...buildOptions.scripts, ...boilerplateOptions.scripts];
