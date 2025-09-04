@@ -1,3 +1,8 @@
+# 8.0.0-next.1
+
+- Angualar ~20.0.0.
+- ids-enterprise-ng ~20.0.0.
+
 # 7.2.0
 
 - Added new `login-cloud` command.
