@@ -1,6 +1,6 @@
 {
    "name": "@infor-up/m3-odin-cli",
-   "version": "8.0.0-next.1",
+   "version": "8.0.0-next.3",
    "description": "Odin CLI",
    "scripts": {
       "build": "tsc",
@@ -29,7 +29,7 @@
       "README.md"
    ],
    "engines": {
-      "node": ">=18.19.0"
+      "node": "^20.19.0 || ^22.12.0 || ^24.0.0"
    },
    "main": "./dist/index.js",
    "types": "./dist/index.d.ts",
@@ -37,7 +37,7 @@
       "@types/archiver": "^5.3.1",
       "@types/fs-extra": "^9.0.13",
       "@types/inquirer": "^9.0.2",
-      "@types/node": "^18.19.0"
+      "@types/node": "^20.19.0"
    },
    "dependencies": {
       "@angular/cli": "~20.1.0",
