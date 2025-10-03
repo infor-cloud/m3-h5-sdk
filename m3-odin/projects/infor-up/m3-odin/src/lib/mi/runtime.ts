@@ -1,4 +1,4 @@
-import { AsyncSubject, Observable } from 'rxjs';
+import { AsyncSubject, catchError, concatMap, defer, Observable, of, throwError } from 'rxjs';
 import { CoreBase } from '../base';
 import { AjaxHttpService } from '../http';
 import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
@@ -361,7 +361,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
       return true;
    }
 
-   private executeRefreshToken(request: IMIRequest, subject: AsyncSubject<IMIResponse>): void {
+   private executeRefreshToken(request: IMIRequest): Observable<IMIResponse> {
       const url = this.getCsrfUrl(this.getBaseUrl(request));
       const httpRequest = {
          method: 'GET',
@@ -369,26 +369,28 @@ export class MIServiceCore extends CoreBase implements IMIService {
          cache: false
       };
 
-      this.executeHttp(httpRequest).subscribe(httpResponse => {
-         this.csrfStatus = httpResponse.status;
-         this.csrfToken = httpResponse.body;
-         this.csrfTimestamp = new Date().getTime();
-         this.executeInternal(request, subject);
-      }, httpResponse => {
-         this.csrfStatus = httpResponse.status;
-         this.csrfToken = null;
+      return this.executeHttp(httpRequest).pipe(
+         concatMap(httpResponse => {
+            this.csrfStatus = httpResponse.status;
+            this.csrfToken = httpResponse.body;
+            this.csrfTimestamp = new Date().getTime();
+            return this.executeInternal(request);
+         }),
+         catchError(httpResponse => {
+            this.csrfStatus = httpResponse.status;
+            this.csrfToken = null;
 
-         if (this.csrfStatus !== 404) {
-            const message = 'Failed to get CSRF token ' + this.csrfStatus;
-            this.logError(message);
-            const errorResponse = new MIResponse();
-            errorResponse.errorMessage = message;
-            errorResponse.errorType = 'TOKEN';
-            subject.error(errorResponse);
-         } else {
-            this.executeInternal(request, subject);
-         }
-      });
+            if (this.csrfStatus !== 404) {
+               const message = 'Failed to get CSRF token ' + this.csrfStatus;
+               this.logError(message);
+               const errorResponse = new MIResponse();
+               errorResponse.errorMessage = message;
+               errorResponse.errorType = 'TOKEN';
+               return throwError(() => errorResponse);
+            }
+            return this.executeInternal(request);
+         }),
+      );
    }
 
    private executeHttp<T>(request: IHttpRequest): Observable<IHttpResponse> {
@@ -423,15 +425,13 @@ export class MIServiceCore extends CoreBase implements IMIService {
     * See {@link IMIService.execute}
     */
    public execute(request: IMIRequest): Observable<IMIResponse> {
-      const subject = new AsyncSubject<IMIResponse>();
-
-      if (!this.useToken(request) || this.isTokenValid()) {
-         this.executeInternal(request, subject);
-      } else {
-         this.executeRefreshToken(request, subject);
-      }
-
-      return subject.asObservable();
+      return defer(() => {
+         if (!this.useToken(request) || this.isTokenValid()) {
+            return this.executeInternal(request);
+         } else {
+            return this.executeRefreshToken(request);
+         }
+      });
    }
 
    // Called internally to save the user context. Note that it is not in the interface.
@@ -495,7 +495,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
          company = this.currentCompany;
          division = this.currentDivision;
          if (this.isDebug()) {
-            console.log('DEBUG', baseUrl, request);
             this.logDebug('createUrl: using company ' + company + ' and division ' + division + ' from user context');
          }
       } else {
@@ -539,7 +538,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
       return url;
    }
 
-   public executeInternal(request: IMIRequest, subject: AsyncSubject<IMIResponse>): void {
+   public executeInternal(request: IMIRequest): Observable<IMIResponse> {
       const baseUrl = HttpUtil.combine(this.getBaseUrl(request), this.getDefaultBaseUrl());
       const url = this.createUrl(baseUrl, request);
 
@@ -549,33 +548,34 @@ export class MIServiceCore extends CoreBase implements IMIService {
       }
 
       this.logDebug('execute: ' + url);
-      this.executeHttp(httpRequest).subscribe((httpResponse: IHttpResponse) => {
-         try {
-            const response = this.parseResponse(request, httpResponse.body); // was .data
-            const hasError = response.hasError();
-            if (hasError) {
-               this.logInfo('execute: ' + this.getLogInfo(response) + ' returned error.');
-               subject.error(response);
-            } else {
+      return this.executeHttp(httpRequest).pipe(
+         catchError(httpResponse => {
+            const response = new MIResponse();
+            const status = httpResponse.status;
+            const message = 'Failed to call ' + request.program + '.' + request.transaction + ' ' + status;
+            this.logWarning('execute: ' + message);
+            response.errorMessage = message;
+            response.errorCode = status.toString();
+            return throwError(() => response);
+         }),
+         concatMap((httpResponse: IHttpResponse) => {
+            try {
+               const response = this.parseResponse(request, httpResponse.body); // was .data
+               const hasError = response.hasError();
+               if (hasError) {
+                  this.logInfo('execute: ' + this.getLogInfo(response) + ' returned error.');
+                  return throwError(() => response);
+               }
                this.logInfo('execute: ' + this.getLogInfo(response) + ' completed OK');
-               subject.next(response);
-               subject.complete();
+               return of(response);
+            } catch (ex) {
+               const errorResponse = new MIResponse();
+               this.logWarning('execute: exception parsing response ' + JSON.stringify(ex));
+               errorResponse.error = ex;
+               return throwError(() => errorResponse);
             }
-         } catch (ex) {
-            const errorResponse = new MIResponse();
-            this.logWarning('execute: exception parsing response ' + JSON.stringify(ex));
-            errorResponse.error = ex;
-            subject.error(errorResponse);
-         }
-      }, httpResponse => {
-         const response = new MIResponse();
-         const status = httpResponse.status;
-         const message = 'Failed to call ' + request.program + '.' + request.transaction + ' ' + status;
-         this.logWarning('execute: ' + message);
-         response.errorMessage = message;
-         response.errorCode = status.toString();
-         subject.error(response);
-      });
+         }),
+      );
    }
 
    private getBaseUrl(request: IMIRequest): string {
