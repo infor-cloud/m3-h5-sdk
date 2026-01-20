@@ -6,9 +6,10 @@
                "options": {
                   "assets": [
                      {
-                        "glob": "**/*",
+                        "glob": "**/*.css",
                         "input": "./node_modules/ids-enterprise/dist/css",
-                        "output": "/assets/ids-enterprise/css"
+                        "output": "/assets/ids-enterprise/css",
+                        "ignore": ["**/*.min.css"]
                      },
                      {
                         "glob": "**/*",
