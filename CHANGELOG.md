@@ -1,3 +1,34 @@
+# 8.0.0
+
+## TODO
+
+- Review all changed files and discard unnecessary changes.
+- Rebase on top of master branch.
+- Update version to 8.0.0.
+- Remove this TODO.
+
+## BREAKING CHANGES
+
+All M3 MI API requests will now use version 2 end-points as default. Any differencies in response format should be handled by existing utility classes and interfaces, e.g. `MIService` and `MIRecord`, not requiring any code changes except a rebuild of applications.
+
+There are a few differences regarding meta data. The v2 end-points do not natively support the includeMetadata flag. This version of the SDK will instead perform an additional call to MRS001MI LstAdtFieldInf and then combine the results.
+For M3 API v1 calls the SDK injected the metadata in multiple parts of the response, both in record, records and also in a separate metadata property. Since this is quite redundant the SDK will only include metadata in the specific property for M3 API v2 calls.
+
+Note: V1 API calls maintain the legacy behavior where the URL parameter `;metadata=true` is always sent to the M3 API (regardless of the includeMetadata setting) to avoid breaking existing applications. This legacy behavior will be removed when V1 support is discontinued. V2 API calls correctly respect the includeMetadata flag (defaulting to false when omitted).
+
+It is still **highly recommended** to verify correct behavior of all API calls used in your applications!
+
+In case of any issues the M3 API v1 end-points can still be used by passing a new optional property in the options of the MIRequest: `version: 1 || 2`.
+
+## Change log
+
+- Implemented parallel execution paths for M3 API v1 and v2 end-points.
+- Added `version` as new property in `IMIOptions`.
+- Changed default version from 1 to 2 (can be overridden per request).
+- Implemented `typedOutput` support for V2 endpoints (automatic type conversion for dates and numbers based on metadata).
+- V2 error handling now matches V1 behavior: errors are returned via the success callback as `IMIResponse` objects with error properties, not as HTTP errors.
+- V2 metadata fetching: When `typedOutput: true`, metadata is automatically fetched for type conversion but only included in the response if `includeMetadata: true`.
+
 # 7.2.0
 
 - Added new `login-cloud` command.
@@ -230,8 +261,8 @@ If you for any reason want to opt out from this feature, you can do so by settin
 
 ```typescript
 const request: IMIRequest = {
-  program: "...",
-  transaction: "...",
+  program: '...',
+  transaction: '...',
   enableCsrf: false,
 };
 ```
