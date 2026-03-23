@@ -1,7 +1,6 @@
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { CoreBase } from '../base';
 import { AjaxHttpService } from '../http';
-import { Log } from '../log';
 import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
 import { ArrayUtil, CoreUtil, HttpUtil, StringUtil } from '../util';
 import { IMIMetadataInfo, IMIMetadataMap, IMIResponse, IMIService, MIDataType } from './base';
@@ -331,8 +330,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
 
    constructor(private readonly http?: IHttpService) {
       super('MIServiceCore');
-      // Log.setDebug();
-
       if (!http) {
          this.http = new AjaxHttpService();
          this.logDebug('IHttpService not passed using default implmentation');
@@ -414,7 +411,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
    public execute(request: IMIRequest): Observable<IMIResponse> {
       const internalRequest = { ...request, version: request.version ?? MIServiceCore.defaultVersion };
 
-      // Check if token refresh is needed
       if (!this.useToken(internalRequest) || this.isTokenValid()) {
          return this.executeInternal(internalRequest);
       } else {
@@ -454,8 +450,9 @@ export class MIServiceCore extends CoreBase implements IMIService {
       let url = baseUrl + '/' + request.program + '/' + request.transaction;
 
       // Add 'mandatory' parameters
-      // For V1, keep legacy behavior: always send metadata=true to avoid breaking existing apps
-      // For V2, use correct behavior: respect includeMetadata flag (default false)
+      // For v1, keep legacy behavior: always send metadata=true to avoid breaking existing apps
+      // For v2, use correct behavior: respect includeMetadata flag (default false)
+      // Note! For v2 the metadata flag is currently not supported by the endpoint
       const metadataParam = request.version === 2 ? (request.includeMetadata ?? false) : true;
       url += `;metadata=${metadataParam};maxrecs=${request.maxReturnedRecords ?? 100};excludempty=${
          request.excludeEmptyValues ?? false
@@ -579,8 +576,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
             }
          }),
          catchError((httpResponse: IHttpResponse) => {
-            // V2 returns HTTP 400 for errors, but we need to parse the body
-            // and return it as IMIResponse (like V1) so errors flow through next callback
+            // v2 returns HTTP 400 for errors, but we need to parse the body and return it as IMIResponse (like v1)
             if (httpResponse.status === 400 && httpResponse.body) {
                try {
                   const errorBody =
@@ -588,7 +584,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
                   const response = this.parseResponseV2(request, errorBody);
                   return of(response);
                } catch (ex) {
-                  this.logWarning('Failed to parse V2 error response: ' + JSON.stringify(ex));
+                  this.logWarning('Failed to parse v2 error response: ' + JSON.stringify(ex));
                   const response = new MIResponse();
                   response.tag = request.tag;
                   response.program = request.program;
@@ -752,8 +748,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
          response.item = items[0];
       }
 
-      this.logDebug('parsed response (v1):\n', JSON.stringify(response));
-
       return response;
    }
 
@@ -761,18 +755,12 @@ export class MIServiceCore extends CoreBase implements IMIService {
     * @hidden
     */
    private parseResponseV2(request: IMIRequest, content: any): IMIResponse {
-      this.logDebug(`parseResponseV2
-         program: ${request.program};
-         transaction: ${request.transaction}}`);
-
       const response: IMIResponse = new MIResponse();
       response.tag = request.tag;
       response.program = request.program;
       response.transaction = request.transaction;
       response.items = [];
 
-      const failedTransactions = content?.nrOfFailedTransactions ?? 0;
-      this.logDebug('parseResponse - failedTransactions:', failedTransactions);
       if (this.hasErrors(content)) {
          this.parseMessageV2(response, content);
       }
@@ -790,15 +778,12 @@ export class MIServiceCore extends CoreBase implements IMIService {
 
       return response;
    }
+
    /**
     * Parse V2 response with metadata already available (for typed output)
     * @hidden
     */
    private parseResponseV2WithMetadata(request: IMIRequest, content: any, metadata: IMIMetadataMap): IMIResponse {
-      this.logDebug(`parseResponseV2WithMetadata
-         program: ${request.program};
-         transaction: ${request.transaction}}`);
-
       const response: IMIResponse = new MIResponse();
       response.tag = request.tag;
       response.program = request.program;
@@ -806,8 +791,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
       response.items = [];
       // Note: metadata is not set here - the caller decides whether to include it in the response
 
-      const failedTransactions = content?.nrOfFailedTransactions ?? 0;
-      this.logDebug('parseResponse - failedTransactions:', failedTransactions);
       if (this.hasErrors(content)) {
          this.parseMessageV2(response, content);
       }
@@ -819,7 +802,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
       if (items.length > 0) {
          response.item = items[0];
       }
-      this.logDebug('parsed response (v2) with metadata:\n', JSON.stringify(response));
 
       return response;
    }
@@ -827,7 +809,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
    private hasErrors(content: any): boolean {
       const failedTransactions = content.nrOfFailedTransactions ?? 0;
       const wasTerminated = content.wasTerminated;
-      this.logDebug(`hasErrors - failedTransactions: ${failedTransactions}, wasTerminated: ${wasTerminated}`);
       return wasTerminated || failedTransactions > 0;
    }
 
@@ -836,8 +817,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
       for (const record of records) {
          if (record != null) {
             const miRecord = new MIRecord();
-            // Note: For V2, metadata is only stored at the root response level,
-            // not on individual items (unlike V1 for backward compatibility)
+            // For v2, metadata is only stored at the root response level
 
             for (const name in record) {
                const value = record[name]?.trimEnd();
