@@ -331,8 +331,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
 
    constructor(private readonly http?: IHttpService) {
       super('MIServiceCore');
-      Log.setDebug(); // TODO: REMOVE
-      this.logDebug('Build: 20260305:0833'); // TODO: Remove
+      // Log.setDebug();
 
       if (!http) {
          this.http = new AjaxHttpService();
@@ -875,13 +874,6 @@ export class MIServiceCore extends CoreBase implements IMIService {
    }
 
    private parseValue(value: string, metadataInfo: IMIMetadataInfo): any {
-      console.log(`parseValue - value: ${value}, metadataInfo: ${JSON.stringify(metadataInfo)}}`);
-
-      const isString = metadataInfo.isString();
-      const isNumeric = metadataInfo.isNumeric();
-      const isDate = metadataInfo.isDate();
-      console.log(`parseValue - value: ${value}, isString: ${isString}, isNumeric: ${isNumeric}, isDate: ${isDate}`);
-
       if (metadataInfo.isString()) {
          return value;
       }

@@ -1,33 +1,28 @@
 # 8.0.0
 
-## TODO
-
-- Review all changed files and discard unnecessary changes.
-- Rebase on top of master branch.
-- Update version to 8.0.0.
-- Remove this TODO.
-
 ## BREAKING CHANGES
 
-All M3 MI API requests will now use version 2 end-points as default. Any differencies in response format should be handled by existing utility classes and interfaces, e.g. `MIService` and `MIRecord`, not requiring any code changes except a rebuild of applications.
+### M3 API request now use version 2 (v2) endpoints as default
 
-There are a few differences regarding meta data. The v2 end-points do not natively support the includeMetadata flag. This version of the SDK will instead perform an additional call to MRS001MI LstAdtFieldInf and then combine the results.
-For M3 API v1 calls the SDK injected the metadata in multiple parts of the response, both in record, records and also in a separate metadata property. Since this is quite redundant the SDK will only include metadata in the specific property for M3 API v2 calls.
+All M3 MI API requests will now use the version 2 endpoints as default. Any differencies in response format should be handled by existing utility classes and interfaces, e.g. `MIService` and `MIRecord`, not requiring any code changes except a rebuild of applications.
 
-Note: V1 API calls maintain the legacy behavior where the URL parameter `;metadata=true` is always sent to the M3 API (regardless of the includeMetadata setting) to avoid breaking existing applications. This legacy behavior will be removed when V1 support is discontinued. V2 API calls correctly respect the includeMetadata flag (defaulting to false when omitted).
+There are a few differences regarding metadata. The v2 endpoints do not natively support the `includeMetadata` flag. This version of the SDK will instead perform an additional call to MRS001MI LstAdtFieldInf and then combine the results.
 
-It is still **highly recommended** to verify correct behavior of all API calls used in your applications!
+For M3 API v1 calls the SDK injected the metadata in multiple parts of the response, both in `record`, `records` and also in a separate `metadata` property. Since this is redundant the SDK will only include metadata in the latter property for v2 calls.
 
-In case of any issues the M3 API v1 end-points can still be used by passing a new optional property in the options of the MIRequest: `version: 1 || 2`.
+**Note!** v1 API calls maintain the legacy behavior where the URL parameter `;metadata=true` is always included with the call (regardless of the `includeMetadata` setting) to avoid breaking existing applications. This legacy behavior will be removed when v1 support is discontinued. Calls to v2 respect the `includeMetadata` flag (defaulting to false if omitted).
 
-## Change log
+Error handling for v2 requests has been implemented to be as close to v1 as possible, even though the endpoints handle error codes differently. Errors are still returned via the success callback as `IMIResponse` objects with error properties, not as HTTP errors. This might be addressed in future versions as breaking change.
 
-- Implemented parallel execution paths for M3 API v1 and v2 end-points.
-- Added `version` as new property in `IMIOptions`.
-- Changed default version from 1 to 2 (can be overridden per request).
-- Implemented `typedOutput` support for V2 endpoints (automatic type conversion for dates and numbers based on metadata).
-- V2 error handling now matches V1 behavior: errors are returned via the success callback as `IMIResponse` objects with error properties, not as HTTP errors.
-- V2 metadata fetching: When `typedOutput: true`, metadata is automatically fetched for type conversion but only included in the response if `includeMetadata: true`.
+In case of any issues the v1 endpoints can still be used by passing a new optional property `version` in `IMIOptions`. Valid values are `1` or `2` only. This option will be removed in future versions and should only be used temporarily.
+
+It is **highly recommended** to verify correct behavior of all API calls used in your applications!
+
+### M3 API request now require subscription to execute
+
+In previous versions of the SDK there was a bug (https://github.com/infor-cloud/m3-h5-sdk/issues/148) where calls to `MIService.excute` were performed even without any active subscriptions. This has now been corrected, but may cause applications to fail if they depend on this incorrect behavior.
+
+**Note!** This correction affects calls to both M3 API v1 and v2!
 
 # 7.2.0
 
