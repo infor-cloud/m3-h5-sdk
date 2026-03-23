@@ -7,6 +7,7 @@
       "projects/infor-up/m3-odin-angular"
    ],
    "entryPointStrategy": "packages",
+   "exclude": ["**/*.spec.ts"],
    "excludeExternals": true,
    "excludePrivate": true,
    "cleanOutputDir": true,

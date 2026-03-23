@@ -1,3 +1,4 @@
 {
-   "entryPoints": ["src/public-api.ts"]
+   "entryPoints": ["src/public-api.ts"],
+   "tsconfig": "tsconfig.lib.json"
 }
