@@ -3,7 +3,7 @@
 
 <div
   soho-busyindicator
-  [activated]="isBusy"
+  [activated]="isBusy()"
   [blockUI]="true"
   [displayDelay]="0"
   [style.padding.rem]="4"
@@ -14,25 +14,25 @@
         <div class="field">
           <h1>User context</h1>
           <p>
-            Click the Load button to show all M3 user context values current
-            values that will differ if running within H5 and for example the
-            company has been changed.
+            Click Load to fetch your M3 user context. The "current" values
+            reflect any overrides active in H5 (e.g. a changed company).
           </p>
         </div>
         <button soho-button="primary" (click)="onClickLoad()">Load</button>
       </div>
     </div>
+
     <div class="form-responsive row top-padding">
       <div class="six columns">
         <div class="field">
           <label for="di-cono">Company</label>
-          <input id="di-cono" [(ngModel)]="company" readonly />
+          <input id="di-cono" [value]="company()" readonly />
         </div>
       </div>
       <div class="six columns">
         <div class="field">
           <label for="di-ccono">Current company</label>
-          <input id="di-ccono" [(ngModel)]="currentCompany" readonly />
+          <input id="di-ccono" [value]="currentCompany()" readonly />
         </div>
       </div>
     </div>
@@ -41,14 +41,13 @@
       <div class="six columns">
         <div class="field">
           <label for="di-divi">Division</label>
-          <input id="di-divi" [(ngModel)]="division" readonly />
+          <input id="di-divi" [value]="division()" readonly />
         </div>
       </div>
-
       <div class="six columns">
         <div class="field">
           <label for="di-cdivi">Current division</label>
-          <input id="di-cdivi" [(ngModel)]="currentDivision" readonly />
+          <input id="di-cdivi" [value]="currentDivision()" readonly />
         </div>
       </div>
     </div>
@@ -57,13 +56,13 @@
       <div class="six columns">
         <div class="field">
           <label for="di-lang">Language</label>
-          <input id="di-lang" [(ngModel)]="language" readonly />
+          <input id="di-lang" [value]="language()" readonly />
         </div>
       </div>
       <div class="six columns">
         <div class="field">
           <label for="di-clang">Current language</label>
-          <input id="di-clang" [(ngModel)]="currentLanguage" readonly />
+          <input id="di-clang" [value]="currentLanguage()" readonly />
         </div>
       </div>
     </div>

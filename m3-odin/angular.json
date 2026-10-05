@@ -1,209 +1,176 @@
-{
-   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-   "version": 1,
-   "newProjectRoot": "projects",
-   "projects": {
-      "m3-odin-samples": {
-         "root": "",
-         "projectType": "application",
-         "prefix": "odin",
-         "architect": {
-            "build": {
-               "builder": "@angular-devkit/build-angular:browser",
-               "options": {
-                  "outputPath": "dist/m3-odin",
-                  "index": "src/index.html",
-                  "main": "src/main.ts",
-                  "polyfills": "src/polyfills.ts",
-                  "tsConfig": "src/tsconfig.app.json",
-                  "assets": [
-                     {
-                        "glob": "**/*.+(component|service).+(ts|html|css)",
-                        "input": "src/app",
-                        "output": "/assets/source"
-                     },
-                     {
-                        "glob": "**/*",
-                        "input": "src/assets",
-                        "output": "/assets"
-                     },
-                     {
-                        "glob": "**/*",
-                        "input": "./node_modules/ids-enterprise/dist/css",
-                        "output": "/assets/ids-enterprise/css"
-                     },
-                     {
-                        "glob": "**/*",
-                        "input": "./node_modules/ids-enterprise/dist/js/cultures",
-                        "output": "/assets/ids-enterprise/js/cultures"
-                     }
-                  ],
-                  "styles": [
-                     "src/styles.css",
-                     "node_modules/highlight.js/styles/googlecode.css"
-                  ],
-                  "scripts": [
-                     "node_modules/jquery/dist/jquery.min.js",
-                     "node_modules/d3/dist/d3.min.js",
-                     "node_modules/ids-enterprise/dist/js/sohoxi.min.js"
-                  ],
-                  "vendorChunk": true,
-                  "extractLicenses": false,
-                  "buildOptimizer": false,
-                  "sourceMap": true,
-                  "optimization": false,
-                  "namedChunks": true
-               },
-               "configurations": {
-                  "production": {
-                     "budgets": [
-                        {
-                           "type": "anyComponentStyle",
-                           "maximumWarning": "6kb"
-                        }
-                     ],
-                     "fileReplacements": [
-                        {
-                           "replace": "src/environments/environment.ts",
-                           "with": "src/environments/environment.prod.ts"
-                        }
-                     ],
-                     "optimization": true,
-                     "outputHashing": "all",
-                     "sourceMap": false,
-                     "namedChunks": false,
-                     "extractLicenses": true,
-                     "vendorChunk": false,
-                     "buildOptimizer": true
-                  }
-               },
-               "defaultConfiguration": ""
-            },
-            "serve": {
-               "builder": "@angular-devkit/build-angular:dev-server",
-              "options": {
-                "port": 8080,
-                  "buildTarget": "m3-odin-samples:build"
-               },
-               "configurations": {
-                  "production": {
-                    "buildTarget": "m3-odin-samples:build:production"
-                  }
-               }
-            },
-            "extract-i18n": {
-               "builder": "@angular-devkit/build-angular:extract-i18n",
-              "options": {
-                "buildTarget": "m3-odin-samples:build"
-               }
-            },
-            "test": {
-               "builder": "@angular-devkit/build-angular:karma",
-               "options": {
-                  "main": "src/test.ts",
-                  "polyfills": "src/polyfills.ts",
-                  "tsConfig": "src/tsconfig.spec.json",
-                  "karmaConfig": "src/karma.conf.js",
-                  "styles": [
-                     {
-                        "input": "styles.css",
-                        "inject": true
-                     }
-                  ],
-                  "scripts": [],
-                  "assets": [
-                     {
-                        "glob": "favicon.ico",
-                        "input": "src/",
-                        "output": "/"
-                     },
-                     {
-                        "glob": "**/*",
-                        "input": "src/assets",
-                        "output": "/assets"
-                     }
-                  ]
-               }
-            }
-         }
-      },
-      "m3-odin-e2e": {
-         "root": "e2e/",
-         "projectType": "application",
-         "architect": {
-            "e2e": {
-               "builder": "@angular-devkit/build-angular:protractor",
-               "options": {
-                  "protractorConfig": "e2e/protractor.conf.js",
-                  "devServerTarget": "m3-odin-samples:serve"
-               }
-            }
-         }
-      },
-      "@infor-up/m3-odin-angular": {
-         "projectType": "library",
-         "root": "projects/infor-up/m3-odin-angular",
-         "sourceRoot": "projects/infor-up/m3-odin-angular/src",
-         "prefix": "odin",
-         "architect": {
-            "build": {
-               "builder": "@angular-devkit/build-angular:ng-packagr",
-               "options": {
-                  "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.json",
-                  "project": "projects/infor-up/m3-odin-angular/ng-package.json"
-               },
-               "configurations": {
-                  "production": {
-                     "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.prod.json"
-                  }
-               }
-            },
-            "test": {
-               "builder": "@angular-devkit/build-angular:karma",
-               "options": {
-                  "main": "projects/infor-up/m3-odin-angular/src/test.ts",
-                  "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.spec.json",
-                  "karmaConfig": "projects/infor-up/m3-odin-angular/karma.conf.js"
-               }
-            }
-         }
-      },
-      "@infor-up/m3-odin": {
-        "projectType": "library",
-        "root": "projects/infor-up/m3-odin",
-        "sourceRoot": "projects/infor-up/m3-odin/src",
-        "prefix": "lib",
-        "architect": {
-          "build": {
-            "builder": "@angular-devkit/build-angular:ng-packagr",
-            "options": {
-              "project": "projects/infor-up/m3-odin/ng-package.json"
-            },
-            "configurations": {
-              "production": {
-                "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.prod.json"
+﻿{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "m3-odin-samples": {
+      "root": "",
+      "projectType": "application",
+      "prefix": "odin",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/m3-odin",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*.+(component|service).+(ts|html|css)",
+                "input": "src/app",
+                "output": "/assets/source"
               },
-              "development": {
-                "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.json"
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/ids-enterprise/dist/css",
+                "output": "/assets/ids-enterprise/css"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/ids-enterprise/dist/js/cultures",
+                "output": "/assets/ids-enterprise/js/cultures"
               }
-            },
-            "defaultConfiguration": "production"
+            ],
+            "styles": [
+              "src/styles.css",
+              "node_modules/highlight.js/styles/googlecode.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/d3/dist/d3.min.js",
+              "node_modules/ids-enterprise/dist/js/sohoxi.min.js"
+            ]
           },
-          "test": {
-            "builder": "@angular-devkit/build-angular:karma",
-            "options": {
-              "main": "projects/infor-up/m3-odin/src/test.ts",
-              "tsConfig": "projects/infor-up/m3-odin/tsconfig.spec.json",
-              "karmaConfig": "projects/infor-up/m3-odin/karma.conf.js"
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
+          },
+          "defaultConfiguration": "development"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 8080,
+            "buildTarget": "m3-odin-samples:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "m3-odin-samples:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "m3-odin-samples:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "src/tsconfig.spec.json",
+            "karmaConfig": "src/karma.conf.js",
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              {
+                "glob": "favicon.ico",
+                "input": "src/",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              }
+            ]
           }
         }
       }
-   },
-   "schematics": {
-      "@schematics/angular:component": {
-         "style": "css"
+    },
+    "@infor-up/m3-odin-angular": {
+      "projectType": "library",
+      "root": "projects/infor-up/m3-odin-angular",
+      "sourceRoot": "projects/infor-up/m3-odin-angular/src",
+      "prefix": "odin",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.json",
+            "project": "projects/infor-up/m3-odin-angular/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/infor-up/m3-odin-angular/tsconfig.spec.json",
+            "karmaConfig": "projects/infor-up/m3-odin-angular/karma.conf.js"
+          }
+        }
       }
+    },
+    "@infor-up/m3-odin": {
+      "projectType": "library",
+      "root": "projects/infor-up/m3-odin",
+      "sourceRoot": "projects/infor-up/m3-odin/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/infor-up/m3-odin/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/infor-up/m3-odin/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/infor-up/m3-odin/tsconfig.spec.json",
+            "karmaConfig": "projects/infor-up/m3-odin/karma.conf.js",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "css"
+    }
   },
   "cli": {
     "analytics": false

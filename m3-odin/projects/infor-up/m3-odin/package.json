@@ -1,7 +1,7 @@
 {
   "name": "@infor-up/m3-odin",
   "private": false,
-  "version": "8.1.0",
+  "version": "9.0.0",
   "description": "Odin for M3 web application development.",
   "author": {
     "name": "William Hernebrink",

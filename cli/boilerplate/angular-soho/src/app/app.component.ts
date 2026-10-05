@@ -1,56 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { CoreBase, IUserContext } from '@infor-up/m3-odin';
-import { MIService, UserService } from '@infor-up/m3-odin-angular';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { IUserContext } from '@infor-up/m3-odin';
+import { UserService } from '@infor-up/m3-odin-angular';
+import { SohoComponentsModule } from 'ids-enterprise-ng';
 
 @Component({
    selector: 'app-root',
+   standalone: true,
+   imports: [SohoComponentsModule],
    templateUrl: './app.component.html',
    styleUrls: ['./app.component.css']
 })
-export class AppComponent extends CoreBase implements OnInit {
-   userContext = {} as IUserContext;
-   isBusy = false;
-   company: string;
-   currentCompany: string;
-   division: string;
-   currentDivision: string;
-   language: string;
-   currentLanguage: string;
+export class AppComponent {
+   private readonly userService = inject(UserService);
+   private readonly destroyRef = inject(DestroyRef);
 
-   constructor(private miService: MIService, private userService: UserService) {
-      super('AppComponent');
-   }
-
-   ngOnInit() {
-
-   }
-
+   isBusy = signal(false);
+   company = signal('');
+   currentCompany = signal('');
+   division = signal('');
+   currentDivision = signal('');
+   language = signal('');
+   currentLanguage = signal('');
 
    onClickLoad(): void {
-      this.logInfo('onClickLoad');
-      this.setBusy(true);
-      this.userService.getUserContext().subscribe((userContext: IUserContext) => {
-         this.setBusy(false);
-         this.logInfo('onClickLoad: Received user context');
-         this.userContext = userContext;
-         this.updateUserValues(userContext);
-      }, (error) => {
-         this.setBusy(false);
-         this.logError('Unable to get userContext ' + error);
+      this.isBusy.set(true);
+
+      // takeUntilDestroyed ensures this subscription is automatically
+      // cleaned up when the component is destroyed — no manual unsubscribe needed.
+      this.userService.getUserContext().pipe(
+         takeUntilDestroyed(this.destroyRef)
+      ).subscribe({
+         next: (userContext: IUserContext) => {
+            this.isBusy.set(false);
+            this.company.set(userContext.company);
+            this.division.set(userContext.division);
+            this.language.set(userContext.language);
+            this.currentCompany.set(userContext.currentCompany);
+            this.currentDivision.set(userContext.currentDivision);
+            this.currentLanguage.set(userContext.currentLanguage);
+         },
+         error: (error) => {
+            this.isBusy.set(false);
+            console.error('Unable to get userContext', error);
+         }
       });
-   }
-
-   updateUserValues(userContext: IUserContext) {
-      this.company = userContext.company;
-      this.division = userContext.division;
-      this.language = userContext.language;
-
-      this.currentCompany = userContext.currentCompany;
-      this.currentDivision = userContext.currentDivision;
-      this.currentLanguage = userContext.currentLanguage;
-   }
-
-   private setBusy(isBusy: boolean) {
-      this.isBusy = isBusy;
    }
 }

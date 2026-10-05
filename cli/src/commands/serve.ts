@@ -94,26 +94,68 @@ function prepareProxyFile(proxyConfig: ProxyConfig, options: IServeOptions) {
 }
 
 function multiTenantProxyFile(proxyConfig: ProxyConfig, useIonApi?: boolean) {
-   addMneProxyPlaceholders('/mne');
+   // Angular 20's Vite-based dev server requires the `configure(proxy)` pattern
+   // instead of `onProxyReq`/`onProxyRes`/`onError` callback properties.
+
+   const mneTargets = ['/mne'];
+   const ionTargets: string[] = [];
+
    if (useIonApi) {
-      addIonProxyPlaceholders('/m3api-rest');
-      addIonProxyPlaceholders('/ca');
-      addIonProxyPlaceholders('/ODIN_DEV_TENANT');
+      ionTargets.push('/m3api-rest', '/ca', '/ODIN_DEV_TENANT');
       rewritePath('/m3api-rest', '/M3/m3api-rest');
       rewritePath('/ca', '/IDM');
    } else {
-      addMneProxyPlaceholders('/m3api-rest');
-      addMneProxyPlaceholders('/ca');
+      mneTargets.push('/m3api-rest', '/ca');
    }
 
    const mtToolContent = fs.readFileSync(require.resolve('../mtauth.cjs')).toString();
-   const configContent = JSON.stringify(proxyConfig)
-      .replace(/\"ODIN_MT_SET_MNE_COOKIES\"/g, 'function (...args) { authenticator.setMNECookies(...args) }')
-      .replace(/\"ODIN_MT_SET_ION_API_TOKEN\"/g, 'function (...args) { authenticator.setIONAPIToken(...args) }')
-      .replace(/\"ODIN_MT_CHECK_ION_API_AUTHENTICATION\"/g, 'function (...args) { authenticator.checkIONAPIAuthentication(...args) }')
-      .replace(/\"ODIN_MT_ON_ERROR\"/g, 'function (...args) { authenticator.onError(...args) }');
-   const fileContent = mtToolContent.replace(/CONFIG_PLACEHOLDER/, configContent);
-   return { content: fileContent, name: 'odin_proxy.js' };
+   // Strip the old module.exports line — we'll add our own
+   const authCode = mtToolContent.replace(/module\.exports\s*=\s*CONFIG_PLACEHOLDER\s*;?/, '');
+
+   const mnePathsJson = JSON.stringify(mneTargets);
+   const ionPathsJson = JSON.stringify(ionTargets);
+
+   const proxyScript = `${authCode}
+
+const proxyConfig = ${JSON.stringify(proxyConfig, null, 2)};
+
+// Vite proxy: use configure(proxy) to attach event handlers (Angular 20+)
+const mnePaths = ${mnePathsJson};
+const ionPaths = ${ionPathsJson};
+
+for (const p of mnePaths) {
+   if (proxyConfig[p]) {
+      proxyConfig[p].configure = function(proxy, options) {
+         proxy.on('proxyReq', function(proxyReq, req, res) {
+            authenticator.setMNECookies(proxyReq, req, res);
+         });
+         proxy.on('error', function(err, req, res) {
+            authenticator.onError(p, err, res);
+         });
+      };
+   }
+}
+
+for (const p of ionPaths) {
+   if (proxyConfig[p]) {
+      proxyConfig[p].configure = function(proxy, options) {
+         proxy.on('proxyReq', function(proxyReq, req, res) {
+            authenticator.setIONAPIToken(proxyReq, req, res);
+         });
+         proxy.on('proxyRes', function(proxyRes, req, res) {
+            authenticator.checkIONAPIAuthentication(proxyRes, req, res);
+         });
+         proxy.on('error', function(err, req, res) {
+            authenticator.onError(p, err, res);
+         });
+      };
+   }
+}
+
+module.exports = proxyConfig;
+`;
+
+   return { content: proxyScript, name: 'odin_proxy.js' };
 
    function rewritePath(originalPath: string, newPath: string) {
       const pathConfig = proxyConfig[originalPath];
@@ -121,21 +163,6 @@ function multiTenantProxyFile(proxyConfig: ProxyConfig, useIonApi?: boolean) {
       if (typeof pathConfig !== 'string' && !pathConfig.pathRewrite) {
          pathConfig.pathRewrite = { [pattern]: newPath };
       }
-   }
-
-   function addIonProxyPlaceholders(apiPath: string) {
-      Object.assign(proxyConfig[apiPath], {
-         onProxyReq: 'ODIN_MT_SET_ION_API_TOKEN',
-         onProxyRes: 'ODIN_MT_CHECK_ION_API_AUTHENTICATION',
-         onError: 'ODIN_MT_ON_ERROR',
-      });
-   }
-
-   function addMneProxyPlaceholders(apiPath: string) {
-      Object.assign(proxyConfig[apiPath], {
-         onProxyReq: 'ODIN_MT_SET_MNE_COOKIES',
-         onError: 'ODIN_MT_ON_ERROR',
-      });
    }
 }
 

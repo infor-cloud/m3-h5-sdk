@@ -22,7 +22,7 @@ import { FormatUtil } from '@infor-up/m3-odin';
  *
  * @since 2.0.0
  */
-@Pipe({ name: 'm3date' })
+@Pipe({ name: 'm3date', standalone: true })
 export class DatePipe implements PipeTransform {
    transform(value: any, type: string): any {
       if (type === 'fromString') {

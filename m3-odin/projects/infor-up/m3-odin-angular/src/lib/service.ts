@@ -3,6 +3,26 @@ import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { ApplicationServiceCore, CoreBase, FormServiceCore, IApplicationService, IBookmark, IEnvironmentContext, IFormRequest, IFormResponse, IFormService, IHttpRequest, IHttpResponse, IHttpService, IIonApiContext, IIonApiOptions, IIonApiRequest, IIonApiResponse, IIonApiService, IMIRequest, IMIResponse, IMIService, IonApiServiceCore, ISearchRequest, ITranslationRequest, ITranslationResponse, IUserContext, IUserService, MIServiceCore, UserServiceCore } from '@infor-up/m3-odin';
 import { Observable } from 'rxjs';
 
+/**
+ * @hidden
+ * Angular HttpClient wrapper implementing the IHttpService interface.
+ * Using Angular's HttpClient ensures proper change detection in zoneless applications.
+ */
+class AngularHttpService implements IHttpService {
+   constructor(private http: HttpClient, private config?: IIonApiConfig) {
+   }
+
+   execute(request: IHttpRequest): Observable<IHttpResponse> {
+      return this.http.request(request.method, request.url, {
+         body: request.body,
+         responseType: request.responseType,
+         headers: request.headers,
+         reportProgress: false,
+         withCredentials: this.config?.withCredentials,
+         observe: 'response'
+      });
+   }
+}
 
 /**
  * Angular implementation of {@link IMIService}
@@ -13,29 +33,19 @@ import { Observable } from 'rxjs';
  *
  * See {@link IMIService} for function documentation.
  *
- * **Example**
- *
- * ```typescript
- *  @Component({
- *    templateUrl: './my-component.html'
- * })
- * export class MyComponent  {
- *    constructor(private miService: MIService) {
- *   }
- *}
- * ```
+ * This service uses Angular's `HttpClient` internally, ensuring compatibility
+ * with zoneless change detection in Angular 20+.
  *
  * @since 2.0.0
  */
 @Injectable()
-export class MIService extends CoreBase implements IMIService {
+export class MIService implements IMIService {
 
    private instance: IMIService;
 
-   // TODO Inject Angular common HTTP once we have verified the Ajax HTTP implementation
-   constructor() {
-      super('MIService');
-      this.instance = new MIServiceCore();
+   constructor(http: HttpClient) {
+      console.log('[M3 Odin] MIService created - build: 2026-08-04T07:00');
+      this.instance = new MIServiceCore(new AngularHttpService(http));
    }
 
    /**
@@ -54,18 +64,6 @@ export class MIService extends CoreBase implements IMIService {
  * ```
  *
  * See {@link IApplicationService} for function documentation.
- *
- * **Example**
- *
- * ```typescript
- *  @Component({
- *    templateUrl: './my-component.html'
- * })
- * export class MyComponent  {
- *    constructor(private applicationService: ApplicationService) {
- *   }
- *}
- * ```
  *
  * @since 2.0.0
  */
@@ -102,18 +100,6 @@ export class ApplicationService extends CoreBase implements IApplicationService 
  *
  * See {@link IUserService} for function documentation.
  *
- * **Example**
- *
- * ```typescript
- *  @Component({
- *    templateUrl: './my-component.html'
- * })
- * export class MyComponent  {
- *    constructor(private userService: UserService) {
- *   }
- *}
- * ```
- *
  * @since 2.0.0
  */
 @Injectable()
@@ -141,8 +127,6 @@ export class UserService extends CoreBase implements IUserService {
 
    /**
     * @hidden
-    * @param context The user context
-    * @param principalUser The grid principal name
     */
    updateUserContext(context: IUserContext, principalUser: string): void {
       this.instance.updateUserContext(context, principalUser);
@@ -158,28 +142,15 @@ export class UserService extends CoreBase implements IUserService {
  *
  * See {@link IFormService} for function documentation.
  *
- * **Example**
- *
- * ```typescript
- *  @Component({
- *    templateUrl: './my-component.html'
- * })
- * export class MyComponent  {
- *    constructor(private formService: FormService) {
- *   }
- *}
- * ```
- *
  * @since 2.0.0
  */
 @Injectable()
 export class FormService extends CoreBase implements IFormService {
    private instance: IFormService;
 
-   // TODO Inject Angular common HTTP once we have verified the Ajax HTTP implementation
-   constructor(private userService: UserService) {
+   constructor(private userService: UserService, http: HttpClient) {
       super('FormService');
-      this.instance = new FormServiceCore(null, userService.getUserService());
+      this.instance = new FormServiceCore(new AngularHttpService(http), userService.getUserService());
    }
 
    /**
@@ -237,26 +208,15 @@ export class FormService extends CoreBase implements IFormService {
  * Interface for the `IonApiConfig` injection token.
  */
 export interface IIonApiConfig {
-
    /**
     * Set the `XMLHttpRequest.withCredentials` property when making requests.
-    * See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
-    *
     * @since 3.0.0
     */
    withCredentials?: boolean;
 }
+
 /**
  * Injectable ION API Service configuration
- *
- * **Example**
- * ```
- * @NgModule({
- *    providers: [
- *       { provide: IonApiConfig, useValue: { ... } }
- *    ]
- * })
- * ```
  * @since 3.0.0
  */
 export const IonApiConfig = new InjectionToken<IIonApiConfig>('IonApiConfig', {
@@ -274,18 +234,6 @@ export const IonApiConfig = new InjectionToken<IIonApiConfig>('IonApiConfig', {
  *
  * See {@link IIonApiService} for function documentation.
  *
- * **Example**
- *
- * ```typescript
- *  @Component({
- *    templateUrl: './my-component.html'
- * })
- * export class MyComponent  {
- *    constructor(private ionApiService: IonApiService) {
- *   }
- *}
- * ```
- *
  * @since 2.0.0
  */
 @Injectable()
@@ -294,7 +242,7 @@ export class IonApiService extends CoreBase implements IIonApiService {
 
    constructor(http: HttpClient, formService: FormService, @Inject(IonApiConfig) @Optional() config?: IIonApiConfig) {
       super('IonApiService');
-      this.instance = new IonApiServiceCore(new HttpServiceWrapper(http, config), formService);
+      this.instance = new IonApiServiceCore(new AngularHttpService(http, config), formService);
    }
 
    getContext(options?: IIonApiOptions): Observable<IIonApiContext> {
@@ -307,21 +255,5 @@ export class IonApiService extends CoreBase implements IIonApiService {
 
    setDevelopmentToken(token: string): void {
       this.instance.setDevelopmentToken(token);
-   }
-}
-
-class HttpServiceWrapper implements IHttpService {
-   constructor(private http: HttpClient, private config?: IIonApiConfig) {
-   }
-
-   execute(request: IHttpRequest): Observable<IHttpResponse> {
-      return this.http.request(request.method, request.url, {
-         body: request.body,
-         responseType: request.responseType,
-         headers: request.headers,
-         reportProgress: false,
-         withCredentials: this.config?.withCredentials,
-         observe: 'response'
-      });
    }
 }

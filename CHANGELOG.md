@@ -1,3 +1,111 @@
+﻿# 9.0.0
+
+## BREAKING CHANGES
+
+### Angular 20 & Zoneless Change Detection
+
+The SDK now requires Angular 20 and supports zoneless change detection out of the box. Zone.js is no longer a runtime dependency for applications.
+
+- Minimum Node.js version: **>= 20.11.0**
+- Angular: **^20.0.0**
+- TypeScript: **~5.8.0**
+- IDS Enterprise Components (Angular): **^20.1.0**
+
+### MIService now uses Angular HttpClient
+
+The Angular `MIService` now uses Angular's `HttpClient` internally instead of raw `XMLHttpRequest`. This ensures proper change detection in zoneless applications. The API is unchanged â€” this only affects the transport layer.
+
+### Standalone Components & provideM3Odin()
+
+New applications should use the `provideM3Odin()` function instead of importing `M3OdinModule`:
+
+```typescript
+// app.config.ts
+import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideM3Odin } from '@infor-up/m3-odin-angular';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZonelessChangeDetection(),
+    provideHttpClient(),
+    provideM3Odin(),
+  ]
+};
+```
+
+`M3OdinModule` is still available but deprecated.
+
+### Services use providedIn: 'root'
+
+All Angular services (`MIService`, `UserService`, `FormService`, `ApplicationService`, `IonApiService`) now use `providedIn: 'root'` and are tree-shakeable. You no longer need to provide them manually.
+
+### CLI generates standalone projects
+
+`odin new` now generates Angular 20 standalone projects using the modern `@angular/build:application` builder. Generated apps include zoneless change detection by default.
+
+## Updated Dependencies
+
+- Angular 20
+- TypeScript 5.8
+- IDS Enterprise Components (Angular) 20
+- Node.js >= 20.11.0
+- ng-packagr 20
+- Removed: zone.js (runtime), protractor, tslint, codelyzer
+
+## Upgrading from version 8
+
+1. Install Node.js >= 20.11.0 (use nvm if needed)
+
+2. Install the latest CLI:
+```sh
+npm i -g @infor-up/m3-odin-cli@latest
+```
+
+3. Remove current `node_modules` and `package-lock.json`
+
+4. Update Angular dependencies to `^20.0.0`:
+```sh
+ng update @angular/core@20 @angular/cli@20
+```
+
+5. Update SDK packages:
+```json
+{
+  "@infor-up/m3-odin": "^9.0.0",
+  "@infor-up/m3-odin-angular": "^9.0.0",
+  "ids-enterprise-ng": "^20.1.0"
+}
+```
+
+6. (Recommended) Migrate to standalone:
+   - Replace `M3OdinModule` import with `provideM3Odin()` in your app config
+   - Add `provideHttpClient()` to your providers
+   - Add `provideZonelessChangeDetection()` for zoneless support
+   - Remove `zone.js` from your polyfills if going fully zoneless
+
+7. Handle Angular 20 standalone defaults:
+   - Components/directives/pipes are standalone by default in Angular 20
+   - If keeping NgModule-based structure, add `standalone: false` to your `@Component` decorators
+   - Or migrate to standalone components (recommended)
+
+8. Update SoHo type references:
+   - Types like `SohoDataGridOptions`, `SohoDataGridSelectable` etc. must be explicitly imported from `ids-enterprise-ng`
+   - Install `@types/jquery` if your templates/code reference jQuery APIs directly
+
+9. Update subscription patterns for zoneless:
+   - In zoneless apps, async callbacks don't automatically trigger change detection
+   - Use Angular signals for component state, or call `ChangeDetectorRef.markForCheck()` after async operations
+   - Use `takeUntilDestroyed()` from `@angular/core/rxjs-interop` to avoid subscription leaks
+
+10. Run `npm install`
+
+## Upgrading - alternative
+
+1. Create a new project with `odin new` and compare the generated structure with your existing project
+2. Copy the providers pattern from the new project's `app.config.ts`
+3. Migrate your components to standalone gradually
+
 # 8.1.0
 
 ## Behavior change (bug fix): MI errors restored to the error callback

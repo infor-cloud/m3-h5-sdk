@@ -91,21 +91,15 @@ const modAngularJson = (projectRoot: string, projectName: string, style: NewProj
    const boilerplateOptions = boilerplateJson.projects.projectName.architect.build.options;
    const buildOptions = angularJson.projects[projectName].architect.build.options;
 
-   buildOptions.assets = [...buildOptions.assets, ...boilerplateOptions.assets];
-   buildOptions.styles = [...buildOptions.styles, ...boilerplateOptions.styles];
-   buildOptions.scripts = [...buildOptions.scripts, ...boilerplateOptions.scripts];
+   buildOptions.assets = [...(buildOptions.assets || []), ...boilerplateOptions.assets];
+   buildOptions.styles = [...(buildOptions.styles || []), ...boilerplateOptions.styles];
+   buildOptions.scripts = [...(buildOptions.scripts || []), ...boilerplateOptions.scripts];
    buildOptions.baseHref = boilerplateOptions.baseHref;
    buildOptions.outputPath = boilerplateOptions.outputPath;
 
-   // In Angular 17 default is now build-angular:application, which has different proxy mechanism, so we need to use the old builder for now
-   const build = angularJson.projects[projectName].architect.build;
-   build.builder = "@angular-devkit/build-angular:browser";
-
-   // Old builder expect "main" not "browser"
-   if (buildOptions.browser) {
-      const mainPath = buildOptions.browser;
-      delete buildOptions.browser;
-      buildOptions.main = mainPath;
+   // Remove zone.js from build polyfills — we use provideZonelessChangeDetection()
+   if (buildOptions.polyfills) {
+      buildOptions.polyfills = buildOptions.polyfills.filter((p: string) => !p.includes('zone'));
    }
 
    fs.writeJsonSync(angularJsonPath, angularJson, { spaces: 3 });
@@ -114,6 +108,13 @@ const modAngularJson = (projectRoot: string, projectName: string, style: NewProj
 const copySrc = async (projectRoot: string, style: NewProjectStyleOption) => {
    const boilerplateSrc = path.resolve(getBoilerplateDir(style, true), 'src');
    const targetSrc = path.join(projectRoot, 'src');
+
+   // Remove Angular CLI's default generated app files to avoid conflicts
+   const defaultAppFiles = ['app.ts', 'app.html', 'app.css', 'app.spec.ts'];
+   for (const file of defaultAppFiles) {
+      const filePath = path.join(targetSrc, 'app', file);
+      fs.removeSync(filePath);
+   }
 
    await fs.copy(boilerplateSrc, targetSrc);
 };
@@ -151,7 +152,7 @@ const npmInstall = (projectDir: string) => {
 };
 
 const newAngularProject = async (options: INewProjectOptions) => {
-   const ngOptions = ['--skip-install', '--strict=false', '--standalone=false'];
+   const ngOptions = ['--skip-install', '--strict=false'];
    if (!options.git) {
       ngOptions.push('--skip-git');
    }

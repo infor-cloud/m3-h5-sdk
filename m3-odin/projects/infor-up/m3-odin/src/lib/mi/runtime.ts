@@ -366,6 +366,7 @@ export class MIServiceCore extends CoreBase implements IMIService {
       const httpRequest = {
          method: 'GET',
          url: url,
+         responseType: 'text' as const,
          cache: false,
       };
 
