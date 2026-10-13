@@ -1,3 +1,52 @@
+# 8.1.0
+
+## Behavior change (bug fix): MI errors restored to the error callback
+
+This release corrects an unintended behavior change from 8.0.0 and restores the error handling that applications relied on in 6.0.0.
+
+In 6.0.0, a failed MI transaction (a "soft" error returned over HTTP 200) reached the Observable's **error** callback. The 8.0.0 v2 rewrite moved it to the **success/next** callback instead, a silent breaking change.
+
+This release restores the 6.0.0 behavior: whenever `IMIResponse.hasError()` is true the Observable rejects, so the error reaches the **error** callback for v1 and v2 requests alike. A failed CSRF token fetch is handled the same way. The error data on the response is unchanged.
+
+**Migration**
+
+If you adapted to 8.0.0 by checking `response.hasError()` inside the `next` callback, move that
+handling back into the `error` callback.
+
+Before (8.0.0 workaround):
+
+```typescript
+this.miService.execute(request).subscribe({
+   next: (response) => {
+      if (response.hasError()) {
+         this.handleError(response);
+         return;
+      }
+      this.handleSuccess(response);
+   },
+});
+```
+
+After (8.1.0, same as 6.0.0):
+
+```typescript
+this.miService.execute(request).subscribe({
+   next: (response) => this.handleSuccess(response),
+   error: (response) => this.handleError(response),
+});
+```
+
+**CSRF token errors**
+
+As part of the same change, a failed CSRF token fetch (a non-404 error while refreshing the token,
+reported as `errorMessage` "Failed to get CSRF token" with `errorType` `TOKEN`) is now delivered on
+the **error** callback instead of the success/next callback. These failures are not new in 8.1.0 and
+the SDK's token handling is otherwise unchanged - 8.0.0 delivered the same failure on the next
+callback, where applications typically did not notice it. Such an error usually indicates an
+environment or session issue (for example running against M3 from a local development machine rather
+than within H5) rather than a problem with the application. The SDK does not retry the token fetch;
+when it fails the targeted MI transaction is not sent.
+
 # 8.0.0
 
 ## BREAKING CHANGES
@@ -13,6 +62,8 @@ For M3 API v1 calls the SDK injected the metadata in multiple parts of the respo
 **Note!** v1 API calls maintain the legacy behavior where the URL parameter `;metadata=true` is always included with the call (regardless of the `includeMetadata` setting) to avoid breaking existing applications. This legacy behavior will be removed when v1 support is discontinued. Calls to v2 respect the `includeMetadata` flag (defaulting to false if omitted).
 
 Error handling for v2 requests has been implemented to be as close to v1 as possible, even though the endpoints handle error codes differently. Errors are still returned via the success callback as `IMIResponse` objects with error properties, not as HTTP errors. This might be addressed in future versions as breaking change.
+
+> **Note (8.1.0):** The behavior described in the paragraph above is no longer accurate. Delivering soft MI errors via the success/next callback was an unintended change from 6.0.0 and has been corrected in 8.1.0, where soft MI errors are again raised on the RxJS error callback (as in 6.0.0). See the [8.1.0](#810) section at the top of this changelog for details and a migration snippet.
 
 In case of any issues the v1 endpoints can still be used by passing a new optional property `version` in `IMIOptions`. Valid values are `1` or `2` only. This option will be removed in future versions and should only be used temporarily.
 

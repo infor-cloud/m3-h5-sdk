@@ -1,4 +1,4 @@
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { CoreBase } from '../base';
 import { AjaxHttpService } from '../http';
 import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
@@ -388,7 +388,8 @@ export class MIServiceCore extends CoreBase implements IMIService {
                const errorResponse = new MIResponse();
                errorResponse.errorMessage = message;
                errorResponse.errorType = 'TOKEN';
-               return of(errorResponse);
+               // Restore 6.0.0 behavior: a failed CSRF token fetch is delivered on the error channel.
+               return throwError(() => errorResponse);
             }
          }),
       );
@@ -540,6 +541,13 @@ export class MIServiceCore extends CoreBase implements IMIService {
                this.logInfo('execute: ' + this.getLogInfo(response) + ' completed OK');
             }
          }),
+         // Restore 6.0.0 behavior: deliver a soft MI error (hasError() === true) on the error channel.
+         mergeMap((response: IMIResponse) => {
+            if (response.hasError()) {
+               return throwError(() => response);
+            }
+            return of(response);
+         }),
       );
    }
 
@@ -601,6 +609,21 @@ export class MIServiceCore extends CoreBase implements IMIService {
             response.transaction = request.transaction;
             response.errorMessage = `HTTP error ${httpResponse.status}`;
             response.errorCode = httpResponse.status?.toString();
+            return of(response);
+         }),
+         tap((response: IMIResponse) => {
+            if (response.hasError()) {
+               this.logInfo('execute: ' + this.getLogInfo(response) + ' returned error.');
+            } else {
+               this.logInfo('execute: ' + this.getLogInfo(response) + ' completed OK');
+            }
+         }),
+         // Restore 6.0.0 behavior: deliver a soft MI error (hasError() === true) on the error channel.
+         // This also covers parsed HTTP-400 error bodies produced by the catchError branch above.
+         mergeMap((response: IMIResponse) => {
+            if (response.hasError()) {
+               return throwError(() => response);
+            }
             return of(response);
          }),
       );
