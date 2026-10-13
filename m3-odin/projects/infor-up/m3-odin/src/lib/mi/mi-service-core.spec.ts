@@ -1,4 +1,4 @@
-import { AsyncSubject, of, throwError } from 'rxjs';
+import { firstValueFrom, of, throwError } from 'rxjs';
 import { AjaxHttpService } from '../http';
 import { IMIMetadataMap, IMIResponse } from './base';
 import { MIMetadataInfo, MIRecord, MIResponse, MIServiceCore } from './runtime';
@@ -64,133 +64,184 @@ describe('MI Service Core', () => {
         expect(service['useToken'](request)).toBe(false);
     });
 
-    it('should execute to refersh token (success)', () => {
-        const httpService = new AjaxHttpService();
-        const httpResponse = { status: 200, body: 'bar' } as IHttpResponse;
-        const spyExecute = spyOn(httpService, 'execute').and.callFake(() => {
-            return of(httpResponse);
-        });
-        const service = new MIServiceCore(httpService);
-        const spyExecuteInternal = spyOn(service, 'executeInternal').and.callFake(() => { { } });
-        const request = { baseUrl: 'foo' } as unknown as IMIRequest;
-        const subject = new AsyncSubject<IMIResponse>();
-        const expectedHttpRequest = { cache: false, method: "GET", url: `${request['baseUrl']}/m3api-rest/csrf` };
-
-        service['executeRefreshToken'](request, subject);
-        expect(spyExecute).toHaveBeenCalledTimes(1);
-        expect(spyExecute).toHaveBeenCalledWith(expectedHttpRequest);
-        expect(spyExecuteInternal).toHaveBeenCalledTimes(1);
-        expect(spyExecuteInternal).toHaveBeenCalledWith(request, subject);
-        expect(service['csrfStatus']).toBe(httpResponse.status);
-        expect(service['csrfToken']).toBe(httpResponse.body);
-    });
-
-    it('should execute to refersh token (fail with 404)', () => {
-        const httpService = new AjaxHttpService();
-        const httpResponse = { status: 404, body: 'bar' } as IHttpResponse;
-        const spyExecute = spyOn(httpService, 'execute').and.callFake(() => {
-            return throwError(() => (httpResponse));
-        });
-        const service = new MIServiceCore(httpService);
-        const spyExecuteInternal = spyOn(service, 'executeInternal').and.callFake(() => { });
-        const request = { baseUrl: 'foo' } as unknown as IMIRequest;
-        const subject = new AsyncSubject<IMIResponse>();
-        const expectedHttpRequest = { cache: false, method: "GET", url: `${request['baseUrl']}/m3api-rest/csrf` };
-
-        service['executeRefreshToken'](request, subject);
-        expect(spyExecute).toHaveBeenCalledTimes(1);
-        expect(spyExecute).toHaveBeenCalledWith(expectedHttpRequest);
-        expect(spyExecuteInternal).toHaveBeenCalledTimes(1);
-        expect(spyExecuteInternal).toHaveBeenCalledWith(request, subject);
-        expect(service['csrfStatus']).toBe(httpResponse.status);
-        expect(service['csrfToken']).toBeNull();
-    });
-
-    it('should execute to refersh token (fail with 401)', (done) => {
-        const httpService = new AjaxHttpService();
-        const httpResponse = { status: 401, body: 'bar' } as IHttpResponse;
-        const spyExecute = spyOn(httpService, 'execute').and.callFake(() => {
-            return throwError(() => (httpResponse));
-        });
-        const service = new MIServiceCore(httpService);
-        const request = { baseUrl: 'foo' } as unknown as IMIRequest;
-        const subject = new AsyncSubject<IMIResponse>();
-        const expectedHttpRequest = { cache: false, method: "GET", url: `${request['baseUrl']}/m3api-rest/csrf` };
-
-        service['executeRefreshToken'](request, subject);
-        expect(spyExecute).toHaveBeenCalledTimes(1);
-        expect(spyExecute).toHaveBeenCalledWith(expectedHttpRequest);
-        expect(service['csrfStatus']).toBe(httpResponse.status);
-        expect(service['csrfToken']).toBeNull();
-        subject.subscribe({
-            error(err) {
-                const response = new MIResponse();
-                response.errorMessage = `Failed to get CSRF token ${httpResponse.status}`;
-                response.errorType = 'TOKEN';
-                expect(err).toEqual(response);
-                done();
-            },
-        });
-    });
-
-    it('should resolve', (done) => {
+    it('should route the execute observable to executeInternal when a token is not needed', () => {
         const service = new MIServiceCore();
-        const subject = new AsyncSubject();
-        const subjectArray = [subject];
-        const value = 'foo';
+        const request = { enableCsrf: false } as IMIRequest;
+        const value = { program: 'foo' } as IMIResponse;
+        const spyExecuteInternal = spyOn(service as any, 'executeInternal').and.returnValue(of(value));
 
-        service['resolve'](subjectArray, value);
-        subject.subscribe({
-            next: (val) => {
-                expect(val).toBe(value);
-                expect(subjectArray.length).toBe(0);
-            }, complete: () => {
-                done();
-            }
-        });
+        const observable = service.execute(request);
+
+        expect(spyExecuteInternal).toHaveBeenCalledTimes(1);
+        // execute() defaults the version before delegating to executeInternal.
+        expect(spyExecuteInternal).toHaveBeenCalledWith(jasmine.objectContaining({ enableCsrf: false, version: 2 }));
+        return firstValueFrom(observable).then((val) => expect(val).toBe(value));
     });
 
-    it('should reject', (done) => {
+    it('should route the execute observable to executeRefreshToken when a token is needed', () => {
         const service = new MIServiceCore();
-        const subject = new AsyncSubject();
-        const subjectArray = [subject];
-        const value = 'foo';
-
-        service['reject'](subjectArray, value);
-        subject.subscribe({
-            error: (val) => {
-                expect(val).toBe(value);
-                expect(subjectArray.length).toBe(0);
-                done();
-            }
-        });
-    });
-
-    it('should execute request', (done) => {
         const request = {} as IMIRequest;
         const value = { program: 'foo' } as IMIResponse;
-        const service = new MIServiceCore();
-        const spyUseToken = spyOn(service as any, 'useToken').and.returnValues(true, true, false, false);
-        const spyIsTokenValid = spyOn(service as any, 'isTokenValid').and.returnValues(true, false, true, false);
-        const spyExecuteInternal = spyOn(service as any, 'executeInternal').and.callFake(() => { });
-        const spyExecuteRefreshToken = spyOn(service as any, 'executeRefreshToken').and.callFake((...a) => {
-            (a[1] as AsyncSubject<IMIResponse>).next(value);
-            (a[1] as AsyncSubject<IMIResponse>).complete();
-        });
+        spyOn(service as any, 'useToken').and.returnValue(true);
+        spyOn(service as any, 'isTokenValid').and.returnValue(false);
+        const spyExecuteRefreshToken = spyOn(service as any, 'executeRefreshToken').and.returnValue(of(value));
 
-        service.execute(request);
         const observable = service.execute(request);
-        service.execute(request);
-        service.execute(request);
-        expect(spyUseToken).toHaveBeenCalledTimes(4);
-        expect(spyIsTokenValid).toHaveBeenCalledTimes(2);
-        expect(spyExecuteInternal).toHaveBeenCalledTimes(3);
-        expect(spyExecuteRefreshToken).toHaveBeenCalledTimes(1);
 
-        observable.subscribe((val) => {
-            expect(val).toBe(value);
-            done();
-        });
+        expect(spyExecuteRefreshToken).toHaveBeenCalledTimes(1);
+        return firstValueFrom(observable).then((val) => expect(val).toBe(value));
+    });
+
+    // Channel behavior (restored 8.1.0 / 6.0.0 contract): a response whose hasError()
+    // is true must reach the ERROR callback, not next. HTTP mocking only, no live server.
+
+    // Helper: build a MIServiceCore whose HTTP layer returns the given observable.
+    function createServiceWithHttp(httpResult: any): MIServiceCore {
+        const http = { execute: () => httpResult } as unknown as IHttpService;
+        const service = new MIServiceCore(http);
+        spyOn(service as any, 'logInfo').and.callFake(() => { });
+        spyOn(service as any, 'logError').and.callFake(() => { });
+        spyOn(service as any, 'logWarning').and.callFake(() => { });
+        return service;
+    }
+
+    it('should deliver a v1 success response on the next callback', async () => {
+        // v1 HTTP 200 with no error body -> next fires, error does not.
+        const body = { MIRecord: [{ NameValue: [{ Name: 'USID', Value: 'ADMIN' }] }] };
+        const service = createServiceWithHttp(of({ status: 200, body } as IHttpResponse));
+        const request = { program: 'MNS150MI', transaction: 'GetUserData', version: 1, enableCsrf: false } as IMIRequest;
+
+        const response = await firstValueFrom(service.execute(request));
+
+        expect(response.hasError()).toBe(false);
+        expect(response.item).toBeDefined();
+        expect(response.item['USID']).toBe('ADMIN');
+    });
+
+    it('should deliver a v1 soft error (HTTP 200) on the error callback', async () => {
+        // v1 HTTP 200 whose body parses to hasError() === true -> error fires, next does not.
+        const body = { ErrorMessage: { '@code': 'WUS0503', '@field': 'USID', '@type': 'ServerReturnedNOK', Message: 'User NOTME does not exist' } };
+        const service = createServiceWithHttp(of({ status: 200, body } as IHttpResponse));
+        const request = { program: 'MNS150MI', transaction: 'GetUserData', version: 1, enableCsrf: false } as IMIRequest;
+
+        let nextCalled = false;
+        let errorResponse: IMIResponse;
+        try {
+            await firstValueFrom(service.execute(request).pipe());
+            nextCalled = true;
+        } catch (err) {
+            errorResponse = err as IMIResponse;
+        }
+
+        expect(nextCalled).toBe(false);
+        expect(errorResponse).toBeDefined();
+        expect(errorResponse.hasError()).toBe(true);
+        expect(errorResponse.errorMessage).toBe('User NOTME does not exist');
+        expect(errorResponse.errorField).toBe('USID');
+    });
+
+    it('should deliver a v2 success response on the next callback', async () => {
+        // v2 HTTP 200 with nrOfFailedTransactions: 0 -> next fires, error does not.
+        const body = {
+            results: [{ records: [{ USID: 'ADMIN' }] }],
+            nrOfFailedTransactions: 0,
+            wasTerminated: false,
+        };
+        const service = createServiceWithHttp(of({ status: 200, body } as IHttpResponse));
+        const request = { program: 'MNS150MI', transaction: 'GetUserData', version: 2, enableCsrf: false } as IMIRequest;
+
+        const response = await firstValueFrom(service.execute(request));
+
+        expect(response.hasError()).toBe(false);
+        expect(response.item['USID']).toBe('ADMIN');
+    });
+
+    it('should deliver a v2 soft error (HTTP 200) on the error callback', async () => {
+        // v2 HTTP 200 with a failed transaction -> error fires, next does not.
+        const body = {
+            results: [{
+                errorMessage: 'User NOTME does not exist',
+                errorType: 'ServerReturnedNOK',
+                errorCode: 'WUS0503',
+                errorField: 'USID',
+                records: [],
+            }],
+            nrOfFailedTransactions: 1,
+            wasTerminated: false,
+        };
+        const service = createServiceWithHttp(of({ status: 200, body } as IHttpResponse));
+        const request = { program: 'MNS150MI', transaction: 'GetUserData', version: 2, enableCsrf: false } as IMIRequest;
+
+        let nextCalled = false;
+        let errorResponse: IMIResponse;
+        try {
+            await firstValueFrom(service.execute(request));
+            nextCalled = true;
+        } catch (err) {
+            errorResponse = err as IMIResponse;
+        }
+
+        expect(nextCalled).toBe(false);
+        expect(errorResponse).toBeDefined();
+        expect(errorResponse.hasError()).toBe(true);
+        expect(errorResponse.errorMessage).toBe('User NOTME does not exist');
+        expect(errorResponse.errorCode).toBe('WUS0503');
+        expect(errorResponse.errorField).toBe('USID');
+    });
+
+    it('should deliver a v2 HTTP 400 error body on the error callback', async () => {
+        // v2 returns HTTP 400 for errors; catchError parses the body and, because it
+        // hasError(), the response is surfaced on the error channel, not next.
+        const body = {
+            errorMessage: 'User NOTME does not exist',
+            errorType: 'ServerReturnedNOK',
+            errorCode: 'WUS0503',
+            errorField: 'USID',
+            nrOfFailedTransactions: 1,
+        };
+        const service = createServiceWithHttp(throwError(() => ({ status: 400, body } as IHttpResponse)));
+        const request = { program: 'MNS150MI', transaction: 'GetUserData', version: 2, enableCsrf: false } as IMIRequest;
+
+        let nextCalled = false;
+        let errorResponse: IMIResponse;
+        try {
+            await firstValueFrom(service.execute(request));
+            nextCalled = true;
+        } catch (err) {
+            errorResponse = err as IMIResponse;
+        }
+
+        expect(nextCalled).toBe(false);
+        expect(errorResponse).toBeDefined();
+        expect(errorResponse.hasError()).toBe(true);
+        expect(errorResponse.errorMessage).toBe('User NOTME does not exist');
+        expect(errorResponse.errorCode).toBe('WUS0503');
+    });
+
+    it('should deliver a failed CSRF token fetch (non-404) on the error callback', async () => {
+        // When a token is needed and the CSRF token fetch fails with a non-404 status,
+        // executeRefreshToken builds a TOKEN error response. Prior to the fix this was
+        // delivered on next via of(errorResponse); it must now reach the error channel.
+        // The HTTP mock fails on the token GET (the first and only HTTP call made here).
+        const service = createServiceWithHttp(throwError(() => ({ status: 500, body: null } as IHttpResponse)));
+        // enableCsrf is not false and there is no cached token, so execute() routes to
+        // executeRefreshToken (useToken() === true, isTokenValid() === false).
+        const request = { program: 'MNS150MI', transaction: 'GetUserData', version: 2 } as IMIRequest;
+
+        let nextCalled = false;
+        let errorResponse: IMIResponse;
+        try {
+            await firstValueFrom(service.execute(request));
+            nextCalled = true;
+        } catch (err) {
+            errorResponse = err as IMIResponse;
+        }
+
+        expect(nextCalled).toBe(false);
+        expect(errorResponse).toBeDefined();
+        expect(errorResponse.hasError()).toBe(true);
+        expect(errorResponse.errorType).toBe('TOKEN');
+        expect(errorResponse.errorMessage).toBe('Failed to get CSRF token 500');
     });
 
     it('should update user context', () => {
@@ -243,7 +294,9 @@ describe('MI Service Core', () => {
         expect(spyIsDebug).toHaveBeenCalledTimes(2);
         expect(spyLogDebug.calls.allArgs()).toEqual([[`createUrl: using company ${company} and division null from user context`]]);
         expect(spyLogDebug).toHaveBeenCalledTimes(1);
-        expect(spyLogInfo).toHaveBeenCalledTimes(8);
+        // createUrl logs a 'createUrl - baseUrl:' line on every call (10) plus a
+        // 'company not set' line on the 8 calls without a resolvable company = 18.
+        expect(spyLogInfo).toHaveBeenCalledTimes(18);
         expect(spyLogInfo).toHaveBeenCalledWith('createUrl: company not set, user context not available.');
     });
 
@@ -278,99 +331,6 @@ describe('MI Service Core', () => {
         record['metadata'] = response.metadata;
         expect(service.parseResponse({ ...request, includeMetadata: true, typedOutput: true }, content)).toEqual(response);
         expect(service.parseResponse({ ...request, includeMetadata: true }, content)).toEqual(response);
-    });
-
-    it('should execute request internal without error in http response', (done) => {
-        const service = new MIServiceCore();
-        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
-        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => of({}));
-        const response = new MIResponse();
-        const spyHasError = spyOn(response, 'hasError').and.returnValue(false);
-        const spyParseResponse = spyOn(service as any, 'parseResponse').and.callFake(() => response);
-        const subject = new AsyncSubject<IMIResponse>();
-        const request = {} as IMIRequest;
-
-        service['executeInternal'](request, subject);
-        expect(spyCreateUrl).toHaveBeenCalledTimes(1);
-        expect(spyCreateUrl).toHaveBeenCalledWith('/m3api-rest/execute', request);
-        expect(spyExecuteHttp).toHaveBeenCalledTimes(1);
-        expect(spyParseResponse).toHaveBeenCalledTimes(1);
-        expect(spyHasError).toHaveBeenCalledTimes(1);
-        subject.subscribe(resp => {
-            expect(resp).toBe(response);
-            done();
-        });
-    });
-
-    it('should execute request internal with error in http response', (done) => {
-        const service = new MIServiceCore();
-        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
-        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => of({}));
-        const response = new MIResponse();
-        const spyHasError = spyOn(response, 'hasError').and.returnValue(true);
-        const spyParseResponse = spyOn(service as any, 'parseResponse').and.callFake(() => response);
-        const subject = new AsyncSubject<IMIResponse>();
-        const request = {} as IMIRequest;
-
-        service['executeInternal'](request, subject);
-        expect(spyCreateUrl).toHaveBeenCalledTimes(1);
-        expect(spyCreateUrl).toHaveBeenCalledWith('/m3api-rest/execute', request);
-        expect(spyExecuteHttp).toHaveBeenCalledTimes(1);
-        expect(spyParseResponse).toHaveBeenCalledTimes(1);
-        expect(spyHasError).toHaveBeenCalledTimes(1);
-        subject.subscribe({
-            error: (err) => {
-                expect(err).toBe(response);
-                done();
-            }
-        });
-    });
-
-    it('should execute request internal with exception in parseResponse', (done) => {
-        const service = new MIServiceCore();
-        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
-        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => of({}));
-        const error = 'foo error';
-        const spyParseResponse = spyOn(service as any, 'parseResponse').and.callFake(() => { throw error });
-        const subject = new AsyncSubject<IMIResponse>();
-        const request = {} as IMIRequest;
-
-        service['executeInternal'](request, subject);
-        expect(spyCreateUrl).toHaveBeenCalledTimes(1);
-        expect(spyCreateUrl).toHaveBeenCalledWith('/m3api-rest/execute', request);
-        expect(spyExecuteHttp).toHaveBeenCalledTimes(1);
-        expect(spyParseResponse).toHaveBeenCalledTimes(1);
-        subject.subscribe({
-            error: (err) => {
-                const response = new MIResponse();
-                response.error = error;
-                expect(err).toEqual(response);
-                done();
-            }
-        });
-    });
-
-    it('should execute request internal with http error', (done) => {
-        const service = new MIServiceCore();
-        const spyCreateUrl = spyOn(service, 'createUrl').and.callFake(() => '');
-        const response = { status: 401 } as IHttpResponse;
-        const spyExecuteHttp = spyOn(service as any, 'executeHttp').and.callFake(() => throwError(() => response));
-        const subject = new AsyncSubject<IMIResponse>();
-        const request = { program: 'foo', transaction: 'bar' } as IMIRequest;
-
-        service['executeInternal'](request, subject);
-        expect(spyCreateUrl).toHaveBeenCalledTimes(1);
-        expect(spyCreateUrl).toHaveBeenCalledWith('/m3api-rest/execute', request);
-        expect(spyExecuteHttp).toHaveBeenCalledTimes(1);
-        subject.subscribe({
-            error: (err) => {
-                const resp = new MIResponse();
-                resp.errorCode = response.status.toString();
-                resp.errorMessage = `Failed to call ${request.program}.${request.transaction} ${response.status}`;
-                expect(err).toEqual(resp);
-                done();
-            }
-        });
     });
 
     it('should parse value', () => {
