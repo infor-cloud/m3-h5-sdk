@@ -1,3 +1,17 @@
+﻿# 8.2.0
+
+## Improvements
+
+### CSRF token fetches are now de-duplicated and resilient
+
+When an application fires many MI calls in a tight burst, the SDK previously requested a separate CSRF token for each call, hammering the backend and making transient `Failed to get CSRF token` errors more likely. Concurrent MI calls now share a single in-flight CSRF request, greatly reducing backend load during bursts and directly addressing those intermittent errors.
+
+The single shared CSRF fetch is now retried up to two times with a short backoff on transient failures (network errors, HTTP 5xx, timeouts). Client errors (4xx) and the 404 "no CSRF endpoint" case are not retried and behave exactly as before. A persistent failure still surfaces on the Observable error callback as an `IMIResponse` with `errorType` `TOKEN`, consistent with 8.1.0.
+
+This is **not** a breaking change: the public API and the error-callback contract are unchanged.
+
+**Tip:** applications issuing many single `Get` transactions in a loop should prefer a single `List` transaction and filter the results in code.
+
 # 8.1.0
 
 ## Behavior change (bug fix): MI errors restored to the error callback

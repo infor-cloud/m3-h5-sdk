@@ -1,4 +1,4 @@
-import { firstValueFrom, of, throwError } from 'rxjs';
+import { firstValueFrom, of, Subject, throwError } from 'rxjs';
 import { AjaxHttpService } from '../http';
 import { IMIMetadataMap, IMIResponse } from './base';
 import { MIMetadataInfo, MIRecord, MIResponse, MIServiceCore } from './runtime';
@@ -219,11 +219,10 @@ describe('MI Service Core', () => {
     });
 
     it('should deliver a failed CSRF token fetch (non-404) on the error callback', async () => {
-        // When a token is needed and the CSRF token fetch fails with a non-404 status,
-        // executeRefreshToken builds a TOKEN error response. Prior to the fix this was
-        // delivered on next via of(errorResponse); it must now reach the error channel.
-        // The HTTP mock fails on the token GET (the first and only HTTP call made here).
-        const service = createServiceWithHttp(throwError(() => ({ status: 500, body: null } as IHttpResponse)));
+        // When a token is needed and the CSRF token fetch fails with a non-retryable, non-404
+        // status (401 is a client error, so it is attempted once and not retried), the shared
+        // getCsrfToken$ rejects with a TOKEN MIResponse on the error channel (8.1.0 contract).
+        const service = createServiceWithHttp(throwError(() => ({ status: 401, body: null } as IHttpResponse)));
         // enableCsrf is not false and there is no cached token, so execute() routes to
         // executeRefreshToken (useToken() === true, isTokenValid() === false).
         const request = { program: 'MNS150MI', transaction: 'GetUserData', version: 2 } as IMIRequest;
@@ -241,7 +240,171 @@ describe('MI Service Core', () => {
         expect(errorResponse).toBeDefined();
         expect(errorResponse.hasError()).toBe(true);
         expect(errorResponse.errorType).toBe('TOKEN');
+        expect(errorResponse.errorMessage).toBe('Failed to get CSRF token 401');
+    });
+
+    // 8.2.0: CSRF token fetches are de-duplicated (one in-flight CSRF GET shared by concurrent
+    // callers) and the single shared GET is retried on transient failures. HTTP mocking only.
+
+    const csrfUrlFragment = '/m3api-rest/csrf';
+
+    // Builds a MIServiceCore whose HTTP layer branches on the request URL so the CSRF GET and the
+    // MI transaction can be distinguished and counted. csrfResponder is called for the CSRF GET,
+    // miResponder for the MI transaction; each returns the Observable the HTTP layer should emit.
+    function createServiceWithRoutedHttp(
+        csrfResponder: () => any,
+        miResponder: (request: IHttpRequest) => any,
+    ): { service: MIServiceCore; httpSpy: jasmine.Spy } {
+        const httpSpy = jasmine.createSpy('execute').and.callFake((request: IHttpRequest) =>
+            request.url.includes(csrfUrlFragment) ? csrfResponder() : miResponder(request),
+        );
+        const http = { execute: httpSpy } as unknown as IHttpService;
+        const service = new MIServiceCore(http);
+        spyOn(service as any, 'logInfo').and.callFake(() => { });
+        spyOn(service as any, 'logError').and.callFake(() => { });
+        spyOn(service as any, 'logWarning').and.callFake(() => { });
+        return { service, httpSpy };
+    }
+
+    function csrfGetCount(httpSpy: jasmine.Spy): number {
+        return httpSpy.calls.allArgs().filter(([req]) => (req as IHttpRequest).url.includes(csrfUrlFragment)).length;
+    }
+
+    function miCount(httpSpy: jasmine.Spy): number {
+        return httpSpy.calls.allArgs().filter(([req]) => !(req as IHttpRequest).url.includes(csrfUrlFragment)).length;
+    }
+
+    const v2OkBody = { results: [{ records: [{ USID: 'ADMIN' }] }], nrOfFailedTransactions: 0, wasTerminated: false };
+    const tokenRequest = { program: 'MNS150MI', transaction: 'GetUserData', version: 2 } as IMIRequest;
+
+    it('should de-duplicate concurrent CSRF token fetches to a single in-flight GET', async () => {
+        // The CSRF GET is held open via a Subject so all callers subscribe before it resolves.
+        const csrfSubject = new Subject<IHttpResponse>();
+        const { service, httpSpy } = createServiceWithRoutedHttp(
+            () => csrfSubject,
+            () => of({ status: 200, body: v2OkBody } as IHttpResponse),
+        );
+
+        // Fire several concurrent callers that all need a token.
+        const callers = [0, 1, 2, 3, 4].map(() => firstValueFrom(service.execute({ ...tokenRequest })));
+
+        // Before the CSRF GET resolves, exactly one CSRF GET must have been issued (dedup).
+        expect(csrfGetCount(httpSpy)).toBe(1);
+
+        // Now complete the shared CSRF GET; all callers should run their MI transaction and resolve.
+        csrfSubject.next({ status: 200, body: 'the-token' } as IHttpResponse);
+        csrfSubject.complete();
+
+        const responses = await Promise.all(callers);
+        expect(responses.length).toBe(5);
+        responses.forEach((response) => expect(response.item['USID']).toBe('ADMIN'));
+        // Still only one CSRF GET; each caller issued its own MI transaction.
+        expect(csrfGetCount(httpSpy)).toBe(1);
+        expect(miCount(httpSpy)).toBe(5);
+    });
+
+    it('should not fetch a CSRF token when a cached token is still valid (within 30s)', async () => {
+        const { service, httpSpy } = createServiceWithRoutedHttp(
+            () => of({ status: 200, body: 'cached-token' } as IHttpResponse),
+            () => of({ status: 200, body: v2OkBody } as IHttpResponse),
+        );
+        // Pre-seed a valid cached token so execute() takes the isTokenValid() fast path.
+        service['csrfToken'] = 'cached-token';
+        service['csrfTimestamp'] = Date.now();
+
+        const response = await firstValueFrom(service.execute({ ...tokenRequest }));
+
+        expect(response.item['USID']).toBe('ADMIN');
+        expect(csrfGetCount(httpSpy)).toBe(0);
+        expect(miCount(httpSpy)).toBe(1);
+    });
+
+    it('should retry a transient CSRF failure and then succeed (500 then 200)', async () => {
+        let csrfAttempts = 0;
+        const { service, httpSpy } = createServiceWithRoutedHttp(
+            () => {
+                csrfAttempts++;
+                return csrfAttempts === 1
+                    ? throwError(() => ({ status: 500, body: null } as IHttpResponse))
+                    : of({ status: 200, body: 'the-token' } as IHttpResponse);
+            },
+            () => of({ status: 200, body: v2OkBody } as IHttpResponse),
+        );
+
+        // Real retry timer (~300ms) fires here; this is a genuine wall-clock delay from the retry
+        // backoff, kept short and deterministic rather than mocked with fakeAsync/tick.
+        const response = await firstValueFrom(service.execute({ ...tokenRequest }));
+
+        expect(response.item['USID']).toBe('ADMIN');
+        expect(csrfGetCount(httpSpy)).toBe(2); // one failure + one successful retry
+        expect(miCount(httpSpy)).toBe(1);
+    });
+
+    it('should give up after the bounded retries on a persistent transient failure (500)', async () => {
+        const { service, httpSpy } = createServiceWithRoutedHttp(
+            () => throwError(() => ({ status: 500, body: null } as IHttpResponse)),
+            () => of({ status: 200, body: v2OkBody } as IHttpResponse),
+        );
+
+        let nextCalled = false;
+        let errorResponse: IMIResponse;
+        try {
+            // Real retry timers (~300ms + ~600ms) fire here before the fetch gives up.
+            await firstValueFrom(service.execute({ ...tokenRequest }));
+            nextCalled = true;
+        } catch (err) {
+            errorResponse = err as IMIResponse;
+        }
+
+        expect(nextCalled).toBe(false);
+        expect(errorResponse.errorType).toBe('TOKEN');
         expect(errorResponse.errorMessage).toBe('Failed to get CSRF token 500');
+        expect(csrfGetCount(httpSpy)).toBe(3); // 1 initial attempt + 2 retries
+        expect(miCount(httpSpy)).toBe(0); // business MI transaction never attempted
+    });
+
+    it('should not retry a 4xx CSRF failure (401/403), attempting the GET exactly once', async () => {
+        for (const status of [401, 403]) {
+            const { service, httpSpy } = createServiceWithRoutedHttp(
+                () => throwError(() => ({ status, body: null } as IHttpResponse)),
+                () => of({ status: 200, body: v2OkBody } as IHttpResponse),
+            );
+
+            let nextCalled = false;
+            let errorResponse: IMIResponse;
+            try {
+                await firstValueFrom(service.execute({ ...tokenRequest }));
+                nextCalled = true;
+            } catch (err) {
+                errorResponse = err as IMIResponse;
+            }
+
+            expect(nextCalled).toBe(false);
+            expect(errorResponse.errorType).toBe('TOKEN');
+            expect(csrfGetCount(httpSpy)).toBe(1);
+            expect(miCount(httpSpy)).toBe(0);
+        }
+    });
+
+    it('should leave the 404 no-CSRF-endpoint path untouched (proceed without a token, no retry)', async () => {
+        let miHeaders: { [name: string]: any };
+        const { service, httpSpy } = createServiceWithRoutedHttp(
+            () => throwError(() => ({ status: 404, body: null } as IHttpResponse)),
+            (request) => {
+                miHeaders = request.headers;
+                return of({ status: 200, body: v2OkBody } as IHttpResponse);
+            },
+        );
+
+        const response = await firstValueFrom(service.execute({ ...tokenRequest }));
+
+        expect(response.item['USID']).toBe('ADMIN');
+        expect(service['csrfStatus']).toBe(404);
+        // CSRF GET attempted exactly once (404 is not retried).
+        expect(csrfGetCount(httpSpy)).toBe(1);
+        // MI transaction ran without a CSRF token header.
+        expect(miCount(httpSpy)).toBe(1);
+        expect(miHeaders['fnd-csrf-token']).toBeUndefined();
     });
 
     it('should update user context', () => {

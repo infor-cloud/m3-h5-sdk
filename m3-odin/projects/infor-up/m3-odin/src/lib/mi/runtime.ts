@@ -1,4 +1,18 @@
-import { catchError, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import {
+   catchError,
+   defer,
+   finalize,
+   map,
+   mergeMap,
+   Observable,
+   of,
+   retry,
+   shareReplay,
+   switchMap,
+   tap,
+   throwError,
+   timer,
+} from 'rxjs';
 import { CoreBase } from '../base';
 import { AjaxHttpService } from '../http';
 import { IHttpRequest, IHttpResponse, IHttpService } from '../types';
@@ -305,6 +319,11 @@ export class MIMetadataInfo implements IMIMetadataInfo {
  *
  * @since 2.0.0
  */
+
+// Retries apply only to the shared CSRF token fetch, never to the business MI transaction.
+const CSRF_RETRY_COUNT = 2;
+const CSRF_RETRY_BASE_DELAY_MS = 300;
+
 export class MIServiceCore extends CoreBase implements IMIService {
    /**
     * @hidden
@@ -325,6 +344,9 @@ export class MIServiceCore extends CoreBase implements IMIService {
    private csrfTimestamp = 0;
    private csrfStatus = 0;
    private readonly maxTokenAge = 30000;
+
+   // Shared in-flight CSRF fetch so a burst of callers triggers one GET, not one each.
+   private tokenRefresh$: Observable<void> | null = null;
    private currentCompany: string = null;
    private currentDivision: string = null;
 
@@ -362,6 +384,33 @@ export class MIServiceCore extends CoreBase implements IMIService {
    }
 
    private executeRefreshToken(request: IMIRequest): Observable<IMIResponse> {
+      // executeInternal stays outside the shared fetch so it is never shared or retried.
+      return this.getCsrfToken$(request).pipe(switchMap(() => this.executeInternal(request)));
+   }
+
+   /**
+    * Retry only transient CSRF failures (no response / status 0, 5xx, or timeout); never 4xx,
+    * including the 404 "no CSRF endpoint" case.
+    */
+   private isRetryableCsrfError(httpResponse: IHttpResponse): boolean {
+      const status = httpResponse?.status;
+      if (status == null || status === 0) {
+         return true;
+      }
+      if (status >= 500) {
+         return true;
+      }
+      if ((httpResponse as { timeout?: boolean })?.timeout) {
+         return true;
+      }
+      return false;
+   }
+
+   private getCsrfToken$(request: IMIRequest): Observable<void> {
+      if (this.tokenRefresh$) {
+         return this.tokenRefresh$;
+      }
+
       const url = this.getCsrfUrl(this.getBaseUrl(request));
       const httpRequest = {
          method: 'GET',
@@ -369,30 +418,43 @@ export class MIServiceCore extends CoreBase implements IMIService {
          cache: false,
       };
 
-      return this.executeHttp(httpRequest).pipe(
-         switchMap((httpResponse) => {
+      // defer re-invokes executeHttp on each resubscription so a retry actually re-issues the GET;
+      // the HTTP service fires eagerly and would otherwise just replay the first result.
+      this.tokenRefresh$ = defer(() => this.executeHttp(httpRequest)).pipe(
+         retry({
+            count: CSRF_RETRY_COUNT,
+            delay: (error: IHttpResponse, retryCount: number) =>
+               this.isRetryableCsrfError(error)
+                  ? timer(CSRF_RETRY_BASE_DELAY_MS * retryCount)
+                  : throwError(() => error),
+         }),
+         map((httpResponse) => {
             this.csrfStatus = httpResponse.status;
             this.csrfToken = httpResponse.body;
             this.csrfTimestamp = Date.now();
-            return this.executeInternal(request);
          }),
-         catchError((httpResponse) => {
+         catchError((httpResponse: IHttpResponse) => {
             this.csrfStatus = httpResponse.status;
             this.csrfToken = null;
 
             if (this.csrfStatus === 404) {
-               return this.executeInternal(request);
-            } else {
-               const message = 'Failed to get CSRF token ' + this.csrfStatus;
-               this.logError(message);
-               const errorResponse = new MIResponse();
-               errorResponse.errorMessage = message;
-               errorResponse.errorType = 'TOKEN';
-               // Restore 6.0.0 behavior: a failed CSRF token fetch is delivered on the error channel.
-               return throwError(() => errorResponse);
+               // No CSRF endpoint: proceed without a token (useToken() is false thereafter).
+               return of(void 0);
             }
+            const message = 'Failed to get CSRF token ' + this.csrfStatus;
+            this.logError(message);
+            const errorResponse = new MIResponse();
+            errorResponse.errorMessage = message;
+            errorResponse.errorType = 'TOKEN';
+            // A failed token fetch is delivered on the error channel.
+            return throwError(() => errorResponse);
          }),
+         // Clear before shareReplay so this runs once on the shared source, not per subscriber.
+         finalize(() => (this.tokenRefresh$ = null)),
+         shareReplay(1),
       );
+
+      return this.tokenRefresh$;
    }
 
    private executeHttp<T>(request: IHttpRequest): Observable<IHttpResponse> {
